@@ -1,0 +1,20 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LuaLS/LLS-Addons/main/schemas/addon_config.schema.json",
+  "name": "MiniWorld Code 3.0",
+  "settings": {
+    "Lua.runtime.version": "LuaJIT",
+    "Lua.completion.autoRequire": false,
+    "Lua.runtime.builtin": {
+      "debug": "disable",
+      "ffi": "disable",
+      "jit": "disable",
+      "io": "disable",
+      "package": "disable",
+      "jit.profile": "disable",
+      "jit.util": "disable",
+      "string.buffer": "disable",
+      "table.new": "disable",
+      "table.clear": "disable"
+    }
+  }
+}
