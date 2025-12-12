@@ -167,6 +167,111 @@ function Data.Array:IncreasesValue(varId, playerId, value, index) end
 ---@class Data.Table
 Data.Table = {}
 
+---更新整个表的数据信息
+---@param varId string 表ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param value table[] 表内的值
+---@return boolean result
+function Data.Table:UpdateAllValue(varId, playerId, value) end
+
+---清理表格数据
+---@param varId string 表ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@return boolean result
+function Data.Table:Clear(varId, playerId) end
+
+---在末尾插入一行数据
+---@param varId string 表ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param ... any 按照列顺序编写的值 中间值不能传nil
+function Data.Table:InsertValue(varId, playerId, ...) end
+
+---在某行插入一行数据
+---@param varId string 表ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param value {[string | integer]: any} 插入的值
+---@param row integer 行索引
+---@return boolean result
+function Data.Table:InsertValueByRow(varId, playerId, value, row) end
+
+---获取表格数据
+---@param varId string 表ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param row integer 行索引
+---@param col integer | string 列索引或列名
+---@return any value 返回值
+function Data.Table:GetValue(varId, playerId, row, col) end
+
+---获取表格全部数据
+---@param varId string 表ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@return table[] table 表格
+function Data.Table:GetAllValue(varId, playerId) end
+
+---设置表格数据
+---@param varId string 表ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param row integer | integer[] 行索引或行索引数组
+---@param col integer | string 列索引或列名
+---@param value any 设置的值
+---@return boolean result
+function Data.Table:SetValue(varId, playerId, row, col, value) end
+
+---删除某行全部数据
+---@param varId string 表ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param row integer | integer[] 行索引或行索引数组
+---@return boolean result
+function Data.Table:RemoveRow(varId, playerId, row) end
+
+---获取某列的所有值
+---@param varId string 表ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param col integer | string 列索引或列名
+---@return any[] values 某列的所有值
+function Data.Table:GetValuesByCol(varId, playerId, col) end
+
+---获取行数
+---@param varId string 表ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@return integer size 行数
+function Data.Table:GetRows(varId, playerId) end
+
+---获取列数
+---@param varId string 表ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@return integer size 列数
+function Data.Table:GetCols(varId, playerId) end
+
+---获取列索引
+---@param varId string 表ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param colname string 列名
+function Data.Table:GetColIndex(varId, playerId, colname) end
+
+---获取指定列和值的行索引（默认判断值相等）
+---@param varId string 表ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param col integer | string 列索引或列名
+---@param value any 查询的值
+---@param cmp fun(a: any, value: any)? 筛选函数（可为nil，默认 a == value）
+---@return integer row 行索引
+function Data.Table:GetRowIndex(varId, playerId, col, value, cmp) end
+
+---获取指定列和值的所有行索引（默认判断值相等）
+---@param varId string 表ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param col integer | string 列索引或列名
+---@param value any 查询的值
+---@param cmp fun(a: any, value: any)? 筛选函数（可为nil，默认 a == value）
+---@return integer[] rows 行索引
+function Data.Table:GetRowIndexs(varId, playerId, col, value, cmp) end
+
+---获取表格列的key
+---@param varId string 表ID
+---@return string[] colKeys 列的key
+function Data.Table:GetTableColKeys(varId) end
+
 ---一维(kv)表/排行榜 变量数据管理接口
 ---@class Data.Map
 Data.Map = {}
