@@ -328,7 +328,7 @@ function World:SetSkyBoxColor(time, itype, color) end
 ---@param itype integer 参数类型(SkyboxAttr)
 ---@param value number 参数值(0~100)
 ---@return boolean result
-function World:SetSkyBoxColor(time, itype, value) end
+function World:SetSkyBoxAttr(time, itype, value) end
 
 ---设置天空盒滤镜参数
 ---@param uin integer 玩家ID
@@ -433,7 +433,7 @@ function World:CalcDirectionByYawDirection(objid, x, y, z) end
 ---@param yaw number 水平偏移夹角角度制
 ---@param pitch number 垂直偏移夹角
 ---@return PositionTable direction 绝对方向向量
-function World:CalcDirectionByYawDirection(objid, yaw, pitch) end
+function World:CalcDirectionByYawAngle(objid, yaw, pitch) end
 
 ---绝对坐标方向
 ---@param x number x坐标
