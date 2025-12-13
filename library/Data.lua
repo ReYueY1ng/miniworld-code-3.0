@@ -384,8 +384,8 @@ function Data.Map:GetNumValuesAndCallback(varId, playerId, num, ascending, callb
 ---回调获取排行榜值为min~max区间的所有值
 ---@param varId string 排行榜变量ID
 ---@param playerId integer 玩家uin（全局变量传nil）
----@param min integer 最小值
----@param max integer 最大值
+---@param min number 最小值
+---@param max number 最大值
 ---@param ascending boolean 是否升序
 ---@param pagesize integer 单次返回数量
 ---@param callback fun(code: integer, min: integer, max: integer, ascending: boolean, datas: {k: string, v: number, info: KVValue}[]) 回调函数
