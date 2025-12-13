@@ -1,6 +1,7 @@
 ---@meta
 
 ---普通变量数据管理接口
+---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/data.html)
 ---@class Data
 Data = {}
 
@@ -25,6 +26,7 @@ function Data:GetValue(varId, playerId) end
 function Data:IncreasesValue(varId, playerId, value) end
 
 ---数组变量数据管理接口
+---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/array.html)
 ---@class Data.Array
 Data.Array = {}
 
@@ -117,6 +119,12 @@ function Data.Array:GetMax(varId, playerId) end
 ---@return number min 数值
 function Data.Array:GetMin(varId, playerId) end
 
+---获取数组随机值
+---@param varId string 组ID
+---@param playerId integer? 玩家ID（全局变量传nil）
+---@return number min 数值
+function Data.Array:RandomValue(varId, playerId) end
+
 ---组是否有值
 ---@param varId string 组ID
 ---@param playerId integer? 玩家ID（全局变量传nil）
@@ -164,6 +172,7 @@ function Data.Array:GetCountByValue(varId, playerId, value) end
 function Data.Array:IncreasesValue(varId, playerId, value, index) end
 
 ---二维表变量数据管理接口
+---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/table.html)
 ---@class Data.Table
 Data.Table = {}
 
@@ -272,6 +281,162 @@ function Data.Table:GetRowIndexs(varId, playerId, col, value, cmp) end
 ---@return string[] colKeys 列的key
 function Data.Table:GetTableColKeys(varId) end
 
----一维(kv)表/排行榜 变量数据管理接口
+---一维(kv)表/排行榜 变量数据管理接口  
+---非全局云变量建议使用阻塞接口  
+---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/map.html)
 ---@class Data.Map
 Data.Map = {}
+
+---@alias KVValue string | number | boolean | table
+---@alias KVCallBack fun(code: integer, key: string, value: KVValue)
+
+---回调设置kv数据
+---@param varId string kv表/排行榜变量ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param key number | string 键值（数值key会转换成字符串）
+---@param value KVValue 具体值
+---@param callback KVCallBack 回调函数
+---@return boolean result
+function Data.Map:SetValueAndCallBack(varId, playerId, key, value, callback) end
+
+---阻塞设置kv数据
+---@param varId string kv表/排行榜变量ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param key number | string 键值（数值key会转换成字符串）
+---@param value KVValue 具体值
+---@return integer code 错误码（ErrorCode）
+---@return string key 键值
+---@return KVValue value 具体值
+function Data.Map:SetValueAndBlock(varId, playerId, key, value) end
+
+---回调删除指定key的数据
+---@param varId string kv表/排行榜变量ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param key number | string 键值（数值key会转换成字符串）
+---@param callback fun(code: integer, key: string) 回调函数
+---@return boolean result
+function Data.Map:RemoveValueAndCallBack(varId, playerId, key, callback) end
+
+---阻塞删除指定key的数据
+---@param varId string kv表/排行榜变量ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param key number | string 键值（数值key会转换成字符串）
+---@return integer code 错误码（ErrorCode）
+---@return string key 键值
+function Data.Map:RemoveValueAndBlock(varId, playerId, key) end
+
+---回调更新指定key的数据 全局云KV变量可用
+---@param varId string kv表变量ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param key number | string 键值（数值key会转换成字符串）
+---@param callback KVCallBack 回调函数
+---@return boolean result
+function Data.Map:UpdateValueAndCallback(varId, playerId, key, callback) end
+
+---回调获取kv数据
+---@param varId string kv表/排行榜变量ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param key number | string 键值（数值key会转换成字符串）
+---@param callback KVCallBack 回调函数
+---@return boolean result
+function Data.Map:GetValueAndCallBack(varId, playerId, key, callback) end
+
+---阻塞获取kv数据
+---@param varId string kv表/排行榜变量ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param key number | string 键值（数值key会转换成字符串）
+---@return integer code 错误码（ErrorCode）
+---@return string key 键值
+---@return KVValue value 具体值
+function Data.Map:GetValueAndBlock(varId, playerId, key) end
+
+---回调获取排行榜指定排名索引的值
+---@param varId string 排行榜变量ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param index integer 排名索引
+---@param ascending boolean 是否升序
+---@param callback fun(code: integer, key: string, value: number, index: integer, ascending: boolean, extendinfo: KVValue) 回调函数
+---@return boolean result
+function Data.Map:GetIndexValueAndCallback(varId, playerId, index, ascending, callback) end
+
+---阻塞获取排行榜指定排名索引的值
+---@param varId string 排行榜变量ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param index integer 排名索引
+---@param ascending boolean 是否升序
+---@return integer code 错误码（ErrorCode）
+---@return string key 键值
+---@return number value 数值
+---@return integer index 排名索引
+---@return boolean ascending 是否升序
+---@return KVValue extendinfo 附带信息
+function Data.Map:GetIndexValueAndBlock(varId, playerId, index, ascending) end
+
+---回调获取排行榜指定前num个值
+---@param varId string 排行榜变量ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param num integer 数量
+---@param ascending boolean 是否升序
+---@param callback fun(code: integer, num: integer, ascending: boolean, datas: {k: string, v: number, info: KVValue}[]) 回调函数
+---@return boolean result
+function Data.Map:GetNumValuesAndCallback(varId, playerId, num, ascending, callback) end
+
+---回调获取排行榜值为min~max区间的所有值
+---@param varId string 排行榜变量ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param min integer 最小值
+---@param max integer 最大值
+---@param ascending boolean 是否升序
+---@param pagesize integer 单次返回数量
+---@param callback fun(code: integer, min: integer, max: integer, ascending: boolean, datas: {k: string, v: number, info: KVValue}[]) 回调函数
+---@return boolean result
+function Data.Map:GetRangeValuesAndCallback(varId, playerId, min, max, ascending, pagesize, callback) end
+
+---阻塞设置排行榜的值
+---@param varId string 排行榜变量ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param key string | number 键值（小数会向下取整，科学计数法会返回失败）
+---@param value number 数值
+---@param extendinfo KVValue 附带信息（附带信息只会更新不会删除，如果需要删除请使用 RemoveValueAndBlock / RemoveValueAndCallBack）
+---@return integer code 错误码（ErrorCode）
+---@return string key 键值
+---@return number value 数值
+function Data.Map:SetRankValueAndBlock(varId, playerId, key, value, extendinfo) end
+
+---清空kv表/排行榜
+---@param varId string 排行榜变量ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@return boolean result
+function Data.Map:ClearData(varId, playerId) end
+
+---阻塞增加排行榜的值
+---@param varId string 排行榜变量ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param key string | number 键值（小数会向下取整，科学计数法会返回失败）
+---@param value number 数值
+---@param extendinfo KVValue 附带信息（附带信息只会更新不会删除，如果需要删除请使用 RemoveValueAndBlock / RemoveValueAndCallBack）
+---@return integer code 错误码（ErrorCode）
+---@return string key 键值
+---@return number value 数值
+function Data.Map:IncreasesRankValueAndBlock(varId, playerId, key, value, extendinfo) end
+
+---回调增加排行榜的值
+---@param varId string 排行榜变量ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param key string | number 键值（小数会向下取整，科学计数法会返回失败）
+---@param value number 数值
+---@param extendinfo KVValue 附带信息（附带信息只会更新不会删除，如果需要删除请使用 RemoveValueAndBlock / RemoveValueAndCallBack）
+---@param callback fun(code: integer, key: string) 回调函数
+---@return boolean result
+function Data.Map:IncreasesRankValueAndCallback(varId, playerId, key, value, extendinfo, callback) end
+
+---回调获取排行榜排名为min~max区间的所有值
+---@param varId string 排行榜变量ID
+---@param playerId integer 玩家uin（全局变量传nil）
+---@param min integer 最小排名
+---@param max integer 最大排名
+---@param ascending boolean 是否升序
+---@param pagesize integer 单次返回数量
+---@param callback fun(code: integer, min: integer, max: integer, ascending: boolean, datas: {k: string, v: number, info: KVValue}[]) 回调函数
+---@return boolean result
+function Data.Map:GetRangeIndexsAndCallback(varId, playerId, min, max, ascending, pagesize, callback) end
