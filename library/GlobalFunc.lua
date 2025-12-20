@@ -1,4 +1,4 @@
----全局函数  
+---全局函数<br>
 ---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/introduction/globalfunc.html)
 ---@meta
 

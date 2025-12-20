@@ -1,6 +1,6 @@
 ---@meta
 
----区域模块管理接口  
+---区域模块管理接口<br>
 ---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/area.html)
 ---@class Area
 Area = {}

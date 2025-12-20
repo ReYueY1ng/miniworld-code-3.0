@@ -54,7 +54,8 @@
 ---@field width number? 宽度
 ---@field height number? 高度
 
----世界模块管理接口
+---世界模块管理接口<br>
+---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/world.html)
 ---@class World
 World = {}
 

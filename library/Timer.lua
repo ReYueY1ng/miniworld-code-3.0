@@ -1,6 +1,6 @@
 ---@meta
 
----计时器模块管理接口  
+---计时器模块管理接口<br>
 ---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/timer.html)
 ---@class Timer
 Timer = {}

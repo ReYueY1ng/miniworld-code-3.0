@@ -1,6 +1,7 @@
 ---@meta
 
----消息模块管理接口
+---消息模块管理接口<br>
+---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/chat.html)
 ---@class Chat
 Chat = {}
 

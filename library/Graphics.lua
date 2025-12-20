@@ -1,6 +1,6 @@
 ---@meta
 
----图文信息模块管理接口  
+---图文信息模块管理接口<br>
 ---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/graphics.html)
 ---@class Graphics
 Graphics = {}

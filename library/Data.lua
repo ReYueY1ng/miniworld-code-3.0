@@ -1,6 +1,6 @@
 ---@meta
 
----普通变量数据管理接口
+---普通变量数据管理接口<br>
 ---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/data.html)
 ---@class Data
 Data = {}

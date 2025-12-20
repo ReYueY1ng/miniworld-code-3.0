@@ -1,6 +1,6 @@
 ---@meta
 
----状态模块管理接口  
+---状态模块管理接口<br>
 ---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/buff.html)
 ---@class Buff
 Buff = {}

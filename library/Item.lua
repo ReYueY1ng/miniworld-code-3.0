@@ -1,6 +1,6 @@
 ---@meta
 
----道具模块管理接口
+---道具模块管理接口<br>
 ---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/item.html)
 ---@class Item
 Item = {}

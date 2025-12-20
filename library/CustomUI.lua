@@ -1,6 +1,6 @@
 ---@meta
 
----界面模块管理接口  
+---界面模块管理接口<br>
 ---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/customui.html)
 ---@class CustomUI
 CustomUI = {}
