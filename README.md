@@ -39,7 +39,7 @@
     }
     ```
 
-    或者 `vscode/settings.json` (VS Code):
+    或者 `.vscode/settings.json` (VS Code):
     ```json
     {
         "Lua.workspace.library": [
