@@ -5,13 +5,13 @@
 ---@field protected isValid boolean 是否有效
 ---@field protected __isEnable boolean 是否启用
 ---@field protected __className_ string 组件id
----@field protected gameObject table 挂载对象
+---@field protected gameObject Object 挂载对象
 ---@field protected displayName string 显示名称
 local Component = {}
 
 ---获取该组件挂载的对象实例
 ---@protected
----@return table object 挂载对象
+---@return Object object 挂载对象
 function Component:GetGameObject() end
 
 ---获取组件挂载的对象实例id
@@ -143,6 +143,7 @@ function Component:RemoveCloudSeverEvent(msgid) end
 
 ---世界组件
 ---@class WorldComponent: Component
+---@field protected gameObject WorldObject 挂载对象
 local WorldComponent = {}
 
 ---添加触发事件
@@ -158,27 +159,33 @@ function WorldComponent:RemoveTriggerEvent(event) end
 
 ---UI组件
 ---@class UIComponent: WorldComponent
+---@field protected gameObject UIObject 挂载对象
 local UIComponent = {}
 
 ---方块组件
 ---@class BlockComponent: Component
+---@field protected gameObject BlockObject 挂载对象
 local BlockComponent = {}
 
 ---角色基本组件
 ---@class ActorComponent: Component
 ---@field transform table 变换
+---@field protected gameObject ActorObject 挂载对象
 local ActorComponent = {}
 
 ---生物组件
 ---@class MobComponent: ActorComponent
+---@field protected gameObject MobObject 挂载对象
 local MobComponent = {}
 
 ---玩家组件
 ---@class PlayerComponent: ActorComponent
+---@field protected gameObject PlayerObject 挂载对象
 local PlayerComponent = {}
 
 ---实体组件
 ---@class EntityComponent: ActorComponent
+---@field protected gameObject EntityObject 挂载对象
 local EntityComponent = {}
 
 ---瞬时效果组件
