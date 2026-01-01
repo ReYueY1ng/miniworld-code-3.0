@@ -1,6 +1,7 @@
 ---@meta
 
----基本对象
+---基本对象<br>
+---[对象介绍](https://dev-wiki.mini1.cn/ugc-wiki/introduction/obj.html)
 ---@class Object
 local Object = {}
 

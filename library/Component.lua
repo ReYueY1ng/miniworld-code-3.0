@@ -1,6 +1,9 @@
 ---@meta
 
----基本组件
+---基本组件<br>
+---[组件说明](https://dev-wiki.mini1.cn/ugc-wiki/introduction/cmpIntroduce.html)<br>
+---[组件函数](https://dev-wiki.mini1.cn/ugc-wiki/introduction/componentapi.html)<br>
+---[组件属性](https://dev-wiki.mini1.cn/ugc-wiki/introduction/componentattr.html)
 ---@class Component
 ---@field protected isValid boolean 是否有效
 ---@field protected __isEnable boolean 是否启用
