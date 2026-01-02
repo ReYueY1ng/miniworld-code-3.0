@@ -217,7 +217,7 @@ function Backpack:StopShortCutItemEffect(playerid, itemid, effectid) end
 ---@param playerid integer 玩家ID
 ---@param begingridId integer 开始格子id
 ---@param endgridId integer 结束格子id 需要连续格子否则会返回""
----@return string? gridinfosjson 格子信息数据json (nil 失败 否则成功)
+---@return string gridinfosjson 格子信息数据json (nil 失败 否则成功)
 function Backpack:GetGridInfos(playerid, begingridId, endgridId) end
 
 ---加载背包和快捷栏格子信息数据
@@ -228,7 +228,7 @@ function Backpack:LoadGridInfos(playerid, gridinfo) end
 
 ---解析格子信息数据
 ---@param str string GetGridInfos打包字符串
----@return GridInfos? gridinfos 格子信息数据 (nil 解析失败 否则成功 是个数组table 数组元素中(index 是打包的格子id info是格子详细信息 itemid是物品id num 是数量))
+---@return GridInfos gridinfos 格子信息数据 (nil 解析失败 否则成功 是个数组table 数组元素中(index 是打包的格子id info是格子详细信息 itemid是物品id num 是数量))
 function Backpack:DecodeGridInfo(str) end
 
 ---将解析的格子信息数据打包
@@ -267,20 +267,20 @@ function Backpack:GetAllBackPackInstanceIds(playerid, bartype) end
 ---@param playerid integer 玩家Uin
 ---@param itemid integer | string 道具id
 ---@param gridIndex? integer 格子索引
----@return string? instId 道具实例ID
+---@return string instId 道具实例ID
 function Backpack:CreateItemInstInBackpack(playerid, itemid, gridIndex) end
 
 ---在玩家的背包内创建一把实例化的枪械
 ---@param playerid integer 玩家Uin
 ---@param itemid integer | string 道具id
 ---@param gridIndex? integer 格子索引
----@return string? instId 道具实例ID
+---@return string instId 道具实例ID
 function Backpack:CreateGunInBackpack(playerid, itemid, gridIndex) end
 
 ---根据背包索引获取道具实例id
 ---@param playerid integer 玩家Uin
 ---@param gridIndex integer 背包索引
----@return string? instId 道具实例id
+---@return string instId 道具实例id
 function Backpack:GetInstIdByGridIndex(playerid, gridIndex) end
 
 ---获取背包所有实例化的枪械

@@ -339,14 +339,14 @@ function CustomUI:SetRelationSize(playerid, uiid, elementid, width, widthUnits, 
 ---@param playerid integer 玩家ID
 ---@param uiid string 界面ID
 ---@param elementType ElementType 元件类型枚举
----@return string? elementid 新建出来元件ID
+---@return string elementid 新建出来元件ID
 function CustomUI:CreateElement(playerid, uiid, elementType) end
 
 ---克隆元件
 ---@param playerid integer 玩家ID
 ---@param uiid string 界面ID
 ---@param elementid string 被克隆的元件ID
----@return string? elementid 克隆出来的元件ID
+---@return string elementid 克隆出来的元件ID
 function CustomUI:CloneElement(playerid, uiid, elementid) end
 
 ---修改元件父元件
