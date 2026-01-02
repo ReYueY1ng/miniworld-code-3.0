@@ -151,6 +151,11 @@ function Component:RemoveCloudSeverEvent(msgid) end
 ---@field protected gameObject WorldObject 挂载对象
 local WorldComponent = {}
 
+---获取该组件挂载的对象实例
+---@protected
+---@return WorldObject object 挂载对象
+function WorldComponent:GetGameObject() end
+
 ---添加触发事件
 ---@protected
 ---@param event TriggerEvent 事件类型
@@ -167,10 +172,20 @@ function WorldComponent:RemoveTriggerEvent(event) end
 ---@field protected gameObject UIObject 挂载对象
 local UIComponent = {}
 
+---获取该组件挂载的对象实例
+---@protected
+---@return UIObject object 挂载对象
+function UIComponent:GetGameObject() end
+
 ---方块组件
 ---@class BlockComponent: Component
 ---@field protected gameObject BlockObject 挂载对象
 local BlockComponent = {}
+
+---获取该组件挂载的对象实例
+---@protected
+---@return BlockObject object 挂载对象
+function BlockComponent:GetGameObject() end
 
 ---角色基本组件
 ---@class ActorComponent: Component
@@ -178,20 +193,40 @@ local BlockComponent = {}
 ---@field protected gameObject ActorObject 挂载对象
 local ActorComponent = {}
 
+---获取该组件挂载的对象实例
+---@protected
+---@return ActorObject object 挂载对象
+function ActorComponent:GetGameObject() end
+
 ---生物组件
 ---@class MobComponent: ActorComponent
 ---@field protected gameObject MobObject 挂载对象
 local MobComponent = {}
+
+---获取该组件挂载的对象实例
+---@protected
+---@return MobObject object 挂载对象
+function MobComponent:GetGameObject() end
 
 ---玩家组件
 ---@class PlayerComponent: ActorComponent
 ---@field protected gameObject PlayerObject 挂载对象
 local PlayerComponent = {}
 
+---获取该组件挂载的对象实例
+---@protected
+---@return PlayerObject object 挂载对象
+function PlayerComponent:GetGameObject() end
+
 ---实体组件
 ---@class EntityComponent: ActorComponent
 ---@field protected gameObject EntityObject 挂载对象
 local EntityComponent = {}
+
+---获取该组件挂载的对象实例
+---@protected
+---@return EntityObject object 挂载对象
+function EntityComponent:GetGameObject() end
 
 ---瞬时效果组件
 ---@class InstantaneousBuffComponent: ActorComponent
