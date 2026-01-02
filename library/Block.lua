@@ -38,7 +38,7 @@ function Block:GetBlockID(x, y, z) end
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
 ---@param blockid integer | string 方块类型ID
----@param data integer 方块朝向等数据
+---@param data? integer 方块朝向等数据
 ---@return boolean result
 function Block:SetBlockAll(x, y, z, blockid, data) end
 
@@ -46,7 +46,7 @@ function Block:SetBlockAll(x, y, z, blockid, data) end
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
----@param dropitem boolean 是否掉落
+---@param dropitem? boolean 是否掉落
 ---@return boolean result
 function Block:DestroyBlock(x, y, z, dropitem) end
 
