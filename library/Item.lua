@@ -20,7 +20,7 @@ function Item:RandomProjectileID() end
 
 ---获取道具属性
 ---@param itemid integer | string 道具ID
----@param attr integer 属性类型枚举（ItemAttr）
+---@param attr ItemAttr 属性类型枚举
 ---@return number value 属性值
 function Item:GetAttr(itemid, attr) end
 
@@ -31,7 +31,7 @@ function Item:GetItemDesc(itemid) end
 
 ---获取自定义枪械的属性(仅自定义枪械有效)
 ---@param itemid integer | string 道具ID
----@param attrname string 属性名(GunAttr)
+---@param attrname GunAttr 属性名
 ---@return any value 返回的值
 function Item:GetCustomGunAttr(itemid, attrname) end
 
@@ -69,20 +69,20 @@ function Item:GetEquipItemGridID(itemid) end
 
 ---修改枪械道具实例的属性
 ---@param instid string 道具实例id
----@param key string 属性的枚举(GunAttr)
+---@param key GunAttr 属性的枚举
 ---@param value number | string | boolean 值
 ---@return boolean result
 function Item:ModifyGunAttribute(instid, key, value) end
 
 ---获取枪械道具实例的属性
 ---@param instid string 道具实例id
----@param key string 属性的枚举(GunAttr)
+---@param key GunAttr 属性的枚举
 ---@return number | string | boolean value 值
 function Item:GetGunAttribute(instid, key) end
 
 ---获取枪预制的属性
 ---@param instid string 道具实例id
----@param key string 属性的枚举(GunAttr)
+---@param key GunAttr 属性的枚举
 ---@return number | string | boolean value 值
 function Item:GetGunPrefabAttribute(instid, key) end
 
@@ -191,6 +191,6 @@ function Item:GetItemInstFacade(instid) end
 
 ---获取掉落物或者投掷物的格子属性
 ---@param objid integer 对象ID
----@param attr integer 属性枚举(GridAttr)
+---@param attr GridAttr 属性枚举
 ---@return number value 属性值
 function Item:GetGridAttr(objid, attr) end

@@ -38,25 +38,29 @@ function getServerTime() end
 function GetS(id, ...) end
 
 ---定义类对象
+---@generic super: table
 ---@param classname string 类名
----@param super string|table 父类名 或 父类原表
----@param issingle boolean 是否单例
----@return table classdef 对象定义
+---@param super? `super` 父类名 或 父类原表
+---@param issingle? boolean 是否单例
+---@return super classdef 对象定义
 function Class(classname, super, issingle) end
 
 ---创建类实例
----@param classname string 类名
----@return table instance 对象实例
+---@generic super: table
+---@param classname `super` 类名
+---@return super instance 对象实例
 function Instance(classname) end
 
 ---获取类单例
----@param classname string 类名
----@return table instance 对象实例
+---@generic super: table
+---@param classname `super` 类名
+---@return super instance 对象实例
 function GetInst(classname) end
 
 ---深拷贝表
----@param ori_tab table
----@return table new_tab
+---@generic tab: table
+---@param ori_tab tab
+---@return tab new_tab
 function copy_table(ori_tab)
     if type(ori_tab) ~= "table" then
 ---@diagnostic disable-next-line: return-type-mismatch

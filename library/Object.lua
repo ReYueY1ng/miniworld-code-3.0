@@ -18,8 +18,9 @@ function Object:GetObjType() end
 function Object:IsValid() end
 
 ---对象上添加组件(对象已经存在相同id组件的则添加不上返回空)
----@param cmpid string 组件id
----@return Component cmp 组件对象
+---@generic cmp: Component
+---@param cmpid `cmp` 组件id
+---@return cmp cmp 组件对象
 function Object:AddComponent(cmpid) end
 
 ---删除对象上的指定组件
@@ -27,8 +28,9 @@ function Object:AddComponent(cmpid) end
 function Object:RemoveComponent(cmpid) end
 
 ---获取对象上的指定组件
----@param cmpid string 组件id
----@return Component cmp 组件对象
+---@generic cmp: Component
+---@param cmpid `cmp` 组件id
+---@return cmp cmp 组件对象
 function Object:GetComponent(cmpid) end
 
 ---@class WorldObject: Object

@@ -50,7 +50,7 @@ function Backpack:RemoveGridItemByItemID(playerid, itemid, num) end
 
 ---清空指定背包栏
 ---@param playerid integer 玩家ID
----@param bartype integer 快捷栏枚举(BackpackType)
+---@param bartype BackpackType 快捷栏枚举
 ---@return boolean result
 function Backpack:ClearPack(playerid, bartype) end
 
@@ -89,17 +89,17 @@ function Backpack:CalcSpaceNumForItem(playerid, itemid) end
 
 ---检测背包是否持有某个道具
 ---@param playerid integer 玩家ID
----@param bartype integer 快捷栏枚举(BackpackType)
+---@param bartype BackpackType 快捷栏枚举
 ---@param itemid integer | string 道具类型
 ---@return boolean result
 function Backpack:HasItemByBackpackBar(playerid, bartype, itemid) end
 
 ---获取背包持有某个道具总数量，同时返回装有道具的背包格数组
 ---@param playerid integer 玩家ID
----@param bartype integer 快捷栏枚举(BackpackType)
+---@param bartype BackpackType 快捷栏枚举
 ---@param itemid integer | string 道具类型
 ---@return integer num 道具数量
----@return table arr 格子ID数组
+---@return integer[] arr 格子ID数组
 function Backpack:GetItemNumByBackpackBar(playerid, bartype, itemid) end
 
 ---获取背包持有某个道具总数量，同时返回装有道具的背包格数组
@@ -107,7 +107,7 @@ function Backpack:GetItemNumByBackpackBar(playerid, bartype, itemid) end
 ---@param itemid integer | string 道具类型
 ---@param isAddEquip? boolean 是否添加装备栏(默认True)
 ---@return integer num 道具数量
----@return table arr 格子ID数组
+---@return integer[] arr 格子ID数组
 function Backpack:GetItemNum(playerid, itemid, isAddEquip) end
 
 ---获取背包格道具ID(返回itemid, num)
@@ -259,8 +259,8 @@ function Backpack:SetBackPackNum(playerid, num) end
 
 ---获取指定背包中所有道具实例
 ---@param playerid integer 玩家ID
----@param bartype integer 快捷栏枚举(BackpackType)
----@return table instanceIds 实例ID表
+---@param bartype BackpackType 快捷栏枚举
+---@return string[] instanceIds 实例ID表
 function Backpack:GetAllBackPackInstanceIds(playerid, bartype) end
 
 ---在玩家的背包内创建一个道具实例
@@ -285,7 +285,7 @@ function Backpack:GetInstIdByGridIndex(playerid, gridIndex) end
 
 ---获取背包所有实例化的枪械
 ---@param playerid integer 玩家Uin
----@return table? instanceIds 实例id数组
+---@return string[]? instanceIds 实例id数组
 function Backpack:GetGunInstIdInBackpack(playerid) end
 
 ---获取背包格子是否锁定
@@ -297,14 +297,14 @@ function Backpack:IsLock(playerid, gridid) end
 ---获取背包格子属性
 ---@param playerid integer 玩家Uin
 ---@param gridid integer 格子索引
----@param attr integer 属性枚举(GridAttr)
+---@param attr GridAttr 属性枚举
 ---@return number value 属性值
 function Backpack:GetGridAttr(playerid, gridid, attr) end
 
 ---设置背包格子属性
 ---@param playerid integer 玩家Uin
 ---@param gridid integer 格子索引
----@param attr integer 属性枚举(GridAttr)
+---@param attr GridAttr 属性枚举
 ---@param value number 属性值
 ---@return boolean result
 function Backpack:SetGridAttr(playerid, gridid, attr, value) end

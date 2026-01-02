@@ -157,14 +157,14 @@ function Graphics:CreateGraphicsProgressByActor(objid, info, dir, offest, x2, y2
 ---@param y number 方块坐标
 ---@param z number 方块坐标
 ---@param itype integer 图文信息ID
----@param graphType integer 图文类型枚举值(GraphicsType)
+---@param graphType GraphicsType 图文类型枚举值
 ---@return boolean result
 function Graphics:RemoveGraphicsByPos(x, y, z, itype, graphType) end
 
 ---删除生物的图文信息
 ---@param objid integer 对象objid
 ---@param itype integer 图文信息ID
----@param graphType integer 图文类型枚举值(GraphicsType)
+---@param graphType GraphicsType 图文类型枚举值
 ---@return boolean result
 function Graphics:RemoveGraphicsByObjID(objid, itype, graphType) end
 

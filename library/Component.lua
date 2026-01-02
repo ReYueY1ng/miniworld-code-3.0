@@ -29,8 +29,9 @@ function Component:IsValid() end
 
 ---在组件所在的对象上添加指定组件(对象已经存在相同id组件的则添加不上)
 ---@protected
----@param cmpid string 组件id
----@return Component cmp 组件对象
+---@generic cmp: Component
+---@param cmpid `cmp` 组件id
+---@return cmp cmp 组件对象
 function Component:AddComponent(cmpid) end
 
 ---删除在组件所在的对象上的指定组件
@@ -40,8 +41,9 @@ function Component:RemoveComponent(cmpid) end
 
 ---获取组件所在对象上的指定组件
 ---@protected
----@param cmpid string 组件id
----@return Component cmp 组件对象
+---@generic cmp: Component
+---@param cmpid `cmp` 组件id
+---@return cmp cmp 组件对象
 function Component:GetComponent(cmpid) end
 
 ---发送自定义消息(异步)

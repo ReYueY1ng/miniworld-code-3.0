@@ -11,7 +11,7 @@ function Player:GetHostUin() end
 
 ---设置玩家是否胜利
 ---@param objid integer 玩家Uin
----@param result integer 游戏结果(TeamResults)
+---@param result TeamResults 游戏结果
 ---@return boolean result
 function Player:SetGameResults(objid, result) end
 
@@ -96,7 +96,7 @@ function Player:RotateCameraToActor(objid, targetid) end
 
 ---玩家改变视角
 ---@param objid integer 玩家Uin
----@param viewmode integer 视角枚举(ViewPortType)
+---@param viewmode ViewPortType 视角枚举
 ---@param islock boolean 是否锁定
 ---@return boolean result
 function Player:ChangeViewMode(objid, viewmode, islock) end
@@ -166,10 +166,7 @@ function Player:HideUIView(objid, uiname, effectid, time) end
 
 ---获取客机类型
 ---@param objid integer 玩家Uin
----@return
----| 1 # pc
----| 2 # android
----| 3 # ios
+---@return DeviceType
 function Player:GetClientInfo(objid) end
 
 ---获取玩家昵称
@@ -181,13 +178,13 @@ function Player:GetNickname(objid) end
 ---@param objid integer 玩家Uin
 ---@param devGoodsId integer 商品ID
 ---@param customDesc string 自定义商品描述
----@return number code 成功(ErrorCode.OK)
+---@return ErrorCode code 成功
 function Player:OpenDevGoodsBuyDialog(objid, devGoodsId, customDesc) end
 
 ---打开开发者商店商品详情页
 ---@param objid number 玩家Uin
 ---@param devGoodsId number 商品ID
----@return number code 成功(ErrorCode.OK)
+---@return ErrorCode code 成功
 function Player:OpenDevGoodsBuyDetailedDialog(objid, devGoodsId) end
 
 ---玩家打开开发者商店（仅开发者可用）
@@ -204,7 +201,7 @@ function Player:OpenDevStoreTab(objid, page, name) end
 
 ---打开开发者商店一级页面
 ---@param objid integer 玩家Uin
----@param pagetype integer 页面枚举值(MiniShopPage)
+---@param pagetype MiniShopPage 页面枚举值
 ---@param pagetitle string 页面标题
 ---@return boolean result
 function Player:OpenDevGoodsPage(objid, pagetype, pagetitle) end
@@ -213,7 +210,7 @@ function Player:OpenDevGoodsPage(objid, pagetype, pagetitle) end
 ---@param playerid integer 玩家Uin
 ---@param tbegin number 开始时间
 ---@param tend number 结束时间
----@param costtype integer 查询类型 MiniCurrency
+---@param costtype MiniCurrency 查询类型
 ---@return number icount 消费数量(-1 请求失败)
 function Player:GetPlayerCostStatic(playerid, tbegin, tend, costtype) end
 
@@ -264,7 +261,7 @@ function Player:SendFriendApply(playerid, uin2) end
 ---玩家摄像机变换到位置
 ---@param playerid integer 玩家Uin
 ---@param vec PositionTable 位置坐标
----@param animid integer 线性变换枚举（Easing）
+---@param animid Easing 线性变换枚举
 ---@param time number 动画时间
 ---@return boolean result
 function Player:SetCameraPosTransformTo(playerid, vec, animid, time) end
@@ -272,7 +269,7 @@ function Player:SetCameraPosTransformTo(playerid, vec, animid, time) end
 ---玩家摄像机旋转到角度
 ---@param playerid integer 玩家Uin
 ---@param vec PositionTable 角度坐标
----@param animid integer 线性变换枚举（Easing）
+---@param animid Easing 线性变换枚举
 ---@param time number 动画时间
 ---@return boolean result
 function Player:SetCameraRotTransformTo(playerid, vec, animid, time) end
@@ -280,7 +277,7 @@ function Player:SetCameraRotTransformTo(playerid, vec, animid, time) end
 ---玩家摄像机Fvo变换到值
 ---@param playerid integer 玩家Uin
 ---@param fov number fov值
----@param animid integer 线性变换枚举（Easing）
+---@param animid Easing 线性变换枚举
 ---@param time number 动画时间
 ---@return boolean result
 function Player:SetCameraFovTransformTo(playerid, fov, animid, time) end
@@ -288,7 +285,7 @@ function Player:SetCameraFovTransformTo(playerid, fov, animid, time) end
 ---玩家摄像机变换相对位置
 ---@param playerid integer 玩家Uin
 ---@param vec PositionTable 位置坐标(100=1方块)
----@param animid integer 线性变换枚举（Easing）
+---@param animid Easing 线性变换枚举
 ---@param time number 动画时间
 ---@return boolean result
 function Player:SetCameraPosTransformBy(playerid, vec, animid, time) end
@@ -296,7 +293,7 @@ function Player:SetCameraPosTransformBy(playerid, vec, animid, time) end
 ---玩家摄像机旋转相对角度
 ---@param playerid integer 玩家Uin
 ---@param vec PositionTable 角度坐标
----@param animid integer 线性变换枚举（Easing）
+---@param animid Easing 线性变换枚举
 ---@param time number 动画时间
 ---@return boolean result
 function Player:SetCameraRotTransformBy(playerid, vec, animid, time) end
@@ -304,22 +301,22 @@ function Player:SetCameraRotTransformBy(playerid, vec, animid, time) end
 ---玩家摄像机Fvo变换相对值
 ---@param playerid integer 玩家Uin
 ---@param fov number fov值
----@param animid integer 线性变换枚举（Easing）
+---@param animid Easing 线性变换枚举
 ---@param time number 动画时间
 ---@return boolean result
 function Player:SetCameraFovTransformBy(playerid, fov, animid, time) end
 
 ---设置玩家的摄像机设置开关
 ---@param playerid integer 玩家Uin
----@param attr number 摄像机属性(CameraModel)
+---@param attr CameraModel 摄像机属性
 ---@param enable boolean 开关(true开启 false关闭)
----@return boolean result 成功
+---@return boolean result
 function Player:SetCameraAttrState(playerid, attr, enable) end
 
 ---设置玩家的摄像机旋转模式
 ---@param playerid integer 玩家Uin
----@param attr integer 摄像机旋转模式(CameaRotate)
----@return boolean code 成功(true)
+---@param attr CameraRotate 摄像机旋转模式
+---@return boolean result
 function Player:SetCameraRotMode(playerid, attr) end
 
 ---设置玩家的摄像机挂载到对象
@@ -365,7 +362,7 @@ function Player:GetMiniVipLevel(playerid) end
 
 ---改变玩家移动方式
 ---@param objid integer 玩家Uin
----@param moveType integer 飞行枚举(MoveType)
+---@param moveType MoveType 飞行枚举
 ---@return boolean result
 function Player:ChangPlayerMoveType(objid, moveType) end
 
@@ -379,7 +376,7 @@ function Player:PlayAdvertising(objid, adname) end
 
 ---玩家组显示游戏内弹窗
 ---@param uin integer 玩家Uin
----@param iview integer 弹窗类型枚举(InnerPopUpview)
+---@param iview InnerPopUpview 弹窗类型枚举
 ---@param bopen boolean 打开或者关闭
 ---@param data? any 根据前面枚举传参（储物箱需要传入位置）
 ---@return boolean result
@@ -388,14 +385,14 @@ function Player:OpenInnerView(uin, iview, bopen, data) end
 ---设置玩家道具设置属性
 ---@param objid integer 玩家ID
 ---@param itemid integer|string 道具ID
----@param atttype integer 掉落属性枚举 ItemAbility
+---@param atttype ItemAbility 掉落属性枚举
 ---@param switch boolean 是否打开
 ---@return boolean result
 function Player:SetItemAttAction(objid, itemid, atttype, switch) end
 
 ---玩家强制打开UI界面
 ---@param objid integer 玩家Uin
----@param itemid integer 枚举WorkStage
+---@param itemid WorkeStage 枚举
 ---@return boolean code 成功(true)
 function Player:ForceOpenBoxUI(objid, itemid) end
 
@@ -421,7 +418,7 @@ function Player:SetGunActionState(objid, action, switch) end
 
 ---获取玩家视角模式
 ---@param uin integer 玩家Uin
----@return integer viewmode 视角模式 ViewPortType
+---@return ViewPortType viewmode 视角模式
 function Player:GetViewMode(uin) end
 
 ---获取玩家复活点

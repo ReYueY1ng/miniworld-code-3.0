@@ -91,7 +91,7 @@ function Data.Array:Clear(varId, playerId) end
 ---数组排序
 ---@param varId string 组ID
 ---@param playerId integer? 玩家ID（全局变量传nil）
----@param isUp integer 排序方式(SortType)
+---@param isUp SortType 排序方式
 ---@return boolean result
 function Data.Array:Sort(varId, playerId, isUp) end
 

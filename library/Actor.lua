@@ -17,7 +17,7 @@ function Actor:GetDropItemNum(objid) end
 
 ---设置角色队伍
 ---@param objid integer 角色objid
----@param teamid integer 队伍ID AbsoluteCampType
+---@param teamid AbsoluteCampType 队伍ID
 ---@param bResetAttr? boolean 是否重置属性(填玩家有效，默认false)
 ---@return boolean result
 function Actor:SetTeam(objid, teamid, bResetAttr) end
@@ -184,34 +184,34 @@ function Actor:KillSelf(objid) end
 
 ---设置角色属性
 ---@param objid integer 角色objid
----@param atttype integer 属性类型枚举(RoleAttr)
+---@param atttype RoleAttr 属性类型枚举
 ---@param val number 属性值
 ---@return boolean result
 function Actor:SetAttr(objid, atttype, val) end
 
 ---增加角色属性值
 ---@param objid integer 角色objid
----@param atttype integer 属性类型枚举(RoleAttr)
+---@param atttype RoleAttr 属性类型枚举
 ---@param val number 属性值
 ---@return boolean result
 function Actor:IncreasesAttr(objid, atttype, val) end
 
 ---获取角色属性值
 ---@param objid integer 角色objid
----@param atttype integer 属性类型枚举(RoleAttr)
+---@param atttype RoleAttr 属性类型枚举
 ---@return number value 属性值
 function Actor:GetAttr(objid, atttype) end
 
 ---设置对象权限
 ---@param objid integer 对象Uin
----@param actionattr integer 行为枚举(Ability)
+---@param actionattr Ability 行为枚举
 ---@param switch boolean 是否开启
 ---@return boolean result
 function Actor:SetActorPermissions(objid, actionattr, switch) end
 
 ---获取对象权限
 ---@param objid integer 对象Uin
----@param actionattr integer 行为枚举(Ability)
+---@param actionattr Ability 行为枚举
 ---@return boolean result
 function Actor:GetActorPermissions(objid, actionattr) end
 
@@ -267,7 +267,7 @@ function Actor:RecoverinitialModel(objid) end
 ---@param objid integer 攻击者对象的objid
 ---@param targetid integer 目标对象的objid
 ---@param damage number 伤害值
----@param attacktype integer 伤害类型枚举(HurtType)
+---@param attacktype HurtType 伤害类型枚举
 ---@param ignoreResist? boolean 忽略伤害抵抗
 ---@param ignoreTriggerEvent? boolean 忽略触发伤害事件
 ---@return boolean result
@@ -275,20 +275,20 @@ function Actor:ActorHurt(objid, targetid, damage, attacktype, ignoreResist, igno
 
 ---设置免疫伤害类型
 ---@param objid integer 对象objid
----@param immunetype integer 伤害类型枚举(HurtType)
+---@param immunetype HurtType 伤害类型枚举
 ---@param enable boolean 是否开启
 ---@return boolean code 成功(true)
 function Actor:SetImmuneType(objid, immunetype, enable) end
 
 ---改变玩家移动方式
 ---@param objid integer 对象id
----@param moveType integer 移动模式(MoveType)
+---@param moveType MoveType 移动模式
 ---@return boolean result
 function Actor:ChangActorMoveType(objid, moveType) end
 
 ---取角色的移动模式
 ---@param objid integer 对象id
----@return integer moveType 返回玩家的移动模式
+---@return MoveType moveType 返回玩家的移动模式
 function Actor:GetActorMovementMode(objid) end
 
 ---获取模型大小值

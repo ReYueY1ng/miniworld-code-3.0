@@ -88,7 +88,7 @@ function CustomUI:SetAlpha(playerid, uiid, elementid, alpha) end
 ---@param uiid string 界面ID
 ---@param elementid string 元件ID
 ---@param pageIndex string 状态值
----@param easeType? integer 缓动类型枚举(Easing)
+---@param easeType? Easing 缓动类型枚举
 ---@param time? number 动画事件(缺省参数)
 ---@return boolean result
 function CustomUI:SetState(playerid, uiid, elementid, pageIndex, easeType, time) end
@@ -200,7 +200,7 @@ function CustomUI:SmoothScaleBy(playerid, uiid, elementid, time, w, h) end
 ---@param x number 目标X缩放值
 ---@param y number 目标Y缩放值
 ---@param delayTime? number 延迟时间
----@param easeType? integer 缓动枚举(Easing)
+---@param easeType? Easing 缓动枚举
 ---@return boolean result
 function CustomUI:SmoothScaleByEx(playerid, uiid, elementid, time, x, y, delayTime, easeType) end
 
@@ -228,8 +228,8 @@ function CustomUI:SmoothRotateBy(playerid, uiid, elementid, time, angle) end
 ---@param elementid number 元件ID
 ---@param animid integer 动画ID
 ---@param time number 单次执行时间(需大于0)
----@param mode integer 播放模式枚举(AnimMode)
----@param easetype? integer 缓动类型枚举(Easing)
+---@param mode AnimMode 播放模式枚举
+---@param easetype? Easing 缓动类型枚举
 ---@param delaytime? number 延迟播放时间
 ---@param endvalue? number 动画的结束值
 ---@return boolean result
@@ -239,7 +239,7 @@ function CustomUI:PlayElementAnim(playerid, uiid, elementid, animid, time, mode,
 ---@param playerid integer 玩家ID
 ---@param uiid string 界面ID
 ---@param elementid number 元件ID
----@param itype integer 类型（如果为0就是停止所有的UI的动效，1就是停止elementid对应的UI动效）
+---@param itype 0 | 1 类型（如果为0就是停止所有的UI的动效，1就是停止elementid对应的UI动效）
 ---@return boolean result
 function CustomUI:StopAnim(playerid, uiid, elementid, itype) end
 
@@ -282,7 +282,7 @@ function CustomUI:SetLoaderModelPosition(playerid, uiid, elementid, x, y, z) end
 ---@param uiid string 界面ID
 ---@param elementid string 元件ID
 ---@param animid integer | string 动画ID
----@param playmode? number 播放模式(AnimMode)
+---@param playmode? AnimMode 播放模式
 ---@return boolean result
 function CustomUI:SetLoaderModelAct(playerid, uiid, elementid, animid, playmode) end
 
@@ -299,7 +299,7 @@ function CustomUI:TurnSliderToPos(playerid, uiid, elementid, x, y) end
 ---@param playerid integer 玩家ID
 ---@param uiid string 界面ID
 ---@param elementid string 元件ID
----@param dir integer 滑动方式（0仅左右，1仅上下，2自由滑动）
+---@param dir 0 | 1 | 2 滑动方式（0仅左右，1仅上下，2自由滑动）
 ---@return boolean result
 function CustomUI:SetSliderDir(playerid, uiid, elementid, dir) end
 
@@ -315,12 +315,12 @@ function CustomUI:SetSliderBarImg(playerid, uiid, elementid, url) end
 ---@param playerid integer 玩家ID
 ---@param uiid string 界面ID
 ---@param elementid string 元件ID
----@param v number 水平偏移枚举(HorizontalOffset)
+---@param v HorizontalOffset 水平偏移枚举
 ---@param xOffset number x方向数值
----@param xUnits number 像素单位枚举(PixelUnits)
----@param h number 垂直偏移枚举(VerticalOffset)
+---@param xUnits PixelUnits 像素单位枚举
+---@param h VerticalOffset 垂直偏移枚举
 ---@param yOffset number y方向数值
----@param yUnits number 像素单位枚举(PixelUnits)
+---@param yUnits PixelUnits 像素单位枚举
 ---@return boolean result
 function CustomUI:SetRelationPosition(playerid, uiid, elementid, v, xOffset, xUnits, h, yOffset, yUnits) end
 
@@ -329,16 +329,16 @@ function CustomUI:SetRelationPosition(playerid, uiid, elementid, v, xOffset, xUn
 ---@param uiid string 界面ID
 ---@param elementid string 元件ID
 ---@param width number 宽度数值
----@param widthUnits number 像素单位枚举(PixelUnits)
+---@param widthUnits PixelUnits 像素单位枚举
 ---@param height number 高度数值
----@param heightUnits number 像素单位枚举(PixelUnits)
+---@param heightUnits PixelUnits 像素单位枚举
 ---@return boolean result
 function CustomUI:SetRelationSize(playerid, uiid, elementid, width, widthUnits, height, heightUnits) end
 
 ---动态创建元件
 ---@param playerid integer 玩家ID
 ---@param uiid string 界面ID
----@param elementType number 元件类型枚举(ElementType)
+---@param elementType ElementType 元件类型枚举
 ---@return string? elementid 新建出来元件ID
 function CustomUI:CreateElement(playerid, uiid, elementType) end
 
@@ -361,7 +361,7 @@ function CustomUI:ChangeParent(playerid, uiid, elementid, parentElementid) end
 ---@param playerid integer 玩家ID
 ---@param uiid string 界面ID
 ---@param elementid string 元件ID
----@param itype integer 类型枚举(ProgressVal)
+---@param itype ProgressVal 类型枚举
 ---@param value number 设定值
 ---@return boolean result
 function CustomUI:SetProgressBarValue(playerid, uiid, elementid, itype, value) end
@@ -370,7 +370,7 @@ function CustomUI:SetProgressBarValue(playerid, uiid, elementid, itype, value) e
 ---@param playerid integer 玩家ID
 ---@param uiid string 界面ID
 ---@param elementid string 元件ID
----@param itype? integer 类型枚举(ProgressVal)
+---@param itype? ProgressVal 类型枚举
 ---@return number min 返回的值
 ---@return number max 返回的值
 ---@return number value 返回的值
@@ -380,7 +380,7 @@ function CustomUI:GetProgressBarValue(playerid, uiid, elementid, itype) end
 ---@param playerid integer 玩家ID
 ---@param uiid string 界面ID
 ---@param elementid string 元件ID
----@param itype integer 类型枚举(ProgressImg)
+---@param itype ProgressImg 类型枚举
 ---@param url string 图片ID
 ---@return boolean result
 function CustomUI:SetProgressBarResId(playerid, uiid, elementid, itype, url) end
@@ -401,7 +401,7 @@ function CustomUI:SmoothChangeProgress(playerid, uiid, elementid, bval, eval, ti
 ---@param elementid string 元件ID
 ---@param animid integer 内置动画ID
 ---@param animindex integer 动画序列
----@param playmode number 播放模式(ViedoPlayMode)
+---@param playmode ViedoPlayMode 播放模式
 ---@return boolean result
 function CustomUI:SetSpineAnimID(playerid, uiid, elementid, animid, animindex, playmode) end
 
@@ -410,7 +410,7 @@ function CustomUI:SetSpineAnimID(playerid, uiid, elementid, animid, animindex, p
 ---@param uiid string 界面ID
 ---@param elementid string 元件ID
 ---@param time number 时长
----@param ptype number 类型枚举（1增加，2减小，3 变化至）
+---@param ptype 1 | 2 | 3 类型枚举（1增加，2减小，3 变化至）
 ---@param value number 变化的值
 ---@return boolean result
 function CustomUI:SmoothIncreaseProgress(playerid, uiid, elementid, time, ptype, value) end

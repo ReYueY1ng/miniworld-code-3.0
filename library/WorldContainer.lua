@@ -136,6 +136,6 @@ function WorldContainer:SwapContainerItem(x, y, z, offset, playerid, grid) end
 ---@param y number y坐标
 ---@param z number z坐标
 ---@param offset integer 仓库格子索引(从1开始)
----@param attr integer 属性枚举(GridAttr)
+---@param attr GridAttr 属性枚举
 ---@return number value 属性值
 function WorldContainer:GetGridAttr(x, y, z, offset, attr) end

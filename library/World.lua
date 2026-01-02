@@ -1,10 +1,6 @@
 ---@meta
 
 ---@alias PositionTable {x: number, y:number, z:number}
----@alias AliveEnum
----| 0 # 阵亡
----| 1 # 存活
----| -1 # 全体玩家（默认）
 ---@alias WorldIdEnum
 ---| 0 # 迷拉星
 ---| 1 # 烈焰星
@@ -109,12 +105,12 @@ function World:SpawnCreature(x, y, z, actorid, num, trigger) end
 function World:DespawnActor(objid) end
 
 ---获取全部玩家数量
----@param alive? AliveEnum # 玩家状态
+---@param alive? AliveState 玩家状态(默认全体玩家)
 ---@return integer num 获取数量
 function World:GetPlayerTotal(alive) end
 
 ---获取全部玩家
----@param alive? AliveEnum 玩家状态
+---@param alive? AliveState 玩家状态(默认全体玩家)
 ---@return integer[] list 对象objid组
 function World:GetAllPlayers(alive) end
 
@@ -233,20 +229,20 @@ function World:SpawnProjectileByDir(objid, itemid, x, y, z, dstx, dsty, dstz, sp
 ---获取某个位置的地形类型
 ---@param x number x坐标
 ---@param y number y坐标
----@return integer biomeType 地形类型
+---@return BiomeType biomeType 地形类型
 function World:GetBiomeType(x, y) end
 
 ---获取某个位置的地形组类型
 ---@param x number x坐标
 ---@param y number y坐标
----@return integer biomeGroup 地形组类型
+---@return WeatherGroup biomeGroup 地形组类型
 function World:GetBiomeGroup(x, y) end
 
 ---查找地形位置
 ---@param x number x坐标
 ---@param y number y坐标
 ---@param z number z坐标
----@param biometype integer 地形类型
+---@param biometype BiomeType 地形类型
 ---@return number? x x坐标
 ---@return number? y y坐标
 ---@return number? z z坐标
@@ -294,9 +290,9 @@ function World:PixelMapDelTexture(uin, id) end
 
 ---设置某玩家天空盒全部时间点的颜色参数(带动效)
 ---@param uin integer 玩家ID
----@param itype integer 颜色属性枚举(SkyboxColor)
+---@param itype SkyboxColor 颜色属性枚举
 ---@param color string 16进制颜色值(0xffffff)
----@param animId integer 动画枚举(Easing)
+---@param animId Easing 动画枚举
 ---@param animTime number 动画时间
 ---@return boolean result
 function World:SetSkyBoxColorAnim(uin, itype, color, animId, animTime) end
@@ -312,60 +308,60 @@ function World:SetTimeVanishingSpeed(speed) end
 function World:SetSkyBoxTemplate(skyboxid) end
 
 ---设置天空盒贴图
----@param itype integer 贴图类型(SkyboxMap)
+---@param itype SkyboxMap 贴图类型
 ---@param url string 图片链接
 ---@return boolean result
 function World:SetSkyBoxMaps(itype, url) end
 
 ---设置天空盒颜色参数
----@param time integer 游戏时间(SkyboxTime)
----@param itype integer 颜色属性枚举(SkyboxColor)
+---@param time SkyboxTime 游戏时间
+---@param itype SkyboxColor 颜色属性枚举
 ---@param color string 16进制颜色值(0xffffff)
 ---@return boolean result
 function World:SetSkyBoxColor(time, itype, color) end
 
 ---设置天空盒属性参数
----@param time integer 游戏时间(SkyboxTime)
----@param itype integer 参数类型(SkyboxAttr)
+---@param time SkyboxTime 游戏时间
+---@param itype SkyboxAttr 参数类型
 ---@param value number 参数值(0~100)
 ---@return boolean result
 function World:SetSkyBoxAttr(time, itype, value) end
 
 ---设置天空盒滤镜参数
 ---@param uin integer 玩家ID
----@param itype integer 参数类型(SkyboxFilter)
+---@param itype SkyboxFilter 参数类型
 ---@param value number | string 参数值(0~100) 或 16进制颜色值字符串(0xffffff)
 ---@return boolean result
 function World:SetSkyBoxFilter(uin, itype, value) end
 
 ---天空盒属性开关
----@param time integer 游戏时间(SkyboxTime)
----@param itype integer 参数类型(SkyboxSwitch)
----@param value boolean 参数值(true|false)
+---@param time SkyboxTime 游戏时间
+---@param itype SkyboxSwitch 参数类型
+---@param value boolean 参数值
 ---@return boolean result
 function World:SetSkyBoxSwitch(time, itype, value) end
 
 ---设置天空盒贴图(带动效)
 ---@param uin integer 玩家ID
----@param itype integer 参数类型(SkyboxMap)
+---@param itype SkyboxMap 参数类型
 ---@param url string 图片链接
----@param animId integer 动画枚举(Easing)
+---@param animId Easing 动画枚举
 ---@param animTime number 动画时间
 ---@return boolean result
 function World:SetSkyBoxMapsAnim(uin, itype, url, animId, animTime) end
 
 ---设置天空盒滤镜参数
 ---@param uin integer 玩家ID
----@param itype integer 参数类型(SkyboxFilter)
+---@param itype SkyboxFilter 参数类型
 ---@param value number | string 参数值(0~100) 或 16进制颜色值字符串(0xffffff)
----@param animId integer 动画枚举(Easing)
+---@param animId Easing 动画枚举
 ---@param animTime number 动画时间
 ---@return boolean result
 function World:SetSkyBoxFilterAnim(uin, itype, value, animId, animTime) end
 
 ---获取主机时间
 ---@see os.date
----@param date integer | nil 枚举值（EventDate）
+---@param date? EventDate 枚举值
 ---@return integer time 获取到的值
 function World:GetLocalDate(date) end
 
@@ -379,14 +375,14 @@ end
 ---获取服务器时间
 ---@see getServerTime
 ---@see os.date
----@param date integer | nil 枚举值（EventDate）
+---@param date? EventDate 枚举值
 ---@return integer time 获取到的值
 function World:GetServerDate(date) end
 
 ---转换时间戳为时间单位
 ---@see os.date
 ---@param time number 时间戳
----@param date integer 枚举值（EventDate）
+---@param date? EventDate 枚举值
 ---@return integer date 时间值
 function World:GetDateFromTime(time, date) end
 
@@ -394,7 +390,7 @@ function World:GetDateFromTime(time, date) end
 ---@param posbegin PositionTable 起点位置
 ---@param dir PositionTable 方向向量
 ---@param maxlen number 最大检测方块距离
----@param picktype integer 检测类型 RayDetectType
+---@param picktype RayDetectType 检测类型
 ---@return number objid 对象ID
 ---@return PositionTable pos 对象位置
 function World:GetDirRayDetection(posbegin, dir, maxlen, picktype) end
@@ -466,8 +462,8 @@ function World:RandomSoundID() end
 function World:CalcDistance(posSrc, posDst) end
 
 ---设置天气组的天气状态
----@param groupid integer 天气组ID(WeatherGroup)
----@param weatherid integer 天气ID(GroupWeatherType)
+---@param groupid WeatherGroup 天气组ID
+---@param weatherid GroupWeatherType 天气ID
 ---@return boolean result
 function World:SetGroupWeather(groupid, weatherid) end
 
@@ -476,8 +472,8 @@ function World:SetGroupWeather(groupid, weatherid) end
 function World:RandomWeatherID() end
 
 ---获取天气组天气
----@param groupid integer 天气组ID(WeatherGroup)
----@return integer weatherid 天气ID(GroupWeatherType)
+---@param groupid WeatherGroup 天气组ID
+---@return GroupWeatherType weatherid 天气ID
 function World:GetGroupWeather(groupid) end
 
 ---设置出生点
@@ -499,7 +495,7 @@ function World:CalcDirectionByPos2Pos(pos1, pos2) end
 function World:SetWorldCreateMobRule(cfgs) end
 
 ---设置生物生成密度(设置不保存，退出游戏后失效，只适用迷拉星)
----@param mobType integer 生物类型(MobType)
+---@param mobType MobType 生物类型
 ---@param density number 密度（0-2000）
 function World:SetMobSpawnDensity(mobType, density) end
 
@@ -509,7 +505,7 @@ function World:SetMobSpawnDensity(mobType, density) end
 function World:SetPlantGrowRate(rate) end
 
 ---设置游戏内的界面是否禁用
----@param iview integer 弹窗类型枚举(InnerPopUpview)
+---@param iview InnerPopUpview 弹窗类型枚举
 ---@param bopen boolean 启用或者禁用
 ---@return boolean result
 function World:SetInnerViewEnable(iview, bopen) end
@@ -520,7 +516,7 @@ function World:SetInnerViewEnable(iview, bopen) end
 function World:SetMidJoin(enable) end
 
 ---获取游戏模式
----@return integer curmode 游戏模式(WorldType)
+---@return WorldType curmode 游戏模式
 function World:GetGameMode() end
 
 ---设置光照强度

@@ -55,7 +55,7 @@ function Block:DestroyBlock(x, y, z, dropitem) end
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
----@param face? integer 朝向
+---@param face? FaceDir 朝向
 ---@param color? integer 十六进制颜色值(0XFFFFFF 颜色方块类型才生效)
 ---@return boolean result
 function Block:PlaceBlock(blockid, x, y, z, face, color) end
@@ -65,7 +65,7 @@ function Block:PlaceBlock(blockid, x, y, z, face, color) end
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
----@param face? integer 朝向
+---@param face? FaceDir 朝向
 ---@param color? integer 十六进制颜色值(0XFFFFFF 颜色方块类型才生效)
 ---@return boolean result
 function Block:ReplaceBlock(blockid, x, y, z, face, color) end
@@ -89,14 +89,14 @@ function Block:SetBlockData(x, y, z, data) end
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
----@return integer dir 返回类型(FaceDir)
+---@return FaceDir dir 返回类型
 function Block:GetBlockDir(x, y, z) end
 
 ---播放方块动作
 ---@param pos PositionTable 位置
 ---@param animid integer|string 动作id
 ---@param speed number 播放速度
----@param loop integer 循环模式(AnimMode)
+---@param loop AnimMode 循环模式
 ---@return boolean result
 function Block:PlayAnim(pos, animid, speed, loop) end
 
@@ -104,7 +104,7 @@ function Block:PlayAnim(pos, animid, speed, loop) end
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
----@param attrtype integer 属性枚举(BlockLimits)
+---@param attrtype BlockLimits 属性枚举
 ---@param switch boolean 是否开关
 ---@return boolean result
 function Block:SetBlockSettingAttState(x, y, z, attrtype, switch) end
@@ -113,7 +113,7 @@ function Block:SetBlockSettingAttState(x, y, z, attrtype, switch) end
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
----@param attrtype integer 属性枚举(BlockAttr)
+---@param attrtype BlockAttr 属性枚举
 ---@return boolean state
 function Block:GetBlockSettingAttState(x, y, z, attrtype) end
 
@@ -202,7 +202,7 @@ function Block:SetBlockSwichState(x, y, z, isactive) end
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
----@param dir integer 方向值(FaceDir)
+---@param dir FaceDir 方向值
 ---@return boolean result
 function Block:SetBlockDir(x, y, z, dir) end
 

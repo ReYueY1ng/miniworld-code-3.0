@@ -8,7 +8,7 @@ Area = {}
 ---创建一个区域对象
 ---@param pos table 区域底部中心位置
 ---@param size table 区域大小（xyz都为100才是一个方块大小）
----@return table areaobj 区域对象
+---@return EntityObject areaobj 区域对象
 ---@return integer areaid 区域ID
 function Area:CreateAreaPrefab(pos, size) end
 
@@ -106,7 +106,7 @@ function Area:ReplaceAreaBlock(areaid, srcblockid, destblockid, face, color) end
 ---获取区域范围内全部对象
 ---@param posbeg PositionTable 起始位置
 ---@param posend PositionTable 末点位置
----@param objtype integer 对象类型(ObjType)
+---@param objtype ObjType 对象类型
 ---@return integer[] objs 对象objid组
 function Area:GetAllObjsInAreaRange(posbeg, posend, objtype) end
 
@@ -129,7 +129,7 @@ function Area:GetAllCreaturesInAreaRange(posbeg, posend) end
 ---@param face? integer 朝向
 ---@param color? string | integer 颜色
 ---@param switch? boolean 是否开启
----@param filltype? integer 填充类型(AreaFillType)
+---@param filltype? AreaFillType 填充类型
 ---@return boolean result
 function Area:FillBlockAreaRange(posbeg, posend, blockid, face, color, switch, filltype) end
 
@@ -196,8 +196,8 @@ function Area:CheckRangeCanPlace(posbeg, posend, blockid) end
 ---@param posbeg PositionTable 区域起始位置
 ---@param posend PositionTable 区域结束位置
 ---@param uin integer 玩家ID
----@param relativing integer 关系类型(RelativeCampType)
----@param actortype integer 角色(ObjType)
+---@param relativing RelativeCampType 关系类型
+---@param actortype ObjType 角色
 ---@return integer num 数量
 ---@return integer[] arr ID数组
 function Area:GetRelativeActors(posbeg, posend, uin, relativing, actortype) end

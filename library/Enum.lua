@@ -1255,9 +1255,9 @@ ActorBodyEffect = {
 }
 ---@enum AliveState
 AliveState = {
-    Alive = 1,
-    All = -1,
-    Dead = 0
+    Alive = 1, -- 存活
+    All = -1, -- 全体玩家
+    Dead = 0 -- 阵亡
 }
 ---@enum AreaSimilarity
 AreaSimilarity = {
