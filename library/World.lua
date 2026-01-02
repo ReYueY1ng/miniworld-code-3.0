@@ -212,6 +212,7 @@ function World:GetCurMapId() end
 ---@param dsty number 目标y坐标
 ---@param dstz number 目标z坐标
 ---@param speed number 速度
+---@return integer objid 投掷物objid
 function World:SpawnProjectile(objid, itemid, x, y, z, dstx, dsty, dstz, speed) end
 
 ---生成投掷物 向某方向发射
@@ -224,6 +225,7 @@ function World:SpawnProjectile(objid, itemid, x, y, z, dstx, dsty, dstz, speed) 
 ---@param dsty number 目标y方向
 ---@param dstz number 目标z方向
 ---@param speed number 速度
+---@return integer objid 投掷物objid
 function World:SpawnProjectileByDir(objid, itemid, x, y, z, dstx, dsty, dstz, speed) end
 
 ---获取某个位置的地形类型
