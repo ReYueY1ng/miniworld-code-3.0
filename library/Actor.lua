@@ -57,7 +57,7 @@ function Actor:GetNickName(objid) end
 
 ---获取角色所在的星球id
 ---@param objid integer 角色objid
----@return number mapID 当前星球ID
+---@return integer worldid 当前星球ID
 function Actor:GetCurMapId(objid) end
 
 ---检查对象是否为玩家
@@ -340,8 +340,9 @@ function Actor:GetEyeHeight(objid) end
 ---清除生物ID为actorid的生物
 ---@param actorid integer 生物类型
 ---@param bkill? boolean 是否杀死生物（默认false，可以区分是否产生掉落物）
+---@param worldid integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Actor:ClearActorWithId(actorid, bkill) end
+function Actor:ClearActorWithId(actorid, bkill, worldid) end
 
 ---对象是否存在
 ---@param objid integer 生物objid
@@ -444,3 +445,40 @@ function Actor:PickupItem(objid, itemobjid, bforcepickup) end
 ---@param roleType integer 角色类型
 ---@return integer pickupobjid 举起的角色objid
 function Actor:GetPickupObjID(objid, roleType) end
+
+---获取角色所在的星球id
+---@param objid integer 角色objid
+---@return integer worldid 星球id
+function Actor:GetObjWorldId(objid) end
+
+---对象是否含有标签
+---@param objid integer 对象objid
+---@param tags string | string[] 标签或标签数组
+---@param matchmode MatchMode 匹配方式
+---@param bexactmatch boolean 每条标签是否精确匹配
+---@return boolean result
+function Actor:HasTags(objid, tags, matchmode, bexactmatch) end
+
+---获取对象标签
+---@param objid integer 对象objid
+---@return table tags
+function Actor:GetTags(objid) end
+
+---添加标签
+---@param objid integer 对象objid
+---@param tags string | string[] 标签或标签数组(数值字母下划线组合)
+---@param icount integer 引用计数
+---@return boolean result
+function Actor:AddTags(objid, tags, icount) end
+
+---删除标签
+---@param objid integer 对象objid
+---@param tags string | string[] 标签或标签数组
+---@param icount? integer 引用计数(默认为0，传0全部删除)
+---@return boolean result
+function Actor:RemoveTags(objid, tags, icount) end
+
+---清空所有标签
+---@param objid integer 对象objid
+---@return boolean result
+function Actor:ClearTags(objid) end

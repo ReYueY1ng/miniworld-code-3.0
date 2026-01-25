@@ -50,6 +50,14 @@ function Graphics:MakeGraphicsArrowToPos(x, y, z, size, color, itype) end
 ---@return table info 线信息内容
 function Graphics:MakeGraphicsLineToPos(x, y, z, size, color, itype) end
 
+---生成指向位置的寻路引导线
+---@param x number 方块坐标
+---@param y number 方块坐标
+---@param z number 方块坐标
+---@param itype integer 线ID
+---@return table info 线信息内容
+function Graphics:MakeGraphicsNavPathToPos(x, y, z, itype, tCanSeePlayers) end
+
 ---生成指向位置的面数据
 ---@param x number 方块坐标
 ---@param y number 方块坐标
@@ -99,8 +107,9 @@ function Graphics:MakeGraphicsImage(imgid, scale, apha, itype) end
 ---@param graphicInfo table 图文信息
 ---@param x2? number X坐标偏移(缺省参数)
 ---@param y2? number Y坐标偏移(缺省参数)
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return integer ret 图文对象id
-function Graphics:CreateGraphicsTxtByPos(x, y, z, graphicInfo, x2, y2) end
+function Graphics:CreateGraphicsTxtByPos(x, y, z, graphicInfo, x2, y2, worldid) end
 
 ---在生物身上创建文字板
 ---@param objid integer 对象objid
@@ -119,8 +128,9 @@ function Graphics:CreateGraphicsTxtByActor(objid, info, dir, offest, x2, y2) end
 ---@param info table 图文信息
 ---@param x2? number X坐标偏移(缺省参数)
 ---@param y2? number Y坐标偏移(缺省参数)
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return integer ret 图文实例ID
-function Graphics:CreateflotageTextByPos(x, y, z, info, x2, y2) end
+function Graphics:CreateflotageTextByPos(x, y, z, info, x2, y2, worldid) end
 
 ---在生物身上创建漂浮文字
 ---@param objid integer 对象objid
@@ -139,8 +149,9 @@ function Graphics:CreateflotageTextByActor(objid, info, dir, offest, x2, y2) end
 ---@param info table 图文信息
 ---@param x2? number X坐标偏移(缺省参数)
 ---@param y2? number Y坐标偏移(缺省参数)
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return integer ret 实例ID
-function Graphics:CreateGraphicsProgressByPos(x, y, z, info, x2, y2) end
+function Graphics:CreateGraphicsProgressByPos(x, y, z, info, x2, y2, worldid) end
 
 ---在生物身上创建进度条
 ---@param objid integer 对象ID
@@ -158,8 +169,9 @@ function Graphics:CreateGraphicsProgressByActor(objid, info, dir, offest, x2, y2
 ---@param z number 方块坐标
 ---@param itype integer 图文信息ID
 ---@param graphType GraphicsType 图文类型枚举值
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Graphics:RemoveGraphicsByPos(x, y, z, itype, graphType) end
+function Graphics:RemoveGraphicsByPos(x, y, z, itype, graphType, worldid) end
 
 ---删除生物的图文信息
 ---@param objid integer 对象objid
@@ -204,14 +216,16 @@ function Graphics:CreateGraphicsArrowByActorToActor(objid, info, dir, offset) en
 ---创建位置指向位置的箭头
 ---@param pos PositionTable 位置坐标（x,y,z）
 ---@param info table 图文信息
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Graphics:CreateGraphicsArrowByPosToPos(pos, info) end
+function Graphics:CreateGraphicsArrowByPosToPos(pos, info, worldid) end
 
 ---创建位置指向生物的箭头
 ---@param pos PositionTable 位置坐标（x,y,z）
 ---@param info table 图文信息
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Graphics:CreateGraphicsArrowByPosToActor(pos, info) end
+function Graphics:CreateGraphicsArrowByPosToActor(pos, info, worldid) end
 
 ---创建生物与位置的线
 ---@param objid integer 对象objid
@@ -220,6 +234,14 @@ function Graphics:CreateGraphicsArrowByPosToActor(pos, info) end
 ---@param offset number 方向偏移距离
 ---@return boolean result
 function Graphics:CreateGraphicsLineByActorToPos(objid, info, dir, offset) end
+
+---创建生物与位置的寻路引导线
+---@param objid integer 对象objid
+---@param info table 图文信息
+---@param dir PositionTable 方向值（x,y,z）
+---@param offset number 方向偏移距离
+---@return boolean result
+function Graphics:CreateGraphicsNavPathByActorToPos(objid, info, dir, offset) end
 
 ---创建指向生物的线
 ---@param objid integer 对象objid
@@ -232,14 +254,16 @@ function Graphics:CreateGraphicsLineByActorToActor(objid, info, dir, offset) end
 ---创建位置指向位置的线
 ---@param pos PositionTable 位置坐标（x,y,z）
 ---@param info table 图文信息
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Graphics:CreateGraphicsLineByPosToPos(pos, info) end
+function Graphics:CreateGraphicsLineByPosToPos(pos, info, worldid) end
 
 ---创建位置指向生物的线
 ---@param pos PositionTable 位置坐标（x,y,z）
 ---@param info table 图文信息
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Graphics:CreateGraphicsLineByPosToActor(pos, info) end
+function Graphics:CreateGraphicsLineByPosToActor(pos, info, worldid) end
 
 ---创建生物与位置的面
 ---@param objid integer 对象objid
@@ -260,14 +284,16 @@ function Graphics:CreateGraphicsSurfaceByActorToActor(objid, info, dir, offest) 
 ---创建位置指向位置的面
 ---@param pos PositionTable 位置坐标（x,y,z）
 ---@param info table 图文信息
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Graphics:CreateGraphicsSurfaceByPosToPos(pos, info) end
+function Graphics:CreateGraphicsSurfaceByPosToPos(pos, info, worldid) end
 
 ---创建位置指向生物的面
 ---@param pos PositionTable 位置坐标（x,y,z）
 ---@param info table 图文信息
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Graphics:CreateGraphicsSurfaceByPosToActor(pos, info) end
+function Graphics:CreateGraphicsSurfaceByPosToActor(pos, info, worldid) end
 
 ---将src相关的所有图文信息，转移到des身上
 ---@param srcObjid integer 对象ID
@@ -282,8 +308,9 @@ function Graphics:ReplaceAllGraphics(srcObjid, desObjid) end
 ---@param info table 图文信息
 ---@param x2? number X坐标偏移(缺省参数)
 ---@param y2? number Y坐标偏移(缺省参数)
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Graphics:CreateGraphicsImageByPos(x, y, z, info, x2, y2) end
+function Graphics:CreateGraphicsImageByPos(x, y, z, info, x2, y2, worldid) end
 
 ---在生物上创建图像
 ---@param objid integer 对象ID

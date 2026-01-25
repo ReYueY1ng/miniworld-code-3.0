@@ -194,3 +194,8 @@ function Item:GetItemInstFacade(instid) end
 ---@param attr GridAttr 属性枚举
 ---@return number value 属性值
 function Item:GetGridAttr(objid, attr) end
+
+---获取道具定义中的标签组
+---@param itemid integer | string 道具定义ID或道具预制ID
+---@return table tags
+function Item:GetTags(itemid) end

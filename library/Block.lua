@@ -9,29 +9,33 @@ Block = {}
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Block:IsSolidBlock(x, y, z) end
+function Block:IsSolidBlock(x, y, z, worldid) end
 
 ---是否是液体方块
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Block:IsLiquidBlock(x, y, z) end
+function Block:IsLiquidBlock(x, y, z, worldid) end
 
 ---是否是空气方块
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Block:IsAirBlock(x, y, z) end
+function Block:IsAirBlock(x, y, z, worldid) end
 
 ---获取指定位置的方块类型
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return integer | string blockid 方块类型ID
-function Block:GetBlockID(x, y, z) end
+function Block:GetBlockID(x, y, z, worldid) end
 
 ---设置位置方块数据
 ---@param x integer 位置坐标
@@ -39,16 +43,18 @@ function Block:GetBlockID(x, y, z) end
 ---@param z integer 位置坐标
 ---@param blockid integer | string 方块类型ID
 ---@param data? integer 方块朝向等数据
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Block:SetBlockAll(x, y, z, blockid, data) end
+function Block:SetBlockAll(x, y, z, blockid, data, worldid) end
 
 ---摧毁方块
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
 ---@param dropitem? boolean 是否掉落
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Block:DestroyBlock(x, y, z, dropitem) end
+function Block:DestroyBlock(x, y, z, dropitem, worldid) end
 
 ---放置方块
 ---@param blockid integer | string 方块类型ID
@@ -57,8 +63,9 @@ function Block:DestroyBlock(x, y, z, dropitem) end
 ---@param z integer 位置坐标
 ---@param face? FaceDir 朝向
 ---@param color? integer 十六进制颜色值(0XFFFFFF 颜色方块类型才生效)
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Block:PlaceBlock(blockid, x, y, z, face, color) end
+function Block:PlaceBlock(blockid, x, y, z, face, color, worldid) end
 
 ---替换方块
 ---@param blockid integer | string 方块类型ID
@@ -67,69 +74,83 @@ function Block:PlaceBlock(blockid, x, y, z, face, color) end
 ---@param z integer 位置坐标
 ---@param face? FaceDir 朝向
 ---@param color? integer 十六进制颜色值(0XFFFFFF 颜色方块类型才生效)
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Block:ReplaceBlock(blockid, x, y, z, face, color) end
+function Block:ReplaceBlock(blockid, x, y, z, face, color, worldid) end
 
 ---获取方块数据
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return integer data 具体的值
-function Block:GetBlockData(x, y, z) end
+function Block:GetBlockData(x, y, z, worldid) end
 
 ---设置方块数据 更新当前位置方块
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
 ---@param data integer 方块朝向等数据
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Block:SetBlockData(x, y, z, data) end
+function Block:SetBlockData(x, y, z, data, worldid) end
 
 ---获取方块朝向
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return FaceDir dir 返回类型
-function Block:GetBlockDir(x, y, z) end
+function Block:GetBlockDir(x, y, z, worldid) end
 
 ---播放方块动作
 ---@param pos PositionTable 位置
 ---@param animid integer|string 动作id
 ---@param speed number 播放速度
 ---@param loop AnimMode 循环模式
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Block:PlayAnim(pos, animid, speed, loop) end
+function Block:PlayAnim(pos, animid, speed, loop, worldid) end
 
 ---设置方块设置属性状态
----@param x integer 位置坐标
----@param y integer 位置坐标
----@param z integer 位置坐标
+---@param blockid integer | string 方块类型ID
 ---@param attrtype BlockLimits 属性枚举
 ---@param switch boolean 是否开关
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Block:SetBlockSettingAttState(x, y, z, attrtype, switch) end
+function Block:SetBlockSettingAttState(blockid, attrtype, switch, worldid) end
 
 ---获取方块设置属性状态
----@param x integer 位置坐标
----@param y integer 位置坐标
----@param z integer 位置坐标
+---@param blockid integer | string 方块类型ID
 ---@param attrtype BlockAttr 属性枚举
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean state
-function Block:GetBlockSettingAttState(x, y, z, attrtype) end
+function Block:GetBlockSettingAttState(blockid, attrtype, worldid) end
 
 ---获取功能方块的开关状态
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean status
-function Block:GetBlockSwitchStatus(x, y, z) end
+function Block:GetBlockSwitchStatus(x, y, z, worldid) end
+
+---设置功能方块的开关状态
+---@param x integer 位置坐标
+---@param y integer 位置坐标
+---@param z integer 位置坐标
+---@param isactive boolean 是否开启
+---@param worldid? integer 星球id(默认当前主机所在星球)
+---@return boolean result
+function Block:SetBlockSwitchStatus(x, y, z, isactive, worldid) end
 
 ---获取方块的通电状态
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean status
-function Block:GetBlockPowerStatus(x, y, z) end
+function Block:GetBlockPowerStatus(x, y, z, worldid) end
 
 ---在资源库里随机获取一个方块
 ---@return integer blockid 随机的方块类型
@@ -161,15 +182,17 @@ function Block:ReplaceBluePrint(x, y, z, blueprint, angle, mirror, placeMode) en
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
 ---@param process integer 进度(1~10)
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Block:PlayCrackEffect(x, y, z, process) end
+function Block:PlayCrackEffect(x, y, z, process, worldid) end
 
 ---播放方块损毁特效
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Block:PlayDestroyEffect(x, y, z) end
+function Block:PlayDestroyEffect(x, y, z, worldid) end
 
 ---获取方块掉落物信息
 ---@param blockid integer | string 方块ID
@@ -187,10 +210,13 @@ function Block:GetBlockDropExp(blockid) end
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
 ---@param color integer 颜色值
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Block:SetBlockColor(x, y, z, color) end
+function Block:SetBlockColor(x, y, z, color, worldid) end
 
 ---设置方块开关状态
+---@see Block.SetBlockSwitchStatus
+---@deprecated
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
@@ -203,8 +229,9 @@ function Block:SetBlockSwichState(x, y, z, isactive) end
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
 ---@param dir FaceDir 方向值
+---@param worldid? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Block:SetBlockDir(x, y, z, dir) end
+function Block:SetBlockDir(x, y, z, dir, worldid) end
 
 ---获取方块类型外观
 ---@param blockid integer | string 方块类型ID或方块预制ID

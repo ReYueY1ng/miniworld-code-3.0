@@ -85,7 +85,10 @@ function Component:PushEventSync(event, ...) end
 ---@protected
 ---@param event string | ObjectEvent 消息id
 ---@param callfunc fun(self: self, ...) 回调函数
-function Component:AddEvent(event, callfunc) end
+---@param priority? number 事件触发的优先级（可不传）
+---@param filter1? number | string 过滤参数1(可不传)
+---@param filter2? number | string 过滤参数2(可不传)
+function Component:AddEvent(event, callfunc, priority, filter1, filter2) end
 
 ---移除对象的事件监听
 ---@protected
@@ -160,7 +163,9 @@ function WorldComponent:GetGameObject() end
 ---@protected
 ---@param event TriggerEvent 事件类型
 ---@param callfunc fun(self: self, ...) 回调函数
-function WorldComponent:AddTriggerEvent(event, callfunc) end
+---@param filter1? number | string 过滤参数1(可不传)
+---@param filter2? number | string 过滤参数2(可不传)
+function WorldComponent:AddTriggerEvent(event, callfunc, filter1, filter2) end
 
 ---移除触发事件监听
 ---@protected

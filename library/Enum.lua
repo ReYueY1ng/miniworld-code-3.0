@@ -397,6 +397,26 @@ Easing = {
     SineInOut = 3, -- 正弦曲线3进出
     SineOut = 2 -- 正弦曲线2渐出
 }
+---@enum ElementAttr
+---元件属性
+ElementAttr = {
+    Angle = 10, -- 角度
+    Color = 5, -- 颜色
+    Height = 6, -- 高度
+    Id = 2, -- id
+    Name = 1, -- 名称
+    Position = 103, -- 位置
+    PositionX = 3, -- 位置X
+    PositionY = 4, -- 位置Y
+    ScrollPosition = 105, -- 滚动容器位置
+    ScrollX = 12, -- 滚动容器位置X
+    ScrollY = 13, -- 滚动容器位置Y
+    Size = 104, -- 尺寸
+    Text = 8, -- 文本
+    Transparency = 9, -- 透明度
+    Visibility = 11, -- 显示/隐藏状态
+    Width = 7 -- 宽度
+}
 ---@enum ElementType
 ---元件类型
 ElementType = {
@@ -740,12 +760,19 @@ LogLevel = {
     Print = 1, -- 普通输出
     Warn = 2 -- 警告输出
 }
+---@enum MatchMode
+---标签匹配方式
+MatchMode = {
+    All = 1, -- 全部匹配
+    Any = 2 -- 部分匹配
+}
 ---@enum MiniCurrency
 ---货币类型
 MiniCurrency = {
     MiniBean = 1, -- 迷你豆
     MiniCoin = 2, -- 迷你币
-    MiniPoint = 3 -- 迷你点
+    MiniPoint = 3, -- 迷你点
+    Star = 4, -- 星星
 }
 ---@enum MiniShopData
 ---皮肤数据类型
@@ -1040,11 +1067,25 @@ TerrainType = {
     Flat = 0, -- 平坦地形
     Normal = 1 -- 随机地形
 }
+---@enum TouchState
+---触摸状态
+TouchState = {
+    Begin = 1, -- 按下
+    Cancel = 3, -- 取消
+    End = 2 -- 抬起
+}
 ---@enum TurnFaceDir
 ---角度朝向
 TurnFaceDir = {
     Pitch = 2, -- 垂直朝向
     Yaw = 1 -- 水平朝向
+}
+---@enum UIAttr
+---界面属性
+UIAttr = {
+    Id = 2, -- id
+    Name = 1, -- 名称
+    Visibility = 3 -- 显示/隐藏状态
 }
 ---@enum UIScollDir
 ---UI滑动方向
@@ -1275,6 +1316,13 @@ BACKPACK_TYPE = {
 BlockId = {
     Air = 0
 }
+---@enum BlockStateType
+BlockStateType = {
+    CoreBlock = 1,
+    CustomCollider = 32,
+    Occupied = 64,
+    Switch = 2
+}
 ---@enum BtreeRangeType
 BtreeRangeType = {
     Around = 1,
@@ -1292,6 +1340,7 @@ CREATUREATTR = {
     CUR_HP = 2,
     CUR_HUNGER = 6,
     CUR_OXYGEN = 8,
+    CUR_STRENGTH = 35,
     DEF_CHAOS = 24,
     DEF_MAGIC = 31,
     DEF_MELEE = 19,
@@ -1312,6 +1361,7 @@ CREATUREATTR = {
     MAX_HP = 1,
     MAX_HUNGER = 5,
     MAX_OXYGEN = 7,
+    MAX_STRENGTH = 36,
     PACK_SIZE = 25,
     RECOVER_OXYGEN = 9,
     RUN_SPEED = 11,
@@ -1345,6 +1395,7 @@ ComponentUIStyle = {
     ArrayDropItem = "ArrayDropItem",
     ArrayFeedItem = "ArrayFeedItem",
     ArrayForItems = "ArrayForItems",
+    ArrayForItemsOffsetPos = "ArrayForItemsOffsetPos",
     ArrayForTags = "ArrayForTags",
     ArrayImportAnimation = "ArrayImportAnimation",
     ArrayItem = "ArrayItem",
@@ -1354,6 +1405,7 @@ ComponentUIStyle = {
     ArrayStatus = "ArrayStatus",
     ArrayStatusEffect = "ArrayStatusEffect",
     ArrayStatusEffectInst = "ArrayStatusEffectInst",
+    AvatarPart = "AvatarPart",
     BlockModel = "BlockModel",
     BlockTemp = "BlockTemp",
     Bullet = "Bullet",
@@ -1367,6 +1419,7 @@ ComponentUIStyle = {
     CustomItemStatusEffect = "CustomItemStatusEffect",
     CustomItemUseEdit = "CustomItemUseEdit",
     CustomMaterial = "CustomMaterial",
+    CustomRewardItem = "CustomRewardItem",
     CustomSkillItem = "CustomSkillItem",
     DropItem = "DropItem",
     EffectMaterial = "EffectMaterial",
@@ -1424,6 +1477,7 @@ FurnaceType = {
 GRAPHICS = {
     GRAPHICS_ARROW_ACTOR = 5,
     GRAPHICS_ARROW_POS = 4,
+    GRAPHICS_BUBBLE = 12,
     GRAPHICS_HORNBOOK = 1,
     GRAPHICS_IMAGE = 10,
     GRAPHICS_LINE_ACTOR = 7,
@@ -1699,10 +1753,10 @@ MapMarkType = {
     Line = 0,
     Rect = 1
 }
----@enum MatchMode
-MatchMode = {
-    All = 1,
-    Any = 2
+---@enum MapShopOrder
+MapShopOrder = {
+    NpcShop = "npcshop",
+    WorldBluePrint = "worldblueprint"
 }
 ---@enum ModAttribType
 ModAttribType = {

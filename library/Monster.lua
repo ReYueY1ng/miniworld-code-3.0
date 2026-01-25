@@ -69,3 +69,8 @@ function Monster:GetTamedOwnerID(objid) end
 ---@param monsterid integer | string 生物定义ID或生物预制ID
 ---@return string model 模型名称（如果是prefab资源会带有子部件信息，选择器选择不带子部件信息）
 function Monster:GetFacade(monsterid) end
+
+---获取生物定义中的标签组
+---@param actorid integer | string 生物定义ID或生物预制ID
+---@return table tags
+function Monster:GetTags(actorid) end
