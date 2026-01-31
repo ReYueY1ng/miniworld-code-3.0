@@ -90,6 +90,11 @@ function Component:PushEventSync(event, ...) end
 ---@param filter2? number | string 过滤参数2(可不传)
 function Component:AddEvent(event, callfunc, priority, filter1, filter2) end
 
+---移除自定义事件监听
+---@protected
+---@param event string | ObjectEvent 消息id
+function Component:RemoveEvent(event) end
+
 ---移除对象的事件监听
 ---@protected
 ---@param event string | ObjectEvent 消息id
