@@ -42,7 +42,7 @@ function Data.Array:SetValue(varId, playerId, value, index) end
 ---@param varId string 组ID
 ---@param playerId integer? 玩家ID（全局变量传nil）
 ---@param value any 具体值
----@param index integer 索引
+---@param index? integer 索引
 ---@return boolean result
 function Data.Array:InsertValue(varId, playerId, value, index) end
 
@@ -178,34 +178,34 @@ Data.Table = {}
 
 ---更新整个表的数据信息
 ---@param varId string 表ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param value table[] 表内的值
 ---@return boolean result
 function Data.Table:UpdateAllValue(varId, playerId, value) end
 
 ---清理表格数据
 ---@param varId string 表ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@return boolean result
 function Data.Table:Clear(varId, playerId) end
 
 ---在末尾插入一行数据
 ---@param varId string 表ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param ... any 按照列顺序编写的值 中间值不能传nil
 function Data.Table:InsertValue(varId, playerId, ...) end
 
 ---在某行插入一行数据
 ---@param varId string 表ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param value {[string | integer]: any} 插入的值
----@param row integer 行索引
+---@param row? integer 行索引（空值则为最后一行）
 ---@return boolean result
 function Data.Table:InsertValueByRow(varId, playerId, value, row) end
 
 ---获取表格数据
 ---@param varId string 表ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param row integer 行索引
 ---@param col integer | string 列索引或列名
 ---@return any value 返回值
@@ -213,13 +213,13 @@ function Data.Table:GetValue(varId, playerId, row, col) end
 
 ---获取表格全部数据
 ---@param varId string 表ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@return table[] table 表格
 function Data.Table:GetAllValue(varId, playerId) end
 
 ---设置表格数据
 ---@param varId string 表ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param row integer | integer[] 行索引或行索引数组
 ---@param col integer | string 列索引或列名
 ---@param value any 设置的值
@@ -228,39 +228,39 @@ function Data.Table:SetValue(varId, playerId, row, col, value) end
 
 ---删除某行全部数据
 ---@param varId string 表ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param row integer | integer[] 行索引或行索引数组
 ---@return boolean result
 function Data.Table:RemoveRow(varId, playerId, row) end
 
 ---获取某列的所有值
 ---@param varId string 表ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param col integer | string 列索引或列名
 ---@return any[] values 某列的所有值
 function Data.Table:GetValuesByCol(varId, playerId, col) end
 
 ---获取行数
 ---@param varId string 表ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@return integer size 行数
 function Data.Table:GetRows(varId, playerId) end
 
 ---获取列数
 ---@param varId string 表ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@return integer size 列数
 function Data.Table:GetCols(varId, playerId) end
 
 ---获取列索引
 ---@param varId string 表ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param colname string 列名
 function Data.Table:GetColIndex(varId, playerId, colname) end
 
 ---获取指定列和值的行索引（默认判断值相等）
 ---@param varId string 表ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param col integer | string 列索引或列名
 ---@param value any 查询的值
 ---@param cmp fun(a: any, value: any)? 筛选函数（可为nil，默认 a == value）
@@ -269,7 +269,7 @@ function Data.Table:GetRowIndex(varId, playerId, col, value, cmp) end
 
 ---获取指定列和值的所有行索引（默认判断值相等）
 ---@param varId string 表ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param col integer | string 列索引或列名
 ---@param value any 查询的值
 ---@param cmp fun(a: any, value: any)? 筛选函数（可为nil，默认 a == value）
@@ -288,11 +288,11 @@ function Data.Table:GetTableColKeys(varId) end
 Data.Map = {}
 
 ---@alias KVValue string | number | boolean | table
----@alias KVCallBack fun(code: integer, key: string, value: KVValue)
+---@alias KVCallBack fun(code: ErrorCode, key: string, value: KVValue)
 
 ---回调设置kv数据
 ---@param varId string kv表/排行榜变量ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param key number | string 键值（数值key会转换成字符串）
 ---@param value KVValue 具体值
 ---@param callback KVCallBack 回调函数
@@ -301,17 +301,17 @@ function Data.Map:SetValueAndCallBack(varId, playerId, key, value, callback) end
 
 ---阻塞设置kv数据
 ---@param varId string kv表/排行榜变量ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param key number | string 键值（数值key会转换成字符串）
 ---@param value KVValue 具体值
----@return integer code 错误码（ErrorCode）
+---@return ErrorCode code 错误码（ErrorCode）
 ---@return string key 键值
 ---@return KVValue value 具体值
 function Data.Map:SetValueAndBlock(varId, playerId, key, value) end
 
 ---回调删除指定key的数据
 ---@param varId string kv表/排行榜变量ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param key number | string 键值（数值key会转换成字符串）
 ---@param callback fun(code: integer, key: string) 回调函数
 ---@return boolean result
@@ -319,15 +319,15 @@ function Data.Map:RemoveValueAndCallBack(varId, playerId, key, callback) end
 
 ---阻塞删除指定key的数据
 ---@param varId string kv表/排行榜变量ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param key number | string 键值（数值key会转换成字符串）
----@return integer code 错误码（ErrorCode）
+---@return ErrorCode code 错误码（ErrorCode）
 ---@return string key 键值
 function Data.Map:RemoveValueAndBlock(varId, playerId, key) end
 
 ---回调更新指定key的数据 全局云KV变量可用
 ---@param varId string kv表变量ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param key number | string 键值（数值key会转换成字符串）
 ---@param callback KVCallBack 回调函数
 ---@return boolean result
@@ -335,7 +335,7 @@ function Data.Map:UpdateValueAndCallback(varId, playerId, key, callback) end
 
 ---回调获取kv数据
 ---@param varId string kv表/排行榜变量ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param key number | string 键值（数值key会转换成字符串）
 ---@param callback KVCallBack 回调函数
 ---@return boolean result
@@ -343,16 +343,16 @@ function Data.Map:GetValueAndCallBack(varId, playerId, key, callback) end
 
 ---阻塞获取kv数据
 ---@param varId string kv表/排行榜变量ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param key number | string 键值（数值key会转换成字符串）
----@return integer code 错误码（ErrorCode）
+---@return ErrorCode code 错误码（ErrorCode）
 ---@return string key 键值
 ---@return KVValue value 具体值
 function Data.Map:GetValueAndBlock(varId, playerId, key) end
 
 ---回调获取排行榜指定排名索引的值
 ---@param varId string 排行榜变量ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param index integer 排名索引
 ---@param ascending boolean 是否升序
 ---@param callback fun(code: integer, key: string, value: number, index: integer, ascending: boolean, extendinfo: KVValue) 回调函数
@@ -361,10 +361,10 @@ function Data.Map:GetIndexValueAndCallback(varId, playerId, index, ascending, ca
 
 ---阻塞获取排行榜指定排名索引的值
 ---@param varId string 排行榜变量ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param index integer 排名索引
 ---@param ascending boolean 是否升序
----@return integer code 错误码（ErrorCode）
+---@return ErrorCode code 错误码（ErrorCode）
 ---@return string key 键值
 ---@return number value 数值
 ---@return integer index 排名索引
@@ -374,69 +374,69 @@ function Data.Map:GetIndexValueAndBlock(varId, playerId, index, ascending) end
 
 ---回调获取排行榜指定前num个值
 ---@param varId string 排行榜变量ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param num integer 数量
 ---@param ascending boolean 是否升序
----@param callback fun(code: integer, num: integer, ascending: boolean, datas: {k: string, v: number, info: KVValue}[]) 回调函数
+---@param callback fun(code: ErrorCode, num: integer, ascending: boolean, datas: {k: string, v: number, info: KVValue}[]) 回调函数
 ---@return boolean result
 function Data.Map:GetNumValuesAndCallback(varId, playerId, num, ascending, callback) end
 
 ---回调获取排行榜值为min~max区间的所有值
 ---@param varId string 排行榜变量ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param min number 最小值
 ---@param max number 最大值
 ---@param ascending boolean 是否升序
 ---@param pagesize integer 单次返回数量
----@param callback fun(code: integer, min: integer, max: integer, ascending: boolean, datas: {k: string, v: number, info: KVValue}[]) 回调函数
+---@param callback fun(code: ErrorCode, min: integer, max: integer, ascending: boolean, datas: {k: string, v: number, info: KVValue}[]) 回调函数
 ---@return boolean result
 function Data.Map:GetRangeValuesAndCallback(varId, playerId, min, max, ascending, pagesize, callback) end
 
 ---阻塞设置排行榜的值
 ---@param varId string 排行榜变量ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param key string | number 键值（小数会向下取整，科学计数法会返回失败）
 ---@param value number 数值
 ---@param extendinfo KVValue 附带信息（附带信息只会更新不会删除，如果需要删除请使用 RemoveValueAndBlock / RemoveValueAndCallBack）
----@return integer code 错误码（ErrorCode）
+---@return ErrorCode code 错误码（ErrorCode）
 ---@return string key 键值
 ---@return number value 数值
 function Data.Map:SetRankValueAndBlock(varId, playerId, key, value, extendinfo) end
 
 ---清空kv表/排行榜
 ---@param varId string 排行榜变量ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@return boolean result
 function Data.Map:ClearData(varId, playerId) end
 
 ---阻塞增加排行榜的值
 ---@param varId string 排行榜变量ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param key string | number 键值（小数会向下取整，科学计数法会返回失败）
 ---@param value number 数值
 ---@param extendinfo KVValue 附带信息（附带信息只会更新不会删除，如果需要删除请使用 RemoveValueAndBlock / RemoveValueAndCallBack）
----@return integer code 错误码（ErrorCode）
+---@return ErrorCode code 错误码（ErrorCode）
 ---@return string key 键值
 ---@return number value 数值
 function Data.Map:IncreasesRankValueAndBlock(varId, playerId, key, value, extendinfo) end
 
 ---回调增加排行榜的值
 ---@param varId string 排行榜变量ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId? integer 玩家uin（全局变量传nil）
 ---@param key string | number 键值（小数会向下取整，科学计数法会返回失败）
 ---@param value number 数值
 ---@param extendinfo KVValue 附带信息（附带信息只会更新不会删除，如果需要删除请使用 RemoveValueAndBlock / RemoveValueAndCallBack）
----@param callback fun(code: integer, key: string) 回调函数
+---@param callback fun(code: ErrorCode, key: string) 回调函数
 ---@return boolean result
 function Data.Map:IncreasesRankValueAndCallback(varId, playerId, key, value, extendinfo, callback) end
 
 ---回调获取排行榜排名为min~max区间的所有值
 ---@param varId string 排行榜变量ID
----@param playerId integer 玩家uin（全局变量传nil）
+---@param playerId integer? 玩家uin（全局变量传nil）
 ---@param min integer 最小排名
 ---@param max integer 最大排名
 ---@param ascending boolean 是否升序
 ---@param pagesize integer 单次返回数量
----@param callback fun(code: integer, min: integer, max: integer, ascending: boolean, datas: {k: string, v: number, info: KVValue}[]) 回调函数
+---@param callback fun(code: ErrorCode, min: integer, max: integer, ascending: boolean, datas: {k: string, v: number, info: KVValue}[]) 回调函数
 ---@return boolean result
 function Data.Map:GetRangeIndexsAndCallback(varId, playerId, min, max, ascending, pagesize, callback) end
