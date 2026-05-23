@@ -25,6 +25,12 @@ function Data:GetValue(varId, playerId) end
 ---@return number value 返回值
 function Data:IncreasesValue(varId, playerId, value) end
 
+---打包蓝图数据
+---@param varId string 变量ID
+---@param playerId integer? 玩家ID（全局变量传nil）
+---@return any value 蓝图数据
+function Data:DoPackBluePrint(varId, playerId) end
+
 ---数组变量数据管理接口
 ---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/array.html)
 ---@class Data.Array
@@ -170,6 +176,19 @@ function Data.Array:GetCountByValue(varId, playerId, value) end
 ---@param index integer 索引
 ---@return boolean result
 function Data.Array:IncreasesValue(varId, playerId, value, index) end
+
+---创建临时数组
+---@param varType integer 数组类型
+---@param data table 数据
+---@return integer tmpArrayId 临时数组ID
+function Data.Array:CreateTmpArray(varType, data) end
+
+---检查两个数组是否有交集
+---@param varId string 组ID
+---@param playerId integer? 玩家ID（全局变量传nil）
+---@param tags string[] 标签列表
+---@return boolean result 是否有交集
+function Data.Array:HasIntersectionByTags(varId, playerId, tags) end
 
 ---二维表变量数据管理接口
 ---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/table.html)
