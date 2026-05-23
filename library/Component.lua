@@ -95,11 +95,6 @@ function Component:AddEvent(event, callfunc, priority, filter1, filter2) end
 ---@param event string | ObjectEvent 消息id
 function Component:RemoveEvent(event) end
 
----移除对象的事件监听
----@protected
----@param event string | ObjectEvent 消息id
-function Component:RemoveCustomEvent(event) end
-
 ---启动定时器在指定时间执行任务
 ---@protected
 ---@param callfunc fun(self: self) 回调函数

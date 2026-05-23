@@ -318,11 +318,11 @@ function Actor:TryMoveToPos(objid, x, y, z, cancontrol, bshowtip) end
 
 ---给对象附加一个速度
 ---@param objid integer 对象objid
----@param x number 轴向方向上的速度大小
----@param y number 轴向方向上的速度大小
----@param z number 轴向方向上的速度大小
+---@param vx number 轴向速度X
+---@param vy number 轴向速度Y
+---@param vz number 轴向速度Z
 ---@return boolean code 成功(true)
-function Actor:AppendSpeed(objid, x, y, z) end
+function Actor:AppendSpeed(objid, vx, vy, vz) end
 
 ---寻找对象附近某个类型方块的最近位置
 ---@param objid integer 对象objid

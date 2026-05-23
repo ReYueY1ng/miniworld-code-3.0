@@ -178,14 +178,14 @@ function World:GetHours() end
 function World:GetDay() end
 
 ---设置重力
----@param gravity number 重力值
+---@param value number 重力值
 ---@return boolean result
-function World:SetGravity(gravity) end
+function World:SetGravity(value) end
 
 ---增加重力
----@param gravity number 重力值
+---@param value number 重力值
 ---@return boolean result
-function World:AddGravity(gravity) end
+function World:AddGravity(value) end
 
 ---获取重力
 ---@return number gravity 重力值

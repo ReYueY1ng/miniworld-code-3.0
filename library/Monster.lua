@@ -51,10 +51,10 @@ function Monster:CanSee(objid, targetobjid) end
 function Monster:GetDropItemInfo(actorid) end
 
 ---设置生物被玩家驯服
----@param objid integer 对象objid
----@param playerid integer 玩家objid
+---@param objidA integer A对象objid
+---@param objidB integer 玩家objid
 ---@return boolean result
-function Monster:SetTameTarget(objid, playerid) end
+function Monster:SetTameTarget(objidA, objidB) end
 
 ---随机获取一个生物类型ID
 ---@return integer | string actorid 随机生物类型ID
