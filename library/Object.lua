@@ -6,7 +6,7 @@
 local Object = {}
 
 ---获取该对象实例id
----@return string | integer objid 对象id
+---@return integer | string objid 对象id
 function Object:GetId() end
 
 ---获取对象类型

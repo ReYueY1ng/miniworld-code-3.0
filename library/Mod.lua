@@ -7,5 +7,5 @@ Mod = {}
 
 ---通过资源id获取defid
 ---@param assetId string 资源id
----@return number cfgid defid
+---@return integer cfgid defid
 function Mod:GetCfgIdByAssetId(assetId) end

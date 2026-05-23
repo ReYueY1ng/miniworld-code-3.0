@@ -19,7 +19,7 @@ function Component:GetGameObject() end
 
 ---获取组件挂载的对象实例id
 ---@protected
----@return string | integer id 对象实例id
+---@return integer | string id 对象实例id
 function Component:GetGameObjectId() end
 
 ---获取组件是否有效

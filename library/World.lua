@@ -393,7 +393,7 @@ function World:GetDateFromTime(time, date) end
 ---@param dir PositionTable 方向向量
 ---@param maxlen number 最大检测方块距离
 ---@param picktype RayDetectType 检测类型
----@return number objid 对象ID
+---@return integer objid 对象ID
 ---@return PositionTable pos 对象位置
 function World:GetDirRayDetection(posbegin, dir, maxlen, picktype) end
 
@@ -416,7 +416,7 @@ function World:GetRayLength(srcx, srcy, srcz, dstx, dsty, dstz, distance) end
 ---@param dsty number 终点y坐标
 ---@param dstz number 终点z坐标
 ---@param distance number 最大检测距离
----@return number blockid 方块ID
+---@return integer blockid 方块ID
 function World:GetRayBlock(srcx, srcy, srcz, dstx, dsty, dstz, distance) end
 
 ---通过局部坐标方向计算绝对正方向(忽略视角仰角)

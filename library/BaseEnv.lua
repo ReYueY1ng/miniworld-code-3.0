@@ -316,3 +316,90 @@ end
 function math.mod(x, y)
     return x % y
 end
+
+---弧度转角度
+---@param x number 弧度值
+---@return number degrees 角度值
+function math.deg(x)
+    return x * 180 / math.pi
+end
+
+---角度转弧度
+---@param x number 角度值
+---@return number radians 弧度值
+function math.rad(x)
+    return x * math.pi / 180
+end
+
+---获取字符串长度
+---@param s string 字符串
+---@return number len 字符串长度
+function string.len(s)
+    return #s
+end
+
+---遍历表中所有键值对
+---@param t table 要遍历的表
+---@param f function 迭代函数，接收 key 和 value
+function table.foreach(t, f)
+    for k, v in pairs(t) do
+        f(k, v)
+    end
+end
+
+---遍历数组中所有元素
+---@param t table 要遍历的数组
+---@param f function 迭代函数，接收 index 和 value
+function table.foreachi(t, f)
+    for i, v in ipairs(t) do
+        f(i, v)
+    end
+end
+
+---获取数组长度
+---@param t table 数组
+---@return number n 数组长度
+function table.getn(t)
+    return #t
+end
+
+---移动数组元素
+---@param a1 table 源数组
+---@param f number 起始索引
+---@param e number 结束索引
+---@param t number 目标索引
+---@param a2? table 目标数组(默认为a1)
+---@return table result 移动后的数组
+function table.move(a1, f, e, t, a2)
+    a2 = a2 or a1
+    if f <= e then
+        local n = e - f + 1
+        if a2 == a1 and t > f and t <= e then
+            for i = n, 1, -1 do
+                a2[t + i - 1] = a1[f + i - 1]
+            end
+        else
+            for i = 1, n do
+                a2[t + i - 1] = a1[f + i - 1]
+            end
+        end
+    end
+    return a2
+end
+
+---删除数组中指定位置的元素
+---@param t table 数组
+---@param pos? number 删除位置(默认为数组最后一个)
+---@return any removed 被删除的元素
+function table.remove(t, pos)
+    local n = #t
+    if pos == nil then
+        pos = n
+    end
+    local removed = t[pos]
+    for i = pos, n - 1 do
+        t[i] = t[i + 1]
+    end
+    t[n] = nil
+    return removed
+end

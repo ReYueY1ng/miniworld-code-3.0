@@ -1994,6 +1994,110 @@ WorkStage = {
     Enchant = 833,
     Repair = 824
 }
+---区域克隆类型
+---@enum AreaCloneType
+AreaCloneType = {
+    ExcludeAir = 0,
+    IncludeAir = 1,
+    ExcludeAirAndMove = 2,
+    IncludeAirAndMove = 3
+}
+---信标约束类型
+---@enum BeaconClampType
+BeaconClampType = {
+    None = 0,
+    Circle = 1,
+    Rectangle = 2
+}
+---信标地图类型
+---@enum BeaconMapType
+BeaconMapType = {
+    Position = 0,
+    Object = 1
+}
+---游戏设置
+---@enum GameSetting
+GameSetting = {
+    ScopeMode = 1,
+    CameraShake = 2,
+    AutoJump = 3,
+    FixedMap = 4
+}
+---人体锚点ID
+---@enum HumanBodyAnchorId
+HumanBodyAnchorId = {
+    LeftHand = 100,
+    RightHand = 101,
+    LeftFoot = 102,
+    RightFoot = 103,
+    Breast = 105,
+    Head = 106,
+    FootDown = 109
+}
+---小地图标记类型
+---@enum MiniMapMarkType
+MiniMapMarkType = {
+    DevMark = 1,
+    Player = 2
+}
+---商城详情类型
+---@enum MiniShopDetail
+MiniShopDetail = {
+    Recommend = 1,
+    RoleAppearance = 2,
+    AuxiliaryHorse = 4,
+    Recharge = 7,
+    Advert = 11,
+    Special = 12,
+    Member = 13,
+    AuxiliaryWeapon = 17,
+    AuxiliarySpray = 18,
+    GiftDreamBox = 19,
+    MarketIntegral = 24,
+    MarketCollection = 25,
+    GiftMiniBeanJourney = 26,
+    ActionPersonal = 39,
+    ActionAdvanced = 40,
+    MiniBeanStoreRoleAppearance = 44,
+    MiniBeanStoreWeapon = 45,
+    MiniBeanStoreSpray = 46,
+    GiftCrystalSpirit = 47,
+    AuxiliaryMore = 51
+}
+---商城仓库类型
+---@enum MiniShopWarehouse
+MiniShopWarehouse = {
+    Appearance = 28,
+    AuxiliaryHorse = 30,
+    AuxiliaryWeapon = 31,
+    AuxiliarySpray = 32,
+    ItemWarehouse = 35,
+    ActionPersonal = 41,
+    ActionAdvanced = 42,
+    AuxiliaryMore = 50
+}
+---迷你视图二级标签
+---@enum MiniViewSecondTab
+MiniViewSecondTab = {
+    Skin = 1,
+    Avt = 2,
+    Mount = 3,
+    FashionSeat = 4,
+    StarFashionSeat = 5
+}
+---蓝图观察状态
+---@enum ObsBluePrintStatus
+ObsBluePrintStatus = {
+    Unloaded = 0,
+    Loaded = 1,
+    Binded = 2
+}
+---角色拾取类型
+---@enum RolePickupType
+RolePickupType = {
+    Carrying = 1,
+    Carried = 2
+}
 
 DevComponentDebug = false
 BackpackStartIndex = 0

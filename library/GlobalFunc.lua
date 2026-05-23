@@ -79,3 +79,28 @@ function copy_table(ori_tab)
 
     return new_tab
 end
+
+---获取当前MOD ID
+---@return string|nil modId MOD ID
+function GetModId() end
+
+---导出数据
+---@param name string 导出名称
+---@param data any 导出数据
+function Export(name, data) end
+
+---导入数据
+---@param name string 导入名称
+---@param importModId? string MOD ID
+---@return any? data 导入数据
+function Import(name, importModId) end
+
+---设置调试信息
+---@param ... any 调试参数
+---@return boolean result
+function SetDebugInfo(...) end
+
+---调用组件调试函数
+---@param fn function 调试函数
+---@param modId? string MOD ID
+function __CallComponentDebugFn(fn, modId) end

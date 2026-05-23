@@ -22,7 +22,7 @@ function Player:SetGameWin(objid) end
 
 ---获取玩家手持道具
 ---@param objid integer 玩家Uin
----@return integer|string itemid 道具ID
+---@return integer | string itemid 道具ID
 function Player:GetCurToolID(objid) end
 
 ---获取玩家当前选中快捷栏索引
@@ -592,7 +592,7 @@ function Player:OpenMiniShopWarehousePage(playerid, itype, itype2, itemid) end
 ---获取坐骑真实ID（异步回调）
 ---@param playerid integer 玩家Uin
 ---@param horseid integer|table 坐骑ID或ID数组
----@return integer|table realid 真实坐骑ID
+---@return integer | string realid 真实坐骑ID
 function Player:GetHorseRealID(playerid, horseid) end
 
 ---获取玩家个人信息（异步回调）
