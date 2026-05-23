@@ -595,3 +595,13 @@ function World:SetParticleEffectScale(x, y, z, particleId, scale) end
 ---@param worldId? integer 世界id(默认当前世界)
 ---@return boolean result
 function World:StopParticleEffectOnPos(x, y, z, particleId, worldId) end
+
+---根据对象类型查找附近生物列表
+---@param centerX number 中心x坐标
+---@param centerY number 中心y坐标
+---@param centerZ number 中心z坐标
+---@param radius integer 搜索半径
+---@param objType integer 对象类型
+---@param worldId? integer 世界id(默认当前世界)
+---@return integer[] objids 生物objid列表
+function World:FindNearActorListByObjType(centerX, centerY, centerZ, radius, objType, worldId) end
