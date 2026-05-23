@@ -226,6 +226,10 @@ TriggerEvent = {
     ---```itemnum``` — 事件中的道具数量<br>
     ---```itemix``` — 事件中的装备栏<br>
     PlayerEquipRemItem = "Player.EquipRemItem",
+    ---玩家保存皮肤座位<br>
+    ---\---传参---<br>
+    ---```eventobjid``` — 触发事件的对象<br>
+    PlayerSaveSkinSeat = "Player.SaveSkinSeat",
     ---当玩家持枪状态改变时<br>
     ---\---过滤参数---<br>
     ---@see GunState
@@ -1055,6 +1059,11 @@ TriggerEvent = {
     ---```toobjid``` — 事件中的目标对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     MobBeHurt = "Actor.BeHurt",
+    ---当任意生物被交互<br>
+    ---\---传参---<br>
+    ---```eventobjid``` — 触发事件的对象<br>
+    ---```toobjid``` — 事件中的目标对象<br>
+    MobBeInteract = "Mob.BeInteract",
     ---当任意生物被击败<br>
     ---\---传参---<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -2097,7 +2106,12 @@ ObjectEvent = {
     ---```blockid``` — 事件中的方块类型<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
-    BlockRemove = "Block.Remove",
+    BlockRemove = 22,
+    ---当此类方块被移除<br>
+    ---\---传参---<br>
+    ---```x,y,z``` — 事件中的位置<br>
+    ---```blockid``` — 事件中的方块类型<br>
+    OnBlockRemove = 22,
     ---当此类方块开关状态发生改变<br>
     ---\---传参---<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -2560,7 +2574,7 @@ ObjectEvent = {
     ---当离开世界前<br>
     ---\---传参---<br>
     ---参数未知<br>
-    OnBeforeLeaveWorld = 34,
+    OnBeforeLeaveWorld = 35,
     ---当方块被创建<br>
     ---\---传参---<br>
     ---参数未知<br>
@@ -2611,7 +2625,7 @@ ObjectEvent = {
     ---当投掷角色<br>
     ---\---传参---<br>
     ---参数未知<br>
-    OnThrowActor = 35,
+    OnThrowActor = 36,
     ---UI装备改变<br>
     ---\---传参---<br>
     ---参数未知<br>
@@ -2623,6 +2637,28 @@ ObjectEvent = {
     ---使用物品脚本事件<br>
     ---\---传参---<br>
     ---参数未知<br>
-    UseItemScriptEvent = "Player.UseItemScriptEvent"
+    UseItemScriptEvent = "Player.UseItemScriptEvent",
+    ---当生物使用物品<br>
+    ---\---传参---<br>
+    ---```eventobjid``` — 触发事件的对象<br>
+    ---```toobjid``` — 事件中的目标对象<br>
+    MobUseItem = "Actor.UseItem",
+    ---通知事件<br>
+    ---\---传参---<br>
+    ---参数未知<br>
+    OnNotify = 34,
+    ---当生物被交互<br>
+    ---\---传参---<br>
+    ---```eventobjid``` — 触发事件的对象<br>
+    ---```toobjid``` — 事件中的目标对象<br>
+    MobBeInteract = "Mob.BeInteract",
+    ---低优先级交互事件<br>
+    ---\---传参---<br>
+    ---参数未知<br>
+    OnInteractLowPriority = 38,
+    ---当生物被驯服<br>
+    ---\---传参---<br>
+    ---参数未知<br>
+    OnTame = 37
     --#endregion
 }
