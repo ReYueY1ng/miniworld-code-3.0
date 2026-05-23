@@ -1,3 +1,58 @@
+---@meta
+
+---@alias PositionTable {x: number, y:number, z:number}
+---@alias WorldIdEnum
+---| 0 # 迷拉星
+---| 1 # 烈焰星
+---| 2 # 萌眼星
+
+---标记的超参数
+---@class MarkerParams
+---@field posX number x坐标
+---@field posZ number z坐标
+---@field name string? 名字
+---@field iconName string 图片id
+---@field zoomMin number? 最小scale倍率
+---@field zoomMax number? 最大scale倍率
+---@field isTrace boolean? 是否追踪
+---@field isRadarTrace boolean? 雷达上是否追踪
+---@field appearInBlockFog boolean?
+---@field isCanUI boolean? 是否能点击
+---@field desc string? 描述
+---@field level number? UI层级
+
+---@class MarkerParamsOptional: MarkerParams
+---@field posX number? x坐标
+---@field posZ number? z坐标
+---@field iconName string? 图片路径
+
+---纹理的超参数
+---@class TextureParams
+---@field posX number x坐标
+---@field posZ number z坐标
+---@field filePath string 图片id
+---@field width number 宽度
+---@field height number 高度
+---@field pivotX number? x轴锚点
+---@field pivotZ number? z轴锚点
+---@field alpha number? 透明度(0-1)
+---@field scale number? 缩放
+---@field rotation number? 旋转
+---@field colorR number? 颜色R
+---@field colorG number? 颜色G
+---@field colorB number? 颜色B
+---@field level number? 层级 官方地图纹理层级为10
+
+---@class TextureParamsOptional: TextureParams
+---@field posX number? x坐标
+---@field posZ number? z坐标
+---@field filePath string? 图片id
+---@field width number? 宽度
+---@field height number? 高度
+
+---世界模块管理接口<br>
+---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/world.html)
+---@class World
 World = {}
 
 ---停止指定位置的特效
@@ -540,81 +595,3 @@ function World:SetParticleEffectScale(x, y, z, particleId, scale) end
 ---@param worldId? integer 世界id(默认当前世界)
 ---@return boolean result
 function World:StopParticleEffectOnPos(x, y, z, particleId, worldId) end
-
----创建爆炸
----@param objid integer 触发者objid
----@param x number x坐标
----@param y number y坐标
----@param z number z坐标
----@param explosionRadius number 爆炸半径
----@param flaming boolean 是否产生火焰
----@param smoking boolean 是否产生烟雾
----@param dirmask? integer 方向掩码
----@param damageType? integer 伤害类型
----@return boolean result
-
----创建爆炸(新接口)
----@param x number x坐标
----@param y number y坐标
----@param z number z坐标
----@param radius integer 爆炸半径
----@param upHalf? number 上半部分比例
----@param atkValue? number 攻击伤害值
----@param isDestroyBlock? boolean 是否破坏方块
----@return boolean result
-
----在指定位置生成道具
----@param x number x坐标
----@param y number y坐标
----@param z number z坐标
----@param itemid integer 道具ID
----@param num integer 数量
----@param worldId? integer 世界id(默认当前世界)
----@return integer objid 道具objid
-
----在指定位置生成装备或枪械
----@param x number x坐标
----@param y number y坐标
----@param z number z坐标
----@param itemid integer 道具ID
----@param worldId? integer 世界id(默认当前世界)
----@return integer objid 道具objid
-
----在指定位置生成投掷物
----@param pos PositionTable 位置
----@param itemid integer 道具ID
----@param dst PositionTable 目标位置
----@param worldId? integer 世界id(默认当前世界)
----@return integer objid 投掷物objid
-
----生成射击投掷物
----@param objid integer 射击者objid
----@param dir integer 方向
----@param itemid integer 道具ID
----@return integer objid 投掷物objid
-
----在指定位置生成射击投掷物
----@param pos PositionTable 位置
----@param objid integer 射击者objid
----@param itemid integer 道具ID
----@param dst PositionTable 目标位置
----@return integer objid 投掷物objid
-
----根据DefID查找附近生物列表
----@param centerX number 中心x坐标
----@param centerY number 中心y坐标
----@param centerZ number 中心z坐标
----@param radius integer 搜索半径
----@param defId string 生物定义ID
----@param worldId? integer 世界id(默认当前世界)
----@return integer[] objids 生物objid列表
-
----根据对象类型查找附近生物列表
----@param centerX number 中心x坐标
----@param centerY number 中心y坐标
----@param centerZ number 中心z坐标
----@param radius integer 搜索半径
----@param objType integer 对象类型
----@param worldId? integer 世界id(默认当前世界)
----@return integer[] objids 生物objid列表
-function World:FindNearActorListByObjType(centerX, centerY, centerZ, radius, objType, worldId) end
