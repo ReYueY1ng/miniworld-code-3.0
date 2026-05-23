@@ -308,3 +308,15 @@ function Backpack:GetGridAttr(playerid, gridid, attr) end
 ---@param value number 属性值
 ---@return boolean result
 function Backpack:SetGridAttr(playerid, gridid, attr, value) end
+
+---获取背包格子枪械信息
+---@param ... any 参数
+function Backpack:GetGridGunInfo(...) end
+
+---在指定道具上播放特效
+---@param playerid integer 玩家ID
+---@param itemid integer 道具类型
+---@param effectid integer 特效ID
+---@param scale number 特效缩放
+---@return boolean result
+function Backpack:PlayShortCutItemEffect(playerid, itemid, effectid, scale) end

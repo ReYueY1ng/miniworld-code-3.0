@@ -327,3 +327,18 @@ function Graphics:CreateGraphicsImageByActor(objid, info, dir, offest, x2, y2) e
 ---@param itype integer 类型(PlayerNameType)
 ---@param callback fun(height: number) 回调函数 height: 高度值（未展示 0）
 function Graphics:GetInnerGraphicsOffset(objid, itype, callback) end
+
+---创建画刷
+---@param pos PositionTable 位置坐标
+---@param dim PositionTable 尺寸
+---@param color integer 颜色值(0xFFFFFF)
+---@param showuin integer[] 可见玩家ID数组
+---@param itype integer 图文信息ID
+---@param worldId? integer 星球id(默认当前主机所在星球)
+---@return integer brushid 画刷ID
+function Graphics:CreateBrushByPos(pos, dim, color, showuin, itype, worldId) end
+
+---通过图文实例ID删除图文信息
+---@param objid integer 图文实例ID
+---@return boolean result
+function Graphics:RemoveGraphicsByGraphicsID(objid) end

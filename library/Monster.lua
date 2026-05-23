@@ -74,3 +74,18 @@ function Monster:GetFacade(monsterid) end
 ---@param actorid integer | string 生物定义ID或生物预制ID
 ---@return table tags
 function Monster:GetTags(actorid) end
+
+---获取生物定义名称
+---@param actorid integer | string 生物定义ID
+---@return string name 生物定义名称
+function Monster:GetMonsterDefName(actorid) end
+
+---设置AI激活状态
+---@param objid integer 生物对象ID
+---@param active boolean 是否激活
+---@return boolean result
+function Monster:SetAIActive(objid, active) end
+
+---设置生物持久化
+---@param ... any 参数
+function Monster:SetPersistance(...) end

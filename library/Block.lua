@@ -245,3 +245,59 @@ function Block:GetFacade(blockid) end
 ---@param slotindex integer 材质槽索引(默认1)
 ---@return boolean result
 function Block:SetBlockTextureColor(blockid, color, alpha, slotindex) end
+
+---解绑蓝图区域
+---@param ... any 参数
+function Block:UnbindBluePrintRegion(...) end
+
+---设置蓝图上传间隔
+---@param ... any 参数
+function Block:BluePrintSetUploadInteral(...) end
+
+---加载观察者蓝图
+---@param ... any 参数
+function Block:LoadObsBluePrint(...) end
+
+---卸载观察者蓝图
+---@param ... any 参数
+function Block:UnloadObsBluePrint(...) end
+
+---停止放置观察者蓝图
+---@param ... any 参数
+function Block:StopPlaceObsBluePrint(...) end
+
+---放置蓝图
+---@param ... any 参数
+function Block:PlaceBluePrint(...) end
+
+---创建观察者蓝图
+---@param ... any 参数
+function Block:CreateObsBluePrint(...) end
+
+---保存蓝图区域数据
+---@param ... any 参数
+function Block:SaveBluePrintRegionData(...) end
+
+---蓝图另存为新ID
+---@param ... any 参数
+function Block:BluePrintSaveAsNewId(...) end
+
+---获取蓝图方块信息
+---@param ... any 参数
+function Block:GetBluePrintBlockInfo(...) end
+
+---截图并上传
+---@param ... any 参数
+function Block:CaptureAndUploadScreenshot(...) end
+
+---获取观察者蓝图状态
+---@param ... any 参数
+function Block:GetObsBluePrintStatus(...) end
+
+---获取观察者蓝图位置
+---@param ... any 参数
+function Block:GetObsBluePrintPos(...) end
+
+---删除蓝图
+---@param ... any 参数
+function Block:DeleteBluePrint(...) end

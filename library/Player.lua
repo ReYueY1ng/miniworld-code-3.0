@@ -78,10 +78,10 @@ function Player:RotateCamera(objid, yaw, pitch, issmooth, iscorrectyaw, deltayaw
 
 ---抖动玩家镜头
 ---@param objid integer 玩家ID
----@param power number 强度(取值范围1-1000)
 ---@param duration number 持续时间
+---@param power number 强度(取值范围1-1000)
 ---@return boolean result
-function Player:ShakeCamera(objid, power, duration) end
+function Player:ShakeCamera(objid, duration, power) end
 
 ---停止抖动玩家镜头
 ---@param objid integer 玩家ID
@@ -274,7 +274,7 @@ function Player:SetCameraPosTransformTo(playerid, vec, animid, time) end
 ---@return boolean result
 function Player:SetCameraRotTransformTo(playerid, vec, animid, time) end
 
----玩家摄像机Fvo变换到值
+---玩家摄像机Fov变换到值
 ---@param playerid integer 玩家Uin
 ---@param fov number fov值
 ---@param animid Easing 线性变换枚举
@@ -298,7 +298,7 @@ function Player:SetCameraPosTransformBy(playerid, vec, animid, time) end
 ---@return boolean result
 function Player:SetCameraRotTransformBy(playerid, vec, animid, time) end
 
----玩家摄像机Fvo变换相对值
+---玩家摄像机Fov变换相对值
 ---@param playerid integer 玩家Uin
 ---@param fov number fov值
 ---@param animid Easing 线性变换枚举
@@ -436,3 +436,193 @@ function Player:GetRentCloudServerOwner() end
 ---@param objid integer 玩家Uin
 ---@return boolean result
 function Player:RemovePlayer(objid) end
+
+---获取玩家当前快捷栏（底层索引，从0开始）
+---@param objid integer 玩家Uin
+---@return integer index 快捷栏索引
+function Player:GetCurShotcut(objid) end
+
+---判断玩家是否手持枪械
+---@param objid integer 玩家Uin
+---@return boolean result
+function Player:HasHandheldGun(objid) end
+
+---获取枪械弹夹数量
+---@param uin integer 玩家Uin
+---@return integer magazine 弹夹数量
+function Player:GunGetMagazine(uin) end
+
+---模组下改变玩家视角
+---@param objid integer 玩家Uin
+---@param viewmode ViewPortType 视角枚举
+---@param islock boolean 是否锁定
+---@return boolean result
+function Player:ChangeViewModeForMod(objid, viewmode, islock) end
+
+---检查玩家动作属性状态
+---@param objid integer 玩家Uin
+---@param actionattr integer 动作属性枚举
+---@return boolean result
+function Player:CheckActionAttrState(objid, actionattr) end
+
+---玩家骑乘生物
+---@param playerid integer 玩家Uin
+---@param objid integer 生物对象ID
+---@param bctrl boolean 是否控制
+---@return boolean result
+function Player:MountActor(playerid, objid, bctrl) end
+
+---使用道具
+---@param objid integer 玩家Uin
+---@param itemid integer|string 道具ID
+---@param status boolean 使用状态
+---@param onshift? boolean 是否Shift触发
+---@return boolean result
+function Player:UseItem(objid, itemid, status, onshift) end
+
+---设置玩家爬行状态
+---@param playerid integer 玩家Uin
+---@param bCrawl boolean 是否爬行
+---@return boolean result
+function Player:SetCrawl(playerid, bCrawl) end
+
+---添加弹夹子弹
+---@param uin integer 玩家Uin
+---@param num integer 子弹数量
+---@return boolean result
+function Player:AddMagazine(uin, num) end
+
+---获取玩家可见范围
+---@param objid integer 玩家Uin
+---@return integer range 可见范围枚举
+function Player:GetVisibleRange(objid) end
+
+---设置玩家可见范围
+---@param objid integer 玩家Uin
+---@param range integer 可见范围枚举
+---@return boolean result
+function Player:SetVisibleRange(objid, range) end
+
+---设置玩家镜头震动
+---@param objid integer 玩家Uin
+---@param shake boolean 是否震动
+---@return boolean result
+function Player:SetCameraShake(objid, shake) end
+
+---打开商城试穿界面
+---@param playerid integer 玩家Uin
+---@return boolean result
+function Player:OpenShopTryOnView(playerid) end
+
+---打开商城皮肤购买弹框
+---@param playerid integer 玩家Uin
+---@param skins integer|table 皮肤ID或皮肤信息表
+---@return boolean result
+function Player:OpenShopSkinBuyDialog(playerid, skins) end
+
+---打开商城赠送礼物界面
+---@param playerid integer 玩家Uin
+---@param giveuin integer 赠送目标玩家Uin
+---@return boolean result
+function Player:OpenShopGiveGiftView(playerid, giveuin) end
+
+---获取玩家皮肤列表（异步回调）
+---@param uin integer 玩家Uin
+---@param itype integer 数据类型枚举
+---@return table infos 皮肤信息
+function Player:GetSkinlist(uin, itype) end
+
+---获取玩家皮肤座位信息（异步回调）
+---@param uin integer 玩家Uin
+---@param index integer 起始索引
+---@param size integer 获取数量
+---@return table infos 皮肤座位信息
+function Player:GetSkinSeatInfos(uin, index, size) end
+
+---获取好友列表（异步回调）
+---@param uin integer 玩家Uin
+---@param index integer 起始索引
+---@param size integer 获取数量
+---@return table friendlist 好友列表
+function Player:GetFriendList(uin, index, size) end
+
+---打开好友聊天页面
+---@param playerid integer 玩家Uin
+---@param uin2 integer 好友Uin
+---@return boolean result
+function Player:OpenFriendChatPage(playerid, uin2) end
+
+---设置玩家游戏设置开关
+---@param playerid integer 玩家Uin
+---@param itype integer 设置类型枚举
+---@param enable boolean 是否开启
+---@return boolean result
+function Player:SetSettingEnable(playerid, itype, enable) end
+
+---设置玩家游戏设置可用性
+---@param playerid integer 玩家Uin
+---@param itype integer 设置类型枚举
+---@param enable boolean 是否可用
+---@return boolean result
+function Player:SetSettingAbility(playerid, itype, enable) end
+
+---打开迷你商城页面
+---@param playerid integer 玩家Uin
+---@param itype integer 商城分类枚举
+---@param itype2? integer 二级分类枚举
+---@param itemid? integer 商品ID
+---@return boolean result
+function Player:OpenMiniShopPage(playerid, itype, itype2, itemid) end
+
+---打开迷你商城商品详情页
+---@param playerid integer 玩家Uin
+---@param itype integer 商品类型枚举
+---@param itemid integer 商品ID
+---@return boolean result
+function Player:OpenMiniShopItemPage(playerid, itype, itemid) end
+
+---打开迷你商城仓库页面
+---@param playerid integer 玩家Uin
+---@param itype integer 仓库分类枚举
+---@param itype2? integer 二级分类枚举
+---@param itemid? integer 商品ID
+---@return boolean result
+function Player:OpenMiniShopWarehousePage(playerid, itype, itype2, itemid) end
+
+---获取坐骑真实ID（异步回调）
+---@param playerid integer 玩家Uin
+---@param horseid integer|table 坐骑ID或ID数组
+---@return integer|table realid 真实坐骑ID
+function Player:GetHorseRealID(playerid, horseid) end
+
+---获取玩家个人信息（异步回调）
+---@param uin integer 玩家Uin
+---@return table info 个人信息（包含Popularity、RegisterTime、FollowerCount、FollowingCount等）
+function Player:GetPersonInfo(uin) end
+
+---旋转玩家主模型
+---@param uin integer 玩家Uin
+---@param yaw number 偏航角(0-360)
+---@param pitch number 俯仰角(-88~88)
+---@param bSmooth? boolean 是否平滑(默认true)
+---@return boolean result
+function Player:RotateMainModel(uin, yaw, pitch, bSmooth) end
+
+---获取玩家方块图鉴信息（异步回调）
+---@param playerid integer 玩家Uin
+---@param islock? boolean 是否锁定
+---@return table info 方块图鉴信息
+function Player:GetBlockAtlasInfo(playerid, islock) end
+
+---获取玩家迷你币数量
+---@param objid integer 玩家Uin
+---@param itype MiniCurrency 货币类型枚举
+---@return integer value 货币数量
+function Player:GetMiniCurrency(objid, itype) end
+
+---打开活动界面
+---@param uin integer 玩家Uin
+---@param actid integer 活动ID
+---@param activatename? string 活动名称
+---@return boolean result
+function Player:OpenActView(uin, actid, activatename) end

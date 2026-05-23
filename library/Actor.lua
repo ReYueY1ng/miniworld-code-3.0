@@ -113,8 +113,9 @@ function Actor:SetBeHurtTarget(objid, targetid) end
 
 ---获取角色外观(需要确保对象在场景中存在)
 ---@param objid integer 生物objid
+---@param bhasequip? boolean 是否包含装备外观
 ---@return string facade 生物外观对象
-function Actor:GetActorFacade(objid) end
+function Actor:GetActorFacade(objid, bhasequip) end
 
 ---比较两个主模型外观是否相等
 ---@param facade1 string 外观类型1
@@ -276,15 +277,15 @@ function Actor:ActorHurt(objid, targetid, damage, attacktype, ignoreResist, igno
 ---设置免疫伤害类型
 ---@param objid integer 对象objid
 ---@param immunetype HurtType 伤害类型枚举
----@param enable boolean 是否开启
+---@param isadd boolean 是否添加免疫
 ---@return boolean code 成功(true)
-function Actor:SetImmuneType(objid, immunetype, enable) end
+function Actor:SetImmuneType(objid, immunetype, isadd) end
 
 ---改变玩家移动方式
 ---@param objid integer 对象id
----@param moveType MoveType 移动模式
+---@param moveMode MoveType 移动模式
 ---@return boolean result
-function Actor:ChangActorMoveType(objid, moveType) end
+function Actor:ChangActorMoveType(objid, moveMode) end
 
 ---取角色的移动模式
 ---@param objid integer 对象id
@@ -379,10 +380,17 @@ function Actor:MountActor(objid, rideObjid, isContrl, isCloseAI) end
 function Actor:DisMountActor(objid) end
 
 ---对象抓举对象
----@param objid integer 角色objid
----@param targetobjid integer 目标objid
+---@param objidA integer 执行抓举的对象objid
+---@param objidB integer 被抓举的对象objid
+---@param actionA? integer 执行者动作
+---@param actionB? integer 被抓举者动作
+---@param offest? PositionTable 偏移量
+---@param rotate? PositionTable 旋转角度
+---@param playemode? integer 动画播放模式
+---@param playspeed? number 动画播放速度
+---@param anchorId? integer 锚点ID
 ---@return boolean result
-function Actor:PickupActor(objid, targetobjid) end
+function Actor:PickupActor(objidA, objidB, actionA, actionB, offest, rotate, playemode, playspeed, anchorId) end
 
 ---尝试抓取前方指定距离的对象
 ---@param objid integer 角色objid
@@ -482,3 +490,74 @@ function Actor:RemoveTags(objid, tags, icount) end
 ---@param objid integer 对象objid
 ---@return boolean result
 function Actor:ClearTags(objid) end
+
+---在指定对象身上播放身体特效
+---@param objid integer 对象objid
+---@param particleId integer | string 粒子特效ID
+---@param scale number 特效缩放大小
+---@param ptme number 播放时长（单位：秒）
+---@return boolean result
+function Actor:PlayBodyEffectById(objid, particleId, scale, ptme) end
+
+---获取动作属性状态
+---@param objid integer 对象objid
+---@param actionattr Ability 行为枚举
+---@return boolean result
+function Actor:GetActionAttrState(objid, actionattr) end
+
+---设置组件基础状态
+---@param objid integer 对象objid
+---@param actionattr Ability 行为枚举
+---@param switch boolean 是否开启
+---@return boolean result
+function Actor:SetCmpBaseState(objid, actionattr, switch) end
+
+---获取组件基础状态
+---@param objid integer 对象objid
+---@param actionattr Ability 行为枚举
+---@return boolean result
+function Actor:GetCmpBaseState(objid, actionattr) end
+
+---设置动作属性状态
+---@param objid integer 对象objid
+---@param actionattr Ability 行为枚举
+---@param switch boolean 是否开启
+---@return boolean result
+function Actor:SetActionAttrState(objid, actionattr, switch) end
+
+---设置指定对象身上的特效大小
+---@param objid integer 对象objid
+---@param particleId integer | string 粒子特效ID
+---@param scale number 特效缩放大小
+---@return boolean result
+function Actor:SetBodyEffectScale(objid, particleId, scale) end
+
+---获取角色朝向方向
+---@param objid integer 对象objid
+---@param itype FaceType 朝向类型
+---@return PositionTable dir 朝向方向向量
+function Actor:GetActorDir(objid, itype) end
+
+---获取对象的定义ID（实体类型ID）
+---@param objid integer 对象objid
+---@return integer defId 定义ID
+function Actor:GetDefID(objid) end
+
+---设置骑乘相关属性
+---@param objid integer 对象objid
+---@param isRote boolean 是否允许旋转
+---@param isPlayerContrl boolean 是否允许玩家控制
+---@param isCloseAI boolean 是否关闭AI
+---@return boolean result
+function Actor:SetMountActorAttr(objid, isRote, isPlayerContrl, isCloseAI) end
+
+---白名单停止技能
+---@param ... any 参数列表
+function Actor:WhitList_StopSkill(...) end
+
+---通过参考对象播放动画
+---@param objidA integer 执行播放的对象objid
+---@param objidB integer 参考对象objid
+---@param breplay? boolean 是否重新播放
+---@return boolean result
+function Actor:PlayAnimByObj(objidA, objidB, breplay) end

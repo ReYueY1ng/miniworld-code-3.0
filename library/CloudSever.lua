@@ -27,3 +27,26 @@ function CloudSever:GetDataListByKey(libvarid, key, callback) end
 ---获取当前云服房间ID
 ---@return string roomid 房间ID
 function CloudSever:GetRoomID() end
+
+---设置表中指定键的值（别名）
+---@param libvarid string 表变量设计名
+---@param key string 键值
+---@param value number | string | table 设置的值
+---@return boolean result
+function CloudSever:SetDataListValue(libvarid, key, value) end
+
+---传送到当前地图分类房间
+---@param ... any 参数
+function CloudSever:TransmitToCurMapCategoryRoom(...) end
+
+---获取房间分类
+---@param ... any 参数
+function CloudSever:GetRoomCategory(...) end
+
+---设置房间分类
+---@param ... any 参数
+function CloudSever:SetRoomCategory(...) end
+
+---传送到分类房间
+---@param ... any 参数
+function CloudSever:TransmitToCategoryRoom(...) end

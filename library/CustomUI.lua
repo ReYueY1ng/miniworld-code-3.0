@@ -444,3 +444,112 @@ function CustomUI:GetScreenSize(playerid) end
 ---@param elementid string 元件ID
 ---@return boolean result
 function CustomUI:DeleteElement(playerid, uiid, elementid) end
+
+---设置元件位置绑定到生物
+---@param objid integer 对象ID
+---@param uiid string 界面ID
+---@param elementid string 元件ID
+---@param actorId integer 绑定的生物ID
+---@param offset PositionTable 位置偏移
+---@return boolean result
+function CustomUI:SetPositionBindActor(objid, uiid, elementid, actorId, offset) end
+
+---移除元件位置绑定生物
+---@param objid integer 对象ID
+---@param uiid string 界面ID
+---@param elementid string 元件ID
+---@return boolean result
+function CustomUI:RemovePositionBindActor(objid, uiid, elementid) end
+
+---设置元件位置绑定方块
+---@param objid integer 对象ID
+---@param uiid string 界面ID
+---@param elementid string 元件ID
+---@param blockPos PositionTable 方块位置
+---@return boolean result
+function CustomUI:SetPositionBandBlock(objid, uiid, elementid, blockPos) end
+
+---移除元件位置绑定方块
+---@param objid integer 对象ID
+---@param uiid string 界面ID
+---@param elementid string 元件ID
+---@return boolean result
+function CustomUI:RemovePositionBandBlock(objid, uiid, elementid) end
+
+---获取元件属性值
+---@param reportid integer 玩家ID
+---@param objid integer 对象ID
+---@param elementid string 元件ID
+---@param attrIdx ElementAttr 属性枚举
+---@return any value 属性值
+function CustomUI:GetElementAttrValue(reportid, objid, elementid, attrIdx) end
+
+---获取界面属性值
+---@param reportid integer 玩家ID
+---@param objid integer 对象ID
+---@param uiid string 界面ID
+---@param attrIdx UIAttr 属性枚举
+---@return any value 属性值
+function CustomUI:GetUIViewAttrValue(reportid, objid, uiid, attrIdx) end
+
+---设置信标地图类型
+---@param playerid integer 玩家ID
+---@param elementid string 元件ID
+---@param mapType MapMarkType 地图标记类型
+---@return boolean result
+function CustomUI:SetBeaconMapType(playerid, elementid, mapType) end
+
+---设置信标绑定位置
+---@param playerid integer 玩家ID
+---@param elementid string 元件ID
+---@param bandPosX number 绑定X坐标
+---@param bandPosY number 绑定Y坐标
+---@param bandPosZ number 绑定Z坐标
+---@return boolean result
+function CustomUI:SetBeaconBandPos(playerid, elementid, bandPosX, bandPosY, bandPosZ) end
+
+---设置信标对象ID
+---@param playerid integer 玩家ID
+---@param elementid string 元件ID
+---@param objId integer 对象ID
+---@return boolean result
+function CustomUI:SetBeaconObjId(playerid, elementid, objId) end
+
+---设置信标偏移
+---@param playerid integer 玩家ID
+---@param elementid string 元件ID
+---@param offsetX number X偏移
+---@param offsetY number Y偏移
+---@param offsetZ number Z偏移
+---@return boolean result
+function CustomUI:SetBeaconOffset(playerid, elementid, offsetX, offsetY, offsetZ) end
+
+---设置信标夹具类型
+---@param playerid integer 玩家ID
+---@param elementid string 元件ID
+---@param clampType integer 夹具类型
+---@return boolean result
+function CustomUI:SetBeaconClampType(playerid, elementid, clampType) end
+
+---设置信标半径
+---@param playerid integer 玩家ID
+---@param elementid string 元件ID
+---@param radius number 半径
+---@return boolean result
+function CustomUI:SetBeaconRadius(playerid, elementid, radius) end
+
+---设置URL图标
+---@param ... any 参数
+function CustomUI:SetUrlIcon(...) end
+
+---设置信标边距
+---@param playerid integer 玩家ID
+---@param elementid string 元件ID
+---@param horizontalMargin number 水平边距
+---@param verticalMargin number 垂直边距
+---@return boolean result
+function CustomUI:SetBeaconMargin(playerid, elementid, horizontalMargin, verticalMargin) end
+
+---设置系统设置按钮可见性
+---@param ... any 参数
+function CustomUI:SetSysSettingBtnVisible(...) end

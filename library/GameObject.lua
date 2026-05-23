@@ -52,3 +52,8 @@ function GameObject:Destroy(objid) end
 ---@return integer | string prefabid 预制id
 ---@return ObjType objectType 对象类型
 function GameObject:GetObjectPrefab(objid) end
+
+---根据uuid获取对象实例ID
+---@param uuid string 对象uuid
+---@return integer objid 对象实例ID
+function GameObject:GetObjInstanceID(uuid) end

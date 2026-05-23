@@ -199,3 +199,45 @@ function Item:GetGridAttr(objid, attr) end
 ---@param itemid integer | string 道具定义ID或道具预制ID
 ---@return table tags
 function Item:GetTags(itemid) end
+
+---根据道具实例ID获取道具资源ID
+---@param instId string 道具实例id
+---@return integer | string resid 资源ID
+function Item:GetResIdByInstanceId(instId) end
+
+---设置对象数据
+---@param ... any 参数
+function Item:SetObjData(...) end
+
+---获取枪械基础描述
+---@param ... any 参数
+function Item:GetGunBaseDesc(...) end
+
+---获取道具模型组件
+---@param ... any 参数
+function Item:GetItemModelComp(...) end
+
+---通过格子设置对象数据
+---@param ... any 参数
+function Item:SetObjDataByGrid(...) end
+
+---通过格子获取对象数据
+---@param ... any 参数
+function Item:GetObjDataByGrid(...) end
+
+---判断是否为绑定道具
+---@param ... any 参数
+---@return boolean result
+function Item:IsBindItem(...) end
+
+---在背包内创建道具实例
+---@param ... any 参数
+function Item:CreateItemInstInBackpack(...) end
+
+---获取对象数据
+---@param ... any 参数
+function Item:GetObjData(...) end
+
+---在背包内创建绑定道具
+---@param ... any 参数
+function Item:CreateBindItemInBackpack(...) end
