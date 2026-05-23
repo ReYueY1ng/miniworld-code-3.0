@@ -300,8 +300,8 @@ function Data.Table:GetRowIndexs(varId, playerId, col, value, cmp) end
 ---@return string[] colKeys 列的key
 function Data.Table:GetTableColKeys(varId) end
 
----一维(kv)表/排行榜 变量数据管理接口  
----非全局云变量建议使用阻塞接口  
+---一维(kv)表/排行榜 变量数据管理接口<br>
+---非全局云变量建议使用阻塞接口<br>
 ---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/map.html)
 ---@class Data.Map
 Data.Map = {}

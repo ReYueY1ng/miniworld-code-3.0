@@ -430,7 +430,8 @@ function CustomUI:SmoothIncreaseProgress(playerid, uiid, elementid, time, ptype,
 ---@param movey2? number 移动Y2
 ---@param showtime2? number 显示时长2
 ---@return boolean result
-function CustomUI:SetFloatDamageTxt(playerid, elementid, objid, text, color, offsetx, offsety, movex, movey, showtime, movex2, movey2, showtime2) end
+function CustomUI:SetFloatDamageTxt(playerid, elementid, objid, text, color, offsetx, offsety, movex, movey, showtime,
+                                    movex2, movey2, showtime2) end
 
 ---获取客机屏幕分辨率
 ---@param playerid integer 玩家ID

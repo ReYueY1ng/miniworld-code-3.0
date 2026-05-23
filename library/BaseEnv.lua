@@ -3,7 +3,9 @@
 ---@diagnostic disable: assign-type-mismatch, duplicate-set-field
 
 function dofile() end
+
 function loadstring() end
+
 function loadfile() end
 
 ---@type nil
@@ -57,7 +59,7 @@ function string.split(input, delimiter)
     delimiter = tostring(delimiter)
 
     if delimiter == '' then
----@diagnostic disable-next-line: return-type-mismatch
+        ---@diagnostic disable-next-line: return-type-mismatch
         return false
     end
 
@@ -84,7 +86,7 @@ local function __tostring(value, indent, vmap)
 
     if type(value) ~= 'table' then
         if type(value) == 'string' then
-            if string.byte(value,1) == 91 then
+            if string.byte(value, 1) == 91 then
                 str = string.format("'%s'", value)
             else
                 if value:match('%[') then
@@ -98,7 +100,7 @@ local function __tostring(value, indent, vmap)
         end
     else
         if type(vmap) == 'table' then
-            if vmap[value] then return '('..tostring(value)..')' end
+            if vmap[value] then return '(' .. tostring(value) .. ')' end
             vmap[value] = true
         end
         local auxTable = {}
@@ -118,46 +120,48 @@ local function __tostring(value, indent, vmap)
 
         table.sort(iauxTable)
 
-        str = str..'{\n'
+        str = str .. '{\n'
         local separator = ""
         local entry = "\n"
         local barray = true
-        local kk,vv
-        for i, k in ipairs (iauxTable) do
+        local kk, vv
+        for i, k in ipairs(iauxTable) do
             if i == k and barray then
-                entry = __tostring(value[k], indent..'    ', vmap)
-                str = str..separator..indent..'    '..entry
+                entry = __tostring(value[k], indent .. '    ', vmap)
+                str = str .. separator .. indent .. '    ' .. entry
                 separator = ", \n"
             else
                 barray = false
                 table.insert(iiauxTable, k)
             end
         end
-        for i, fieldName in ipairs (iiauxTable) do
+        for i, fieldName in ipairs(iiauxTable) do
             kk = tostring(fieldName)
-            if type(fieldName) == "number" then kk = '['..kk.."]" end 
-            if type(fieldName) == "string" and (fieldName:match("%.") or fieldName:match("-")) then kk = '["'..kk..'"]' end
-            entry = kk .. " = " .. __tostring(value[fieldName],indent..'    ',vmap)
+            if type(fieldName) == "number" then kk = '[' .. kk .. "]" end
+            if type(fieldName) == "string" and (fieldName:match("%.") or fieldName:match("-")) then kk = '["' .. kk ..
+                '"]' end
+            entry = kk .. " = " .. __tostring(value[fieldName], indent .. '    ', vmap)
 
-            str = str..separator..indent..'    '..entry
+            str = str .. separator .. indent .. '    ' .. entry
             separator = ", \n"
         end
-        for i, fieldName in ipairs (auxTable) do
+        for i, fieldName in ipairs(auxTable) do
             kk = tostring(fieldName)
-            if type(fieldName) == "number" then kk = '['..kk.."]" end 
-            if type(fieldName) == "string" and (fieldName:match("%.") or fieldName:match("-"))then kk = '["'..kk..'"]' end
+            if type(fieldName) == "number" then kk = '[' .. kk .. "]" end
+            if type(fieldName) == "string" and (fieldName:match("%.") or fieldName:match("-")) then kk = '["' .. kk ..
+                '"]' end
 
             vv = value[fieldName]
-            entry = kk .. " = " .. __tostring(value[fieldName],indent..'    ',vmap)
+            entry = kk .. " = " .. __tostring(value[fieldName], indent .. '    ', vmap)
 
-            str = str..separator..indent..'    '..entry
+            str = str .. separator .. indent .. '    ' .. entry
             separator = ", \n"
         end
-        str = str..'\n'..indent..'}'
+        str = str .. '\n' .. indent .. '}'
     end
     return str
 end
-table.tostring =  __tostring
+table.tostring = __tostring
 
 ---深拷贝表
 ---@see copy_table
@@ -165,11 +169,11 @@ table.tostring =  __tostring
 ---@return table new_tab
 local function th_table_dup(ori_tab)
     if type(ori_tab) ~= "table" then
----@diagnostic disable-next-line: return-type-mismatch
+        ---@diagnostic disable-next-line: return-type-mismatch
         return nil
     end
     local new_tab = {}
-    for i,v in pairs(ori_tab) do
+    for i, v in pairs(ori_tab) do
         local vtyp = type(v)
         if vtyp == "table" then
             new_tab[i] = th_table_dup(v)
@@ -197,7 +201,7 @@ local function th_table_merge(dest, src, cb, path)
             local origin = dest[k]
             if tp == 'table' then
                 dest[k] = dest[k] or {}
-                th_table_merge(dest[k], v, cb, (cb and (path and path..'.'..k or k)) or nil)
+                th_table_merge(dest[k], v, cb, (cb and (path and path .. '.' .. k or k)) or nil)
             elseif tp == 'boolean' then
                 dest[k] = v
             elseif tp == 'string' then
@@ -212,7 +216,7 @@ local function th_table_merge(dest, src, cb, path)
             else
             end
             if type(cb) == 'function' then
-                cb((path and path..'.'..k or k), v, origin)
+                cb((path and path .. '.' .. k or k), v, origin)
             end
         end
     end
@@ -221,7 +225,7 @@ table.merge = th_table_merge
 
 ---比较表
 ---@param a any
----@param b any 
+---@param b any
 ---@return boolean
 local function th_table_equal(a, b)
     local ta = type(a)
@@ -232,7 +236,7 @@ local function th_table_equal(a, b)
         for k, v in pairs(a) do
             n = n + 1
             local tp = type(v)
-            if tp ~= type(b[k])  then return false end
+            if tp ~= type(b[k]) then return false end
 
             if tp == 'string' then
                 if v ~= b[k] then return false end
@@ -251,7 +255,7 @@ local function th_table_equal(a, b)
         return true
     elseif ta == 'number' or ta == 'string' or ta == 'boolean' then
         if ta == "number" and math.floor(a) < a and math.floor(b) < b then
-            if math.abs(a -b) > 1e-6 then
+            if math.abs(a - b) > 1e-6 then
                 return false
             end
             return true
@@ -269,7 +273,7 @@ table.equal = th_table_equal
 ---@return boolean
 function math.approximately(a, b)
     if type(a) ~= "number" or type(b) ~= "number" then
-	    return false
+        return false
     end
 
     return math.abs(b - a) < math.max(1e-06 * math.max(math.abs(a), math.abs(b)), 9.4039548e-38)
@@ -282,15 +286,15 @@ end
 ---@return number
 function math.clamp(value, min, max)
     if type(value) ~= "number" or type(min) ~= "number" or type(max) ~= "number" then
-	    return value
+        return value
     end
 
     if value < min then
-	    return min
+        return min
     elseif max < value then
-	    return max
+        return max
     else
-	    return value
+        return value
     end
 end
 
@@ -301,7 +305,7 @@ end
 ---@return number
 function math.lerp(from, to, t)
     if type(from) ~= "number" or type(to) ~= "number" or type(t) ~= "number" then
-	    return from
+        return from
     end
 
     t = math.clamp(t, 0, 1)

@@ -5,11 +5,11 @@
 threadpool = {}
 
 --[[
-等待某段时间后继续运行  
-time为nil时会将event赋值到time，并且生成线程id  
-event为nil时将会一直等待下去(9999999s) 直到退出地图  
-frame_func为function时 每等待1tick(约为0.05s)会执行  
-为table时 其中的 \_frame_ 每等待1tick会执行 \_tick_ 等待时间超时后先执行  
+等待某段时间后继续运行<br>
+time为nil时会将event赋值到time，并且生成线程id<br>
+event为nil时将会一直等待下去(9999999s) 直到退出地图<br>
+frame_func为function时 每等待1tick(约为0.05s)会执行<br>
+为table时 其中的 \_frame_ 每等待1tick会执行 \_tick_ 等待时间超时后先执行<br>
 执行顺序: \_frame_, \_tick_, 主线程
 ]]
 ---@param event? number 线程id

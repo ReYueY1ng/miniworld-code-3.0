@@ -63,18 +63,18 @@ function GetInst(classname) end
 ---@return tab new_tab
 function copy_table(ori_tab)
     if type(ori_tab) ~= "table" then
----@diagnostic disable-next-line: return-type-mismatch
-    	return nil
+        ---@diagnostic disable-next-line: return-type-mismatch
+        return nil
     end
 
     local new_tab = {}
 
     for i, v in pairs(ori_tab) do
-    	if type(v) == "table" then
-    		new_tab[i] = copy_table(v)
-    	else
-    		new_tab[i] = v
-    	end
+        if type(v) == "table" then
+            new_tab[i] = copy_table(v)
+        else
+            new_tab[i] = v
+        end
     end
 
     return new_tab
@@ -100,7 +100,5 @@ function Import(name, importModId) end
 ---@return boolean result
 function SetDebugInfo(...) end
 
----调用组件调试函数
----@param fn function 调试函数
----@param modId? string MOD ID
-function __CallComponentDebugFn(fn, modId) end
+---调用组件调试函数（没用）
+function __CallComponentDebugFn() end

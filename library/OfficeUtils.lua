@@ -1,6 +1,6 @@
 ---@meta
 
----办公工具接口
+---官方工具接口
 ---@class OfficeUtils
 OfficeUtils = {}
 

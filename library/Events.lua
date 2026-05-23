@@ -45,31 +45,31 @@ TriggerEvent = {
 
     ---当任意玩家游戏失败<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     GameAnyPlayerDefeat = "Game.AnyPlayer.Defeat",
     ---当任意玩家进入游戏<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     GameAnyPlayerEnterGame = "Game.AnyPlayer.EnterGame",
     ---当任意玩家离开游戏<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     GameAnyPlayerLeaveGame = "Game.AnyPlayer.LeaveGame",
     ---当任意玩家游戏胜利<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     GameAnyPlayerVictory = "Game.AnyPlayer.Victory",
     ---当玩家获得道具<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -77,7 +77,7 @@ TriggerEvent = {
     PlayerAddItem = "Player.AddItem",
     ---当玩家的背包栏放入道具<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -87,7 +87,7 @@ TriggerEvent = {
     PlayerBackPackAddItem = "Player.BackPackAddItem",
     ---当玩家的背包栏发生改变<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -97,7 +97,7 @@ TriggerEvent = {
     PlayerBackPackChange = "Player.BackPackChange",
     ---当玩家的背包栏取出道具<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -111,7 +111,7 @@ TriggerEvent = {
     PlayerChangeCoin = "Player.ChangeCoin",
     ---当玩家开始蓄力道具<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -119,7 +119,7 @@ TriggerEvent = {
     PlayerChargeItemBegin = "Player.ChargeItem.Begin",
     ---当玩家结束蓄力道具<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -135,7 +135,7 @@ TriggerEvent = {
     PlayerClickActor = "Player.ClickActor",
     ---当玩家点击任意方块<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -144,7 +144,7 @@ TriggerEvent = {
     PlayerClickBlock = "Player.ClickBlock",
     ---当玩家点击任意掉落物<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -153,7 +153,7 @@ TriggerEvent = {
     PlayerClickDropItem = "Player.ClickDropItem",
     ---当玩家点击任意实体<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -162,7 +162,7 @@ TriggerEvent = {
     PlayerClickEntity = "Player.ClickEntity",
     ---当玩家点击任意生物<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -171,7 +171,7 @@ TriggerEvent = {
     PlayerClickMob = "Player.ClickMob",
     ---当玩家点击任意玩家<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -180,7 +180,7 @@ TriggerEvent = {
     PlayerClickPlayer = "Player.ClickPlayer",
     ---当玩家点击任意投掷物<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -189,7 +189,7 @@ TriggerEvent = {
     PlayerClickProjectile = "Player.ClickProjectile",
     ---当玩家消耗道具<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -197,7 +197,7 @@ TriggerEvent = {
     PlayerConsumeItem = "Player.ConsumeItem",
     ---当玩家丢弃道具<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -205,7 +205,7 @@ TriggerEvent = {
     PlayerDiscardItem = "Player.DiscardItem",
     ---当玩家的装备栏放入道具<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -215,7 +215,7 @@ TriggerEvent = {
     PlayerEquipAddItem = "Player.EquipAddItem",
     ---当玩家的装备栏发生改变<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -225,7 +225,7 @@ TriggerEvent = {
     PlayerEquipChange = "Player.EquipChange",
     ---当玩家脱下装备<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -233,7 +233,7 @@ TriggerEvent = {
     PlayerEquipOff = "Player.EquipOff",
     ---当玩家穿上装备<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -241,7 +241,7 @@ TriggerEvent = {
     PlayerEquipOn = "Player.EquipOn",
     ---当玩家的装备栏取出道具<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -260,7 +260,7 @@ TriggerEvent = {
     ---@see GunAction
     ---```GunAction``` — 枪械触发事件类型<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     PlayerGunAction = "Player.GunAction",
@@ -275,7 +275,7 @@ TriggerEvent = {
     ---@see KeyCode
     ---```KeyCode``` — 按键枚举<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```vkey``` — 按键<br>
@@ -285,7 +285,7 @@ TriggerEvent = {
     ---@see KeyCode
     ---```KeyCode``` — 按键枚举<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```vkey``` — 按键<br>
@@ -295,7 +295,7 @@ TriggerEvent = {
     ---@see KeyCode
     ---```KeyCode``` — 按键枚举<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```vkey``` — 按键<br>
@@ -305,14 +305,14 @@ TriggerEvent = {
     ---@see KeyCode
     ---```KeyCode``` — 按键枚举<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```vkey``` — 按键<br>
     PlayerInputKeyUp = "Player.InputKeyUp",
     ---玩家邀请好友<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -326,7 +326,7 @@ TriggerEvent = {
     ---@see RoleMotion
     ---```RoleMotion``` — 角色行为枚举<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```eventobjid``` — 触发事件的对象<br>
     PlayerMotionStateChange = "Player.MotionStateChange",
@@ -336,24 +336,24 @@ TriggerEvent = {
     ---```RoleMotion``` — 角色行为枚举<br>
     ---\---传参---<br>
     ---参数未知<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     PlayerMotionStateChangeEnd = "Player.MotionStateChangeEnd",
     ---玩家移动<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     PlayerMoveOneBlockSize = "Player.MoveOneBlockSize",
     ---玩家发送聊天信息<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```content``` — 事件中的字符串<br>
     PlayerNewInputContent = "Player.NewInputContent",
     ---当玩家拾取道具<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -365,13 +365,13 @@ TriggerEvent = {
     PlayerPlayAction = "Player.PlayAction",
     ---玩家复活<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     PlayerRevive = "Player.Revive",
     ---玩家选中快捷栏<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -380,7 +380,7 @@ TriggerEvent = {
     PlayerSelectShortcut = "Player.SelectShortcut",
     ---当玩家的快捷栏放入道具<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -390,7 +390,7 @@ TriggerEvent = {
     PlayerShortcutAddItem = "Player.ShortcutAddItem",
     ---当玩家的快捷栏发生改变<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -400,7 +400,7 @@ TriggerEvent = {
     PlayerShortcutChange = "Player.ShortcutChange",
     ---当玩家的快捷栏取出道具<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -414,7 +414,7 @@ TriggerEvent = {
     PlayerUseGiftPack = "Player.UseGiftPack",
     ---当玩家开始使用道具<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -426,19 +426,19 @@ TriggerEvent = {
 
     ---方块被创建<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```blockid``` — 事件中的方块类型<br>
     BlockAdd = "Block.Add",
     ---当方块颜色发生改变<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```blockid``` — 事件中的方块类型<br>
     BlockChangeColor = "Block.ChangeColor",
     ---当方块方向发生改变<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```blockid``` — 事件中的方块类型<br>
     BlockChangeDir = "Block.BlockChangeDir",
@@ -448,21 +448,21 @@ TriggerEvent = {
     BlockChunkExtraBuild = "Block.Chunk.ExtraBuild",
     ---当储存容器内发生改变<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```blockid``` — 事件中的方块类型<br>
     ---```itemid``` — 事件中的道具类型<br>
     BlockContainerChange = "Backpack.ItemChange",
     ---当储存容器内放入道具<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```blockid``` — 事件中的方块类型<br>
     ---```itemid``` — 事件中的道具类型<br>
     BlockContainerPutIn = "Backpack.ItemPutIn",
     ---当储存容器内取出道具<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```blockid``` — 事件中的方块类型<br>
     ---```itemid``` — 事件中的道具类型<br>
@@ -473,7 +473,7 @@ TriggerEvent = {
     BlockDestroyBy = "Block.DestroyBy",
     ---当方块被挖掘<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```blockid``` — 事件中的方块类型<br>
     ---```eventobjid``` — 触发事件的对象<br>
@@ -481,7 +481,7 @@ TriggerEvent = {
     BlockDigBegin = "Block.Dig.Begin",
     ---当方块被挖掘中断<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```blockid``` — 事件中的方块类型<br>
     ---```eventobjid``` — 触发事件的对象<br>
@@ -489,7 +489,7 @@ TriggerEvent = {
     BlockDigCancel = "Block.Dig.Cancel",
     ---当方块被挖掘完毕<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```blockid``` — 事件中的方块类型<br>
     ---```eventobjid``` — 触发事件的对象<br>
@@ -505,7 +505,7 @@ TriggerEvent = {
     BlockPlaceBy = "Block.PlaceBy",
     ---当方块被破坏<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```blockid``` — 事件中的方块类型<br>
     ---```eventobjid``` — 触发事件的对象<br>
@@ -513,7 +513,7 @@ TriggerEvent = {
     BlockRemove = "Block.Remove",
     ---当方块开关状态发生改变<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```blockid``` — 事件中的方块类型<br>
     BlockTrigger = "Block.Trigger",
@@ -531,7 +531,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```elementid``` — 元件ID<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```uielement``` — 事件中的元件<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -540,7 +540,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```elementid``` — 元件ID<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```uielement``` — 事件中的元件<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -549,7 +549,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```elementid``` — 元件ID<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```uielement``` — 事件中的元件<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -558,7 +558,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```elementid``` — 元件ID<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```uielement``` — 事件中的元件<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -579,7 +579,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```elementid``` — 元件ID<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```uielement``` — 事件中的元件<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -637,7 +637,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```elementid``` — 元件ID<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```uielement``` — 事件中的元件<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -646,7 +646,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```elementid``` — 元件ID<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```uielement``` — 事件中的元件<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -655,7 +655,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```elementid``` — 元件ID<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```uielement``` — 事件中的元件<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -668,7 +668,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```uiid``` — 界面ID<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```CustomUI``` — 事件中的界面<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```eventobjid``` — 触发事件的对象<br>
@@ -685,7 +685,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```uiid``` — 界面ID<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```CustomUI``` — 事件中的界面<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```eventobjid``` — 触发事件的对象<br>
@@ -694,7 +694,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```elementid``` — 元件ID<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```uielement``` — 事件中的元件<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -705,49 +705,49 @@ TriggerEvent = {
 
     ---当特效创建在任意实体<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```effectid``` — 事件中的特效类型<br>
     ParticleEntityOnCreate = "Particle.Entity.OnCreate",
     ---当特效创建在任意掉落物<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```effectid``` — 事件中的特效类型<br>
     ParticleItemOnCreate = "Particle.Item.OnCreate",
     ---当特效创建在任意生物<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```effectid``` — 事件中的特效类型<br>
     ParticleMobOnCreate = "Particle.Mob.OnCreate",
     ---当特效创建在任意对象<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```effectid``` — 事件中的特效类型<br>
     ParticleObjectOnCreate = "Particle.Object.OnCreate",
     ---当特效创建在任意玩家<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```effectid``` — 事件中的特效类型<br>
     ParticlePlayerOnCreate = "Particle.Player.OnCreate",
     ---当特效创建在任意位置<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```effectid``` — 事件中的特效类型<br>
     ParticlePosOnCreate = "Particle.Pos.OnCreate",
     ---当特效创建在任意投掷物<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```effectid``` — 事件中的特效类型<br>
@@ -758,7 +758,7 @@ TriggerEvent = {
 
     ---任意玩家购买或提取开发者商店道具<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```itemid``` — 事件中的道具类型<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -776,57 +776,57 @@ TriggerEvent = {
     PlayerCollide = "Player.Collide.Begin",
     ---当任意玩家和任意区域碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     PlayerCollideToAreaObj = "Player.CollideAreaObj",
     ---当任意玩家和任意掉落物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     PlayerCollideToDropItem = "Player.CollideDropItem",
     ---当任意玩家和任意实体碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     PlayerCollideToEntity = "Player.CollideEntity",
     ---当任意玩家和任意投掷物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     PlayerCollideToMissile = "Player.CollideMissile",
     ---当任意玩家和任意生物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     PlayerCollideToMob = "Player.CollideMob",
     ---当任意玩家和任意玩家碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     PlayerCollideToPlayer = "Player.CollidePlayer",
     ---当任意生物和任意生物碰撞开始<br>
     ---\---传参---<br>
@@ -837,279 +837,279 @@ TriggerEvent = {
     MobCollide = "Actor.Collide.Begin",
     ---当任意生物和任意区域碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     MobCollideToAreaObj = "Mob.CollideAreaObj",
     ---当任意生物和任意掉落物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     MobCollideToDropItem = "Mob.CollideDropItem",
     ---当任意生物和任意实体碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     MobCollideToEntity = "Mob.CollideEntity",
     ---当任意生物和任意投掷物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     MobCollideToMissile = "Mob.CollideMissile",
     ---当任意生物和任意生物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     MobCollideToMob = "Mob.CollideMob",
     ---当任意生物和任意玩家碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     MobCollideToPlayer = "Mob.CollidePlayer",
     ---当任意投掷物和任意区域碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     MissileCollideToAreaObj = "Missile.CollideAreaObj",
     ---当任意投掷物和任意掉落物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     MissileCollideToDropItem = "Missile.CollideDropItem",
     ---当任意投掷物和任意实体碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     MissileCollideToEntity = "Missile.CollideEntity",
     ---当任意投掷物和任意投掷物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     MissileCollideToMissile = "Missile.CollideMissile",
     ---当任意投掷物和任意生物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     MissileCollideToMob = "Missile.CollideMob",
     ---当任意投掷物和任意玩家碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     MissileCollideToPlayer = "Missile.CollidePlayer",
     ---当任意掉落物和任意区域碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     DropItemCollideToAreaObj = "DropItem.CollideAreaObj",
     ---当任意掉落物和任意掉落物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     DropItemCollideToDropItem = "DropItem.CollideDropItem",
     ---当任意掉落物和任意实体碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     DropItemCollideToEntity = "DropItem.CollideEntity",
     ---当任意掉落物和任意投掷物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     DropItemCollideToMissile = "DropItem.CollideMissile",
     ---当任意掉落物和任意生物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     DropItemCollideToMob = "DropItem.CollideMob",
     ---当任意掉落物和任意玩家碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     DropItemCollideToPlayer = "DropItem.CollidePlayer",
     ---当任意实体和任意区域碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     EntityCollideToAreaObj = "Entity.CollideAreaObj",
     ---当任意实体和任意掉落物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     EntityCollideToDropItem = "Entity.CollideDropItem",
     ---当任意实体和任意实体碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     EntityCollideToEntity = "Entity.CollideEntity",
     ---当任意实体和任意投掷物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     EntityCollideToMissile = "Entity.CollideMissile",
     ---当任意实体和任意生物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     EntityCollideToMob = "Entity.CollideMob",
     ---当任意实体和任意玩家碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     EntityCollideToPlayer = "Entity.CollidePlayer",
     ---当任意区域和任意区域碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     AreaObjCollideToAreaObj = "AreaObj.CollideAreaObj",
     ---当任意区域和任意掉落物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     AreaObjCollideToDropItem = "AreaObj.CollideDropItem",
     ---当任意区域和任意实体碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     AreaObjCollideToEntity = "AreaObj.CollideEntity",
     ---当任意区域和任意投掷物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     AreaObjCollideToMissile = "AreaObj.CollideMissile",
     ---当任意区域和任意生物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     AreaObjCollideToMob = "AreaObj.CollideMob",
     ---当任意区域和任意玩家碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     AreaObjCollideToPlayer = "AreaObj.CollidePlayer",
     ---当任意玩家进入区域<br>
     ---\---过滤参数---<br>
     ---```areaid``` — 区域id<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -1118,7 +1118,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```areaid``` — 区域id<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -1127,7 +1127,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```areaid``` — 区域id<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -1136,7 +1136,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```areaid``` — 区域id<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -1145,7 +1145,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```areaid``` — 区域id<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -1154,7 +1154,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```areaid``` — 区域id<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -1163,7 +1163,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```areaid``` — 区域id<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -1172,7 +1172,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```areaid``` — 区域id<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -1181,7 +1181,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```areaid``` — 区域id<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -1190,7 +1190,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```areaid``` — 区域id<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -1199,7 +1199,7 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```areaid``` — 区域id<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -1208,14 +1208,14 @@ TriggerEvent = {
     ---\---过滤参数---<br>
     ---```areaid``` — 区域id<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     AreaObjAreaOut = "AreaObj.AreaOut",
     ---当任意生物被创建<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -1224,7 +1224,7 @@ TriggerEvent = {
     MobCreate = "Actor.Create",
     ---当任意实体被创建<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -1233,7 +1233,7 @@ TriggerEvent = {
     EntityCreate = "Entity.Create",
     ---当任意区域被创建<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -1246,7 +1246,7 @@ TriggerEvent = {
 
     ---当任意玩家受到伤害<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1254,7 +1254,7 @@ TriggerEvent = {
     PlayerBeHurt = "Player.BeHurt",
     ---当任意玩家被击败<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1262,7 +1262,7 @@ TriggerEvent = {
     PlayerDie = "Player.Die",
     ---当任意生物受到伤害<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1275,7 +1275,7 @@ TriggerEvent = {
     MobBeInteract = "Mob.BeInteract",
     ---当任意生物被击败<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1283,7 +1283,7 @@ TriggerEvent = {
     MobDie = "Actor.Die",
     ---当任意玩家开始攻击<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1292,7 +1292,7 @@ TriggerEvent = {
     PlayerAttack = "Player.Attack",
     ---当任意玩家攻击命中<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1301,7 +1301,7 @@ TriggerEvent = {
     PlayerAttackHit = "Player.AttackHit",
     ---当任意玩家造成伤害<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1310,7 +1310,7 @@ TriggerEvent = {
     PlayerDamageActor = "Player.DamageActor",
     ---当任意玩家击败目标<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1319,7 +1319,7 @@ TriggerEvent = {
     PlayerDefeatActor = "Player.DefeatActor",
     ---当任意生物开始攻击<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1328,7 +1328,7 @@ TriggerEvent = {
     MobAttack = "Actor.Attack",
     ---当任意生物攻击命中<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1337,7 +1337,7 @@ TriggerEvent = {
     MobAttackHit = "Actor.AttackHit",
     ---当任意生物击败目标<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1346,7 +1346,7 @@ TriggerEvent = {
     MobBeat = "Actor.Beat",
     ---当任意生物造成伤害<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1355,28 +1355,28 @@ TriggerEvent = {
     MobDamage = "Actor.Damage",
     ---当任意玩家获得状态<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```buffid``` — 事件中的状态<br>
     ---```eventobjid``` — 触发事件的对象<br>
     PlayerAddBuff = "Player.AddBuff",
     ---当任意玩家失去状态<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```buffid``` — 事件中的状态<br>
     ---```eventobjid``` — 触发事件的对象<br>
     PlayerRemoveBuff = "Player.RemoveBuff",
     ---当任意生物获得状态<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```buffid``` — 事件中的状态<br>
     ---```eventobjid``` — 触发事件的对象<br>
     MobAddBuff = "Actor.AddBuff",
     ---当任意生物失去状态<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```buffid``` — 事件中的状态<br>
     ---```eventobjid``` — 触发事件的对象<br>
@@ -1386,7 +1386,7 @@ TriggerEvent = {
     ---@see RoleAttr
     ---```RoleAttr``` — 生物/玩家属性<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     PlayerChangeAttr = "Player.ChangeAttr",
@@ -1395,13 +1395,13 @@ TriggerEvent = {
     ---@see RoleAttr
     ---```RoleAttr``` — 生物/玩家属性<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     MobChangeAttr = "Actor.ChangeAttr",
     ---当角色举起角色<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1412,7 +1412,7 @@ TriggerEvent = {
     ---@see Ability
     ---```Ability``` — 动作总开关<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```eventobjid``` — 触发事件的对象<br>
     PlayerAttrStateChange = "Player.AttrStateChange",
@@ -1421,13 +1421,13 @@ TriggerEvent = {
     ---@see Ability
     ---```Ability``` — 动作总开关<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```eventobjid``` — 触发事件的对象<br>
     MobAttrStateChange = "Mob.AttrStateChange",
     ---当任意玩家骑乘坐骑/载具<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1435,7 +1435,7 @@ TriggerEvent = {
     PlayerMountActor = "Player.MountActor",
     ---当任意生物骑乘坐骑/载具<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1443,7 +1443,7 @@ TriggerEvent = {
     MobMountActor = "Actor.MountActor",
     ---当任意玩家取消骑乘<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1451,7 +1451,7 @@ TriggerEvent = {
     PlayerDismountActor = "Player.DismountActor",
     ---当任意生物取消骑乘<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1463,7 +1463,7 @@ TriggerEvent = {
 
     ---投掷物创建<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```itemid``` — 事件中的道具类型<br>
     ---```actorid``` — 触发事件的生物类型<br>
@@ -1479,7 +1479,7 @@ TriggerEvent = {
     ProjectileHitAreaObj = "Projectile.Hit.AreaObj",
     ---当投掷物击中任意方块<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```itemid``` — 事件中的道具类型<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1488,7 +1488,7 @@ TriggerEvent = {
     ProjectileHitBlock = "Projectile.Hit.Block",
     ---当投掷物击中任意实体<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```itemid``` — 事件中的道具类型<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1497,7 +1497,7 @@ TriggerEvent = {
     ProjectileHitEntity = "Projectile.Hit.Entity",
     ---当投掷物击中任意掉落物<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```itemid``` — 事件中的道具类型<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1506,7 +1506,7 @@ TriggerEvent = {
     ProjectileHitItem = "Projectile.Hit.Item",
     ---当投掷物击中任意生物<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```itemid``` — 事件中的道具类型<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1515,7 +1515,7 @@ TriggerEvent = {
     ProjectileHitMob = "Projectile.Hit.Mob",
     ---当投掷物击中任意玩家<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```itemid``` — 事件中的道具类型<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1524,7 +1524,7 @@ TriggerEvent = {
     ProjectileHitPlayer = "Projectile.Hit.Player",
     ---当投掷物击中任意投掷物<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```itemid``` — 事件中的道具类型<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -1537,21 +1537,21 @@ TriggerEvent = {
 
     ---当掉落物创建<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```itemid``` — 事件中的道具类型<br>
     ItemCreate = "Item.Create",
     ---当掉落物被拾取<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```itemid``` — 事件中的道具类型<br>
     ---```x,y,z``` — 事件中的位置<br>
     DropItemPickup = "DropItem.Pickup",
     ---当掉落物消失<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```itemid``` — 事件中的道具类型<br>
     ---```x,y,z``` — 事件中的位置<br>
@@ -1997,7 +1997,7 @@ ObjectEvent = {
     PlayerDamageActor = "Player.DamageActor",
     ---当此玩家游戏失败<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     PlayerDefeat = "Game.AnyPlayer.Defeat",
@@ -2040,7 +2040,7 @@ ObjectEvent = {
     PlayerDodge = 15,
     ---当此玩家进入游戏<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     PlayerEnterGame = "Game.AnyPlayer.EnterGame",
@@ -2155,7 +2155,7 @@ ObjectEvent = {
     PlayerInvateFriend = "Player.InvateFriend",
     ---当此玩家离开游戏<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     PlayerLeaveGame = "Game.AnyPlayer.LeaveGame",
@@ -2264,7 +2264,7 @@ ObjectEvent = {
     PlayerUseItem = "Player.UseItem",
     ---当此玩家游戏胜利<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     PlayerVictory = "Game.AnyPlayer.Victory",
@@ -2290,7 +2290,7 @@ ObjectEvent = {
     BlockChangeDir = "Block.BlockChangeDir",
     ---当此类方块被被点击<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```blockid``` — 事件中的方块类型<br>
     ---```eventobjid``` — 触发事件的对象<br>
@@ -2353,14 +2353,16 @@ ObjectEvent = {
     ---```eventobjid``` — 触发事件的对象<br>
     ---```actorid``` — 触发事件的生物类型<br>
     BlockRemove = 22,
-    ---当此类方块被移除<br>
+    ---当此类方块被破坏<br>
     ---\---传参---<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```blockid``` — 事件中的方块类型<br>
+    ---```eventobjid``` — 触发事件的对象<br>
+    ---```actorid``` — 触发事件的生物类型<br>
     OnBlockRemove = 22,
     ---当此类方块开关状态发生改变<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```blockid``` — 事件中的方块类型<br>
     OnInteract = 6,
@@ -2371,7 +2373,7 @@ ObjectEvent = {
     ---当对象的当前组件属性发生改变<br>
     ---\---传参---<br>
     ---无参数<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     OnPropertyChange = "OnPropertyChange",
     ---当此对象播放动画时<br>
     ---\---传参---<br>
@@ -2385,14 +2387,14 @@ ObjectEvent = {
 
     ---当此角色获得状态<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```buffid``` — 事件中的状态<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ObjectAddBuff = "ObjectAddBuff",
     ---当此角色开始攻击<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -2401,7 +2403,7 @@ ObjectEvent = {
     ObjectAttack = "ObjectAttack",
     ---当此角色攻击命中<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -2413,20 +2415,20 @@ ObjectEvent = {
     ---@see Ability
     ---```Ability``` — 动作总开关<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ObjectAttrStateChange = "ObjectAttrStateChange",
     ---此角色被玩家点击<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
     ObjectBeClick = "Actor.ClickActor",
     ---当此角色受到伤害<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -2437,7 +2439,7 @@ ObjectEvent = {
     ---@see RoleAttr
     ---```RoleAttr``` — 生物/玩家属性<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ObjectChangeAttr = "ObjectChangeAttr",
@@ -2449,55 +2451,55 @@ ObjectEvent = {
     ObjectCollide = "ObjectCollide",
     ---当此角色和任意区域碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     ObjectCollideByAreaObj = "Object.CollideAreaObj",
     ---当此角色和任意掉落物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     ObjectCollideByDropItem = "Object.CollideDropItem",
     ---当此角色和任意实体碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     ObjectCollideByEntity = "Object.CollideEntity",
     ---当此角色和任意投掷物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     ObjectCollideByMissile = "Object.CollideMissile",
     ---当此角色和任意生物碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     ObjectCollideByMob = "Object.CollideMob",
     ---当此角色和任意玩家碰撞开始<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
----```targetactorid``` — 事件中的目标生物类型<br>
+    ---```targetactorid``` — 事件中的目标生物类型<br>
     ObjectCollideByPlayer = "Object.CollidePlayer",
     ---当此角色造成伤害<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -2506,7 +2508,7 @@ ObjectEvent = {
     ObjectDamage = "ObjectDamage",
     ---当此角色击败目标<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -2515,7 +2517,7 @@ ObjectEvent = {
     ObjectDefeat = "ObjectDefeat",
     ---当此角色被击败<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -2523,7 +2525,7 @@ ObjectEvent = {
     ObjectDie = "ObjectDie",
     ---此角色取消骑乘<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -2535,7 +2537,7 @@ ObjectEvent = {
     ---```RoleMotion``` — 角色行为枚举<br>
     ---\---传参---<br>
     ---参数未知<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ObjectMotionStateChange = "ObjectMotionStateChange",
     ---当此角色运动状态改变结束<br>
     ---\---过滤参数---<br>
@@ -2543,11 +2545,11 @@ ObjectEvent = {
     ---```RoleMotion``` — 角色行为枚举<br>
     ---\---传参---<br>
     ---参数未知<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ObjectMotionStateChangeEnd = "ObjectMotionStateChangeEnd",
     ---此角色骑乘<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```eventobjid``` — 触发事件的对象<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```toobjid``` — 事件中的目标对象<br>
@@ -2555,7 +2557,7 @@ ObjectEvent = {
     ObjectMountActor = "ObjectMountActor",
     ---当此角色失去状态<br>
     ---\---传参---<br>
----```eventworldid``` — 事件中的星球<br>
+    ---```eventworldid``` — 事件中的星球<br>
     ---```x,y,z``` — 事件中的位置<br>
     ---```buffid``` — 事件中的状态<br>
     ---```eventobjid``` — 触发事件的对象<br>
@@ -2862,13 +2864,6 @@ ObjectEvent = {
     ---\---传参---<br>
     ---参数未知<br>
     OnBlockPlaceBy = 20,
-    ---当此类方块被被破坏<br>
-    ---\---传参---<br>
-    ---```x,y,z``` — 事件中的位置<br>
-    ---```blockid``` — 事件中的方块类型<br>
-    ---```eventobjid``` — 触发事件的对象<br>
-    ---```actorid``` — 触发事件的生物类型<br>
-    OnBlockRemove = "Block.Remove",
     ---当碰撞<br>
     ---\---传参---<br>
     ---参数未知<br>

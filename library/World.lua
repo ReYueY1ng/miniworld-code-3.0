@@ -440,7 +440,7 @@ function World:CalcDirectionByYawAngle(objid, yaw, pitch) end
 ---@param z number z坐标
 ---@return PositionTable direction 绝对方向向量
 function World:CalcDirectionByCoord(x, y, z)
-    return {x=x,y=y,z=z}
+    return {x = x, y = y, z = z}
 end
 
 ---角度坐标方向
