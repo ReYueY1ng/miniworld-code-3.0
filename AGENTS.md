@@ -129,3 +129,54 @@ No automated tests. Verify by:
 2. Check that autocompletion works for Mini World APIs
 3. Verify type errors appear for invalid API usage
 4. Use `test.lua` to validate type resolution works correctly
+
+## API Update Constraints
+
+### 1. Environment Table Authority
+**环境表 (ugcscriptenv.txt) 为唯一权威** — 所有新增 API 必须在环境中存在。
+
+```bash
+# 环境表位置
+/home/yuey1ng/mini/miniworld-scripts/3.0/environments/ugcscriptenv.txt
+```
+
+### 2. Spelling Errors — Do NOT Fix
+不修改拼写错误 (如 ColorGrandient, Lenght, toFistTime)，这是官方问题。
+- 可以添加注释说明
+- 保留引擎原始拼写
+
+### 3. API Source Priority (优先级)
+API 来源优先级 (从高到低):
+
+| 优先级 | 来源 | 用途 |
+|--------|------|------|
+| 1 | 环境表 (ugcscriptenv.txt) | 唯一权威，确认 API 存在 |
+| 2 | 反编译文件 | 获取深层信息/具体参数 |
+| 3 | 新版文档 (dev-wiki.mini1.cn) | 获取基本信息 |
+| 4 | 旧版文档 (迷你世界脚本api.txt) | 备用参考 |
+
+```bash
+# 反编译文件位置
+/run/media/yuey1ng/F25A9F0C5A9ECD2B/mini/dump/script_decompiled/luascript/ugc/framework
+
+# 文档
+新版: https://dev-wiki.mini1.cn/ugc-wiki/
+旧版: /home/yuey1ng/Downloads/迷你世界脚本api.txt
+```
+
+**注意**: 文档用于基本信息，反编译文件获取参数签名 (参数可能不一致，以反编译为准)
+
+### 4. Chinese Comments Required
+所有函数必须有中文文档注释，BaseEnv 函数除外。
+
+```lua
+---获取玩家背包物品数量
+---@param objid number 玩家ID
+---@return number count 物品数量
+function Player:GetBackpackItemNum(objid) end
+```
+
+### 5. BaseEnv Verification
+基本环境内的函数 (如 math.*, string.*, table.*)，用脚本验证是否在 LuaJIT 内存在：
+- **存在** → 不添加 (LuaLS 已内置定义)
+- **不存在** → 添加到 BaseEnv.lua

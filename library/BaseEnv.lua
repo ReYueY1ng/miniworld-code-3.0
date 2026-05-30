@@ -50,6 +50,22 @@ function string.endswith(String, End)
     return End == '' or string.sub(String, -string.len(End)) == End
 end
 
+---字符串是否包含指定子串
+---@param self string
+---@param sub string 子串
+---@return boolean result 是否包含
+function string.Contains(self, sub) end
+
+---字符串是否为空白字符串
+---@param self string
+---@return boolean result 是否为空白
+function string:IsBlank() end
+
+---去除字符串首尾空白字符
+---@param self string
+---@return string result 去除空白后的字符串
+function string:Trim() end
+
 ---分割字符串
 ---@param input any 被分割的字符串
 ---@param delimiter any 分隔符(不能为 "")

@@ -605,3 +605,19 @@ function World:StopParticleEffectOnPos(x, y, z, particleId, worldId) end
 ---@param worldId? integer 世界id(默认当前世界)
 ---@return integer[] objids 生物objid列表
 function World:FindNearActorListByObjType(centerX, centerY, centerZ, radius, objType, worldId) end
+
+---设置区域始终保持加载状态
+---@param x1 number 区域起点x坐标
+---@param z1 number 区域起点z坐标
+---@param x2 number 区域终点x坐标
+---@param z2 number 区域终点z坐标
+---@param keepLoaded? boolean 是否保持加载(默认true)
+---@param worldId? integer 世界id(默认当前世界)
+---@return boolean result 是否成功
+function World:SetChunkRectAlwaysLoaded(x1, z1, x2, z2, keepLoaded, worldId) end
+
+---获取世界生物生成规则
+---@param biometype integer 生物群系类型
+---@param worldId? integer 世界id(默认当前世界)
+---@return table rules 生物生成规则表
+function World:GetWorldCreateMobRule(biometype, worldId) end
