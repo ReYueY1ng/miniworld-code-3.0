@@ -393,9 +393,12 @@ function World:GetDateFromTime(time, date) end
 ---@param dir PositionTable 方向向量
 ---@param maxlen number 最大检测方块距离
 ---@param picktype RayDetectType 检测类型
+---@param worldId? WorldIdEnum 世界id
+---@param ignoreObjs? boolean 是否忽略实体
+---@param ignorePrefabs? boolean 是否忽略预制
 ---@return integer objid 对象ID
 ---@return PositionTable pos 对象位置
-function World:GetDirRayDetection(posbegin, dir, maxlen, picktype) end
+function World:GetDirRayDetection(posbegin, dir, maxlen, picktype, worldId, ignoreObjs, ignorePrefabs) end
 
 ---计算指定方向射线长度(遇到方块结束)
 ---@param srcx number 起点x坐标

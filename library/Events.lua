@@ -1416,6 +1416,12 @@ TriggerEvent = {
     ---```x,y,z``` — 事件中的位置<br>
     ---```eventobjid``` — 触发事件的对象<br>
     PlayerAttrStateChange = "Player.AttrStateChange",
+    ---当任意玩家模型改变<br>
+    ---\---传参---<br>
+    ---```eventworldid``` — 事件中的星球<br>
+    ---```x,y,z``` — 事件中的位置<br>
+    ---```eventobjid``` — 触发事件的对象<br>
+    PlayerModelChange = "Player.ModelChange",
     ---当任意生物权限发生改变<br>
     ---\---过滤参数---<br>
     ---@see Ability
@@ -1425,6 +1431,12 @@ TriggerEvent = {
     ---```x,y,z``` — 事件中的位置<br>
     ---```eventobjid``` — 触发事件的对象<br>
     MobAttrStateChange = "Mob.AttrStateChange",
+    ---当任意生物模型改变<br>
+    ---\---传参---<br>
+    ---```eventworldid``` — 事件中的星球<br>
+    ---```x,y,z``` — 事件中的位置<br>
+    ---```eventobjid``` — 触发事件的对象<br>
+    MobModelChange = "Mob.ModelChange",
     ---当任意玩家骑乘坐骑/载具<br>
     ---\---传参---<br>
     ---```eventworldid``` — 事件中的星球<br>

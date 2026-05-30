@@ -415,7 +415,11 @@ ElementAttr = {
     Text = 8,             -- 文本
     Transparency = 9,     -- 透明度
     Visibility = 11,      -- 显示/隐藏状态
-    Width = 7             -- 宽度
+    Width = 7,            -- 宽度
+    GlobalPos = 106,      -- 全局位置
+    GlobalPosX = 14,      -- 全局位置X
+    GlobalPosY = 15,      -- 全局位置Y
+    Texture = 16          -- 纹理
 }
 ---@enum ElementType
 ---元件类型
@@ -715,9 +719,12 @@ ItemAttr = {
 ---按键枚举
 KeyCode = {
     A = "A",
+    Alt = "ALT",
     B = "B",
     C = "C",
+    Ctrl = "CTRL",
     D = "D",
+    Down = "DOWN",
     E = "E",
     F = "F",
     G = "G",
@@ -726,6 +733,8 @@ KeyCode = {
     J = "J",
     K = "K",
     L = "L",
+    Left = "LEFT",
+    LeftButton = "LEFTBUTTON",
     M = "M",
     N = "N",
     Number0 = "0",
@@ -742,11 +751,14 @@ KeyCode = {
     P = "P",
     Q = "Q",
     R = "R",
+    Right = "RIGHT",
+    RightButton = "RIGHTBUTTON",
     S = "S",
     Shift = "SHIFT",
     Space = "SPACE",
     T = "T",
     U = "U",
+    Up = "UP",
     V = "V",
     W = "W",
     X = "X",
@@ -765,6 +777,20 @@ LogLevel = {
 MatchMode = {
     All = 1, -- 全部匹配
     Any = 2  -- 部分匹配
+}
+---@enum MotionGroup
+---运动分组
+MotionGroup = {
+    BeginType = {
+        Now = 1,            -- 立即开始
+        Event = 2,          -- 接收广播开始
+        PreMotionBegin = 3, -- 上一个运动开始
+        PreMotionStop = 4,  -- 上一个运动结束
+    },
+    RelativeType = {
+        Local = 1, -- 局部
+        World = 2, -- 世界
+    },
 }
 ---@enum MiniCurrency
 ---货币类型
