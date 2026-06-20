@@ -53,14 +53,16 @@ function Item:GetFacade(itemid) end
 ---在位置上创建道具实例的掉落物
 ---@param itemid integer | string 道具ID
 ---@param pos PositionTable 掉落物位置
+---@param worldId? integer 星球id(默认当前主机所在星球)
 ---@return integer objid 对象objid
-function Item:CreateItemInstInWorld(itemid, pos) end
+function Item:CreateItemInstInWorld(itemid, pos, worldId) end
 
 ---在位置上创建枪械道具实例的掉落物
 ---@param itemid integer | string 道具ID
 ---@param pos PositionTable 掉落物位置
+---@param worldId? integer 星球id(默认当前主机所在星球)
 ---@return integer objid 对象objid
-function Item:CreateGunInWorld(itemid, pos) end
+function Item:CreateGunInWorld(itemid, pos, worldId) end
 
 ---获取装备道具所对应的装备栏
 ---@param itemid integer | string 道具ID

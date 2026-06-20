@@ -44,8 +44,9 @@ function Block:GetBlockID(x, y, z, worldId) end
 ---@param blockid integer | string 方块类型ID
 ---@param data? integer 方块朝向等数据
 ---@param worldId? integer 星球id(默认当前主机所在星球)
+---@param btrigger? boolean 是否触发事件
 ---@return boolean result
-function Block:SetBlockAll(x, y, z, blockid, data, worldId) end
+function Block:SetBlockAll(x, y, z, blockid, data, worldId, btrigger) end
 
 ---摧毁方块
 ---@param x integer 位置坐标
@@ -53,8 +54,9 @@ function Block:SetBlockAll(x, y, z, blockid, data, worldId) end
 ---@param z integer 位置坐标
 ---@param dropitem? boolean 是否掉落
 ---@param worldId? integer 星球id(默认当前主机所在星球)
+---@param btrigger? boolean 是否触发事件
 ---@return boolean result
-function Block:DestroyBlock(x, y, z, dropitem, worldId) end
+function Block:DestroyBlock(x, y, z, dropitem, worldId, btrigger) end
 
 ---放置方块
 ---@param blockid integer | string 方块类型ID
@@ -64,8 +66,9 @@ function Block:DestroyBlock(x, y, z, dropitem, worldId) end
 ---@param face? FaceDir 朝向
 ---@param color? integer 十六进制颜色值(0XFFFFFF 颜色方块类型才生效)
 ---@param worldId? integer 星球id(默认当前主机所在星球)
+---@param btrigger? boolean 是否触发事件
 ---@return boolean result
-function Block:PlaceBlock(blockid, x, y, z, face, color, worldId) end
+function Block:PlaceBlock(blockid, x, y, z, face, color, worldId, btrigger) end
 
 ---替换方块
 ---@param blockid integer | string 方块类型ID
@@ -75,8 +78,9 @@ function Block:PlaceBlock(blockid, x, y, z, face, color, worldId) end
 ---@param face? FaceDir 朝向
 ---@param color? integer 十六进制颜色值(0XFFFFFF 颜色方块类型才生效)
 ---@param worldId? integer 星球id(默认当前主机所在星球)
+---@param btrigger? boolean 是否触发事件
 ---@return boolean result
-function Block:ReplaceBlock(blockid, x, y, z, face, color, worldId) end
+function Block:ReplaceBlock(blockid, x, y, z, face, color, worldId, btrigger) end
 
 ---获取方块数据
 ---@param x integer 位置坐标

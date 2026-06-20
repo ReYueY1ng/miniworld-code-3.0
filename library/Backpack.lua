@@ -156,9 +156,9 @@ function Backpack:ActEquipUpByResID(playerid, itemid, frompos) end
 ---玩家脱下装备栏装备
 ---@param playerid integer 玩家ID
 ---@param grid integer 装备栏ID(（EquipStartIndex + EquipSlotType.Head） 是装备栏第一个格子，EquipSlotType.Weapon 无效)
----@param grid2? integer 目标格子ID(可不传，如果不为nil，则必须是空格子)
+---@param togrid? integer 目标格子ID(可不传，如果不为nil，则必须是空格子)
 ---@return boolean result
-function Backpack:ActEquipOffByEquipID(playerid, grid, grid2) end
+function Backpack:ActEquipOffByEquipID(playerid, grid, togrid) end
 
 ---销毁装备
 ---@param playerid integer 玩家ID
@@ -192,26 +192,26 @@ function Backpack:PlayShortCutIxParticle(playerid, effectids, offset, rot, scale
 
 ---停止手持道具上播放特效
 ---@param playerid integer 玩家ID
----@param effectid integer 特效ID
+---@param effectids integer 特效ID
 ---@return boolean result
-function Backpack:StopShortCutIxEffect(playerid, effectid) end
+function Backpack:StopShortCutIxEffect(playerid, effectids) end
 
 ---播放手持道具特效
 ---@param playerid integer 玩家ID
 ---@param itemid integer 道具类型
----@param effectid integer 特效ID
+---@param effectids integer 特效ID
 ---@param offset PositionTable 偏移
 ---@param rot? PositionTable 旋转
 ---@param scale? PositionTable 缩放
 ---@return boolean result
-function Backpack:PlayShortCutItemParticle(playerid, itemid, effectid, offset, rot, scale) end
+function Backpack:PlayShortCutItemParticle(playerid, itemid, effectids, offset, rot, scale) end
 
 ---删除玩家快捷栏上某种类型道具手持特效
 ---@param playerid integer 玩家ID
 ---@param itemid integer | string 道具类型
----@param effectid integer 特效ID
+---@param effectids integer 特效ID
 ---@return boolean result
-function Backpack:StopShortCutItemEffect(playerid, itemid, effectid) end
+function Backpack:StopShortCutItemEffect(playerid, itemid, effectids) end
 
 ---批量获取背包和快捷栏格子信息数据
 ---@param playerid integer 玩家ID

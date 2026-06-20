@@ -122,9 +122,9 @@ function CustomUI:GetItemIcon(itemid) end
 function CustomUI:GetMonsterObjIcon(objid) end
 
 ---获取生物类型图标
----@param actor integer | string 道具类型ID
----@return string icon 道具图标
-function CustomUI:GetMonsterIcon(actor) end
+---@param actorid integer | string 生物类型ID
+---@return string icon 生物图标
+function CustomUI:GetMonsterIcon(actorid) end
 
 ---获取状态图标
 ---@param buffid integer 状态类型ID
@@ -283,8 +283,9 @@ function CustomUI:SetLoaderModelPosition(playerid, uiid, elementid, x, y, z) end
 ---@param elementid string 元件ID
 ---@param animid integer | string 动画ID
 ---@param playmode? AnimMode 播放模式
+---@param speed? number 播放速度
 ---@return boolean result
-function CustomUI:SetLoaderModelAct(playerid, uiid, elementid, animid, playmode) end
+function CustomUI:SetLoaderModelAct(playerid, uiid, elementid, animid, playmode, speed) end
 
 ---滑动列表跳转到某位置
 ---@param playerid integer 玩家ID

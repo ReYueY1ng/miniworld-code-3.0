@@ -86,8 +86,9 @@ function World:PlayParticle(pos, particleIdArg, ptimeArg, offset, rot, scale) en
 ---@param x number x坐标
 ---@param y number y坐标
 ---@param z number z坐标
+---@param worldId? integer 星球id(默认当前主机所在星球)
 ---@return integer lv 光照强度(0~15)
-function World:GetLightByPos(x, y, z) end
+function World:GetLightByPos(x, y, z, worldId) end
 
 ---生成生物(包括怪物、NPC、动物等)
 ---@param x number x坐标
@@ -195,8 +196,9 @@ function World:GetGravity() end
 ---@param x number x坐标
 ---@param y number y坐标
 ---@param z number z坐标
+---@param worldId? integer 星球id(默认当前主机所在星球)
 ---@return number canSpawnY Y轴坐标(-1表示不可创建生物)
-function World:CanMobSpawnOnPosXZ(x, y, z) end
+function World:CanMobSpawnOnPosXZ(x, y, z, worldId) end
 
 ---获取当前星球id
 ---@return integer worldid 星球id
