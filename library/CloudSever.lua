@@ -35,7 +35,7 @@ function CloudSever:GetRoomID() end
 ---@return boolean result
 function CloudSever:SetDataListValue(libvarid, key, value) end
 
----传送到当前地图分类房间
+---传送到当前地图分类房间<br>**调用限制**: 全局 30 秒冷却
 ---@param ... any 参数
 function CloudSever:TransmitToCurMapCategoryRoom(...) end
 
@@ -43,10 +43,10 @@ function CloudSever:TransmitToCurMapCategoryRoom(...) end
 ---@param ... any 参数
 function CloudSever:GetRoomCategory(...) end
 
----设置房间分类
+---设置房间分类<br>**调用限制**: 全局 5 秒冷却
 ---@param ... any 参数
 function CloudSever:SetRoomCategory(...) end
 
----传送到分类房间
+---传送到分类房间<br>**调用限制**: 全局 30 秒冷却
 ---@param ... any 参数
 function CloudSever:TransmitToCategoryRoom(...) end

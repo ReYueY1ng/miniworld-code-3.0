@@ -252,7 +252,7 @@ function Player:GetScreenSpacePos(playerid, x, y, z) end
 ---@return number retY y坐标
 function Player:GetScreenSpacePosV2(playerid, x, y, z) end
 
----发送好友申请
+---发送好友申请<br>**调用限制**: 同一玩家 10 秒内只能调用一次
 ---@param playerid integer 玩家Uin
 ---@param uin2 integer 要添加的好友Uin
 ---@return boolean result
@@ -366,7 +366,7 @@ function Player:GetMiniVipLevel(playerid) end
 ---@return boolean result
 function Player:ChangPlayerMoveType(objid, moveType) end
 
----触发器播放广告接口
+---触发器播放广告接口<br>**调用限制**: 同一玩家 90 秒内只能调用一次，频繁调用会提示"调用频繁，请稍后尝试！"
 ---@param objid integer 玩家ID
 ---@param adname string 广告名称
 ---@return number code 执行结果 ErrorCode
@@ -539,7 +539,7 @@ function Player:GetSkinlist(uin, itype) end
 ---@return table infos 皮肤座位信息
 function Player:GetSkinSeatInfos(uin, index, size) end
 
----获取好友列表（异步回调）
+---获取好友列表（异步回调）<br>**调用限制**: 同一玩家 10 秒内只能调用一次，频繁调用会提示"调用频繁，请稍后尝试！"
 ---@param uin integer 玩家Uin
 ---@param index integer 起始索引
 ---@param size integer 获取数量
