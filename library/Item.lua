@@ -206,38 +206,59 @@ function Item:GetTags(itemid) end
 function Item:GetResIdByInstanceId(instId) end
 
 ---设置对象数据
----@param ... any 参数
-function Item:SetObjData(...) end
+---@param playerid integer 玩家Uin
+---@param instId string 道具实例ID
+---@param key string 键名
+---@param value table 值
+---@return boolean result
+function Item:SetObjData(playerid, instId, key, value) end
 
 ---获取枪械基础描述
----@param ... any 参数
-function Item:GetGunBaseDesc(...) end
+---@param itemid integer | string 道具类型ID
+---@return table desc 枪械描述
+function Item:GetGunBaseDesc(itemid) end
 
 ---获取道具模型组件
----@param ... any 参数
-function Item:GetItemModelComp(...) end
+---@param itemid integer | string 道具类型ID
+---@return table comp 模型组件
+function Item:GetItemModelComp(itemid) end
 
 ---通过格子设置对象数据
----@param ... any 参数
-function Item:SetObjDataByGrid(...) end
+---@param playerid integer 玩家Uin
+---@param gridIndex integer 格子索引
+---@param key string 键名
+---@param value table 值
+---@return boolean result
+function Item:SetObjDataByGrid(playerid, gridIndex, key, value) end
 
 ---通过格子获取对象数据
----@param ... any 参数
-function Item:GetObjDataByGrid(...) end
+---@param playerid integer 玩家Uin
+---@param gridIndex integer 格子索引
+---@param key string 键名
+---@return any value 数据值
+function Item:GetObjDataByGrid(playerid, gridIndex, key) end
 
 ---判断是否为绑定道具
----@param ... any 参数
+---@param itemid integer | string 道具类型ID
 ---@return boolean result
-function Item:IsBindItem(...) end
+function Item:IsBindItem(itemid) end
 
 ---在背包内创建道具实例
----@param ... any 参数
-function Item:CreateItemInstInBackpack(...) end
+---@param playerid integer 玩家Uin
+---@param itemid integer | string 道具类型ID
+---@param gridIndex? integer 格子索引
+---@return string instId 道具实例ID
+function Item:CreateItemInstInBackpack(playerid, itemid, gridIndex) end
 
 ---获取对象数据
----@param ... any 参数
-function Item:GetObjData(...) end
+---@param playerid integer 玩家Uin
+---@param instId string 道具实例ID
+---@param key string 键名
+---@return any value 数据值
+function Item:GetObjData(playerid, instId, key) end
 
 ---在背包内创建绑定道具
----@param ... any 参数
-function Item:CreateBindItemInBackpack(...) end
+---@param playerid integer 玩家Uin
+---@param itemid integer | string 道具类型ID
+---@return string instId 道具实例ID
+function Item:CreateBindItemInBackpack(playerid, itemid) end

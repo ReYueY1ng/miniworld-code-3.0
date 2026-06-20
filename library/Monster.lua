@@ -87,5 +87,7 @@ function Monster:GetMonsterDefName(actorid) end
 function Monster:SetAIActive(objid, active) end
 
 ---设置生物持久化
----@param ... any 参数
-function Monster:SetPersistance(...) end
+---@param objid integer 生物对象ID
+---@param b boolean 是否持久化
+---@return boolean result
+function Monster:SetPersistance(objid, b) end

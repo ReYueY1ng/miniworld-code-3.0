@@ -247,57 +247,86 @@ function Block:GetFacade(blockid) end
 function Block:SetBlockTextureColor(blockid, color, alpha, slotindex) end
 
 ---解绑蓝图区域
----@param ... any 参数
-function Block:UnbindBluePrintRegion(...) end
+---@param blueprintid string 蓝图ID
+---@return boolean result
+function Block:UnbindBluePrintRegion(blueprintid) end
 
 ---设置蓝图上传间隔
----@param ... any 参数
-function Block:BluePrintSetUploadInteral(...) end
+---@param interval number 上传间隔（秒）
+---@return boolean result
+function Block:BluePrintSetUploadInteral(interval) end
 
 ---加载观察者蓝图
----@param ... any 参数
-function Block:LoadObsBluePrint(...) end
+---@param blueprintid string 蓝图ID
+---@return boolean result
+function Block:LoadObsBluePrint(blueprintid) end
 
 ---卸载观察者蓝图
----@param ... any 参数
-function Block:UnloadObsBluePrint(...) end
+---@param blueprintid string 蓝图ID
+---@return boolean result
+function Block:UnloadObsBluePrint(blueprintid) end
 
 ---停止放置观察者蓝图
----@param ... any 参数
-function Block:StopPlaceObsBluePrint(...) end
+---@param blueprintid string 蓝图ID
+---@return boolean result
+function Block:StopPlaceObsBluePrint(blueprintid) end
 
 ---放置蓝图
----@param ... any 参数
-function Block:PlaceBluePrint(...) end
+---@param pos PositionTable 位置坐标
+---@param blueprintid string 蓝图ID
+---@param bPosInBPArea boolean 是否在蓝图区域内
+---@param direction number 方向
+---@param placeSpeed number 放置速度
+---@param blockFilter table 方块过滤器
+---@return boolean result
+function Block:PlaceBluePrint(pos, blueprintid, bPosInBPArea, direction, placeSpeed, blockFilter) end
 
 ---创建观察者蓝图
----@param ... any 参数
-function Block:CreateObsBluePrint(...) end
+---@param uin integer 玩家Uin
+---@param x number 位置X
+---@param y number 位置Y
+---@param z number 位置Z
+---@return string blueprintid 蓝图ID
+function Block:CreateObsBluePrint(uin, x, y, z) end
 
 ---保存蓝图区域数据
----@param ... any 参数
-function Block:SaveBluePrintRegionData(...) end
+---@param pos1 PositionTable 区域位置1
+---@param pos2 PositionTable 区域位置2
+---@param blueprintid string 蓝图ID
+---@return boolean result
+function Block:SaveBluePrintRegionData(pos1, pos2, blueprintid) end
 
 ---蓝图另存为新ID
----@param ... any 参数
-function Block:BluePrintSaveAsNewId(...) end
+---@param blueprintid string 原蓝图ID
+---@param targetBlueprintid string 目标蓝图ID
+---@return boolean result
+function Block:BluePrintSaveAsNewId(blueprintid, targetBlueprintid) end
 
 ---获取蓝图方块信息
----@param ... any 参数
-function Block:GetBluePrintBlockInfo(...) end
+---@param blueprintid string 蓝图ID
+---@return table | boolean info 蓝图方块信息（失败返回false）
+function Block:GetBluePrintBlockInfo(blueprintid) end
 
 ---截图并上传
----@param ... any 参数
-function Block:CaptureAndUploadScreenshot(...) end
+---@param objid integer 对象ID
+---@param width number 宽度
+---@param height number 高度
+---@param hideUI boolean 是否隐藏UI
+---@return boolean result
+function Block:CaptureAndUploadScreenshot(objid, width, height, hideUI) end
 
 ---获取观察者蓝图状态
----@param ... any 参数
-function Block:GetObsBluePrintStatus(...) end
+---@param blueprintid string 蓝图ID
+---@return number status 蓝图状态
+function Block:GetObsBluePrintStatus(blueprintid) end
 
 ---获取观察者蓝图位置
----@param ... any 参数
-function Block:GetObsBluePrintPos(...) end
+---@param blueprintid string 蓝图ID
+---@return PositionTable minPos 最小位置
+---@return PositionTable maxPos 最大位置
+function Block:GetObsBluePrintPos(blueprintid) end
 
 ---删除蓝图
----@param ... any 参数
-function Block:DeleteBluePrint(...) end
+---@param blueprintid string 蓝图ID
+---@return boolean result
+function Block:DeleteBluePrint(blueprintid) end

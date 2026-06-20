@@ -310,8 +310,10 @@ function Backpack:GetGridAttr(playerid, gridid, attr) end
 function Backpack:SetGridAttr(playerid, gridid, attr, value) end
 
 ---获取背包格子枪械信息
----@param ... any 参数
-function Backpack:GetGridGunInfo(...) end
+---@param itemid integer 道具类型ID
+---@param num number 数量
+---@return table info 枪械信息
+function Backpack:GetGridGunInfo(itemid, num) end
 
 ---在指定道具上播放特效
 ---@param playerid integer 玩家ID

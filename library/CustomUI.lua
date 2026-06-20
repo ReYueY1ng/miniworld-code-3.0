@@ -540,8 +540,12 @@ function CustomUI:SetBeaconClampType(playerid, elementid, clampType) end
 function CustomUI:SetBeaconRadius(playerid, elementid, radius) end
 
 ---设置URL图标
----@param ... any 参数
-function CustomUI:SetUrlIcon(...) end
+---@param objid integer 玩家ID
+---@param uiid string 界面ID
+---@param elementid string 元件ID
+---@param url string 图标URL
+---@return boolean result
+function CustomUI:SetUrlIcon(objid, uiid, elementid, url) end
 
 ---设置信标边距
 ---@param playerid integer 玩家ID
@@ -552,5 +556,7 @@ function CustomUI:SetUrlIcon(...) end
 function CustomUI:SetBeaconMargin(playerid, elementid, horizontalMargin, verticalMargin) end
 
 ---设置系统设置按钮可见性
----@param ... any 参数
-function CustomUI:SetSysSettingBtnVisible(...) end
+---@param objid integer 玩家ID
+---@param visible boolean 是否可见
+---@return boolean result
+function CustomUI:SetSysSettingBtnVisible(objid, visible) end

@@ -552,8 +552,10 @@ function Actor:GetDefID(objid) end
 function Actor:SetMountActorAttr(objid, isRote, isPlayerContrl, isCloseAI) end
 
 ---白名单停止技能
----@param ... any 参数列表
-function Actor:WhitList_StopSkill(...) end
+---@param objid integer 对象ID
+---@param skillid integer 技能ID
+---@return boolean result
+function Actor:WhitList_StopSkill(objid, skillid) end
 
 ---通过参考对象播放动画
 ---@param objidA integer 执行播放的对象objid
