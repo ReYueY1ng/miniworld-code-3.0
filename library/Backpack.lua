@@ -167,12 +167,12 @@ function Backpack:ActEquipOffByEquipID(playerid, grid, grid2) end
 function Backpack:ActDestructEquip(playerid, grid) end
 
 ---创建道具到玩家背包
----@param playerid integer 玩家ID
+---@param objid integer 玩家ID
 ---@param itemid integer 道具类型
----@param num integer 道具数量
+---@param itemnum integer 道具数量
 ---@param ipos? integer 优先存放的位置
 ---@return boolean result
-function Backpack:CreateItem(playerid, itemid, num, ipos) end
+function Backpack:CreateItem(objid, itemid, itemnum, ipos) end
 
 ---在手持道具上播放特效
 ---@param playerid integer 玩家ID
@@ -290,9 +290,9 @@ function Backpack:GetGunInstIdInBackpack(playerid) end
 
 ---获取背包格子是否锁定
 ---@param playerid integer 玩家Uin
----@param gridid integer 格子索引
+---@param gridIndex integer 格子索引
 ---@return boolean islock 是否锁定（参数错误返回true）
-function Backpack:IsLock(playerid, gridid) end
+function Backpack:IsLock(playerid, gridIndex) end
 
 ---获取背包格子属性
 ---@param playerid integer 玩家Uin

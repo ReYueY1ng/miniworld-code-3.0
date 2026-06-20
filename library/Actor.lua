@@ -205,16 +205,16 @@ function Actor:GetAttr(objid, atttype) end
 
 ---设置对象权限
 ---@param objid integer 对象Uin
----@param actionattr Ability 行为枚举
+---@param ability Ability 行为枚举
 ---@param switch boolean 是否开启
 ---@return boolean result
-function Actor:SetActorPermissions(objid, actionattr, switch) end
+function Actor:SetActorPermissions(objid, ability, switch) end
 
 ---获取对象权限
 ---@param objid integer 对象Uin
----@param actionattr Ability 行为枚举
+---@param ability Ability 行为枚举
 ---@return boolean result
-function Actor:GetActorPermissions(objid, actionattr) end
+function Actor:GetActorPermissions(objid, ability) end
 
 ---设置对象面向角度
 ---@param objid integer 生物objid
@@ -437,9 +437,9 @@ function Actor:GetDropItemInstanceId(objid) end
 function Actor:SetAblePick(objid, able) end
 
 ---获取实体类型外观
----@param prefabid string 实体类型id
+---@param prefab string 实体类型id
 ---@return string facade 外观
-function Actor:GetEntityFacade(prefabid) end
+function Actor:GetEntityFacade(prefab) end
 
 ---角色拾取地上的掉落物或者投掷物
 ---@param objid integer 角色objid
@@ -501,29 +501,29 @@ function Actor:PlayBodyEffectById(objid, particleId, scale, ptme) end
 
 ---获取动作属性状态
 ---@param objid integer 对象objid
----@param actionattr Ability 行为枚举
+---@param ability Ability 行为枚举
 ---@return boolean result
-function Actor:GetActionAttrState(objid, actionattr) end
+function Actor:GetActionAttrState(objid, ability) end
 
 ---设置组件基础状态
 ---@param objid integer 对象objid
----@param actionattr Ability 行为枚举
+---@param ability Ability 行为枚举
 ---@param switch boolean 是否开启
 ---@return boolean result
-function Actor:SetCmpBaseState(objid, actionattr, switch) end
+function Actor:SetCmpBaseState(objid, ability, switch) end
 
 ---获取组件基础状态
 ---@param objid integer 对象objid
----@param actionattr Ability 行为枚举
+---@param ability Ability 行为枚举
 ---@return boolean result
-function Actor:GetCmpBaseState(objid, actionattr) end
+function Actor:GetCmpBaseState(objid, ability) end
 
 ---设置动作属性状态
 ---@param objid integer 对象objid
----@param actionattr Ability 行为枚举
+---@param ability Ability 行为枚举
 ---@param switch boolean 是否开启
 ---@return boolean result
-function Actor:SetActionAttrState(objid, actionattr, switch) end
+function Actor:SetActionAttrState(objid, ability, switch) end
 
 ---设置指定对象身上的特效大小
 ---@param objid integer 对象objid
