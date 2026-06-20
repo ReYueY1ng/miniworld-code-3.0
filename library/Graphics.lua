@@ -332,7 +332,7 @@ function Graphics:GetInnerGraphicsOffset(objid, itype, callback) end
 ---@param pos PositionTable 位置坐标
 ---@param dim PositionTable 尺寸
 ---@param color integer 颜色值(0xFFFFFF)
----@param showuin integer[] 可见玩家ID数组
+---@param showuin integer 可见玩家uin(0为全部可见)
 ---@param itype integer 图文信息ID
 ---@param worldId? integer 星球id(默认当前主机所在星球)
 ---@return integer brushid 画刷ID
