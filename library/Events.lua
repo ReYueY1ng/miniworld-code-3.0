@@ -1811,7 +1811,19 @@ TriggerEvent = {
     ---天气改变<br>
     ---\---传参---<br>
     ---参数未知<br>
-    WeatherChanged = "Weather.Changed"
+    WeatherChanged = "Weather.Changed",
+
+    --#endregion
+    --#region 剧情动画
+
+    ---当剧情动画开始<br>
+    ---\---传参---<br>
+    ---```eventobjid``` — 触发事件的对象<br>
+    TimelineStart = "Timeline.Start",
+    ---当剧情动画结束<br>
+    ---\---传参---<br>
+    ---```eventobjid``` — 触发事件的对象<br>
+    TimelineStop = "Timeline.Stop",
 
     --#endregion
 }

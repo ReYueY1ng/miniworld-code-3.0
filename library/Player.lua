@@ -626,3 +626,9 @@ function Player:GetMiniCurrency(objid, itype) end
 ---@param activatename? string 活动名称
 ---@return boolean result
 function Player:OpenActView(uin, actid, activatename) end
+
+---获取玩家手部武器法术增强是否激活
+---@param uin integer 玩家Uin
+---@param enhanceIndex integer 强化方向索引(1-8)
+---@return boolean result 是否激活
+function Player:IsHandWeaponSpellEnhancementActive(uin, enhanceIndex) end

@@ -2124,6 +2124,158 @@ RolePickupType = {
     Carrying = 1,
     Carried = 2
 }
+---@enum EmitterType
+---发射器类型
+EmitterType = {
+    ---射线
+    Ray = 1,
+    ---冲击波
+    Shockwave = 2,
+}
+---@enum EmitShape
+---发射形状
+EmitShape = {
+    ---聚焦
+    Focus = 0,
+    ---扇形
+    Fan = 1,
+    ---圆形随机
+    RandomCircle = 2,
+    ---矩形
+    Rectangle = 2,
+}
+---@enum EmitTiming
+---发射时机
+EmitTiming = {
+    ---同时发射
+    Simultaneous = 0,
+    ---序列发射
+    Sequential = 1,
+}
+---@enum AngleMode
+---角度模式
+AngleMode = {
+    ---固定角度
+    Fixed = 0,
+    ---跟随视角
+    FollowView = 1,
+    ---朝向目标
+    Target = 2,
+    ---跟随模型朝向
+    FollowModel = 3,
+}
+---@enum BindPoint
+---绑点类型
+BindPoint = {
+    ---左手
+    LeftHand = 100,
+    ---右手
+    RightHand = 101,
+    ---左脚
+    LeftFoot = 102,
+    ---右脚
+    RightFoot = 103,
+    ---胸口
+    Breast = 105,
+    ---头部
+    Head = 106,
+    ---脚底
+    FootDown = 109,
+}
+---@enum HitBehaviour
+---命中行为
+HitBehaviour = {
+    ---无
+    None = 0,
+    ---销毁
+    Destroy = 1,
+    ---穿透
+    Penetrate = 2,
+    ---附着
+    AttachTarget = 3,
+}
+---@enum RayHitBehaviour
+---射线命中行为
+RayHitBehaviour = {
+    ---无
+    None = 0,
+    ---链式
+    Chain = 1,
+}
+---@enum LaunchCost
+---发射消耗
+LaunchCost = {
+    ---属性消耗
+    Attribute = 0,
+    ---道具消耗
+    Item = 1,
+}
+---@enum LockType
+---锁定类型
+LockType = {
+    ---锁定点
+    Point = 0,
+    ---锁定对象
+    Target = 1,
+}
+---@enum OriginType
+---原点类型
+OriginType = {
+    ---自定义位置
+    Custom = 0,
+    ---玩家射线中心位置
+    PlayerRayCenter = 1,
+    ---上次触发位置
+    LastTriggerPosition = 2,
+    ---角色绑点
+    BindPoint = 3,
+}
+---@enum SelectPolicy
+---选择策略
+SelectPolicy = {
+    ---随机
+    Random = 0,
+}
+---@enum TargetFilter
+---目标过滤
+TargetFilter = {
+    ---仅敌方
+    Enemy = 0,
+    ---仅友方
+    Friendly = 1,
+    ---仅中立
+    Neutral = 2,
+    ---所有目标
+    All = 3,
+}
+---@enum TargetLostAction
+---目标丢失行为
+TargetLostAction = {
+    ---销毁
+    Destroy = 0,
+    ---直线
+    Straight = 1,
+    ---跟踪
+    Track = 2,
+}
+---@enum RayTrajectoryType
+---射线轨迹类型
+RayTrajectoryType = {
+    ---直线
+    Straight = 0,
+    ---抛物线
+    Parabola = 1,
+    ---跟踪
+    Track = 2,
+}
+---@enum ShockwaveShapeType
+---冲击波形状类型
+ShockwaveShapeType = {
+    ---圆形
+    Circle = 0,
+    ---扇形
+    Fan = 1,
+}
 
 DevComponentDebug = false
 BackpackStartIndex = 0
