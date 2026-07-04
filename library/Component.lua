@@ -12,6 +12,27 @@
 ---@field protected displayName string 显示名称
 local Component = {}
 
+---定时器
+---@class Task
+---@field time number 间隔时间（秒）
+---@field delayTime number 延迟开始第一次等待时间
+---@field isValid boolean 是否有效
+---@field cmp Component 组件
+---@field fn fun(self: Component) 回调函数
+---@field num number 执行次数（-1无限次）
+---@field runTime number 运行时间
+---@field isPause boolean 是否暂停
+local Task = {}
+
+---暂停定时器
+function Task:Pause() end
+
+---恢复定时器
+function Task:Resume() end
+
+---停止定时器
+function Task:Cancel() end
+
 ---获取该组件挂载的对象实例
 ---@protected
 ---@return Object object 挂载对象
@@ -99,6 +120,7 @@ function Component:RemoveEvent(event) end
 ---@protected
 ---@param callfunc fun(self: self) 回调函数
 ---@param time number 时间间隔（秒）
+---@return Task task 定时器
 function Component:DoTaskInTime(callfunc, time) end
 
 ---启动定时器周期性执行任务
@@ -107,6 +129,7 @@ function Component:DoTaskInTime(callfunc, time) end
 ---@param delay number 间隔时间（秒）
 ---@param waittime? number 延迟开始第一次执行时间（默认0）
 ---@param count? integer 执行次数（默认无限次）
+---@return Task task 定时器
 function Component:DoPeriodicTask(callfunc, delay, waittime, count) end
 
 ---清除所有定时器任务
