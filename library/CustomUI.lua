@@ -479,20 +479,18 @@ function CustomUI:SetPositionBandBlock(objid, uiid, elementid, blockPos) end
 function CustomUI:RemovePositionBandBlock(objid, uiid, elementid) end
 
 ---获取元件属性值
----@param reportid integer 玩家ID
 ---@param objid integer 对象ID
 ---@param elementid string 元件ID
 ---@param attrIdx ElementAttr 属性枚举
 ---@return any value 属性值
-function CustomUI:GetElementAttrValue(reportid, objid, elementid, attrIdx) end
+function CustomUI:GetElementAttrValue(objid, elementid, attrIdx) end
 
 ---获取界面属性值
----@param reportid integer 玩家ID
 ---@param objid integer 对象ID
 ---@param uiid string 界面ID
 ---@param attrIdx UIAttr 属性枚举
 ---@return any value 属性值
-function CustomUI:GetUIViewAttrValue(reportid, objid, uiid, attrIdx) end
+function CustomUI:GetUIViewAttrValue(objid, uiid, attrIdx) end
 
 ---设置信标地图类型
 ---@param playerid integer 玩家ID
