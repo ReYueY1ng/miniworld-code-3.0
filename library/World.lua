@@ -60,8 +60,9 @@ World = {}
 ---@param y number y坐标
 ---@param z number z坐标
 ---@param particleId integer | string 特效id
+---@param worldId integer 星球id
 ---@return boolean result
-function World:StopParticleOnPos(x, y, z, particleId) end
+function World:StopParticleOnPos(x, y, z, particleId, worldId) end
 
 ---设置指定位置的特效偏移 旋转 缩放
 ---@param pos PositionTable 位置（米）
@@ -69,8 +70,9 @@ function World:StopParticleOnPos(x, y, z, particleId) end
 ---@param offset? PositionTable 偏移（米）
 ---@param rot? PositionTable 旋转
 ---@param scale? PositionTable 缩放大小
+---@param worldId integer 星球id
 ---@return boolean result
-function World:SetParticleTransform(pos, particleIdArg, offset, rot, scale) end
+function World:SetParticleTransform(pos, particleIdArg, offset, rot, scale, worldId) end
 
 ---在指定位置播放特效
 ---@param pos PositionTable
@@ -79,8 +81,9 @@ function World:SetParticleTransform(pos, particleIdArg, offset, rot, scale) end
 ---@param offset? PositionTable 偏移（米）
 ---@param rot? PositionTable 旋转
 ---@param scale? PositionTable 缩放大小
+---@param worldId integer 星球id
 ---@return boolean result
-function World:PlayParticle(pos, particleIdArg, ptimeArg, offset, rot, scale) end
+function World:PlayParticle(pos, particleIdArg, ptimeArg, offset, rot, scale, worldId) end
 
 ---获取光照强度
 ---@param x number x坐标
@@ -97,8 +100,9 @@ function World:GetLightByPos(x, y, z, worldId) end
 ---@param actorid integer | string 生物类型
 ---@param num integer 生成数量
 ---@param trigger boolean 是否触发事件
+---@param worldId integer 星球id
 ---@return integer[] objs 生物ID组
-function World:SpawnCreature(x, y, z, actorid, num, trigger) end
+function World:SpawnCreature(x, y, z, actorid, num, trigger, worldId) end
 
 ---移除生物
 ---@param objid integer 对象objID
@@ -127,17 +131,17 @@ function World:GetSpawnPoint() end
 ---@param centerZ number 中心z坐标
 ---@param radius number 半径
 ---@param includeCenterPos? boolean 是否包含中心位置(默认true)
+---@param worldId integer 星球id
 ---@return PositionTable[] posList 位置列表
-function World:FindCanSpawnMobPosList(centerX, centerY, centerZ, radius, includeCenterPos) end
+function World:FindCanSpawnMobPosList(centerX, centerY, centerZ, radius, includeCenterPos, worldId) end
 
 ---获取距离某点最近的玩家(方块坐标单位)
----@param x number x坐标
----@param y number y坐标
----@param z number z坐标
----@param radius? number 半径
----@param worldId? WorldIdEnum 世界id(默认迷拉星)
+---@param posX number x坐标
+---@param posY number y坐标
+---@param posZ number z坐标
+---@param worldId integer 星球id
 ---@return integer objid 玩家uin
-function World:FindNearestPlayerByPos(x, y, z, radius, worldId) end
+function World:FindNearestPlayerByPos(posX, posY, posZ, worldId) end
 
 ---在指定位置上播放指定音效
 ---@param pos PositionTable 位置
@@ -145,14 +149,16 @@ function World:FindNearestPlayerByPos(x, y, z, radius, worldId) end
 ---@param volume number 音量调节
 ---@param pitch number 音调调节
 ---@param isLoop boolean 是否循环播放
+---@param worldId integer 星球id
 ---@return boolean result
-function World:PlaySoundEffectOnPos(pos, soundId, volume, pitch, isLoop) end
+function World:PlaySoundEffectOnPos(pos, soundId, volume, pitch, isLoop, worldId) end
 
 ---停止指定位置上的指定音效
 ---@param pos PositionTable 位置
 ---@param soundId integer|string 音效ID
+---@param worldId integer 星球id
 ---@return boolean result
-function World:StopSoundEffectOnPos(pos, soundId) end
+function World:StopSoundEffectOnPos(pos, soundId, worldId) end
 
 ---暂停/恢复指定位置上的指定音效
 ---@param pos PositionTable 位置
@@ -189,8 +195,9 @@ function World:SetGravity(value) end
 function World:AddGravity(value) end
 
 ---获取重力
+---@param worldId integer 星球id
 ---@return number gravity 重力值
-function World:GetGravity() end
+function World:GetGravity(worldId) end
 
 ---获取XZ位置上是否可创建生物 并返回对应的Y轴位置
 ---@param x number x坐标
@@ -214,8 +221,9 @@ function World:GetCurMapId() end
 ---@param dsty number 目标y坐标
 ---@param dstz number 目标z坐标
 ---@param speed number 速度
+---@param worldId integer 星球id
 ---@return integer objid 投掷物objid
-function World:SpawnProjectile(objid, itemid, x, y, z, dstx, dsty, dstz, speed) end
+function World:SpawnProjectile(objid, itemid, x, y, z, dstx, dsty, dstz, speed, worldId) end
 
 ---生成投掷物 向某方向发射
 ---@param objid integer 角色objid
@@ -227,20 +235,23 @@ function World:SpawnProjectile(objid, itemid, x, y, z, dstx, dsty, dstz, speed) 
 ---@param dsty number 目标y方向
 ---@param dstz number 目标z方向
 ---@param speed number 速度
+---@param worldId integer 星球id
 ---@return integer objid 投掷物objid
-function World:SpawnProjectileByDir(objid, itemid, x, y, z, dstx, dsty, dstz, speed) end
+function World:SpawnProjectileByDir(objid, itemid, x, y, z, dstx, dsty, dstz, speed, worldId) end
 
 ---获取某个位置的地形类型
----@param x number x坐标
----@param y number y坐标
+---@param posX number x坐标
+---@param posZ number z坐标
+---@param worldId integer 星球id
 ---@return BiomeType biomeType 地形类型
-function World:GetBiomeType(x, y) end
+function World:GetBiomeType(posX, posZ, worldId) end
 
 ---获取某个位置的地形组类型
----@param x number x坐标
----@param y number y坐标
+---@param posX number x坐标
+---@param posZ number z坐标
+---@param worldId integer 星球id
 ---@return WeatherGroup biomeGroup 地形组类型
-function World:GetBiomeGroup(x, y) end
+function World:GetBiomeGroup(posX, posZ, worldId) end
 
 ---查找地形位置
 ---@param x number x坐标
@@ -412,19 +423,19 @@ function World:GetDirRayDetection(posbegin, dir, maxlen, picktype, worldId, igno
 ---@param dsty number 终点y坐标
 ---@param dstz number 终点z坐标
 ---@param distance number 最大检测距离
+---@param worldId integer 星球id
 ---@return number distance 距离
-function World:GetRayLength(srcx, srcy, srcz, dstx, dsty, dstz, distance) end
+function World:GetRayLength(srcx, srcy, srcz, dstx, dsty, dstz, distance, worldId) end
 
 ---射线打到的方块类型(遇到方块结束)
 ---@param srcx number 起点x坐标
 ---@param srcy number 起点y坐标
 ---@param srcz number 起点z坐标
----@param dstx number 终点x坐标
----@param dsty number 终点y坐标
----@param dstz number 终点z坐标
+---@param face RayDetectType 检测类型
 ---@param distance number 最大检测距离
+---@param worldId integer 星球id
 ---@return integer blockid 方块ID
-function World:GetRayBlock(srcx, srcy, srcz, dstx, dsty, dstz, distance) end
+function World:GetRayBlock(srcx, srcy, srcz, face, distance, worldId) end
 
 ---通过局部坐标方向计算绝对正方向(忽略视角仰角)
 ---@param objid integer 对象ID
@@ -500,18 +511,21 @@ function World:CalcDirectionByPos2Pos(pos1, pos2) end
 
 ---设置世界创建生物规则(设置不保存，退出游戏后失效，只适用迷拉星)
 ---@param cfgs table<integer, {id: integer, weight: number}[]> 生物规则配置
+---@param worldId integer 星球id
 ---@return boolean result
-function World:SetWorldCreateMobRule(cfgs) end
+function World:SetWorldCreateMobRule(cfgs, worldId) end
 
 ---设置生物生成密度(设置不保存，退出游戏后失效，只适用迷拉星)
 ---@param mobType MobType 生物类型
 ---@param density number 密度（0-2000）
-function World:SetMobSpawnDensity(mobType, density) end
+---@param worldId integer 星球id
+function World:SetMobSpawnDensity(mobType, density, worldId) end
 
 ---设置农作物生长时间要求修正，在原来的时间上乘以系数(设置不保存，退出游戏后失效，只适用迷拉星)
 ---@param rate number 时间修正(大于0)
+---@param worldId integer 星球id
 ---@return boolean result
-function World:SetPlantGrowRate(rate) end
+function World:SetPlantGrowRate(rate, worldId) end
 
 ---设置游戏内的界面是否禁用
 ---@param iview InnerPopUpview 弹窗类型枚举
@@ -533,8 +547,9 @@ function World:GetGameMode() end
 ---@param y number y坐标
 ---@param z number z坐标
 ---@param lv integer 光照强度(0~15)
+---@param worldId integer 星球id
 ---@return boolean result
-function World:SetLightByPos(x, y, z, lv) end
+function World:SetLightByPos(x, y, z, lv, worldId) end
 
 ---获取主机的星球id
 ---@return integer worldid 主机星球id
@@ -608,7 +623,7 @@ function World:StopParticleEffectOnPos(x, y, z, particleId, worldId) end
 ---@param centerY number 中心y坐标
 ---@param centerZ number 中心z坐标
 ---@param radius integer 搜索半径
----@param objType integer 对象类型
+---@param objType ObjType 对象类型
 ---@param worldId? integer 世界id(默认当前世界)
 ---@return integer[] objids 生物objid列表
 function World:FindNearActorListByObjType(centerX, centerY, centerZ, radius, objType, worldId) end
@@ -628,3 +643,23 @@ function World:SetChunkRectAlwaysLoaded(x1, z1, x2, z2, keepLoaded, worldId) end
 ---@param worldId? integer 世界id(默认当前世界)
 ---@return table rules 生物生成规则表
 function World:GetWorldCreateMobRule(biometype, worldId) end
+
+---通过位置发射
+---@param posbegin PositionTable 起始位置
+---@param emitid string 发射器ID
+---@param shooter number? 发射者对象ID
+function World:EmitByPosition(posbegin, emitid, shooter) end
+
+---通过位置和目标对象发射
+---@param posbegin PositionTable 起始位置
+---@param emitid string 发射器ID
+---@param objid number 目标对象ID
+---@param shooter number? 发射者对象ID
+function World:EmitByPositionTarget(posbegin, emitid, objid, shooter) end
+
+---通过位置和目标位置发射
+---@param posbegin PositionTable 起始位置
+---@param emitid string 发射器ID
+---@param targetPos PositionTable 目标位置
+---@param shooter number? 发射者对象ID
+function World:EmitByPositionTargetPos(posbegin, emitid, targetPos, shooter) end

@@ -12,7 +12,7 @@ CustomUI = {}
 ---@param text string 文本内容
 ---@param animid? integer 动画ID(缺省参数)
 ---@param time? number 动画时长(缺省参数)
----@param mode? integer 播放模式(缺省参数)
+---@param mode? AnimMode 播放模式(缺省参数)
 ---@return boolean result
 function CustomUI:SetText(playerid, uiid, elementid, text, animid, time, mode) end
 
@@ -300,7 +300,7 @@ function CustomUI:TurnSliderToPos(playerid, uiid, elementid, x, y) end
 ---@param playerid integer 玩家ID
 ---@param uiid string 界面ID
 ---@param elementid string 元件ID
----@param dir 0 | 1 | 2 滑动方式（0仅左右，1仅上下，2自由滑动）
+---@param dir UIScollDir 滑动方式（0仅左右，1仅上下，2自由滑动）
 ---@return boolean result
 function CustomUI:SetSliderDir(playerid, uiid, elementid, dir) end
 

@@ -450,7 +450,7 @@ function Actor:PickupItem(objid, itemobjid, bforcepickup) end
 
 ---获取角色举起的角色
 ---@param objid integer 角色objid
----@param roleType integer 角色类型
+---@param roleType RolePickupType 角色类型
 ---@return integer pickupobjid 举起的角色objid
 function Actor:GetPickupObjID(objid, roleType) end
 
@@ -563,3 +563,20 @@ function Actor:WhitList_StopSkill(objid, skillid) end
 ---@param breplay? boolean 是否重新播放
 ---@return boolean result
 function Actor:PlayAnimByObj(objidA, objidB, breplay) end
+
+---通过发射者发射
+---@param objid number 发射者对象ID
+---@param emitid string 发射器ID
+function Actor:EmitByShooter(objid, emitid) end
+
+---通过发射者和目标对象发射
+---@param objidA number 发射者对象ID
+---@param emitid string 发射器ID
+---@param objidB number 目标对象ID
+function Actor:EmitByShooterTarget(objidA, emitid, objidB) end
+
+---通过发射者和目标位置发射
+---@param objid number 发射者对象ID
+---@param emitid string 发射器ID
+---@param targetPos PositionTable 目标位置
+function Actor:EmitByShooterTargetPos(objid, emitid, targetPos) end

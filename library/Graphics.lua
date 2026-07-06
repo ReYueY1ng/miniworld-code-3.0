@@ -325,7 +325,7 @@ function Graphics:CreateGraphicsImageByActor(objid, info, dir, offest, x2, y2) e
 
 ---获取玩家昵称或称号的偏移高度 玩家脚本调用
 ---@param objid integer 对象ID
----@param itype integer 类型(PlayerNameType)
+---@param itype PlayerNameType 类型
 ---@param callback fun(height: number) 回调函数 height: 高度值（未展示 0）
 function Graphics:GetInnerGraphicsOffset(objid, itype, callback) end
 

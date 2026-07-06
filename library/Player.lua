@@ -411,7 +411,7 @@ function Player:ItemSkillCDDone(objid, itemid) end
 
 ---设置玩家枪械权限
 ---@param objid integer 玩家Uin
----@param action integer 枪禁用状态枚举
+---@param action GunActionBan 枪禁用状态枚举
 ---@param switch boolean 是否打开
 ---@return boolean result
 function Player:SetGunActionState(objid, action, switch) end
@@ -461,7 +461,7 @@ function Player:ChangeViewModeForMod(objid, viewmode, islock) end
 
 ---检查玩家动作属性状态
 ---@param objid integer 玩家Uin
----@param actionattr integer 动作属性枚举
+---@param actionattr Ability 动作属性枚举
 ---@return boolean result
 function Player:CheckActionAttrState(objid, actionattr) end
 
@@ -494,12 +494,12 @@ function Player:AddMagazine(uin, num) end
 
 ---获取玩家可见范围
 ---@param objid integer 玩家Uin
----@return integer range 可见范围枚举
+---@return VDistanceRange range 可见范围枚举
 function Player:GetVisibleRange(objid) end
 
 ---设置玩家可见范围
 ---@param objid integer 玩家Uin
----@param range integer 可见范围枚举
+---@param range VDistanceRange 可见范围枚举
 ---@return boolean result
 function Player:SetVisibleRange(objid, range) end
 
@@ -528,7 +528,7 @@ function Player:OpenShopGiveGiftView(playerid, giveuin) end
 
 ---获取玩家皮肤列表（异步回调）
 ---@param uin integer 玩家Uin
----@param itype integer 数据类型枚举
+---@param itype MiniShopData 数据类型枚举
 ---@return table infos 皮肤信息
 function Player:GetSkinlist(uin, itype) end
 
@@ -554,14 +554,14 @@ function Player:OpenFriendChatPage(playerid, uin2) end
 
 ---设置玩家游戏设置开关
 ---@param playerid integer 玩家Uin
----@param itype integer 设置类型枚举
+---@param itype GameSetting 设置类型枚举
 ---@param enable boolean 是否开启
 ---@return boolean result
 function Player:SetSettingEnable(playerid, itype, enable) end
 
 ---设置玩家游戏设置可用性
 ---@param playerid integer 玩家Uin
----@param itype integer 设置类型枚举
+---@param itype GameSetting 设置类型枚举
 ---@param enable boolean 是否可用
 ---@return boolean result
 function Player:SetSettingAbility(playerid, itype, enable) end
