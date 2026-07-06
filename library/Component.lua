@@ -82,7 +82,7 @@ function Component:PushCustomEventSync(msgid, ...) end
 ---监听自定义消息（广播）
 ---@protected
 ---@param msgid string 消息id
----@param callfunc fun(self: self, ...) 回调函数
+---@param callfunc fun(self: Component, ...) 回调函数
 function Component:AddCustomEvent(msgid, callfunc) end
 
 ---移除自定义事件监听
@@ -105,7 +105,7 @@ function Component:PushEventSync(event, ...) end
 ---监听对象事件（可以监听自定义的，也能监听官方内置对象事件）
 ---@protected
 ---@param event string | ObjectEvent 消息id
----@param callfunc fun(self: self, ...) 回调函数
+---@param callfunc fun(self: Component, ...) 回调函数
 ---@param priority? number 事件触发的优先级（可不传）
 ---@param filter1? number | string 过滤参数1(可不传)
 ---@param filter2? number | string 过滤参数2(可不传)
@@ -118,14 +118,14 @@ function Component:RemoveEvent(event) end
 
 ---启动定时器在指定时间执行任务
 ---@protected
----@param callfunc fun(self: self) 回调函数
+---@param callfunc fun(self: Component) 回调函数
 ---@param time number 时间间隔（秒）
 ---@return Task task 定时器
 function Component:DoTaskInTime(callfunc, time) end
 
 ---启动定时器周期性执行任务
 ---@protected
----@param callfunc fun(self: self) 回调函数
+---@param callfunc fun(self: Component) 回调函数
 ---@param delay number 间隔时间（秒）
 ---@param waittime? number 延迟开始第一次执行时间（默认0）
 ---@param count? integer 执行次数（默认无限次）
@@ -138,14 +138,14 @@ function Component:ClearAllTask() end
 
 ---设置是否启用事件
 ---@protected
----@param callfunc fun(self: self, ...) 回调函数
+---@param callfunc fun(self: Component, ...) 回调函数
 ---@param enabled boolean 是否启用
 function Component:SetEventIsEnable(callfunc, enabled) end
 
 ---启动新协程
 ---@protected
 ---@see threadpool.work
----@param callfunc fun(self: self, ...) 回调函数
+---@param callfunc fun(self: Component, ...) 回调函数
 ---@param ... any
 function Component:ThreadWork(callfunc, ...) end
 
@@ -164,7 +164,7 @@ function Component:PushCloudServerMsg(msgid, ...) end
 ---接收云服事件
 ---@protected
 ---@param msgid string 消息id
----@param callfunc fun(self: self, ...) 回调函数
+---@param callfunc fun(self: Component, ...) 回调函数
 function Component:AddCloudSeverEvent(msgid, callfunc) end
 
 ---移除云服消息监听
@@ -185,7 +185,7 @@ function WorldComponent:GetGameObject() end
 ---添加触发事件
 ---@protected
 ---@param event TriggerEvent 事件类型
----@param callfunc fun(self: self, ...) 回调函数
+---@param callfunc fun(self: WorldComponent, ...) 回调函数
 ---@param filter1? number | string 过滤参数1(可不传)
 ---@param filter2? number | string 过滤参数2(可不传)
 function WorldComponent:AddTriggerEvent(event, callfunc, filter1, filter2) end

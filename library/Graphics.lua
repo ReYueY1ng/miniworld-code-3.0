@@ -55,6 +55,7 @@ function Graphics:MakeGraphicsLineToPos(x, y, z, size, color, itype) end
 ---@param y number 方块坐标
 ---@param z number 方块坐标
 ---@param itype integer 线ID
+---@param tCanSeePlayers boolean
 ---@return table info 线信息内容
 function Graphics:MakeGraphicsNavPathToPos(x, y, z, itype, tCanSeePlayers) end
 

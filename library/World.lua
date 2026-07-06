@@ -247,6 +247,7 @@ function World:GetBiomeGroup(x, y) end
 ---@param y number y坐标
 ---@param z number z坐标
 ---@param biometype BiomeType 地形类型
+---@param radius number
 ---@return number? x x坐标
 ---@return number? y y坐标
 ---@return number? z z坐标
