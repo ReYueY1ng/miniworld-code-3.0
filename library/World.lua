@@ -247,11 +247,12 @@ function World:GetBiomeGroup(x, y) end
 ---@param y number y坐标
 ---@param z number z坐标
 ---@param biometype BiomeType 地形类型
----@param radius number
+---@param radius number 半径
+---@param worldId number 世界ID
 ---@return number? x x坐标
 ---@return number? y y坐标
 ---@return number? z z坐标
-function World:FindEcosystem(x, y, z, biometype, radius) end
+function World:FindEcosystem(x, y, z, biometype, radius, worldId) end
 
 ---地图增加标记
 ---@param uin integer 玩家ID
