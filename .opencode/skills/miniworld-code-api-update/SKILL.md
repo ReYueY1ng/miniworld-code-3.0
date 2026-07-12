@@ -427,6 +427,12 @@ The `DevApiCfg.lua` defines permission control for third-party Mods.
 
 Where `<decompiled_files>` is the decompiled files path (see "Locating Files" section above).
 
+If these files don't exist in decompiled directory, download from:
+```
+https://github.com/ReYueY1ng/miniworld-scripts/raw/refs/heads/main/3.0/environments/devapicfg.lua
+https://github.com/ReYueY1ng/miniworld-scripts/raw/refs/heads/main/3.0/environments/devapicfg_analysis.md
+```
+
 **When adding new APIs**, read the analysis document to check:
 1. API availability level (all mods / whitelist only / not available)
 2. dismethods list (invisible to third-party mods)
