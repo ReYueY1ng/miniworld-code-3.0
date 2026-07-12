@@ -23,6 +23,7 @@ end
 ---@type oslib
 local os_origin = os
 
+---被限制的 os api
 ---@class os
 local os_new = {}
 os_new.time = os_origin.time
@@ -62,6 +63,60 @@ function string.split(input, delimiter)
     table.insert(ret, string.sub(input, pos))
     return ret
 end
+
+---字符串是否以某字符串为开头
+---@param String string
+---@param Start string
+---@return boolean result
+function string.startswith(String, Start)
+    return string.sub(String, 1, string.len(Start)) == Start
+end
+
+---字符串是否以某字符串为结尾
+---@param String string
+---@param End string
+---@return boolean result
+function string.endswith(String, End)
+    return End == '' or string.sub(String, -string.len(End)) == End
+end
+
+---字符串是否包含指定子串
+---@param self string
+---@param sub string 子串
+---@return boolean result 是否包含
+function string.Contains(self, sub) end
+
+---字符串是否为空白字符串
+---@param self string
+---@return boolean result 是否为空白
+function string:IsBlank() end
+
+---被限制的 string api, 但不代表完全不能调用其他函数<br>
+---dump, startswith, endswith, Contains, IsBlank 可以通过这个方式调用:
+---```lua
+---local str = ''
+---str.dump(func) -- dump 换成你想要的函数
+---```
+---@class stringlib_limited
+local string_limited = {
+    len = string.len,
+    find = string.find,
+    match = string.match,
+    gmatch = string.gmatch,
+    gsub = string.gsub,
+    format = string.format,
+    byte = string.byte,
+    char = string.char,
+    sub = string.sub,
+    rep = string.rep,
+    reverse = string.reverse,
+    lower = string.lower,
+    upper = string.upper,
+    split = string.split,
+    Trim = string.Trim
+}
+
+string = string_limited
 
 ---比较两数值是否相似
 ---@param a number
@@ -116,3 +171,17 @@ end
 function math.mod(x, y)
     return x % y
 end
+
+---被限制的 table api
+---@class tablelib_limited
+local table_limited = {
+    ---@diagnostic disable-next-line: deprecated
+    getn = table.getn,
+    maxn = table.maxn,
+    insert = table.insert,
+    remove = table.remove,
+    concat = table.concat,
+    sort = table.sort
+}
+
+table = table_limited
