@@ -419,109 +419,16 @@ After any change:
 
 ## API Permission System (DevApiCfg)
 
-The `DevApiCfg.lua` defines permission control for third-party Mods. Understanding this is CRITICAL when adding new APIs.
+The `DevApiCfg.lua` defines permission control for third-party Mods.
 
-### API Availability Levels
+**Documentation location** (in decompiled files):
+- Source: `<decompiled_files>/api/devapicfg.lua`
+- Analysis: `<decompiled_files>/api/devapicfg_analysis.md`
 
-| Level | Description |
-|-------|-------------|
-| ✅ All Mods | No `uin_list` restriction, available to everyone |
-| ❌ Whitelist Only | Has `uin_list`, only specific UINs can call |
-| ❌ Not Available | `dismethods` or not in `devServices` |
+Where `<decompiled_files>` is the decompiled files path (see "Locating Files" section above).
 
-### ✅ APIs Available to All Mods
-
-These APIs have no `uin_list` restriction:
-
-| API | Service |
-|-----|---------|
-| `CustomUI.GetUIViewAttrValue` | CustomUI |
-| `CustomUI.GetElementAttrValue` | CustomUI |
-| `World.AddGameTimes` | World |
-| `CloudSever.SendSeverMsg` | CloudSever |
-
-### ❌ Whitelist-Only APIs (16 UINs)
-
-These APIs require `LuaApi3_InternalApi` whitelist:
-
-**Data**: DoPackBluePrint
-**Block**: CreateObsBluePrint, PlaceBluePrint, UnbindBluePrintRegion, SaveBluePrintRegionData, BluePrintSaveAsNewId, BluePrintSetUploadInteral, DeleteBluePrint, GetBluePrintBlockInfo, CaptureAndUploadScreenshot, LoadObsBluePrint, UnloadObsBluePrint, StopPlaceObsBluePrint, GetObsBluePrintStatus, GetObsBluePrintPos
-**Item**: CreateItemInstInBackpack, SetObjData, GetObjData, GetItemModelComp, GetObjDataByGrid, SetObjDataByGrid
-**Player**: ChangeViewModeForMod, HasHandheldGun, GunGetMagazine, SetCrawl, AddMagazine, GetVisibleRange, SetVisibleRange
-**Monster**: SetPersistance
-**Backpack**: GetGridGunInfo
-**Listen**: SetBlockAll
-**OfficeUtils**: GetActivateProgress, SendClientReportEvent
-**CustomUI**: SetUrlIcon
-
-### Other Whitelist APIs
-
-| API | Whitelist Key | UIN Count |
-|-----|---------------|-----------|
-| `Item.GetGunBaseDesc` | LuaApi3_Item_GetGunBaseDesc | 8 |
-| `Item.CreateBindItemInBackpack` | LuaApi3_Item_CreateBindItemInBackpack | 5 |
-| `CustomUI.SetSysSettingBtnVisible` | LuaApi3_CustomUI_SetSysSettingBtnVisible | 5 |
-| `Player.SetCameraShake` | LuaApi3_Player_SetCameraShake | 10 |
-| `Player.GetSkinlist` | LuaApi3_Player_GetSkinlist | 6 |
-| `Player.GetSkinSeatInfos` | LuaApi3_Player_GetSkinSeatInfos | 5 |
-| `Player.OpenMiniShopPage` | LuaApi3_Player_OpenMiniShopPage | 5 |
-| `Player.OpenMiniShopItemPage` | LuaApi3_Player_OpenMiniShopItemPage | 5 |
-| `Player.OpenMiniShopWarehousePage` | LuaApi3_Player_OpenMiniShopWarehousePage | 5 |
-| `Player.GetHorseRealID` | LuaApi3_Player_GetHorseRealID | 5 |
-| `Player.GetPersonInfo` | LuaApi3_Player_GetPersonInfo | 6 |
-| `Player.GetBlockAtlasInfo` | LuaApi3_Player_GetBlockAtlasInfo | 5 |
-| `World.SetChunkRectAlwaysLoaded` | LuaApi3_World_SetChunkRectAlwaysLoaded | 1 |
-| `Player.OpenActView` | trigger_api_MiraclesEventsPage | 26 |
-| `Player.OpenShopTryOnView` | trigger_api_SkinTrialShop | 9 |
-| `Player.OpenShopSkinBuyDialog` | trigger_api_SkinTrialShop | 9 |
-| `Player.OpenShopGiveGiftView` | trigger_api_SendGiftsToFriends | 6 |
-| `Player.OpenFriendChatPage` | trigger_api_SendGiftsToFriends | 6 |
-| `OfficeUtils.ReportActivateDataForUin` | trigger_api_UploadActData | 5 |
-| `CloudSever.TransmitToCategoryRoom` | trigger_api3_MapTagTransfer | 23 |
-| `CloudSever.TransmitToCurMapCategoryRoom` | trigger_api3_MapTagTransfer | 23 |
-| `CloudSever.GetRoomCategory` | trigger_api3_MapTagTransfer | 23 |
-| `CloudSever.SetRoomCategory` | trigger_api3_MapTagTransfer | 23 |
-| `Trigger.TransmitToCategoryRoom` | trigger_api3_MapTagTransfer | 23 |
-
-### ❌ Not Available (dismethods)
-
-These methods are **completely invisible** to third-party Mods:
-
-**Object Methods**:
-- gameObject: GetId, Destroy, AddTag, RemoveTag, HasTag, GetObjType, IsValid, GetWorldId, PushEvent, PushEventSync, PushCustomEvent, PushCustomEventSync, PushCloudServerMsg, AddCustomEvent, AddEvent, AddCloudSeverEvent, RemoveEvent, RemoveCustomEvent, RemoveTriggerEvent, RemoveCloudSeverEvent, SaveInChunk, DoTaskInTime, DoPeriodicTask, ClearTaskByCmp, SetTaskIsPauseByCmp, SetEventIsEnable, IsEventEnable, SetComponentIndex, HasComponent
-- worldObject: GetObjType, GetId, IsValid, PushEvent, PushEventSync, PushCustomEvent, PushCustomEventSync, PushCloudServerMsg, AddCustomEvent, AddEvent, AddTriggerEvent, AddCloudSeverEvent, RemoveEvent, RemoveCustomEvent, RemoveTriggerEvent, RemoveCloudSeverEvent, DoTaskInTime, DoPeriodicTask, ClearTaskByCmp, SetTaskIsPauseByCmp, SetComponentIndex, SetEventIsEnable, IsEventEnable, HasComponent, GetWorldId
-- BlockObject: (similar list)
-
-**Service Methods**:
-- Log: PrintDevLog, PrintLog, DealLog, PcallErrorInfo, GetStrFromLine, PcallError, IsOpenLog, ModLoad, PrintRunInfo
-- GameObject: CreateGameObject, CreateEditActor, CreateGameObjectDefault, FindGameObject, GetWorldObject, CreatePrefabInstObject, PushCustomEvent, CreatePrefabObject
-- Area: GetObjInstanceID
-- Item: _BeginModifyItem, _BeginModifyItemByGridIndex
-- Chat: SendMsg
-- Player: GetActorByObjid, GetObjTypeByActor, ChangeCustomModelOld
-- Actor: GetActorByObjid, GetObjTypeByActor, ChangeCustomModelOld, CheckSyncAction
-- Monster: GetActorByObjid, GetObjTypeByActor, ChangeCustomModelOld
-- CustomUI: CreateElementId, CloneElementId
-- World: GetWorldById, GetWorldId
-
-### Frequency Limits
-
-Some APIs have cooldown restrictions:
-
-| API | Limit | Message |
-|-----|-------|---------|
-| `Player.GetFriendList` | 10s per UIN | "调用频繁，请稍后尝试！" |
-| `Player.GetPersonInfo` | 5s per UIN | "调用频繁，请稍后尝试！" |
-| `Player.PlayAdvertising` | 90s per UIN | "调用频繁，请稍后尝试！" |
-| `OfficeUtils.GetActivateReward` | 10s per UIN | "请求频繁,请稍后再试！" |
-| `CloudSever.SendSeverMsg` | 15s global | - |
-| `CloudSever.TransmitToMap` | 30s global | - |
-
-### When Adding New APIs
-
-1. **Check `devapicfg.lua`** for permission configuration
-2. **Check `devServices`** to see if API is exposed to third-party Mods
-3. **Add appropriate comments** in type definitions:
-   - `---@deprecated` or note if API is whitelist-only
-   - Note frequency limits if applicable
-4. **Do NOT add dismethods** to type definitions (they're invisible to Mods)
+**When adding new APIs**, read the analysis document to check:
+1. API availability level (all mods / whitelist only / not available)
+2. dismethods list (invisible to third-party mods)
+3. Frequency limits (Uin_TimeLimit / TimeLimit)
+4. Whitelist configuration (ns_version keys)
