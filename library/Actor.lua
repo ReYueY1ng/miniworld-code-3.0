@@ -125,7 +125,7 @@ function Actor:CompareMainModel(facade1, facade2) end
 
 ---在指定对象身上播放粒子特效
 ---@param objid integer 生物对象objid
----@param particleId (integer | string) | (integer | string)[] 粒子特效ID
+---@param particleId integer | string | (integer | string)[] 粒子特效ID或ID数组
 ---@param time number 时长（单位：秒）
 ---@param offset PositionTable 偏移
 ---@param rot PositionTable 旋转

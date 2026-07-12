@@ -175,7 +175,7 @@ function CustomUI:SmoothMoveBy(playerid, uiid, elementid, time, x, y) end
 ---元件平滑改变到指定宽度和高度
 ---@param playerid integer 玩家ID
 ---@param uiid string 界面ID
----@param elementid number 元件ID
+---@param elementid string 元件ID
 ---@param time number 执行时间(需大于0)
 ---@param w number 宽度
 ---@param h number 高度
@@ -185,7 +185,7 @@ function CustomUI:SmoothScaleTo(playerid, uiid, elementid, time, w, h) end
 ---元件平滑改变相对宽度和高度
 ---@param playerid integer 玩家ID
 ---@param uiid string 界面ID
----@param elementid number 元件ID
+---@param elementid string 元件ID
 ---@param time number 执行时间(需大于0)
 ---@param w number 宽度
 ---@param h number 高度
@@ -207,7 +207,7 @@ function CustomUI:SmoothScaleByEx(playerid, uiid, elementid, time, x, y, delayTi
 ---元件平滑旋转到指定角度
 ---@param playerid integer 玩家ID
 ---@param uiid string 界面ID
----@param elementid number 元件ID
+---@param elementid string 元件ID
 ---@param time number 执行时间(需大于0)
 ---@param angle number 角度值
 ---@return boolean result
@@ -216,7 +216,7 @@ function CustomUI:SmoothRotateTo(playerid, uiid, elementid, time, angle) end
 ---元件平滑旋转到相对角度
 ---@param playerid integer 玩家ID
 ---@param uiid string 界面ID
----@param elementid number 元件ID
+---@param elementid string 元件ID
 ---@param time number 执行时间(需大于0)
 ---@param angle number 角度值
 ---@return boolean result
@@ -225,7 +225,7 @@ function CustomUI:SmoothRotateBy(playerid, uiid, elementid, time, angle) end
 ---播放动画
 ---@param playerid integer 玩家ID
 ---@param uiid string 界面ID
----@param elementid number 元件ID
+---@param elementid string 元件ID
 ---@param animid integer 动画ID
 ---@param time number 单次执行时间(需大于0)
 ---@param mode AnimMode 播放模式枚举
@@ -238,7 +238,7 @@ function CustomUI:PlayElementAnim(playerid, uiid, elementid, animid, time, mode,
 ---元件停止动画
 ---@param playerid integer 玩家ID
 ---@param uiid string 界面ID
----@param elementid number 元件ID
+---@param elementid string 元件ID
 ---@param itype 0 | 1 类型（如果为0就是停止所有的UI的动效，1就是停止elementid对应的UI动效）
 ---@return boolean result
 function CustomUI:StopAnim(playerid, uiid, elementid, itype) end
