@@ -22,13 +22,13 @@ function GameObject:FindBlockObject(id) end
 
 ---创建预制实例
 ---@param prefabid integer | string 预制体ID
----@param mapid integer? 星球ID
+---@param worldid integer? 星球ID
 ---@param x number x坐标
 ---@param y number y坐标
 ---@param z number z坐标
 ---@param trigger boolean? 是否触发事件(默认true)
 ---@return Object object 返回创建的对象，如果创建失败则返回nil
-function GameObject:CreatePrefabInst(prefabid, mapid, x, y, z, trigger) end
+function GameObject:CreatePrefabInst(prefabid, worldid, x, y, z, trigger) end
 
 ---创建对象
 ---@param objectType ObjType 对象类型
@@ -38,9 +38,9 @@ function GameObject:CreatePrefabInst(prefabid, mapid, x, y, z, trigger) end
 ---@param z number z坐标
 ---@param num number 数量
 ---@param trigger boolean? 是否触发事件(默认true)
----@param mapid integer? 星球ID
+---@param worldid integer? 星球ID
 ---@return Object[] objects 返回创建对象的列表，如果需要objId，则需要用GetId()获取
-function GameObject:CreatePrefab(objectType, prefabid, x, y, z, num, trigger, mapid) end
+function GameObject:CreatePrefab(objectType, prefabid, x, y, z, num, trigger, worldid) end
 
 ---删除对象(玩家，方块，世界，ui 对象不能删除)
 ---@param objid integer | string 对象id

@@ -87,8 +87,9 @@ function Component:AddCustomEvent(msgid, callfunc) end
 
 ---移除自定义事件监听
 ---@protected
----@param msgid string 消息id
-function Component:RemoveCustomEvent(msgid) end
+---@param event string 消息id
+---@param fn? fun(self: Component, ...) 回调函数(可不传，不传则删除该事件的所有监听器)
+function Component:RemoveCustomEvent(event, fn) end
 
 ---发送对象事件(异步)，只有同个对象上监听的组件才能收到事件
 ---@protected
@@ -114,14 +115,16 @@ function Component:AddEvent(event, callfunc, priority, filter1, filter2) end
 ---移除自定义事件监听
 ---@protected
 ---@param event string | ObjectEvent 消息id
-function Component:RemoveEvent(event) end
+---@param fn? fun(self: Component, ...) 回调函数(可不传，不传则删除该事件的所有监听器)
+function Component:RemoveEvent(event, fn) end
 
 ---启动定时器在指定时间执行任务
 ---@protected
 ---@param callfunc fun(self: Component) 回调函数
 ---@param time number 时间间隔（秒）
+---@param tag? string 标签
 ---@return Task task 定时器
-function Component:DoTaskInTime(callfunc, time) end
+function Component:DoTaskInTime(callfunc, time, tag) end
 
 ---启动定时器周期性执行任务
 ---@protected
@@ -129,8 +132,9 @@ function Component:DoTaskInTime(callfunc, time) end
 ---@param delay number 间隔时间（秒）
 ---@param waittime? number 延迟开始第一次执行时间（默认0）
 ---@param count? integer 执行次数（默认无限次）
+---@param tag? string 标签
 ---@return Task task 定时器
-function Component:DoPeriodicTask(callfunc, delay, waittime, count) end
+function Component:DoPeriodicTask(callfunc, delay, waittime, count, tag) end
 
 ---清除所有定时器任务
 ---@protected
@@ -169,8 +173,9 @@ function Component:AddCloudSeverEvent(msgid, callfunc) end
 
 ---移除云服消息监听
 ---@protected
----@param msgid string 消息id
-function Component:RemoveCloudSeverEvent(msgid) end
+---@param event string 消息id
+---@param fn? fun(self: Component, ...) 回调函数(可不传，不传则删除该事件的所有监听器)
+function Component:RemoveCloudSeverEvent(event, fn) end
 
 ---世界组件
 ---@class WorldComponent: Component
@@ -193,7 +198,8 @@ function WorldComponent:AddTriggerEvent(event, callfunc, filter1, filter2) end
 ---移除触发事件监听
 ---@protected
 ---@param event TriggerEvent 事件类型
-function WorldComponent:RemoveTriggerEvent(event) end
+---@param fn? fun(self: Component, ...) 回调函数(可不传，不传则删除该事件的所有监听器)
+function WorldComponent:RemoveTriggerEvent(event, fn) end
 
 ---UI组件
 ---@class UIComponent: WorldComponent
