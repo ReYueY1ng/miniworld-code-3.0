@@ -10,6 +10,8 @@ function loadfile() end
 
 ---@type nil
 rawset = nil
+---@type nil
+newproxy = nil
 io = {}
 package = {}
 
