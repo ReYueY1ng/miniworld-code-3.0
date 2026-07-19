@@ -42,9 +42,9 @@ function Block:GetBlockID(x, y, z, worldId) end
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
 ---@param blockid integer | string 方块类型ID
----@param data? integer 方块朝向等数据
+---@param data? integer 方块朝向等数据(默认0)
 ---@param worldId? integer 星球id(默认当前主机所在星球)
----@param btrigger? boolean 是否触发事件
+---@param btrigger? boolean 是否触发事件(默认true)
 ---@return boolean result
 function Block:SetBlockAll(x, y, z, blockid, data, worldId, btrigger) end
 
@@ -52,9 +52,9 @@ function Block:SetBlockAll(x, y, z, blockid, data, worldId, btrigger) end
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
----@param dropitem? boolean 是否掉落
+---@param dropitem? boolean 是否掉落(默认false)
 ---@param worldId? integer 星球id(默认当前主机所在星球)
----@param btrigger? boolean 是否触发事件
+---@param btrigger? boolean 是否触发事件(默认true)
 ---@return boolean result
 function Block:DestroyBlock(x, y, z, dropitem, worldId, btrigger) end
 
@@ -63,10 +63,10 @@ function Block:DestroyBlock(x, y, z, dropitem, worldId, btrigger) end
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
----@param face? FaceDir 朝向
----@param color? integer 十六进制颜色值(0XFFFFFF 颜色方块类型才生效)
+---@param face? FaceDir 朝向(默认0)
+---@param color? integer | string 十六进制颜色值(默认-1, 颜色方块类型才生效)
 ---@param worldId? integer 星球id(默认当前主机所在星球)
----@param btrigger? boolean 是否触发事件
+---@param btrigger? boolean 是否触发事件(默认true)
 ---@return boolean result
 function Block:PlaceBlock(blockid, x, y, z, face, color, worldId, btrigger) end
 
@@ -75,10 +75,10 @@ function Block:PlaceBlock(blockid, x, y, z, face, color, worldId, btrigger) end
 ---@param x integer 位置坐标
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
----@param face? FaceDir 朝向
----@param color? integer 十六进制颜色值(0XFFFFFF 颜色方块类型才生效)
+---@param face? FaceDir 朝向(默认0)
+---@param color? integer | string 十六进制颜色值(默认-1, 颜色方块类型才生效)
 ---@param worldId? integer 星球id(默认当前主机所在星球)
----@param btrigger? boolean 是否触发事件
+---@param btrigger? boolean 是否触发事件(默认true)
 ---@return boolean result
 function Block:ReplaceBlock(blockid, x, y, z, face, color, worldId, btrigger) end
 
@@ -110,26 +110,26 @@ function Block:GetBlockDir(x, y, z, worldId) end
 ---播放方块动作
 ---@param pos PositionTable 位置
 ---@param animid integer|string 动作id
----@param speed number 播放速度
----@param loop AnimMode 循环模式
+---@param speed? number 播放速度(默认1)
+---@param loop AnimMode | boolean 循环模式
 ---@param worldId? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
 function Block:PlayAnim(pos, animid, speed, loop, worldId) end
 
 ---设置方块设置属性状态
 ---@param blockid integer | string 方块类型ID
----@param attrtype BlockLimits 属性枚举
+---@param atttype BlockLimits 属性枚举
 ---@param switch boolean 是否开关
 ---@param worldId? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Block:SetBlockSettingAttState(blockid, attrtype, switch, worldId) end
+function Block:SetBlockSettingAttState(blockid, atttype, switch, worldId) end
 
 ---获取方块设置属性状态
 ---@param blockid integer | string 方块类型ID
----@param attrtype BlockAttr 属性枚举
+---@param atttype BlockAttr 属性枚举
 ---@param worldId? integer 星球id(默认当前主机所在星球)
 ---@return boolean state
-function Block:GetBlockSettingAttState(blockid, attrtype, worldId) end
+function Block:GetBlockSettingAttState(blockid, atttype, worldId) end
 
 ---获取功能方块的开关状态
 ---@param x integer 位置坐标
@@ -243,10 +243,10 @@ function Block:SetBlockDir(x, y, z, dir, worldId) end
 function Block:GetFacade(blockid) end
 
 ---设置方块纹理颜色（仅支持草块、土块、树叶、花草等方块，其它方块暂不支持；设置后不会存档；玩法转编辑后需要重进地图才可还原）
----@param blockid integer | string 方块类型ID
----@param color integer 颜色值(0:还原默认颜色)
+---@param blockid integer 方块类型ID
+---@param color integer 颜色值
 ---@param alpha number 混合比例(0-100)
----@param slotindex integer 材质槽索引(默认1)
+---@param slotindex? integer 材质槽索引(默认1)
 ---@return boolean result
 function Block:SetBlockTextureColor(blockid, color, alpha, slotindex) end
 
@@ -279,9 +279,9 @@ function Block:StopPlaceObsBluePrint(blueprintid) end
 ---@param pos PositionTable 位置坐标
 ---@param blueprintid string 蓝图ID
 ---@param bPosInBPArea boolean 是否在蓝图区域内
----@param direction number 方向
----@param placeSpeed number 放置速度
----@param blockFilter table 方块过滤器
+---@param direction? number 方向(默认0)
+---@param placeSpeed? number 放置速度(默认1)
+---@param blockFilter? string 方块过滤器(默认"all")
 ---@return boolean result
 function Block:PlaceBluePrint(pos, blueprintid, bPosInBPArea, direction, placeSpeed, blockFilter) end
 
@@ -313,8 +313,8 @@ function Block:GetBluePrintBlockInfo(blueprintid) end
 
 ---截图并上传
 ---@param objid integer 对象ID
----@param width number 宽度
----@param height number 高度
+---@param width? number 宽度(默认256)
+---@param height? number 高度(默认144)
 ---@param hideUI boolean 是否隐藏UI
 ---@return boolean result
 function Block:CaptureAndUploadScreenshot(objid, width, height, hideUI) end

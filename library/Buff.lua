@@ -8,7 +8,7 @@ Buff = {}
 ---给对象附加效果
 ---@param objid integer 对象ID
 ---@param buffid integer | string 效果ID
----@param customticks number 效果持续时间(-1表示默认配置，0表示无限)
+---@param customticks? number 效果持续时间(-1表示默认配置，0表示无限)(默认-1)
 ---@return boolean result
 function Buff:AddBuff(objid, buffid, customticks) end
 
@@ -71,6 +71,6 @@ function Buff:GetBuffDefDesc(buffid) end
 ---@param objid integer 对象ID
 ---@param buffsrc integer | string 源状态ID
 ---@param buffdst integer | string 目标状态ID
----@param customticks number 效果持续时间(-1表示默认配置，0表示无限)
+---@param customticks? number 效果持续时间(-1表示默认配置，0表示无限)(默认-1)
 ---@return boolean result
 function Buff:ReplaceBuff(objid, buffsrc, buffdst, customticks) end

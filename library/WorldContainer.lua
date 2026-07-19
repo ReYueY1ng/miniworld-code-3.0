@@ -66,7 +66,7 @@ function WorldContainer:AddStorageItem(x, y, z, itemid, num, worldId) end
 ---@param y number y坐标
 ---@param z number z坐标
 ---@param itemid integer | string 道具类型ID
----@param num integer 道具数量
+---@param num? integer 道具数量(默认999999)
 ---@param worldId? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
 function WorldContainer:RemoveStorageItemByID(x, y, z, itemid, num, worldId) end
@@ -76,7 +76,7 @@ function WorldContainer:RemoveStorageItemByID(x, y, z, itemid, num, worldId) end
 ---@param y number y坐标
 ---@param z number z坐标
 ---@param offset integer 仓库格子索引(从1开始)
----@param num integer 道具数量
+---@param num? integer 道具数量(默认999)
 ---@param worldId? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
 function WorldContainer:RemoveStorageItemByIndex(x, y, z, offset, num, worldId) end
@@ -96,7 +96,7 @@ function WorldContainer:AddItemToContainer(x, y, z, itemid, num, worldId) end
 ---@param y number y坐标
 ---@param z number z坐标
 ---@param itemid integer | string 道具类型ID
----@param num integer 道具数量
+---@param num? integer 道具数量(默认999999)
 ---@param worldId? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
 function WorldContainer:RemoveContainerItemByID(x, y, z, itemid, num, worldId) end

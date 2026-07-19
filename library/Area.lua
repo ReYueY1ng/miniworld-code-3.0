@@ -85,9 +85,9 @@ function Area:GetAreaCreatures(areaid) end
 
 ---清空区域内全部方块
 ---@param areaid integer 区域唯一ID
----@param blockid integer | string 方块类型ID
----@param num integer 最大清除数量
----@param btriggerevent boolean 是否触发事件
+---@param blockid? integer | string 方块类型ID(默认0)
+---@param num? integer 最大清除数量(默认0)
+---@param btriggerevent? boolean 是否触发事件(默认false)
 ---@return boolean result
 function Area:ClearAllBlock(areaid, blockid, num, btriggerevent) end
 

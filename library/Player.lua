@@ -142,7 +142,7 @@ function Player:PlayMusic(objid, musicId, volume, pitch, isLoop) end
 function Player:StopMusic(objid, musicId) end
 
 ---玩家暂停/恢复播放背景音乐
----@param objid number 玩家Uin
+---@param objid integer 玩家Uin
 ---@param musicId integer | string 声音ID
 ---@param pause boolean true暂停/false恢复
 ---@return boolean result
@@ -182,8 +182,8 @@ function Player:GetNickname(objid) end
 function Player:OpenDevGoodsBuyDialog(objid, devGoodsId, customDesc) end
 
 ---打开开发者商店商品详情页
----@param objid number 玩家Uin
----@param devGoodsId number 商品ID
+---@param objid integer 玩家Uin
+---@param devGoodsId integer 商品ID
 ---@return ErrorCode code 成功
 function Player:OpenDevGoodsBuyDetailedDialog(objid, devGoodsId) end
 
@@ -467,7 +467,7 @@ function Player:CheckActionAttrState(objid, actionattr) end
 
 ---玩家骑乘生物
 ---@param playerid integer 玩家Uin
----@param objid integer 生物对象ID
+---@param objid? integer 生物对象ID(默认0)
 ---@param bctrl boolean 是否控制
 ---@return boolean result
 function Player:MountActor(playerid, objid, bctrl) end

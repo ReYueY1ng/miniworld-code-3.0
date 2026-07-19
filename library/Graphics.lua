@@ -17,15 +17,14 @@ function Graphics:MakeGraphicsText(title, font, apha, itype, autoWrap) end
 ---创建漂浮文字信息
 ---@param title string 文本信息
 ---@param font number 字体大小
----@param apha number 不透明度
 ---@param itype integer 漂浮文字ID
 ---@return table info 漂浮文字信息内容
-function Graphics:MakeflotageText(title, font, apha, itype) end
+function Graphics:MakeflotageText(title, font, itype) end
 
 ---创建进度条信息
 ---@param v1 number 当前值
 ---@param v2 number 最大值
----@param color number 颜色值(0xFFFFFF)
+---@param color string | number 颜色值(0xFFFFFF)(字符串十六进制也会自动转换)
 ---@param itype integer 进度条ID
 ---@return table info 进度条信息内容
 function Graphics:MakeGraphicsProgress(v1, v2, color, itype) end
@@ -34,8 +33,8 @@ function Graphics:MakeGraphicsProgress(v1, v2, color, itype) end
 ---@param x number 方块坐标
 ---@param y number 方块坐标
 ---@param z number 方块坐标
----@param size number 缩放值
----@param color number 颜色值(0xFFFFFF)
+---@param size? number 缩放值(默认1)
+---@param color string | number 颜色值(0xFFFFFF)(字符串十六进制也会自动转换)
 ---@param itype integer 箭头ID
 ---@return table info 箭头信息内容
 function Graphics:MakeGraphicsArrowToPos(x, y, z, size, color, itype) end
@@ -44,8 +43,8 @@ function Graphics:MakeGraphicsArrowToPos(x, y, z, size, color, itype) end
 ---@param x number 方块坐标
 ---@param y number 方块坐标
 ---@param z number 方块坐标
----@param size number 缩放值
----@param color number 颜色值(0xFFFFFF)
+---@param size? number 缩放值(默认1)
+---@param color string | number 颜色值(0xFFFFFF)(字符串十六进制也会自动转换)
 ---@param itype integer 线ID
 ---@return table info 线信息内容
 function Graphics:MakeGraphicsLineToPos(x, y, z, size, color, itype) end
@@ -63,40 +62,40 @@ function Graphics:MakeGraphicsNavPathToPos(x, y, z, itype, tCanSeePlayers) end
 ---@param x number 方块坐标
 ---@param y number 方块坐标
 ---@param z number 方块坐标
----@param size number 缩放值
----@param color number 颜色值(0xFFFFFF)
+---@param size? number 缩放值(默认1)
+---@param color string | number 颜色值(0xFFFFFF)(字符串十六进制也会自动转换)
 ---@param itype integer 面ID
 ---@return table info 面信息内容
 function Graphics:MakeGraphicsSurfaceToPos(x, y, z, size, color, itype) end
 
 ---生成指向对象的箭头数据
 ---@param objid integer 对象数据
----@param size number 缩放值
----@param color number 颜色值(0xFFFFFF)
+---@param size? number 缩放值(默认1)
+---@param color string | number 颜色值(0xFFFFFF)(字符串十六进制也会自动转换)
 ---@param itype integer 箭头ID
 ---@return table info 箭头信息内容
 function Graphics:MakeGraphicsArrowToActor(objid, size, color, itype) end
 
 ---生成指向对象的线数据
 ---@param objid integer 对象数据
----@param size number 缩放值
----@param color number 颜色值(0xFFFFFF)
+---@param size? number 缩放值(默认1)
+---@param color string | number 颜色值(0xFFFFFF)(字符串十六进制也会自动转换)
 ---@param itype integer 线ID
 ---@return table info 线信息内容
 function Graphics:MakeGraphicsLineToActor(objid, size, color, itype) end
 
 ---生成指向对象的面数据
 ---@param objid integer 对象数据
----@param size number 缩放值
----@param color number 颜色值(0xFFFFFF)
+---@param size? number 缩放值(默认1)
+---@param color string | number 颜色值(0xFFFFFF)(字符串十六进制也会自动转换)
 ---@param itype integer 面ID
 ---@return table info 面信息内容
 function Graphics:MakeGraphicsSurfaceToActor(objid, size, color, itype) end
 
 ---生成图片信息
 ---@param imgid string 图片ID
----@param scale number 缩放值
----@param apha number 透明度（0~100）
+---@param scale? number 缩放值(默认1)
+---@param apha? number 透明度（0~100）(默认0)
 ---@param itype integer 图文信息ID
 ---@return table info 图片信息内容
 function Graphics:MakeGraphicsImage(imgid, scale, apha, itype) end
@@ -332,7 +331,7 @@ function Graphics:GetInnerGraphicsOffset(objid, itype, callback) end
 ---创建画刷
 ---@param pos PositionTable 位置坐标
 ---@param dim PositionTable 尺寸
----@param color integer 颜色值(0xFFFFFF)
+---@param color? integer 颜色值(默认0xFFFFFF)
 ---@param showuin integer 可见玩家uin(0为全部可见)
 ---@param itype integer 图文信息ID
 ---@param worldId? integer 星球id(默认当前主机所在星球)

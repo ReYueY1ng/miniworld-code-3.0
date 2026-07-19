@@ -155,7 +155,7 @@ function Component:ThreadWork(callfunc, ...) end
 
 ---等待一段时间后执行
 ---@protected
----@param time number 等待时间
+---@param time? number 等待时间（可不传，默认等待直到被唤醒）
 ---@return 1000
 function Component:ThreadWait(time) end
 

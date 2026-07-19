@@ -86,12 +86,11 @@ function CustomUI:SetAlpha(playerid, uiid, elementid, alpha) end
 ---设置状态
 ---@param playerid integer 玩家ID
 ---@param uiid string 界面ID
----@param elementid string 元件ID
 ---@param pageIndex string 状态值
 ---@param easeType? Easing 缓动类型枚举
 ---@param time? number 动画事件(缺省参数)
 ---@return boolean result
-function CustomUI:SetState(playerid, uiid, elementid, pageIndex, easeType, time) end
+function CustomUI:SetState(playerid, uiid, pageIndex, easeType, time) end
 
 ---设置位置
 ---@param playerid integer 玩家ID
@@ -239,7 +238,7 @@ function CustomUI:PlayElementAnim(playerid, uiid, elementid, animid, time, mode,
 ---@param playerid integer 玩家ID
 ---@param uiid string 界面ID
 ---@param elementid string 元件ID
----@param itype 0 | 1 类型（如果为0就是停止所有的UI的动效，1就是停止elementid对应的UI动效）
+---@param itype? 0 | 1 类型（如果为0就是停止所有的UI的动效，1就是停止elementid对应的UI动效）(默认1)
 ---@return boolean result
 function CustomUI:StopAnim(playerid, uiid, elementid, itype) end
 
@@ -371,11 +370,10 @@ function CustomUI:SetProgressBarValue(playerid, uiid, elementid, itype, value) e
 ---@param playerid integer 玩家ID
 ---@param uiid string 界面ID
 ---@param elementid string 元件ID
----@param itype? ProgressVal 类型枚举
 ---@return number min 返回的值
 ---@return number max 返回的值
 ---@return number value 返回的值
-function CustomUI:GetProgressBarValue(playerid, uiid, elementid, itype) end
+function CustomUI:GetProgressBarValue(playerid, uiid, elementid) end
 
 ---设置玩家界面进度条的纹理
 ---@param playerid integer 玩家ID

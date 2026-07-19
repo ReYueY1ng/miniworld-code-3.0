@@ -42,8 +42,9 @@ function Item:GetCraftIDNum(itemid) end
 
 ---获取道具的配方材料和数量
 ---@param itemid integer | string 道具ID
+---@param index? integer 配方索引(默认1)
 ---@return [integer | string, integer][] num 原料信息 {{itemid, itemnum}}
-function Item:GetCraftMaterialAndNum(itemid) end
+function Item:GetCraftMaterialAndNum(itemid, index) end
 
 ---获取道具类型外观
 ---@param itemid integer | string 道具ID
@@ -98,9 +99,9 @@ function Item:GetItemIdByInstanceId(instid) end
 ---@param partName string 子部件名字
 ---@param boneName string 挂点
 ---@param modelStr string 模型
----@param offset PositionTable 位置偏移
----@param rot PositionTable 旋转
----@param scale PositionTable 缩放
+---@param offset? PositionTable 位置偏移(默认{x=0,y=0,z=0})
+---@param rot? PositionTable 旋转(默认{x=0,y=0,z=0})
+---@param scale? PositionTable 缩放(默认{x=1,y=1,z=1})
 ---@return string partName 部件名字
 function Item:AddSubModelPart(instid, partName, boneName, modelStr, offset, rot, scale) end
 
@@ -115,9 +116,9 @@ function Item:DeleteSubModelPart(instid, partName) end
 ---@param partName string 子部件名字
 ---@param boneName string 挂点
 ---@param modelStr string 模型
----@param offset PositionTable 位置偏移
----@param rot PositionTable 旋转
----@param scale PositionTable 缩放
+---@param offset? PositionTable 位置偏移(默认{x=0,y=0,z=0})
+---@param rot? PositionTable 旋转(默认{x=0,y=0,z=0})
+---@param scale? PositionTable 缩放(默认{x=1,y=1,z=1})
 ---@return boolean result
 function Item:ReplaceSubModelPart(instid, partName, boneName, modelStr, offset, rot, scale) end
 

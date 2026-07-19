@@ -21,12 +21,12 @@ function GameObject:FindUIObject(id) end
 function GameObject:FindBlockObject(id) end
 
 ---创建预制实例
----@param prefabid integer | string 预制体ID
----@param worldid integer? 星球ID
+---@param prefabid string 预制体ID
+---@param worldid? integer 星球ID(默认当前星球)
 ---@param x number x坐标
 ---@param y number y坐标
 ---@param z number z坐标
----@param trigger boolean? 是否触发事件(默认true)
+---@param trigger? boolean 是否触发事件(默认true)
 ---@return Object object 返回创建的对象，如果创建失败则返回nil
 function GameObject:CreatePrefabInst(prefabid, worldid, x, y, z, trigger) end
 
@@ -36,9 +36,9 @@ function GameObject:CreatePrefabInst(prefabid, worldid, x, y, z, trigger) end
 ---@param x number x坐标
 ---@param y number y坐标
 ---@param z number z坐标
----@param num number 数量
----@param trigger boolean? 是否触发事件(默认true)
----@param worldid integer? 星球ID
+---@param num? number 数量(默认1)
+---@param trigger? boolean 是否触发事件(默认true)
+---@param worldid? integer 星球ID(默认当前星球)
 ---@return Object[] objects 返回创建对象的列表，如果需要objId，则需要用GetId()获取
 function GameObject:CreatePrefab(objectType, prefabid, x, y, z, num, trigger, worldid) end
 
@@ -54,6 +54,6 @@ function GameObject:Destroy(objid) end
 function GameObject:GetObjectPrefab(objid) end
 
 ---根据uuid获取对象实例ID
----@param uuid string 对象uuid
----@return integer objid 对象实例ID
+---@param uuid number 对象uuid
+---@return number|table objid 对象实例ID或坐标表
 function GameObject:GetObjInstanceID(uuid) end

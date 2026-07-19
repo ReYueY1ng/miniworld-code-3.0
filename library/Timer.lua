@@ -23,7 +23,7 @@ function Timer:DeleteTimer(timerid) end
 ---启动倒计时
 ---@param timerid string | integer 计时器ID
 ---@param interval number 开始倒计时时间
----@param repeated boolean 是否重复
+---@param repeated? boolean 是否重复
 ---@return boolean result
 function Timer:StartBackwardTimer(timerid, interval, repeated) end
 
@@ -61,7 +61,7 @@ function Timer:GetTimerTime(timerid) end
 ---显示计时器窗口(若其他计时器已经显示，则替换显示)
 ---@param playerid integer | integer[] 玩家ID/玩家id数组
 ---@param timerid string | integer 计时器ID
----@param title string 计时器窗口显示的标题
+---@param title? string 计时器窗口显示的标题
 ---@return boolean result
 function Timer:ShowTimerWnd(playerid, timerid, title) end
 

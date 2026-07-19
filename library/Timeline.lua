@@ -13,8 +13,8 @@ function Timeline:PlayForAll(timelineId) end
 ---对指定玩家播放Timeline
 ---@param uin number 玩家UIN
 ---@param timelineId string Timeline资源ID
----@param reverse boolean 是否反向播放
----@param playToEnd boolean 是否播放到结尾
+---@param reverse? boolean 是否反向播放(默认false)
+---@param playToEnd? boolean 是否播放到结尾(默认false)
 ---@return boolean code 是否成功
 function Timeline:PlayForPlayer(uin, timelineId, reverse, playToEnd) end
 

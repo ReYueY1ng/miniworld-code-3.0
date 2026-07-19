@@ -37,6 +37,6 @@ function OfficeUtils:ReportActivateDataForUin(uin, eventid, ...) end
 ---@param cID any 客户端ID
 ---@param oID any 对象ID
 ---@param event string 事件名
----@param eventTb? table 事件数据
+---@param eventTb? table 事件数据（默认空表）
 ---@return boolean result
 function OfficeUtils:SendClientReportEvent(uin, sID, cID, oID, event, eventTb) end

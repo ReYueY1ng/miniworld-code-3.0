@@ -40,7 +40,7 @@ function Actor:GetMaxHP(objid) end
 
 ---设置对象昵称是否显示
 ---@param objid integer 角色objid
----@param bshow boolean 是否显示
+---@param bshow? boolean 是否显示(默认false)
 ---@return boolean result
 function Actor:ShowNickName(objid, bshow) end
 
@@ -69,8 +69,8 @@ function Actor:IsPlayer(objid) end
 ---@param objid integer 角色objid
 ---@param soundId integer | string 声音ID
 ---@param volume number 音量
----@param pitch number 音调
----@param isLoop boolean 是否循环播放
+---@param pitch? number 音调(默认1)
+---@param isLoop? boolean 是否循环播放(默认false)
 ---@return boolean result
 function Actor:PlaySoundEffectById(objid, soundId, volume, pitch, isLoop) end
 
@@ -127,9 +127,9 @@ function Actor:CompareMainModel(facade1, facade2) end
 ---@param objid integer 生物对象objid
 ---@param particleId integer | string | (integer | string)[] 粒子特效ID或ID数组
 ---@param time number 时长（单位：秒）
----@param offset PositionTable 偏移
----@param rot PositionTable 旋转
----@param scale PositionTable 缩放
+---@param offset? PositionTable 偏移(默认值: {x=0,y=0,z=0})
+---@param rot? PositionTable 旋转(默认值: {x=0,y=0,z=0})
+---@param scale? PositionTable 缩放(默认值: {x=1,y=1,z=1})
 ---@return boolean result
 function Actor:PlayBodyParticleById(objid, particleId, time, offset, rot, scale) end
 
@@ -142,9 +142,9 @@ function Actor:StopBodyEffectById(objid, particleId) end
 ---设置指定对象身上的特效大小
 ---@param objid integer 生物对象objid
 ---@param particleId integer | string 粒子特效ID
----@param offset PositionTable 偏移
----@param rot PositionTable 旋转
----@param scale PositionTable 缩放
+---@param offset? PositionTable 偏移(默认值: {x=0,y=0,z=0})
+---@param rot? PositionTable 旋转(默认值: {x=0,y=0,z=0})
+---@param scale? PositionTable 缩放(默认值: {x=1,y=1,z=1})
 ---@return boolean result
 function Actor:SetBodyParticleTransform(objid, particleId, offset, rot, scale) end
 
@@ -268,7 +268,7 @@ function Actor:RecoverinitialModel(objid) end
 ---@param objid integer 攻击者对象的objid
 ---@param targetid integer 目标对象的objid
 ---@param damage number 伤害值
----@param attacktype HurtType 伤害类型枚举
+---@param attacktype? HurtType 伤害类型枚举(默认值: HurtType.Fixed)
 ---@param ignoreResist? boolean 忽略伤害抵抗
 ---@param ignoreTriggerEvent? boolean 忽略触发伤害事件
 ---@return boolean result
@@ -494,8 +494,8 @@ function Actor:ClearTags(objid) end
 ---在指定对象身上播放身体特效
 ---@param objid integer 对象objid
 ---@param particleId integer | string 粒子特效ID
----@param scale number 特效缩放大小
----@param ptme number 播放时长（单位：秒）
+---@param scale? number 特效缩放大小(默认1)
+---@param ptme? number 播放时长（单位：秒，默认-1持续播放）
 ---@return boolean result
 function Actor:PlayBodyEffectById(objid, particleId, scale, ptme) end
 

@@ -98,8 +98,8 @@ function World:GetLightByPos(x, y, z, worldId) end
 ---@param y number y坐标
 ---@param z number z坐标
 ---@param actorid integer | string 生物类型
----@param num integer 生成数量
----@param trigger boolean 是否触发事件
+---@param num? integer 生成数量(默认1)
+---@param trigger? boolean 是否触发事件(默认true)
 ---@param worldId integer 星球id
 ---@return integer[] objs 生物ID组
 function World:SpawnCreature(x, y, z, actorid, num, trigger, worldId) end
@@ -147,7 +147,7 @@ function World:FindNearestPlayerByPos(posX, posY, posZ, worldId) end
 ---@param pos PositionTable 位置
 ---@param soundId integer|string 音效ID
 ---@param volume number 音量调节
----@param pitch number 音调调节
+---@param pitch? number 音调调节(默认1)
 ---@param isLoop boolean 是否循环播放
 ---@param worldId integer 星球id
 ---@return boolean result
@@ -164,8 +164,9 @@ function World:StopSoundEffectOnPos(pos, soundId, worldId) end
 ---@param pos PositionTable 位置
 ---@param soundId integer|string 音效ID
 ---@param pause boolean true暂停/false恢复
+---@param worldId? integer 星球id
 ---@return boolean result
-function World:PauseSoundEffectOnPos(pos, soundId, pause) end
+function World:PauseSoundEffectOnPos(pos, soundId, pause, worldId) end
 
 ---是否是白天
 ---@return boolean isDayTime 是否白天
@@ -195,7 +196,7 @@ function World:SetGravity(value) end
 function World:AddGravity(value) end
 
 ---获取重力
----@param worldId integer 星球id
+---@param worldId? integer 星球id(实际代码里没用到，强制当前星球)
 ---@return number gravity 重力值
 function World:GetGravity(worldId) end
 
@@ -220,7 +221,7 @@ function World:GetCurMapId() end
 ---@param dstx number 目标x坐标
 ---@param dsty number 目标y坐标
 ---@param dstz number 目标z坐标
----@param speed number 速度
+---@param speed? number 速度(默认-1)
 ---@param worldId integer 星球id
 ---@return integer objid 投掷物objid
 function World:SpawnProjectile(objid, itemid, x, y, z, dstx, dsty, dstz, speed, worldId) end
@@ -234,7 +235,7 @@ function World:SpawnProjectile(objid, itemid, x, y, z, dstx, dsty, dstz, speed, 
 ---@param dstx number 目标x方向
 ---@param dsty number 目标y方向
 ---@param dstz number 目标z方向
----@param speed number 速度
+---@param speed? number 速度(默认-1)
 ---@param worldId integer 星球id
 ---@return integer objid 投掷物objid
 function World:SpawnProjectileByDir(objid, itemid, x, y, z, dstx, dsty, dstz, speed, worldId) end
@@ -258,8 +259,8 @@ function World:GetBiomeGroup(posX, posZ, worldId) end
 ---@param y number y坐标
 ---@param z number z坐标
 ---@param biometype BiomeType 地形类型
----@param radius number 半径
----@param worldId number 世界ID
+---@param radius? number 半径(默认1)
+---@param worldId? integer 世界ID
 ---@return number? x x坐标
 ---@return number? y y坐标
 ---@return number? z z坐标
@@ -267,41 +268,41 @@ function World:FindEcosystem(x, y, z, biometype, radius, worldId) end
 
 ---地图增加标记
 ---@param uin integer 玩家ID
----@param id integer | string 标记id
+---@param id string 标记id
 ---@param params MarkerParams 标记的超参数
 ---@return boolean result
 function World:PixelMapAddMarker(uin, id, params) end
 
 ---地图刷新标记
 ---@param uin integer 玩家ID
----@param id integer | string 标记id
+---@param id string 标记id
 ---@param params MarkerParamsOptional 标记的超参数(提供改变的参数即可)
 ---@return boolean result
 function World:PixelMapRefreshMarker(uin, id, params) end
 
 ---地图删除标记
 ---@param uin integer 玩家ID
----@param id integer | string 标记id
+---@param id string 标记id
 ---@return boolean result
 function World:PixelMapDelMarker(uin, id) end
 
 ---地图增加纹理
 ---@param uin integer 玩家ID
----@param id integer | string 纹理id
+---@param id string 纹理id
 ---@param params TextureParams 纹理的超参数
 ---@return boolean result
 function World:PixelMapAddTexture(uin, id, params) end
 
 ---地图刷新纹理
 ---@param uin integer 玩家ID
----@param id integer | string 纹理id
+---@param id string 纹理id
 ---@param params TextureParamsOptional 纹理的超参数(提供改变的参数即可)
 ---@return boolean result
 function World:PixelMapRefreshTexture(uin, id, params) end
 
 ---地图删除纹理
 ---@param uin integer 玩家ID
----@param id integer | string 纹理id
+---@param id string 纹理id
 ---@return boolean result
 function World:PixelMapDelTexture(uin, id) end
 
@@ -409,8 +410,8 @@ function World:GetDateFromTime(time, date) end
 ---@param maxlen number 最大检测方块距离
 ---@param picktype RayDetectType 检测类型
 ---@param worldId? WorldIdEnum 世界id
----@param ignoreObjs? boolean 是否忽略实体
----@param ignorePrefabs? boolean 是否忽略预制
+---@param ignoreObjs? integer[] 忽略的对象ID列表
+---@param ignorePrefabs? (integer|string)[] 忽略的方块/预制ID列表
 ---@return integer objid 对象ID
 ---@return PositionTable pos 对象位置
 function World:GetDirRayDetection(posbegin, dir, maxlen, picktype, worldId, ignoreObjs, ignorePrefabs) end
@@ -519,6 +520,7 @@ function World:SetWorldCreateMobRule(cfgs, worldId) end
 ---@param mobType MobType 生物类型
 ---@param density number 密度（0-2000）
 ---@param worldId integer 星球id
+---@return boolean result
 function World:SetMobSpawnDensity(mobType, density, worldId) end
 
 ---设置农作物生长时间要求修正，在原来的时间上乘以系数(设置不保存，退出游戏后失效，只适用迷拉星)
@@ -547,7 +549,7 @@ function World:GetGameMode() end
 ---@param y number y坐标
 ---@param z number z坐标
 ---@param lv integer 光照强度(0~15)
----@param worldId integer 星球id
+---@param worldId? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
 function World:SetLightByPos(x, y, z, lv, worldId) end
 
@@ -593,7 +595,7 @@ function World:GetTimeFromDateString(dateStr) end
 ---@param y number y坐标
 ---@param z number z坐标
 ---@param particleId integer | string 特效ID
----@param scale number 缩放
+---@param scale? number 缩放(默认1)
 ---@param ptime number 播放时长(秒)
 ---@param bUsePlayerViewRange? boolean 是否使用玩家视距
 ---@param worldId? integer 世界id(默认当前世界)

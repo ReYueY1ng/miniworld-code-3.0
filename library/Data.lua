@@ -28,8 +28,14 @@ function Data:IncreasesValue(varId, playerId, value) end
 ---打包蓝图数据
 ---@param varId string 变量ID
 ---@param playerId integer? 玩家ID（全局变量传nil）
+---@param x number 起始X坐标
+---@param y number 起始Y坐标
+---@param z number 起始Z坐标
+---@param x2 number 结束X坐标
+---@param y2 number 结束Y坐标
+---@param z2 number 结束Z坐标
 ---@return any value 蓝图数据
-function Data:DoPackBluePrint(varId, playerId) end
+function Data:DoPackBluePrint(varId, playerId, x, y, z, x2, y2, z2) end
 
 ---数组变量数据管理接口
 ---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/array.html)
@@ -172,7 +178,7 @@ function Data.Array:GetCountByValue(varId, playerId, value) end
 ---数值组指定索引值增加指定值
 ---@param varId string 组ID
 ---@param playerId integer? 玩家ID（全局变量传nil）
----@param value any 具体值
+---@param value number 数值
 ---@param index integer 索引
 ---@return boolean result
 function Data.Array:IncreasesValue(varId, playerId, value, index) end
@@ -183,12 +189,13 @@ function Data.Array:IncreasesValue(varId, playerId, value, index) end
 ---@return integer tmpArrayId 临时数组ID
 function Data.Array:CreateTmpArray(varType, data) end
 
----检查两个数组是否有交集
----@param varId string 组ID
----@param playerId integer? 玩家ID（全局变量传nil）
----@param tags string[] 标签列表
+---检查两个标签数组是否有交集
+---@param strsA string[] 标签数组A
+---@param mathcmode integer 匹配模式
+---@param strsB string[] 标签数组B
+---@param bexactmatch boolean 是否精确匹配
 ---@return boolean result 是否有交集
-function Data.Array:HasIntersectionByTags(varId, playerId, tags) end
+function Data.Array:HasIntersectionByTags(strsA, mathcmode, strsB, bexactmatch) end
 
 ---二维表变量数据管理接口
 ---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/table.html)
@@ -455,7 +462,6 @@ function Data.Map:IncreasesRankValueAndCallback(varId, playerId, key, value, ext
 ---@param min integer 最小排名
 ---@param max integer 最大排名
 ---@param ascending boolean 是否升序
----@param pagesize integer 单次返回数量
 ---@param callback fun(code: ErrorCode, min: integer, max: integer, ascending: boolean, datas: {k: string, v: number, info: KVValue}[]) 回调函数
 ---@return boolean result
-function Data.Map:GetRangeIndexsAndCallback(varId, playerId, min, max, ascending, pagesize, callback) end
+function Data.Map:GetRangeIndexsAndCallback(varId, playerId, min, max, ascending, callback) end

@@ -1742,7 +1742,7 @@ function Mini.Array:MoveTo(oldIdx, newIdx) end
 function Mini.Array:InsertValues(values, index) end
 
 ---增加值
----@param value any
+---@param value number
 ---@param index number
 ---@return boolean
 function Mini.Array:IncreasesValue(value, index) end

@@ -134,8 +134,8 @@ function Backpack:AddItem(playerid, itemid, num, prioritytype) end
 ---丢弃背包某个格子里的道具
 ---@param playerid integer 玩家ID
 ---@param gridid integer 格子ID
----@param num? integer 道具数量
----@param ablePick? boolean 能否拾取
+---@param num integer 道具数量
+---@param ablePick? boolean 能否拾取(默认true)
 ---@return boolean result
 function Backpack:DiscardItem(playerid, gridid, num, ablePick) end
 
@@ -176,15 +176,15 @@ function Backpack:CreateItem(objid, itemid, itemnum, ipos) end
 
 ---在手持道具上播放特效
 ---@param playerid integer 玩家ID
----@param effectid integer 特效ID
+---@param effectid integer | string 特效ID
 ---@param scale number 特效缩放
 ---@return boolean result
 function Backpack:PlayShortCutIxEffect(playerid, effectid, scale) end
 
 ---在手持道具上播放特效
 ---@param playerid integer 玩家ID
----@param effectids integer 特效ID
----@param offset PositionTable 偏移
+---@param effectids integer | string | (integer | string)[] 特效ID
+---@param offset? PositionTable 偏移(默认值: {x=0,y=0,z=0})
 ---@param rot? PositionTable 旋转
 ---@param scale? PositionTable 缩放
 ---@return boolean result
@@ -199,8 +199,8 @@ function Backpack:StopShortCutIxEffect(playerid, effectids) end
 ---播放手持道具特效
 ---@param playerid integer 玩家ID
 ---@param itemid integer 道具类型
----@param effectids integer 特效ID
----@param offset PositionTable 偏移
+---@param effectids integer | string | (integer | string)[] 特效ID
+---@param offset? PositionTable 偏移(默认值: {x=0,y=0,z=0})
 ---@param rot? PositionTable 旋转
 ---@param scale? PositionTable 缩放
 ---@return boolean result

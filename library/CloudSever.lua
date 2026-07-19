@@ -52,7 +52,7 @@ function CloudSever:SetRoomCategory(category) end
 
 ---传送到分类房间<br>**调用限制**: 全局 30 秒冷却
 ---@param playerids integer | integer[] 玩家Uin或Uin数组
----@param mapid string 地图ID
+---@param mapid number 地图ID
 ---@param categorys string | string[] 分类或分类数组
 ---@param teleportmsg? string 传送提示消息
 ---@param notFollow? boolean 是否不跟随
