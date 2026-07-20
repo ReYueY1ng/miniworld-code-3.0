@@ -40,7 +40,7 @@ MyComponent.openFnArgs = {
     myFunction = {
         returnType = Mini.Number, -- 返回值（不填则为无返回值）
         displayName = "函数别名", -- 触发器上显示的名称（不填缺省则显示函数名 myFunction）
-        params = {Mini.Number, Mini.Number}, -- 参数列表类型（不填则为无参数）
+        params = { Mini.Number, Mini.Number }, -- 参数列表类型（不填则为无参数）
     },
 
     -- 只想支持其他脚本组件访问，不需要支持触发器的简单写法可以直接配置
@@ -60,7 +60,7 @@ end
 
 -- 玩家点击方块事件
 function MyComponent:OnPlayerClickBlock(e)
-    print('OnPlayerClickBlock', e.eventobjid)
+    print("OnPlayerClickBlock", e.eventobjid)
     self:RemoveTriggerEvent(TriggerEvent.PlayerClickBlock, self.OnPlayerClickBlock)
 end
 
@@ -68,7 +68,7 @@ end
 function MyComponent:OnStart()
     -- 在 property 里面定义的 myNumber 会自动注入组件
     self.myNumber = self:myFunction(self.myNumber, 2) -- 更改的值也可以被其他组件读到
-    self.myString = 'kukuru'                          -- 不能被其他组件读到
+    self.myString = "kukuru" -- 不能被其他组件读到
 
     self:AddTriggerEvent(TriggerEvent.PlayerClickBlock, self.OnPlayerClickBlock)
 end
@@ -76,14 +76,10 @@ end
 -- 定义了 OnTick 则会有驱动, 不需要时候尽量不定义, 提高效率
 -- 定时逻辑可使用定时器代替
 ---@param dt integer gametick 1s=20t
-function MyComponent:OnTick(dt)
-
-end
+function MyComponent:OnTick(dt) end
 
 -- 当组件被移除
-function MyComponent:OnDestroy()
-
-end
+function MyComponent:OnDestroy() end
 
 -- 返回类型必须是表
 return MyComponent

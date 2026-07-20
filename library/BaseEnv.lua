@@ -17,9 +17,9 @@ package = {}
 
 debug = {}
 
----@return ''
+---@return ""
 function debug.traceback()
-    return ''
+    return ""
 end
 
 ---@type oslib
@@ -50,14 +50,18 @@ function string.split(input, delimiter)
     input = tostring(input)
     delimiter = tostring(delimiter)
 
-    if delimiter == '' then
+    if delimiter == "" then
         ---@diagnostic disable-next-line: return-type-mismatch
         return false
     end
 
     local ret = {}
     local pos = 0
-    for st, sp in function() return string.find(input, delimiter, pos, true) end do
+    for st, sp in
+        function()
+            return string.find(input, delimiter, pos, true)
+        end
+    do
         table.insert(ret, string.sub(input, pos, st - 1))
         pos = sp + 1
     end
@@ -79,7 +83,7 @@ end
 ---@param End string
 ---@return boolean result
 function string.endswith(String, End)
-    return End == '' or string.sub(String, -string.len(End)) == End
+    return End == "" or string.sub(String, -string.len(End)) == End
 end
 
 ---字符串是否包含指定子串
@@ -115,7 +119,7 @@ local string_limited = {
     lower = string.lower,
     upper = string.upper,
     split = string.split,
-    Trim = string.Trim
+    Trim = string.Trim,
 }
 
 string = string_limited
@@ -183,7 +187,7 @@ local table_limited = {
     insert = table.insert,
     remove = table.remove,
     concat = table.concat,
-    sort = table.sort
+    sort = table.sort,
 }
 
 table = table_limited

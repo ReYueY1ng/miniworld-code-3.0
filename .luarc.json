@@ -1,0 +1,16 @@
+{
+    "runtime.version": "LuaJIT",
+    "runtime.builtin": {
+        "debug": "disable",
+        "ffi": "disable",
+        "io": "disable",
+        "jit": "disable",
+        "jit.profile": "disable",
+        "jit.util": "disable",
+        "package": "disable",
+        "table.clear": "disable",
+        "table.new": "disable",
+        "string.buffer": "disable"
+    },
+    "completion.autoRequire": false
+}

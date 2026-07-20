@@ -3601,6 +3601,6 @@ ObjectEvent = {
     ---当生物被驯服<br>
     ---\---传参---<br>
     ---参数未知<br>
-    OnTame = 37
+    OnTame = 37,
     --#endregion
 }
