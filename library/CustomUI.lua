@@ -476,14 +476,14 @@ function CustomUI:SetPositionBandBlock(objid, uiid, elementid, blockPos) end
 ---@return boolean result
 function CustomUI:RemovePositionBandBlock(objid, uiid, elementid) end
 
----获取元件属性值
+---获取元件属性值<br>**调用限制**: 仅白名单用户可用
 ---@param objid integer 对象ID
 ---@param elementid string 元件ID
 ---@param attrIdx ElementAttr 属性枚举
 ---@return any value 属性值
 function CustomUI:GetElementAttrValue(objid, elementid, attrIdx) end
 
----获取界面属性值
+---获取界面属性值<br>**调用限制**: 仅白名单用户可用
 ---@param objid integer 对象ID
 ---@param uiid string 界面ID
 ---@param attrIdx UIAttr 属性枚举
@@ -536,7 +536,7 @@ function CustomUI:SetBeaconClampType(playerid, elementid, clampType) end
 ---@return boolean result
 function CustomUI:SetBeaconRadius(playerid, elementid, radius) end
 
----设置URL图标
+---设置URL图标<br>**调用限制**: 仅白名单用户可用
 ---@param objid integer 玩家ID
 ---@param uiid string 界面ID
 ---@param elementid string 元件ID
@@ -552,7 +552,7 @@ function CustomUI:SetUrlIcon(objid, uiid, elementid, url) end
 ---@return boolean result
 function CustomUI:SetBeaconMargin(playerid, elementid, horizontalMargin, verticalMargin) end
 
----设置系统设置按钮可见性
+---设置系统设置按钮可见性<br>**调用限制**: 仅白名单用户可用（5 个 UIN）
 ---@param objid integer 玩家ID
 ---@param visible boolean 是否可见
 ---@return boolean result

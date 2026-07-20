@@ -208,7 +208,7 @@ function Item:GetTags(itemid) end
 ---@return integer | string resid 资源ID
 function Item:GetResIdByInstanceId(instId) end
 
----设置对象数据
+---设置对象数据<br>**调用限制**: 仅白名单用户可用
 ---@param playerid integer 玩家Uin
 ---@param instId string 道具实例ID
 ---@param key string 键名
@@ -216,17 +216,17 @@ function Item:GetResIdByInstanceId(instId) end
 ---@return boolean result
 function Item:SetObjData(playerid, instId, key, value) end
 
----获取枪械基础描述
+---获取枪械基础描述<br>**调用限制**: 仅白名单用户可用
 ---@param itemid integer | string 道具类型ID
 ---@return table desc 枪械描述
 function Item:GetGunBaseDesc(itemid) end
 
----获取道具模型组件
+---获取道具模型组件<br>**调用限制**: 仅白名单用户可用
 ---@param itemid integer | string 道具类型ID
 ---@return table comp 模型组件
 function Item:GetItemModelComp(itemid) end
 
----通过格子设置对象数据
+---通过格子设置对象数据<br>**调用限制**: 仅白名单用户可用
 ---@param playerid integer 玩家Uin
 ---@param gridIndex integer 格子索引
 ---@param key string 键名
@@ -234,33 +234,33 @@ function Item:GetItemModelComp(itemid) end
 ---@return boolean result
 function Item:SetObjDataByGrid(playerid, gridIndex, key, value) end
 
----通过格子获取对象数据
+---通过格子获取对象数据<br>**调用限制**: 仅白名单用户可用
 ---@param playerid integer 玩家Uin
 ---@param gridIndex integer 格子索引
 ---@param key string 键名
 ---@return any value 数据值
 function Item:GetObjDataByGrid(playerid, gridIndex, key) end
 
----判断是否为绑定道具
+---判断是否为绑定道具<br>**调用限制**: 仅白名单用户可用
 ---@param itemid integer | string 道具类型ID
 ---@return boolean result
 function Item:IsBindItem(itemid) end
 
----在背包内创建道具实例
+---在背包内创建道具实例<br>**调用限制**: 仅白名单用户可用
 ---@param playerid integer 玩家Uin
 ---@param itemid integer | string 道具类型ID
 ---@param gridIndex? integer 格子索引
 ---@return string instId 道具实例ID
 function Item:CreateItemInstInBackpack(playerid, itemid, gridIndex) end
 
----获取对象数据
+---获取对象数据<br>**调用限制**: 仅白名单用户可用
 ---@param playerid integer 玩家Uin
 ---@param instId string 道具实例ID
 ---@param key string 键名
 ---@return any value 数据值
 function Item:GetObjData(playerid, instId, key) end
 
----在背包内创建绑定道具
+---在背包内创建绑定道具<br>**调用限制**: 仅白名单用户可用
 ---@param playerid integer 玩家Uin
 ---@param itemid integer | string 道具类型ID
 ---@return string instId 道具实例ID

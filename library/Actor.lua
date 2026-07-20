@@ -551,7 +551,7 @@ function Actor:GetDefID(objid) end
 ---@return boolean result
 function Actor:SetMountActorAttr(objid, isRote, isPlayerContrl, isCloseAI) end
 
----白名单停止技能
+---白名单停止技能<br>**调用限制**: 仅白名单用户可用
 ---@param objid integer 对象ID
 ---@param skillid integer 技能ID
 ---@return boolean result

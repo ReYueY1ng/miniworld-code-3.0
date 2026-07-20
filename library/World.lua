@@ -620,7 +620,7 @@ function World:SetParticleEffectScale(x, y, z, particleId, scale) end
 ---@return boolean result
 function World:StopParticleEffectOnPos(x, y, z, particleId, worldId) end
 
----根据对象类型查找附近生物列表
+---根据对象类型查找附近生物列表<br>**调用限制**: 仅白名单用户可用
 ---@param centerX number 中心x坐标
 ---@param centerY number 中心y坐标
 ---@param centerZ number 中心z坐标

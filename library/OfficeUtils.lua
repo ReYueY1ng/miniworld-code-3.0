@@ -4,14 +4,14 @@
 ---@class OfficeUtils
 OfficeUtils = {}
 
----获取激活进度
+---获取激活进度<br>**调用限制**: 仅白名单用户可用
 ---@param reportid any 同步报告ID
 ---@param uin integer 玩家Uin
 ---@param taskid integer 任务ID
 ---@return nil
 function OfficeUtils:GetActivateProgress(reportid, uin, taskid) end
 
----获取激活奖励
+---获取激活奖励<br>**调用限制**: 仅白名单用户可用，同一玩家 10 秒内只能调用一次
 ---@param reportid any 同步报告ID
 ---@param uin integer 玩家Uin
 ---@param taskid integer 任务ID
@@ -31,7 +31,7 @@ function OfficeUtils:GetShopItemInfo(itype, itemid) end
 ---@return boolean result
 function OfficeUtils:ReportActivateDataForUin(uin, eventid, ...) end
 
----发送客户端上报事件
+---发送客户端上报事件<br>**调用限制**: 仅白名单用户可用
 ---@param uin integer 玩家Uin
 ---@param sID any 服务器ID
 ---@param cID any 客户端ID

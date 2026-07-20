@@ -86,7 +86,7 @@ function Monster:GetMonsterDefName(actorid) end
 ---@return boolean result
 function Monster:SetAIActive(objid, active) end
 
----设置生物持久化
+---设置生物持久化<br>**调用限制**: 仅白名单用户可用
 ---@param objid integer 生物对象ID
 ---@param b boolean 是否持久化
 ---@return boolean result

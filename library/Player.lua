@@ -442,17 +442,17 @@ function Player:RemovePlayer(objid) end
 ---@return integer index 快捷栏索引
 function Player:GetCurShotcut(objid) end
 
----判断玩家是否手持枪械
+---判断玩家是否手持枪械<br>**调用限制**: 仅白名单用户可用
 ---@param objid integer 玩家Uin
 ---@return boolean result
 function Player:HasHandheldGun(objid) end
 
----获取枪械弹夹数量
+---获取枪械弹夹数量<br>**调用限制**: 仅白名单用户可用
 ---@param uin integer 玩家Uin
 ---@return integer magazine 弹夹数量
 function Player:GunGetMagazine(uin) end
 
----模组下改变玩家视角
+---模组下改变玩家视角<br>**调用限制**: 仅白名单用户可用
 ---@param objid integer 玩家Uin
 ---@param viewmode ViewPortType 视角枚举
 ---@param islock boolean 是否锁定
@@ -480,59 +480,59 @@ function Player:MountActor(playerid, objid, bctrl) end
 ---@return boolean result
 function Player:UseItem(objid, itemid, status, onshift) end
 
----设置玩家爬行状态
+---设置玩家爬行状态<br>**调用限制**: 仅白名单用户可用
 ---@param playerid integer 玩家Uin
 ---@param bCrawl boolean 是否爬行
 ---@return boolean result
 function Player:SetCrawl(playerid, bCrawl) end
 
----添加弹夹子弹
+---添加弹夹子弹<br>**调用限制**: 仅白名单用户可用
 ---@param uin integer 玩家Uin
 ---@param num integer 子弹数量
 ---@return boolean result
 function Player:AddMagazine(uin, num) end
 
----获取玩家可见范围
+---获取玩家可见范围<br>**调用限制**: 仅白名单用户可用
 ---@param objid integer 玩家Uin
 ---@return VDistanceRange range 可见范围枚举
 function Player:GetVisibleRange(objid) end
 
----设置玩家可见范围
+---设置玩家可见范围<br>**调用限制**: 仅白名单用户可用
 ---@param objid integer 玩家Uin
 ---@param range VDistanceRange 可见范围枚举
 ---@return boolean result
 function Player:SetVisibleRange(objid, range) end
 
----设置玩家镜头震动
+---设置玩家镜头震动<br>**调用限制**: 仅白名单用户可用（10 个 UIN）
 ---@param objid integer 玩家Uin
 ---@param shake boolean 是否震动
 ---@return boolean result
 function Player:SetCameraShake(objid, shake) end
 
----打开商城试穿界面
+---打开商城试穿界面<br>**调用限制**: 仅白名单用户可用（9 个 UIN）
 ---@param playerid integer 玩家Uin
 ---@return boolean result
 function Player:OpenShopTryOnView(playerid) end
 
----打开商城皮肤购买弹框
+---打开商城皮肤购买弹框<br>**调用限制**: 仅白名单用户可用（9 个 UIN）
 ---@param playerid integer 玩家Uin
 ---@param skins integer|table 皮肤ID或皮肤信息表
 ---@return boolean result
 function Player:OpenShopSkinBuyDialog(playerid, skins) end
 
----打开商城赠送礼物界面
+---打开商城赠送礼物界面<br>**调用限制**: 仅白名单用户可用（6 个 UIN）
 ---@param playerid integer 玩家Uin
 ---@param giveuin integer 赠送目标玩家Uin
 ---@return boolean result
 function Player:OpenShopGiveGiftView(playerid, giveuin) end
 
----获取玩家皮肤列表（异步回调）
+---获取玩家皮肤列表（异步回调）<br>**调用限制**: 仅白名单用户可用（6 个 UIN）
 ---@param uin integer 玩家Uin
 ---@param itype MiniShopData 数据类型枚举
 ---@return table infos 皮肤信息
 function Player:GetSkinlist(uin, itype) end
 
----获取玩家皮肤座位信息（异步回调）
+---获取玩家皮肤座位信息（异步回调）<br>**调用限制**: 仅白名单用户可用（5 个 UIN）
 ---@param uin integer 玩家Uin
 ---@param index integer 起始索引
 ---@param size integer 获取数量
@@ -546,7 +546,7 @@ function Player:GetSkinSeatInfos(uin, index, size) end
 ---@return table friendlist 好友列表
 function Player:GetFriendList(uin, index, size) end
 
----打开好友聊天页面
+---打开好友聊天页面<br>**调用限制**: 仅白名单用户可用（6 个 UIN）
 ---@param playerid integer 玩家Uin
 ---@param uin2 integer 好友Uin
 ---@return boolean result
@@ -566,7 +566,7 @@ function Player:SetSettingEnable(playerid, itype, enable) end
 ---@return boolean result
 function Player:SetSettingAbility(playerid, itype, enable) end
 
----打开迷你商城页面
+---打开迷你商城页面<br>**调用限制**: 仅白名单用户可用（5 个 UIN）
 ---@param playerid integer 玩家Uin
 ---@param itype integer 商城分类枚举
 ---@param itype2? integer 二级分类枚举
@@ -574,14 +574,14 @@ function Player:SetSettingAbility(playerid, itype, enable) end
 ---@return boolean result
 function Player:OpenMiniShopPage(playerid, itype, itype2, itemid) end
 
----打开迷你商城商品详情页
+---打开迷你商城商品详情页<br>**调用限制**: 仅白名单用户可用（5 个 UIN）
 ---@param playerid integer 玩家Uin
 ---@param itype integer 商品类型枚举
 ---@param itemid integer 商品ID
 ---@return boolean result
 function Player:OpenMiniShopItemPage(playerid, itype, itemid) end
 
----打开迷你商城仓库页面
+---打开迷你商城仓库页面<br>**调用限制**: 仅白名单用户可用（5 个 UIN）
 ---@param playerid integer 玩家Uin
 ---@param itype integer 仓库分类枚举
 ---@param itype2? integer 二级分类枚举
@@ -589,13 +589,13 @@ function Player:OpenMiniShopItemPage(playerid, itype, itemid) end
 ---@return boolean result
 function Player:OpenMiniShopWarehousePage(playerid, itype, itype2, itemid) end
 
----获取坐骑真实ID（异步回调）
+---获取坐骑真实ID（异步回调）<br>**调用限制**: 仅白名单用户可用（5 个 UIN）
 ---@param playerid integer 玩家Uin
 ---@param horseid integer|table 坐骑ID或ID数组
 ---@return integer | string realid 真实坐骑ID
 function Player:GetHorseRealID(playerid, horseid) end
 
----获取玩家个人信息（异步回调）
+---获取玩家个人信息（异步回调）<br>**调用限制**: 仅白名单用户可用（6 个 UIN），同一玩家 5 秒内只能调用一次
 ---@param uin integer 玩家Uin
 ---@return table info 个人信息（包含Popularity、RegisterTime、FollowerCount、FollowingCount等）
 function Player:GetPersonInfo(uin) end
@@ -608,7 +608,7 @@ function Player:GetPersonInfo(uin) end
 ---@return boolean result
 function Player:RotateMainModel(uin, yaw, pitch, bSmooth) end
 
----获取玩家方块图鉴信息（异步回调）
+---获取玩家方块图鉴信息（异步回调）<br>**调用限制**: 仅白名单用户可用（5 个 UIN）
 ---@param playerid integer 玩家Uin
 ---@param islock? boolean 是否锁定
 ---@return table info 方块图鉴信息
@@ -620,7 +620,7 @@ function Player:GetBlockAtlasInfo(playerid, islock) end
 ---@return integer value 货币数量
 function Player:GetMiniCurrency(objid, itype) end
 
----打开活动界面
+---打开活动界面<br>**调用限制**: 仅白名单用户可用（26 个 UIN）
 ---@param uin integer 玩家Uin
 ---@param actid integer 活动ID
 ---@param activatename? string 活动名称

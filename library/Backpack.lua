@@ -309,7 +309,7 @@ function Backpack:GetGridAttr(playerid, gridid, attr) end
 ---@return boolean result
 function Backpack:SetGridAttr(playerid, gridid, attr, value) end
 
----获取背包格子枪械信息
+---获取背包格子枪械信息<br>**调用限制**: 仅白名单用户可用
 ---@param itemid integer 道具类型ID
 ---@param num number 数量
 ---@return table info 枪械信息
