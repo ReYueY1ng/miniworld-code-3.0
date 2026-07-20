@@ -1,0 +1,608 @@
+---
+name: miniworld-coding
+description: >
+  Write Mini World UGC 3.0 game scripts — components, events, data storage, UI, timers, coroutines, and cross-component operations.
+  Use when the user asks to write game code, create a component, implement game logic, or work with Mini World APIs.
+  Not for updating the type definition library (use miniworld-code-api-update instead).
+license: MIT
+compatibility: opencode
+metadata:
+  project: miniworld-code-3.0
+  language: Lua
+---
+
+# Mini World UGC 3.0 代码编写指南
+
+## 环境
+
+- **运行时**: LuaJIT 2.1 (阉割版)
+- 部分标准库被禁用: `rawset`, `require`, `io`, `debug` (保留 traceback), `loadstring`, `loadfile`, `dofile`
+- 详细请看 [config.json](../config.json) 和 [BaseEnv.lua](../library/BaseEnv.lua)
+
+## 通用规则
+
+1. **不要编造不存在的 API** — 如果某个 API 真的不存在，寻找相似功能的替代 API
+2. **枚举优先使用 PascalCase 命名** (如 `AbsoluteCampType`)，全大写枚举一般是旧版本
+3. **尽量避免使用 `ScriptSupportEvent`** 注册事件
+
+## 组件代码格式
+
+组件是所有游戏逻辑的基本单元，遵循以下格式:
+
+```lua
+-- 示例组件
+---@class MyComponent: WorldComponent
+---@field myNumber number 数字
+---@field age number
+local MyComponent = {}
+
+-- Component 将以元表的形式附加在 MyComponent 上面，所以你不能对 MyComponent 设置元表
+
+-- 属性定义
+MyComponent.propertys = {
+    -- 完整定义一个变量数字，属性字段为 myNumber
+    myNumber = {
+        type = Mini.Number, -- 类型 (必须写)
+        default = 100, -- 默认值
+        displayName = "数字", -- 属性x显示名
+        sort = 1, -- 属性排序
+        minValue = -1000, -- 最小值
+        maxValue = 1000, -- 最大值
+        format = "%.0f米", -- 单位，可不填 %.0f 整数, %.1f 一位小数
+        style = ComponentUIStyle.NumberSlider, -- 属性控件样式滑动条
+        tips = "这是一个脚本组件的数值属性变量",
+        stride = 1, -- 步长
+        permission = CmpProPermission.Private, -- 设置该属性是私有的，其他组件无法读写，不写则默认是 Public 公开的
+        isSave = false, -- 表示不自动存数据，不写默认自动存
+    },
+
+    -- 大部分属性类型支持简单定义
+    age = 8,
+    str = "你好！",
+    bool = true,
+    color = Mini.Color(255, 0, 0, 255),
+}
+
+-- 开放给别的组件访问的函数
+MyComponent.openFnArgs = {
+    myFunction = {
+        returnType = Mini.Number,
+        displayName = "函数别名",
+        params = {Mini.Number, Mini.Number},
+    },
+}
+
+-- 加法函数
+---@param a number 第一个数字
+---@param b number 第二个数字
+---@return number result 返回数字
+function MyComponent:myFunction(a, b)
+    return a + b
+end
+
+-- 玩家点击方块事件
+function MyComponent:OnPlayerClickBlock(e)
+    print('OnPlayerClickBlock', e.eventobjid)
+end
+
+-- 组件被装载时调用
+function MyComponent:OnStart()
+    self.myNumber = self:myFunction(self.myNumber, 2)
+end
+
+-- 定义了 OnTick 则会有驱动，不需要时尽量不定义
+---@param dt integer gametick 1s=20t
+function MyComponent:OnTick(dt)
+end
+
+-- 当组件被移除
+function MyComponent:OnDestroy()
+end
+
+-- 返回类型必须是表
+return MyComponent
+```
+
+## 组件属性完整类型
+
+组件属性支持 13 种 `Mini.*` 类型:
+
+| 类型 | Lua 类型 | 说明 |
+|------|----------|------|
+| `Mini.Number` | `number` | 数值，支持滑动条/按钮/输入框 |
+| `Mini.String` | `string` | 字符串，支持多行和最大长度 |
+| `Mini.Bool` | `boolean` | 布尔值 |
+| `Mini.Color` | `number/string` | 颜色，16进制或字符串 |
+| `Mini.Vec3` | `table` | 三维坐标(x,y,z) |
+| `Mini.MobType` | `number/string` | 生物类型 |
+| `Mini.Block` | `number/string` | 方块类型 |
+| `Mini.Item` | `number/string` | 道具类型 |
+| `Mini.Effect` | `number` | 特效类型 |
+| `Mini.Picture` | `string` | 图片 |
+| `Mini.Buff` | `number/string` | 状态 |
+| `Mini.Sound` | `number/string` | 音效 |
+| `Mini.Model` | `string` | 外观/模型 |
+
+**注意**: 不能在 `propertys` 外直接定义属性变量（除了 `Mini.Enum` 类型），应在 `OnStart` 中赋值。
+
+## 组件层次结构
+
+```
+Component                          -- 基础组件
+├── WorldComponent                 -- 世界组件 (可访问触发器事件)
+│   └── UIComponent               -- UI组件
+├── BlockComponent                 -- 方块组件
+└── ActorComponent                 -- 角色组件
+    ├── MobComponent              -- 生物组件
+    ├── PlayerComponent           -- 玩家组件
+    ├── EntityComponent           -- 实体组件
+    ├── InstantaneousBuffComponent -- 瞬时效果组件
+    └── ContinuousBuffComponent   -- 持续效果组件
+```
+
+## 对象层次结构
+
+```
+Object                          -- 基本对象
+├── WorldObject                 -- 世界对象
+│   └── UIObject               -- UI对象
+├── BlockObject                 -- 方块对象
+└── ActorObject                 -- 角色对象(可销毁)
+    ├── PlayerObject           -- 玩家对象
+    ├── EntityObject           -- 实体对象
+    └── MobObject              -- 生物对象
+```
+
+### 不同对象类型的能力限制
+
+| 对象类型 | 触发器事件 | 说明 |
+|---------|-----------|------|
+| 世界对象(WorldObject) | ✅ 可用 | 可监听全局游戏事件 |
+| UI对象(UIObject) | ✅ 可用 | 可监听全局游戏事件 |
+| 方块对象(BlockObject) | ❌ 不可用 | 只能通过位置操作方块，同类方块共享一个实例 |
+| 角色对象(ActorObject) | ❌ 不可用 | 只能使用个体对象事件(ObjectEvent) |
+| 道具 | ❌ 不支持挂组件 | 只能使用各种自定义效果 |
+
+**特别注意**:
+- **UI对象**: 每个 UI 工程只有一个实例，每个玩家没有独立实例，组件上需要根据玩家去操作
+- **方块对象**: 方块并没有每个方块都独立实例化，一个类别只实例化一个
+
+## 事件系统三层架构
+
+事件分为三层：
+
+### 1. 触发器事件 (TriggerEvent) — 全局游戏事件
+```lua
+-- 只能在 WorldComponent/PlayerComponent 中使用
+self:AddTriggerEvent(TriggerEvent.PlayerClickBlock, self.OnClick)
+```
+
+### 2. 对象事件 (ObjectEvent) — 特定对象的事件
+```lua
+-- 所有组件都可以使用
+self:AddEvent(ObjectEvent.ObjectDie, self.OnObjectDie)
+```
+
+### 3. 自定义事件 — 组件间通信
+```lua
+-- 广播事件（所有组件都能收到）
+Component:PushCustomEvent("MyMsg", data)
+Component:AddCustomEvent("MyMsg", handler)
+
+-- 对象事件（只有同对象的组件能收到）
+Component:PushEvent("MyEvent", data)
+Component:AddEvent("MyEvent", handler)
+```
+
+### 事件过滤参数
+```lua
+-- 只监听玩家按 Q 键
+self:AddEvent(ObjectEvent.PlayerInputKeyDown, self.OnKey, nil, KeyCode.Q)
+
+-- 只监听血量变化
+self:AddEvent(ObjectEvent.ObjectChangeAttr, self.OnAttr, nil, RoleAttr.CurHp)
+```
+
+## 定时器系统
+
+```lua
+-- 延迟执行
+self:DoTaskInTime(function(self)
+    print("1秒后执行")
+end, 1)
+
+-- 周期执行
+local task = self:DoPeriodicTask(function(self)
+    print("每0.5秒执行")
+end, 0.5, 0, 10)  -- (回调, 间隔, 延迟, 次数)
+
+-- Task 对象方法
+task:Pause()   -- 暂停
+task:Resume()  -- 恢复
+task:Cancel()  -- 取消
+```
+
+## 协程支持
+
+```lua
+self:ThreadWork(function(self)
+    print("协程开始")
+    self:ThreadWait(1)  -- 等待1秒
+    print("继续执行")
+end)
+```
+
+## 环境限制细节
+
+```lua
+-- 被禁用/限制的标准库
+rawset = nil           -- 完全禁用
+newproxy = nil         -- 完全禁用
+io = {}                -- 完全禁用
+package = {}           -- 完全禁用
+debug = { traceback }  -- 只保留 traceback
+
+-- os 被限制
+os.time()    -- 可用
+os.date()    -- 可用
+os.timeMs()  -- 可用 (自定义，毫秒时间戳)
+
+-- string 常用函数保留
+string.len, find, match, gmatch, gsub, format
+string.byte, char, sub, rep, reverse, lower, upper
+string.split, Trim, startswith, endswith, Contains, IsBlank
+
+-- table 常用函数保留
+table.getn, maxn, insert, remove, concat, sort
+```
+
+## 自定义全局函数
+
+```lua
+-- JSON 库
+json.encode(table)      -- table → json string
+json.decode(jsonString) -- json string → table
+
+-- 类系统
+Class(classname, super, issingle)  -- 定义类
+Instance(classname)                -- 创建实例
+GetInst(classname)                 -- 获取单例
+
+-- 数据操作
+copy_table(table)     -- 深拷贝
+GetWorld()            -- 获取世界对象
+GetModId()            -- 获取MOD ID
+
+-- 调试
+print(...)            -- 打印到调试页面
+printError(...)       -- 打印错误
+```
+
+## Global API vs Trigger API 区别
+
+```lua
+-- Global API (全局可用，坐标分开传)
+World:SpawnCreature(x, y, z, mobid, num)
+Block:ReplaceBlock(blockid, x, y, z, face, color)
+
+-- Trigger API (触发器内可用，坐标合并为pos)
+Trigger.World:SpawnCreature(pos, mobid, num)
+Trigger.World:XyzToPos(x, y, z)  -- 辅助函数，创建pos
+```
+
+**优先使用 Global API。**
+
+## 数据存储系统
+
+### 变量数据 (Data)
+```lua
+Data:SetData(key, value)     -- 设置变量
+Data:GetData(key)            -- 获取变量
+```
+
+### 组数据 (Data.Array)
+```lua
+Data.Array:SetValue(varId, value, index)
+Data.Array:GetValue(varId, index)
+Data.Array:GetAllValue(varId)
+Data.Array:GetLength(varId)
+```
+
+### 二维表 (Data.Table)
+```lua
+Data.Table:GetValue(varId, row, col)
+Data.Table:SetValue(varId, row, col, value)
+Data.Table:GetRowCount(varId)
+Data.Table:AddRow(varId, ...)
+Data.Table:InsertRow(varId, row, ...)
+Data.Table:RemoveRow(varId, row)
+Data.Table:ReplaceRow(varId, row, col, value)
+Data.Table:Clear(varId)
+Data.Table:GetColumnData(varId, col)
+Data.Table:FindRowByColumn(varId, col, value)
+```
+
+### KV 表 & 排行榜 (Data.Map)
+
+**注意**: 3.0 中 KV 和排行榜**仅支持 Data.Map 接口**，不再支持 2.0 的 CloudSever 接口，禁止混用，会造成数据丢失。
+
+```lua
+-- 设置/获取 (回调方式)
+Data.Map:SetValueAndCallBack(varId, key, value, callback?)
+Data.Map:GetValueAndCallBack(varId, key, callback)
+
+-- 设置/获取 (阻塞方式)
+Data.Map:SetValueAndBlock(varId, key, value)
+Data.Map:GetValueAndBlock(varId, key)
+
+-- 删除
+Data.Map:RemoveValueAndCallBack(varId, key, callback)
+Data.Map:RemoveValueAndBlock(varId, key)
+
+-- 全局并发读写 (安全更新，多服同时写入同一key时保证唯一性)
+Data.Map:UpdateValueAndCallback(varId, playerId, key, callback)
+
+-- 排行榜专用
+Data.Map:GetIndexValueAndCallback(varId, index, callback)
+Data.Map:GetIndexValueAndBlock(varId, index)
+Data.Map:GetNumValuesAndCallback(varId, num, callback)
+Data.Map:GetRangeValuesAndCallback(varId, min, max, callback)
+Data.Map:SetRankValueAndBlock(varId, key, value)
+Data.Map:ClearData(varId)
+```
+
+**排行榜排名说明**: `GetIndexValueAndBlock` 的 `index` 参数，正数=升序，负数=降序。
+
+### 请求频率限制 (QPM)
+
+| 操作类型 | 每分钟上限 |
+|---------|-----------|
+| 设置类 (Set/Remove/Update) | 30 + 玩家数 × 10 |
+| 获取类 (Get) | 30 + 玩家数 × 10 |
+| 排行榜类 (GetIndex/GetNum/GetRange/Clear) | 5 + 玩家数 × 2 |
+
+**最佳实践**:
+- 相同 key 的 set 操作间隔 ≥ 6 秒
+- 避免绑定玩家行走、碰撞等高频率行为触发实时读写
+- 排行榜建议展示前 30 名，最多前 100 名
+- 配置数据不要存在 KV 表中，放脚本或全局表里
+
+## 组件函数完整列表
+
+```lua
+-- 对象相关
+self:GetGameObject()       -- 获取该组件挂载的对象实例
+self:GetGameObjectId()     -- 获取组件挂载的对象实例id
+self:IsValid()             -- 获取组件是否有效
+
+-- 组件管理
+self:AddComponent("组件id")
+self:RemoveComponent("组件id")
+self:GetComponent("组件id")
+
+-- 自定义事件（广播，所有组件可收）
+self:PushCustomEvent("消息id", ...)
+self:PushCustomEventSync("消息id", ...)
+self:AddCustomEvent("消息id", handler)
+self:RemoveCustomEvent("消息id")
+
+-- 对象事件（同对象组件可收）
+self:PushEvent("事件类型", ...)
+self:PushEventSync("事件类型", ...)
+self:AddEvent(ObjectEvent.XXX, handler)
+self:RemoveEvent(ObjectEvent.XXX)
+
+-- 触发器事件（WorldComponent/PlayerComponent 可用）
+self:AddTriggerEvent(TriggerEvent.XXX, handler, filter1?, filter2?)
+self:RemoveTriggerEvent(TriggerEvent.XXX)
+
+-- 定时器
+self:DoTaskInTime(handler, seconds)
+self:DoPeriodicTask(handler, interval, delay?, count?)
+self:ClearAllTask()
+
+-- 事件开关
+self:SetEventIsEnable(handler, false)
+
+-- 协程
+self:ThreadWork(handler)
+self:ThreadWait(seconds)
+
+-- 云服消息
+self:PushCloudServerMsg("消息类型", ...)
+self:AddCloudSeverEvent("事件类型", handler)
+self:RemoveCloudSeverEvent("消息类型")
+```
+
+## 组件互相操作
+
+### 同对象操作
+```lua
+-- 获取组件
+local cmpA = self:GetComponent("组件id") --[[@as A]]
+
+-- 调用函数
+local result = cmpA:Add(1, 2)
+
+-- 读写属性
+local age = cmpA.age
+cmpA.age = 123
+```
+
+### 跨对象操作
+```lua
+-- 获取一般对象
+local obj = GameObject:FindObject("对象id")
+
+-- 获取世界对象
+local world = GetWorld()
+
+-- 获取组件
+local cmpA = world:GetComponent("组件id")
+if cmpA then
+    local result = cmpA:Add(1, 2)
+end
+```
+
+### 类型标注写法
+```lua
+---@class A: WorldComponent
+---@field test number
+local A = {}
+A.propertys = { test = 1 }
+A.openFnArgs = { doSomething = true }
+function A:doSomething() end
+return A
+
+---@class B: WorldComponent
+local B = {}
+---@type A
+local A
+function B:OnStart()
+    -- 推荐: 适用于任意情况（包括不知道组件id）
+    A = self:GetComponent('cxxxxxxxxxxxxxxxx') --[[@as A]]
+    A:doSomething()
+end
+return B
+```
+
+## 触发器脚本交互
+
+### 脚本发送广播给触发器
+```lua
+self:PushCustomEvent("具体广播ID", 2, 3)
+```
+
+### 脚本监听触发器发出的广播
+```lua
+function Script:OnStart()
+    self:AddCustomEvent("具体广播ID", self.OnCustomEvent)
+end
+function Script:OnCustomEvent(event, arg1, arg2)
+    print("消息名:", event.eventType)
+end
+```
+
+### 脚本调用触发器自定义函数
+```lua
+local obj = GetWorld()
+local cmp = obj:GetComponent("具体组件ID")
+if cmp then
+    local ret = cmp:具体自定义函数名(2, 3)
+end
+```
+
+### 触发器调用脚本开放函数
+```lua
+Script.openFnArgs = {
+    Add = {
+        returnType = Mini.Number,
+        displayName = "脚本加法",
+        params = {Mini.Number, Mini.Number},
+    },
+}
+function Script:Add(a, b)
+    return a + b
+end
+```
+
+## 道具实例 (Item Instance)
+
+### 创建道具实例
+```lua
+Backpack:CreateItemInstInBackpack(uin, itemId, num)
+Backpack:CreateGunInBackpack(uin, gunItemId)
+Item:CreateItemInstInWorld(x, y, z, itemId, num)
+```
+
+### 获取道具实例
+```lua
+Actor:GetDropItemInstanceId(dropObjId)
+Backpack:GetAllBackPackInstanceIds(uin)
+Backpack:GetInstIdByGridIndex(uin, gridIndex)
+Item:GetItemIdByInstanceId(instanceId)
+```
+
+### 修改道具实例属性
+```lua
+Item:ModifyGunAttribute(instanceId, attrId, value)
+Item:AddSubModelPart(instanceId, partId)
+Item:SetStringCustomData(instanceId, key, value)
+Item:SetNumberCustomData(instanceId, key, value)
+Item:GetStringCustomData(instanceId, key)
+Item:GetNumberCustomData(instanceId, key)
+```
+
+**注意**: 修改格子数据后，需要等待一小会(约0.5秒)再通知客机刷新界面。
+
+## 其他模块
+
+### Timeline (剧情动画)
+```lua
+Timeline:PlayForAll(timelineId)
+Timeline:PlayForPlayer(uin, id, reverse?, toEnd?)
+Timeline:Pause(uin, timelineId)
+Timeline:Resume(uin, timelineId)
+Timeline:SkipForPlayer(uin)
+Timeline:GetPlayerState(uin, timelineId)
+```
+
+### Emitter (粒子发射器)
+```lua
+Emitter:EmitByPosition(pos, emitId, shooter?)
+Emitter:EmitByShooter(objId, emitId)
+```
+
+### 云服 (Cloud Server)
+```lua
+CloudSever:GetRoomID()
+CloudSever:GetRoomCategory()
+CloudSever:SetRoomCategory(cat)
+CloudSever:TransmitToCurMapCategoryRoom(playerids, categorys)
+CloudSever:TransmitToCategoryRoom(playerids, mapid, categorys, msg?, notFollow?)
+```
+
+## UI 相关
+
+### UI 动效 ID 速查
+```
+显示: 10001 渐显    10002 放大显示    10003 缩小显示
+隐藏: 20001 渐隐    20002 放大隐藏    20003 缩小隐藏
+循环: 30001 颤抖    30002 跳动    30003 心跳
+     30004 摇摆    30005 旋转    30006 翻转
+     30007 顺时针扫描 30008 逆时针扫描 30009 闪烁
+文字: 40001 打字机
+```
+
+### UI 克隆元件
+```lua
+local cloneId = CustomUI:CloneElement(playerUin, uiId, elementId)
+-- 克隆体ID格式: "原元件ID#clone1" (每克隆一次+1)
+```
+
+## ID 格式速查
+
+```
+UI ID: 7664495871585643737-132458
+UI 元件 ID: 7664495871585643737-132458_1
+脚本组件 ID: c7664495880175578329132459 (前缀c + 25位数字)
+触发器组件 ID: s7663834541111340249255620 (前缀s + 25位数字)
+变量 ID: v7664496812183481561132464 (前缀v + 25位数字)
+模组 ID: bbfcd673-d092-4829-9e13-d95e442a4823 (UUID)
+```
+
+## 常见问题与技巧
+
+- 缓存的其他组件需要先调用 `IsValid()` 判断是否有效，避免操作已销毁的组件
+- 组件属性变量（除了 `Mini.Enum` 类型）不能在 `propertys` 外直接定义，应在 `OnStart` 中赋值
+- `OnTick` 只在定义时才会启用驱动，不需要时尽量不定义以提高效率
+- 只有通过 `openFnArgs` 配置的函数才能被其他组件访问
+- 修改格子数据后，需要等待约 0.5 秒再通知客机刷新界面
+
+## 完整 API 参考
+
+完整的 API 列表请参阅 [library](../library/) 下的 Lua 文件。
+
+## 相关 Skill
+
+- **miniworld-code-api-update**: 用于更新 API 类型定义库（添加新 API、枚举等）
