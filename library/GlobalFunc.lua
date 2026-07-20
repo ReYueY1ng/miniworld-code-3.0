@@ -18,7 +18,7 @@ function json.encode(table) end
 function json.decode(data) end
 
 ---获取当前世界对象
----@return table WorldObject 世界对象
+---@return WorldObject worldObj 世界对象
 function GetWorld() end
 
 ---打印错误信息至调试页面
