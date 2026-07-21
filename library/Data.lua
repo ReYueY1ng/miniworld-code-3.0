@@ -202,10 +202,10 @@ function Data.Array:HasIntersectionByTags(strsA, mathcmode, strsB, bexactmatch) 
 ---@class Data.Table
 Data.Table = {}
 
----更新整个表的数据信息
+---更新整个表的数据信息（支持字符串键名或数字索引）
 ---@param varId string 表ID
 ---@param playerId? integer 玩家uin（全局变量传nil）
----@param value table[] 表内的值
+---@param value {[string | integer]: any}[] 表内的值（如 {{name="test", value=1}} 或 {{1, 2}}）
 ---@return boolean result
 function Data.Table:UpdateAllValue(varId, playerId, value) end
 
@@ -221,10 +221,10 @@ function Data.Table:Clear(varId, playerId) end
 ---@param ... any 按照列顺序编写的值 中间值不能传nil
 function Data.Table:InsertValue(varId, playerId, ...) end
 
----在某行插入一行数据
+---在某行插入一行数据（value只支持数字索引数组，不支持字符串键名）
 ---@param varId string 表ID
 ---@param playerId? integer 玩家uin（全局变量传nil）
----@param value {[string | integer]: any} 插入的值
+---@param value any[] 插入的值（按列顺序的数组，如 {value1, value2, value3}）
 ---@param row? integer 行索引（空值则为最后一行）
 ---@return boolean result
 function Data.Table:InsertValueByRow(varId, playerId, value, row) end
