@@ -265,3 +265,4 @@ __marimo__/
 tmp/
 # OpenCode
 .omo/
+.opencode/
