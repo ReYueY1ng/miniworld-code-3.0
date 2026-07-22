@@ -16,8 +16,8 @@ metadata:
 ## 环境
 
 - **运行时**: LuaJIT 2.1 (阉割版)
-- 部分标准库被禁用: `rawset`, `require`, `io`, `debug` (保留 traceback), `loadstring`, `loadfile`, `dofile`
-- 详细请看 [config.json](../config.json) 和 [BaseEnv.lua](../library/BaseEnv.lua)
+- 部分标准库被禁用: `rawset`, `require`, `io`, `debug` (保留 traceback，但是返回空字符串), `loadstring`, `loadfile`, `dofile`
+- 详细请看 [config.json](./references/config.json) 和 [BaseEnv.lua](./references/library/BaseEnv.lua)
 
 ## 通用规则
 
@@ -38,7 +38,7 @@ local MyComponent = {}
 
 -- Component 将以元表的形式附加在 MyComponent 上面，所以你不能对 MyComponent 设置元表
 
--- 属性定义
+-- 属性定义 (可选)
 MyComponent.propertys = {
     -- 完整定义一个变量数字，属性字段为 myNumber
     myNumber = {
@@ -63,12 +63,12 @@ MyComponent.propertys = {
     color = Mini.Color(255, 0, 0, 255),
 }
 
--- 开放给别的组件访问的函数
+-- 开放给别的组件访问的函数 (可选)
 MyComponent.openFnArgs = {
     myFunction = {
         returnType = Mini.Number,
         displayName = "函数别名",
-        params = {Mini.Number, Mini.Number},
+        params = {"第一个数", Mini.Number, "第二个数", Mini.Number},
     },
 }
 
@@ -124,6 +124,131 @@ return MyComponent
 | `Mini.Model` | `string` | 外观/模型 |
 
 **注意**: 不能在 `propertys` 外直接定义属性变量（除了 `Mini.Enum` 类型），应在 `OnStart` 中赋值。
+
+详细请看 [SceneTreePropertys.md](./SceneTreePropertys.md)
+
+## openFnArgs 完整参考
+
+组件通过 `openFnArgs` 声明可被跨组件调用的方法。**声明的方法名必须在组件上有对应的 `function` 定义，否则会被框架静默移除。**
+
+### 值的合法形式
+
+值只能是 `true`、`false`、table、或 `{}`（空表）。**不要用 `1`、`"yes"`、`nil` 等其它值。**
+
+```lua
+MyComponent.openFnArgs = {
+    SomeMethod = true,              -- 仅脚本组件可调用，触发器/编辑器中不可见
+    TypedMethod = {                 -- 脚本 + 触发器都能调用，编辑器显示参数槽位
+        displayName = "显示名称",    -- string，可选（省略时用方法名）
+        params = { ... },           -- 混合数组，可选
+        returnType = Mini.Bool,     -- 返回类型，可选
+    },
+    MinimalMethod = {},             -- 脚本 + 触发器都能调用，无类型信息
+}
+```
+
+`true` 和 `{}` 的区别：`true` 仅允许脚本组件通过 `GetComponent` 调用，不出现在触发器/编辑器的函数下拉列表中；`{}` 会出现在触发器/编辑器中。
+
+`false` 等同于不声明（无实际效果），不建议使用。
+
+### table 的合法字段
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `displayName` | string | 否 | 编辑器 UI 显示名，省略则用方法名 |
+| `params` | table | 否 | 参数列表（混合数组，见下文） |
+| `returnType` | Mini.* 类型 | 否 | 返回值类型 |
+| `itemType` | Mini.* 类型 | 否 | 仅配合 `returnType = Mini.Array` 使用，指定数组元素类型 |
+
+**不要添加其它字段**（如 `sort`、`description`、`default` 等），框架不识别。
+
+### params 混合数组
+
+`params` 是混合数组，包含两类元素：
+
+```lua
+params = {
+    "第",           -- string: UI 标签占位符，编辑器中显示为提示文字，不参与类型校验
+    Mini.Number,    -- Mini.* 类型: 实际参数
+    "个材质，颜色：", -- string: UI 标签
+    Mini.Color      -- Mini.* 类型: 实际参数
+}
+```
+
+- **string 元素**：纯 UI 标签，不影响参数校验
+- **Mini.* 类型元素**：实际参数类型
+
+### params 和 returnType 的类型限制
+
+**只允许以下类型**（不在列表中的类型会导致该条目被框架移除）：
+
+`Mini.String` `Mini.Bool` `Mini.Number` `Mini.Vec3` `Mini.Color` `Mini.Area` `Mini.CustomMsg` `Mini.Sound` `Mini.Effect` `Mini.Block` `Mini.Item` `Mini.Mob` `Mini.MobType` `Mini.Player` `Mini.Enum` `Mini.Model` `Mini.Picture` `Mini.ModelAction` `Mini.SkeletonPoint` `Mini.Buff` `Mini.Scale` `Mini.Rotation` `Mini.Blueprint` `Mini.ThrowItem` `Mini.DropItem` `Mini.Object` `Mini.Role` `Mini.UiElement` `Mini.UiState` `Mini.Entity` `Mini.EntityType` `Mini.Tag`
+
+**禁止在 params 中使用 `Mini.Array`**（框架校验时 `isIgnoreArray=true`，Array 类型会被拒绝）。
+
+**returnType 也不能用 `Mini.Array`**（除非配合 `itemType` 使用）。
+
+如果一定要使用 `Mini.Array`:
+
+```lua
+local function arrayWrapper(propertytype)
+    local arrayUserData = Mini.Array(propertytype)
+    local newArray = {}
+    local meta = {}
+    local getcount = 0
+    function meta.__index(_, key)
+        if key == '__className_' then
+            getcount = getcount + 1
+            if getcount == 3 then
+                return "String"
+            else
+                return "Array"
+            end
+        else
+            return arrayUserData[key]
+        end
+    end
+    return setmetatable(newArray, meta)
+end
+```
+
+该函数在框架校验时会把类型更改成 `Mini.String`，校验完后恢复成 `Mini.Array`。
+
+### 常见错误
+
+```lua
+-- ❌ 错误：方法名没有对应的 function 定义
+MyComponent.openFnArgs = { MissingFn = true }
+-- 框架会静默移除 MissingFn 条目
+
+-- ❌ 错误：params 中使用 Mini.Array
+MyComponent.openFnArgs = {
+    GetItems = { params = { Mini.Array }, returnType = Mini.Array }
+}
+
+-- ❌ 错误：值用了非法类型
+MyComponent.openFnArgs = { Method = 1 }       -- 应该用 true/table/{}
+MyComponent.openFnArgs = { Method = "yes" }    -- 应该用 true
+MyComponent.openFnArgs = { Method = false }    -- 等同于不声明，没有意义
+
+-- ❌ 错误：table 中添加了框架不识别的字段
+MyComponent.openFnArgs = {
+    Method = {
+        displayName = "方法",
+        sort = 1,               -- 框架不识别
+        description = "说明",    -- 框架不识别
+    }
+}
+
+-- ✅ 正确
+MyComponent.openFnArgs = {
+    Method = {
+        displayName = "方法",
+        params = { "角色", Mini.Player, "数量", Mini.Number },
+        returnType = Mini.Bool,
+    }
+}
+```
 
 ## 组件层次结构
 
@@ -498,7 +623,7 @@ Script.openFnArgs = {
     Add = {
         returnType = Mini.Number,
         displayName = "脚本加法",
-        params = {Mini.Number, Mini.Number},
+        params = {"第一个数", Mini.Number, "第二个数", Mini.Number},
     },
 }
 function Script:Add(a, b)
@@ -601,7 +726,7 @@ UI 元件 ID: 7664495871585643737-132458_1
 
 ## 完整 API 参考
 
-完整的 API 列表请参阅 [library](../library/) 下的 Lua 文件。
+完整的 API 列表请参阅 [library](references/library/) 下的 Lua 文件。
 
 ## 相关 Skill
 

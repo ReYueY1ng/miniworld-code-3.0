@@ -273,6 +273,8 @@ function test:OnStart()
 end
 ```
 
+See `miniworld-coding` skill for full openFnArgs reference (type restrictions, params format, common errors).
+
 ## Generic Type Parameters
 
 Component access uses LLS generics for type safety:
