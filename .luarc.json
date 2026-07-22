@@ -12,5 +12,10 @@
         "table.new": "disable",
         "string.buffer": "disable"
     },
-    "completion.autoRequire": false
+    "completion.autoRequire": false,
+    "workspace.maxPreload": 100,
+    "workspace.ignoreDir": [
+        ".vscode",
+        "skills"
+    ]
 }
