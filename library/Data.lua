@@ -1,6 +1,11 @@
 ---@meta
 
 ---普通变量数据管理接口<br>
+---数量限制: <br>
+---全局变量 300<br>
+---玩家变量 300<br>
+---玩家云变量 100<br>
+---单玩家总存储大小限制: 64KB<br>
 ---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/data.html)
 ---@class Data
 Data = {}
@@ -197,7 +202,9 @@ function Data.Array:CreateTmpArray(varType, data) end
 ---@return boolean result 是否有交集
 function Data.Array:HasIntersectionByTags(strsA, mathcmode, strsB, bexactmatch) end
 
----二维表变量数据管理接口
+---二维表变量数据管理接口<br>
+---最大行数: 1999 最大列数: 50<br>
+---导入限制: 全局变量 512KB 玩家变量 102.4KB<br>
 ---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/table.html)
 ---@class Data.Table
 Data.Table = {}
@@ -309,6 +316,13 @@ function Data.Table:GetTableColKeys(varId) end
 
 ---一维(kv)表/排行榜 变量数据管理接口<br>
 ---非全局云变量建议使用阻塞接口<br>
+---本地变量没有请求限制<br>
+---数量限制: <br>
+---全局云排行榜变量: 15<br>
+---全局云KV表变量: 10<br>
+---存储限制: <br>
+---本地排行榜: 100<br>
+---云排行榜: 1000, 每次最多获取 100 名<br>
 ---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/apis/map.html)
 ---@class Data.Map
 Data.Map = {}

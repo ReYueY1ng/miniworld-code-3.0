@@ -419,32 +419,30 @@ Trigger.World:XyzToPos(x, y, z)  -- 辅助函数，创建pos
 
 ## 数据存储系统
 
+详细请看 [Data.lua](references/library/Data.lua)
+
+### 数据限制
+
+| 数据类型 | 数量限制 | 存储限制 |
+|---------|---------|---------|
+| 全局变量 | 300 | — |
+| 玩家变量 | 300 | — |
+| 玩家云变量 | 100 | — |
+| 单玩家总存储 | — | 64KB |
+| 全局云排行榜变量 | 15 | — |
+| 全局云KV表变量 | 10 | — |
+| 本地排行榜 | — | 100 |
+| 云排行榜 | — | 1000 (每次最多获取 100 名) |
+| 二维表最大行数 | 1999 | — |
+| 二维表最大列数 | 50 | — |
+| 二维表全局变量 | — | 512KB |
+| 二维表玩家变量 | — | 102.4KB |
+
 ### 变量数据 (Data)
 ```lua
-Data:SetData(key, value)     -- 设置变量
-Data:GetData(key)            -- 获取变量
-```
-
-### 组数据 (Data.Array)
-```lua
-Data.Array:SetValue(varId, value, index)
-Data.Array:GetValue(varId, index)
-Data.Array:GetAllValue(varId)
-Data.Array:GetLength(varId)
-```
-
-### 二维表 (Data.Table)
-```lua
-Data.Table:GetValue(varId, row, col)
-Data.Table:SetValue(varId, row, col, value)
-Data.Table:GetRowCount(varId)
-Data.Table:AddRow(varId, ...)
-Data.Table:InsertRow(varId, row, ...)
-Data.Table:RemoveRow(varId, row)
-Data.Table:ReplaceRow(varId, row, col, value)
-Data.Table:Clear(varId)
-Data.Table:GetColumnData(varId, col)
-Data.Table:FindRowByColumn(varId, col, value)
+Data:SetValue(varId, playerId, value)   -- 设置变量 (全局变量playerId传nil)
+Data:GetValue(varId, playerId)          -- 获取变量
+Data:IncreasesValue(varId, playerId, value) -- 数值增加
 ```
 
 ### KV 表 & 排行榜 (Data.Map)
@@ -453,30 +451,30 @@ Data.Table:FindRowByColumn(varId, col, value)
 
 ```lua
 -- 设置/获取 (回调方式)
-Data.Map:SetValueAndCallBack(varId, key, value, callback?)
-Data.Map:GetValueAndCallBack(varId, key, callback)
+Data.Map:SetValueAndCallBack(varId, playerId, key, value, callback)
+Data.Map:GetValueAndCallBack(varId, playerId, key, callback)
 
 -- 设置/获取 (阻塞方式)
-Data.Map:SetValueAndBlock(varId, key, value)
-Data.Map:GetValueAndBlock(varId, key)
+Data.Map:SetValueAndBlock(varId, playerId, key, value)
+Data.Map:GetValueAndBlock(varId, playerId, key)
 
 -- 删除
-Data.Map:RemoveValueAndCallBack(varId, key, callback)
-Data.Map:RemoveValueAndBlock(varId, key)
+Data.Map:RemoveValueAndCallBack(varId, playerId, key, callback)
+Data.Map:RemoveValueAndBlock(varId, playerId, key)
 
 -- 全局并发读写 (安全更新，多服同时写入同一key时保证唯一性)
 Data.Map:UpdateValueAndCallback(varId, playerId, key, callback)
 
 -- 排行榜专用
-Data.Map:GetIndexValueAndCallback(varId, index, callback)
-Data.Map:GetIndexValueAndBlock(varId, index)
-Data.Map:GetNumValuesAndCallback(varId, num, callback)
-Data.Map:GetRangeValuesAndCallback(varId, min, max, callback)
-Data.Map:SetRankValueAndBlock(varId, key, value)
-Data.Map:ClearData(varId)
+Data.Map:GetIndexValueAndCallback(varId, playerId, index, ascending, callback)
+Data.Map:GetIndexValueAndBlock(varId, playerId, index, ascending)
+Data.Map:GetNumValuesAndCallback(varId, playerId, num, ascending, callback)
+Data.Map:GetRangeValuesAndCallback(varId, playerId, min, max, ascending, pagesize, callback)
+Data.Map:SetRankValueAndBlock(varId, playerId, key, value, extendinfo)
+Data.Map:IncreasesRankValueAndBlock(varId, playerId, key, value, extendinfo)
+Data.Map:IncreasesRankValueAndCallback(varId, playerId, key, value, extendinfo, callback)
+Data.Map:ClearData(varId, playerId)
 ```
-
-**排行榜排名说明**: `GetIndexValueAndBlock` 的 `index` 参数，正数=升序，负数=降序。
 
 ### 请求频率限制 (QPM)
 
