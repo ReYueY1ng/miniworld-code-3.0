@@ -60,7 +60,7 @@ World = {}
 ---@param y number y坐标
 ---@param z number z坐标
 ---@param particleId integer | string 特效id
----@param worldId integer 星球id
+---@param worldId? integer 星球id
 ---@return boolean result
 function World:StopParticleOnPos(x, y, z, particleId, worldId) end
 
@@ -70,7 +70,7 @@ function World:StopParticleOnPos(x, y, z, particleId, worldId) end
 ---@param offset? PositionTable 偏移（米）
 ---@param rot? PositionTable 旋转
 ---@param scale? PositionTable 缩放大小
----@param worldId integer 星球id
+---@param worldId? integer 星球id
 ---@return boolean result
 function World:SetParticleTransform(pos, particleIdArg, offset, rot, scale, worldId) end
 
@@ -81,7 +81,7 @@ function World:SetParticleTransform(pos, particleIdArg, offset, rot, scale, worl
 ---@param offset? PositionTable 偏移（米）
 ---@param rot? PositionTable 旋转
 ---@param scale? PositionTable 缩放大小
----@param worldId integer 星球id
+---@param worldId? integer 星球id
 ---@return boolean result
 function World:PlayParticle(pos, particleIdArg, ptimeArg, offset, rot, scale, worldId) end
 
@@ -100,7 +100,7 @@ function World:GetLightByPos(x, y, z, worldId) end
 ---@param actorid integer | string 生物类型
 ---@param num? integer 生成数量(默认1)
 ---@param trigger? boolean 是否触发事件(默认true)
----@param worldId integer 星球id
+---@param worldId? integer 星球id
 ---@return integer[] objs 生物ID组
 function World:SpawnCreature(x, y, z, actorid, num, trigger, worldId) end
 
@@ -120,10 +120,11 @@ function World:GetPlayerTotal(alive) end
 function World:GetAllPlayers(alive) end
 
 ---获取默认出生点
+---@param worldId? integer 星球id
 ---@return number x x坐标
 ---@return number y y坐标
 ---@return number z z坐标
-function World:GetSpawnPoint() end
+function World:GetSpawnPoint(worldId) end
 
 ---获取附近合适的生物出生点位置(方块坐标单位)
 ---@param centerX number 中心x坐标
@@ -131,7 +132,7 @@ function World:GetSpawnPoint() end
 ---@param centerZ number 中心z坐标
 ---@param radius number 半径
 ---@param includeCenterPos? boolean 是否包含中心位置(默认true)
----@param worldId integer 星球id
+---@param worldId? integer 星球id
 ---@return PositionTable[] posList 位置列表
 function World:FindCanSpawnMobPosList(centerX, centerY, centerZ, radius, includeCenterPos, worldId) end
 
@@ -139,7 +140,7 @@ function World:FindCanSpawnMobPosList(centerX, centerY, centerZ, radius, include
 ---@param posX number x坐标
 ---@param posY number y坐标
 ---@param posZ number z坐标
----@param worldId integer 星球id
+---@param worldId? integer 星球id
 ---@return integer objid 玩家uin
 function World:FindNearestPlayerByPos(posX, posY, posZ, worldId) end
 
@@ -149,14 +150,14 @@ function World:FindNearestPlayerByPos(posX, posY, posZ, worldId) end
 ---@param volume number 音量调节
 ---@param pitch? number 音调调节(默认1)
 ---@param isLoop boolean 是否循环播放
----@param worldId integer 星球id
+---@param worldId? integer 星球id
 ---@return boolean result
 function World:PlaySoundEffectOnPos(pos, soundId, volume, pitch, isLoop, worldId) end
 
 ---停止指定位置上的指定音效
 ---@param pos PositionTable 位置
 ---@param soundId integer|string 音效ID
----@param worldId integer 星球id
+---@param worldId? integer 星球id
 ---@return boolean result
 function World:StopSoundEffectOnPos(pos, soundId, worldId) end
 
@@ -187,13 +188,15 @@ function World:GetDay() end
 
 ---设置重力
 ---@param value number 重力值
+---@param worldId? integer 星球id
 ---@return boolean result
-function World:SetGravity(value) end
+function World:SetGravity(value, worldId) end
 
 ---增加重力
 ---@param value number 重力值
+---@param worldId? integer 星球id
 ---@return boolean result
-function World:AddGravity(value) end
+function World:AddGravity(value, worldId) end
 
 ---获取重力
 ---@param worldId? integer 星球id(实际代码里没用到，强制当前星球)
@@ -222,7 +225,7 @@ function World:GetCurMapId() end
 ---@param dsty number 目标y坐标
 ---@param dstz number 目标z坐标
 ---@param speed? number 速度(默认-1)
----@param worldId integer 星球id
+---@param worldId? integer 星球id
 ---@return integer objid 投掷物objid
 function World:SpawnProjectile(objid, itemid, x, y, z, dstx, dsty, dstz, speed, worldId) end
 
@@ -236,21 +239,21 @@ function World:SpawnProjectile(objid, itemid, x, y, z, dstx, dsty, dstz, speed, 
 ---@param dsty number 目标y方向
 ---@param dstz number 目标z方向
 ---@param speed? number 速度(默认-1)
----@param worldId integer 星球id
+---@param worldId? integer 星球id
 ---@return integer objid 投掷物objid
 function World:SpawnProjectileByDir(objid, itemid, x, y, z, dstx, dsty, dstz, speed, worldId) end
 
 ---获取某个位置的地形类型
 ---@param posX number x坐标
 ---@param posZ number z坐标
----@param worldId integer 星球id
+---@param worldId? integer 星球id
 ---@return BiomeType biomeType 地形类型
 function World:GetBiomeType(posX, posZ, worldId) end
 
 ---获取某个位置的地形组类型
 ---@param posX number x坐标
 ---@param posZ number z坐标
----@param worldId integer 星球id
+---@param worldId? integer 星球id
 ---@return WeatherGroup biomeGroup 地形组类型
 function World:GetBiomeGroup(posX, posZ, worldId) end
 
@@ -270,50 +273,57 @@ function World:FindEcosystem(x, y, z, biometype, radius, worldId) end
 ---@param uin integer 玩家ID
 ---@param id string 标记id
 ---@param params MarkerParams 标记的超参数
+---@param worldid? integer 星球id
 ---@return boolean result
-function World:PixelMapAddMarker(uin, id, params) end
+function World:PixelMapAddMarker(uin, id, params, worldid) end
 
 ---地图刷新标记
 ---@param uin integer 玩家ID
 ---@param id string 标记id
 ---@param params MarkerParamsOptional 标记的超参数(提供改变的参数即可)
+---@param worldid? integer 星球id
 ---@return boolean result
-function World:PixelMapRefreshMarker(uin, id, params) end
+function World:PixelMapRefreshMarker(uin, id, params, worldid) end
 
 ---地图删除标记
 ---@param uin integer 玩家ID
 ---@param id string 标记id
+---@param worldid? integer 星球id
 ---@return boolean result
-function World:PixelMapDelMarker(uin, id) end
+function World:PixelMapDelMarker(uin, id, worldid) end
 
 ---地图增加纹理
 ---@param uin integer 玩家ID
 ---@param id string 纹理id
 ---@param params TextureParams 纹理的超参数
+---@param worldid? integer 星球id
 ---@return boolean result
-function World:PixelMapAddTexture(uin, id, params) end
+function World:PixelMapAddTexture(uin, id, params, worldid) end
 
 ---地图刷新纹理
 ---@param uin integer 玩家ID
 ---@param id string 纹理id
 ---@param params TextureParamsOptional 纹理的超参数(提供改变的参数即可)
+---@param worldid? integer 星球id
 ---@return boolean result
-function World:PixelMapRefreshTexture(uin, id, params) end
+function World:PixelMapRefreshTexture(uin, id, params, worldid) end
 
 ---地图删除纹理
 ---@param uin integer 玩家ID
 ---@param id string 纹理id
+---@param worldid? integer 星球id
 ---@return boolean result
-function World:PixelMapDelTexture(uin, id) end
+function World:PixelMapDelTexture(uin, id, worldid) end
 
 ---设置某玩家天空盒全部时间点的颜色参数(带动效)
----@param uin integer 玩家ID
+---@param playerid integer 玩家ID
 ---@param itype SkyboxColor 颜色属性枚举
 ---@param color string 16进制颜色值(0xffffff)
 ---@param animId Easing 动画枚举
 ---@param animTime number 动画时间
+---@param worldId? integer 星球id
 ---@return boolean result
-function World:SetSkyBoxColorAnim(uin, itype, color, animId, animTime) end
+function World:SetSkyBoxColorAnim(playerid, itype, color, animId, animTime, worldId) end
 
 ---设置天空盒时间流逝速度
 ---@param speed number 时间流逝速度
@@ -321,61 +331,69 @@ function World:SetSkyBoxColorAnim(uin, itype, color, animId, animTime) end
 function World:SetTimeVanishingSpeed(speed) end
 
 ---设置天空盒模板
----@param skyboxid integer | string 模板值（官方模板填数值，自定义模板填ID）
+---@param value integer | string 模板值（官方模板填数值，自定义模板填ID）
+---@param worldId? integer 星球id
 ---@return boolean result
-function World:SetSkyBoxTemplate(skyboxid) end
+function World:SetSkyBoxTemplate(value, worldId) end
 
 ---设置天空盒贴图
 ---@param itype SkyboxMap 贴图类型
 ---@param url string 图片链接
+---@param worldId? integer 星球id
 ---@return boolean result
-function World:SetSkyBoxMaps(itype, url) end
+function World:SetSkyBoxMaps(itype, url, worldId) end
 
 ---设置天空盒颜色参数
 ---@param time SkyboxTime 游戏时间
 ---@param itype SkyboxColor 颜色属性枚举
 ---@param color string 16进制颜色值(0xffffff)
+---@param worldId? integer 星球id
 ---@return boolean result
-function World:SetSkyBoxColor(time, itype, color) end
+function World:SetSkyBoxColor(time, itype, color, worldId) end
 
 ---设置天空盒属性参数
 ---@param time SkyboxTime 游戏时间
 ---@param itype SkyboxAttr 参数类型
 ---@param value number 参数值(0~100)
+---@param worldId? integer 星球id
 ---@return boolean result
-function World:SetSkyBoxAttr(time, itype, value) end
+function World:SetSkyBoxAttr(time, itype, value, worldId) end
 
 ---设置天空盒滤镜参数
----@param uin integer 玩家ID
+---@param playerid integer 玩家ID
 ---@param itype SkyboxFilter 参数类型
 ---@param value number | string 参数值(0~100) 或 16进制颜色值字符串(0xffffff)
+---@param worldId? integer 星球id
 ---@return boolean result
-function World:SetSkyBoxFilter(uin, itype, value) end
+function World:SetSkyBoxFilter(playerid, itype, value, worldId) end
 
 ---天空盒属性开关
 ---@param time SkyboxTime 游戏时间
 ---@param itype SkyboxSwitch 参数类型
 ---@param value boolean 参数值
+---@param worldId? integer 星球id
 ---@return boolean result
-function World:SetSkyBoxSwitch(time, itype, value) end
+function World:SetSkyBoxSwitch(time, itype, value, worldId) end
 
 ---设置天空盒贴图(带动效)
----@param uin integer 玩家ID
+---@param playerid integer 玩家ID
 ---@param itype SkyboxMap 参数类型
 ---@param url string 图片链接
 ---@param animId Easing 动画枚举
 ---@param animTime number 动画时间
+---@param worldId? integer 星球id
 ---@return boolean result
-function World:SetSkyBoxMapsAnim(uin, itype, url, animId, animTime) end
+function World:SetSkyBoxMapsAnim(playerid, itype, url, animId, animTime, worldId) end
 
----设置天空盒滤镜参数
----@param uin integer 玩家ID
+---设置天空盒滤镜参数(带动效)
+---@param playerid integer 玩家ID
 ---@param itype SkyboxFilter 参数类型
 ---@param value number | string 参数值(0~100) 或 16进制颜色值字符串(0xffffff)
 ---@param animId Easing 动画枚举
 ---@param animTime number 动画时间
+---@param worldId? integer 星球id
 ---@return boolean result
-function World:SetSkyBoxFilterAnim(uin, itype, value, animId, animTime) end
+function World:SetSkyBoxFilterAnim(playerid, itype, value, animId, animTime, worldId) end
 
 ---获取主机时间
 ---@see os.date
@@ -424,7 +442,7 @@ function World:GetDirRayDetection(posbegin, dir, maxlen, picktype, worldId, igno
 ---@param dsty number 终点y坐标
 ---@param dstz number 终点z坐标
 ---@param distance number 最大检测距离
----@param worldId integer 星球id
+---@param worldId? integer 星球id
 ---@return number distance 距离
 function World:GetRayLength(srcx, srcy, srcz, dstx, dsty, dstz, distance, worldId) end
 
@@ -434,7 +452,7 @@ function World:GetRayLength(srcx, srcy, srcz, dstx, dsty, dstz, distance, worldI
 ---@param srcz number 起点z坐标
 ---@param face RayDetectType 检测类型
 ---@param distance number 最大检测距离
----@param worldId integer 星球id
+---@param worldId? integer 星球id
 ---@return integer blockid 方块ID
 function World:GetRayBlock(srcx, srcy, srcz, face, distance, worldId) end
 
@@ -485,8 +503,9 @@ function World:CalcDistance(posSrc, posDst) end
 ---设置天气组的天气状态
 ---@param groupid WeatherGroup 天气组ID
 ---@param weatherid GroupWeatherType 天气ID
+---@param worldId? integer 星球id
 ---@return boolean result
-function World:SetGroupWeather(groupid, weatherid) end
+function World:SetGroupWeather(groupid, weatherid, worldId) end
 
 ---随机天气ID
 ---@return integer weatherid 随机出来的天气ID
@@ -494,15 +513,17 @@ function World:RandomWeatherID() end
 
 ---获取天气组天气
 ---@param groupid WeatherGroup 天气组ID
+---@param worldId? integer 星球id
 ---@return GroupWeatherType weatherid 天气ID
-function World:GetGroupWeather(groupid) end
+function World:GetGroupWeather(groupid, worldId) end
 
 ---设置出生点
 ---@param x number x坐标
 ---@param y number y坐标
 ---@param z number z坐标
+---@param worldId? integer 星球id
 ---@return boolean result
-function World:SetSpawnPoint(x, y, z) end
+function World:SetSpawnPoint(x, y, z, worldId) end
 
 ---位置到位置的单位方向
 ---@param pos1 PositionTable 位置1
@@ -512,20 +533,20 @@ function World:CalcDirectionByPos2Pos(pos1, pos2) end
 
 ---设置世界创建生物规则(设置不保存，退出游戏后失效，只适用迷拉星)
 ---@param cfgs table<integer, {id: integer, weight: number}[]> 生物规则配置
----@param worldId integer 星球id
+---@param worldId? integer 星球id
 ---@return boolean result
 function World:SetWorldCreateMobRule(cfgs, worldId) end
 
 ---设置生物生成密度(设置不保存，退出游戏后失效，只适用迷拉星)
 ---@param mobType MobType 生物类型
 ---@param density number 密度（0-2000）
----@param worldId integer 星球id
+---@param worldId? integer 星球id
 ---@return boolean result
 function World:SetMobSpawnDensity(mobType, density, worldId) end
 
 ---设置农作物生长时间要求修正，在原来的时间上乘以系数(设置不保存，退出游戏后失效，只适用迷拉星)
 ---@param rate number 时间修正(大于0)
----@param worldId integer 星球id
+---@param worldId? integer 星球id
 ---@return boolean result
 function World:SetPlantGrowRate(rate, worldId) end
 
@@ -567,8 +588,9 @@ function World:IsChunkLoaded(x, z, worldId) end
 ---设置天空盒属性参数(不带时间)
 ---@param itype SkyboxAttr 参数类型
 ---@param value number 参数值
+---@param worldId? integer 星球id
 ---@return boolean result
-function World:SetSkyBoxAttrWithNoTime(itype, value) end
+function World:SetSkyBoxAttrWithNoTime(itype, value, worldId) end
 
 ---增加游戏时间
 ---@param timeenum EventDate 时间枚举
@@ -665,3 +687,5 @@ function World:EmitByPositionTarget(posbegin, emitid, objid, shooter) end
 ---@param targetPos PositionTable 目标位置
 ---@param shooter number? 发射者对象ID
 function World:EmitByPositionTargetPos(posbegin, emitid, targetPos, shooter) end
+
+

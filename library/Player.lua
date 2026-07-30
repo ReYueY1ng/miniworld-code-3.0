@@ -48,16 +48,18 @@ function Player:SetSkillCD(objid, itemid, cd) end
 ---@param x number 方块坐标
 ---@param y number 方块坐标
 ---@param z number 方块坐标
+---@param worldId? integer 星球id
 ---@return boolean result
-function Player:ReviveToPos(objid, x, y, z) end
+function Player:ReviveToPos(objid, x, y, z, worldId) end
 
 ---设置玩家复活点
 ---@param objid integer 玩家Uin
 ---@param x number 方块坐标
 ---@param y number 方块坐标
 ---@param z number 方块坐标
+---@param worldId? integer 星球id
 ---@return boolean result
-function Player:SetRevivePoint(objid, x, y, z) end
+function Player:SetRevivePoint(objid, x, y, z, worldId) end
 
 ---使玩家显示飘窗文字
 ---@param objid integer 玩家Uin
@@ -423,10 +425,11 @@ function Player:GetViewMode(uin) end
 
 ---获取玩家复活点
 ---@param objid integer 玩家Uin
+---@param worldId? integer 星球id
 ---@return number x 方块坐标
 ---@return number y 方块坐标
 ---@return number z 方块坐标
-function Player:GetRevivePoint(objid) end
+function Player:GetRevivePoint(objid, worldId) end
 
 ---获取租赁云服务器服主
 ---@return integer uin 玩家Uin （仅租赁云服生效）

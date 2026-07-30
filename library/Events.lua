@@ -52,6 +52,10 @@ TriggerEvent = {
     ---```y``` — 事件中的位置<br>
     ---```z``` — 事件中的位置<br>
     FurnaceEnd = "Furnace.end",
+    ---当星球被创建<br>
+    ---\---传参---<br>
+    ---```eventworldid``` — 事件中的星球<br>
+    PlanetCreated = "Planet.Created",
 
     --#endregion
     --#region 玩家
@@ -503,6 +507,16 @@ TriggerEvent = {
     ---```itemnum``` — 事件中的道具数量<br>
     ---```eventworldid``` — 事件中的星球<br>
     PlayerUseItem = "Player.UseItem",
+    ---当玩家进入星球<br>
+    ---\---传参---<br>
+    ---```eventobjid``` — 触发事件的对象<br>
+    ---```eventworldid``` — 事件中的星球<br>
+    PlayerEnterPlanet = "Player.EnterPlanet",
+    ---当玩家离开星球<br>
+    ---\---传参---<br>
+    ---```eventobjid``` — 触发事件的对象<br>
+    ---```eventworldid``` — 事件中的星球<br>
+    PlayerLeavePlanet = "Player.LeavePlanet",
 
     --#endregion
     --#region 方块

@@ -2182,18 +2182,6 @@ BindPoint = {
     ---脚底
     FootDown = 109,
 }
----@enum HitBehaviour
----命中行为
-HitBehaviour = {
-    ---无
-    None = 0,
-    ---销毁
-    Destroy = 1,
-    ---穿透
-    Penetrate = 2,
-    ---附着
-    AttachTarget = 3,
-}
 ---@enum RayHitBehaviour
 ---射线命中行为
 RayHitBehaviour = {
@@ -2229,24 +2217,6 @@ OriginType = {
     LastTriggerPosition = 2,
     ---角色绑点
     BindPoint = 3,
-}
----@enum SelectPolicy
----选择策略
-SelectPolicy = {
-    ---随机
-    Random = 0,
-}
----@enum TargetFilter
----目标过滤
-TargetFilter = {
-    ---仅敌方
-    Enemy = 0,
-    ---仅友方
-    Friendly = 1,
-    ---仅中立
-    Neutral = 2,
-    ---所有目标
-    All = 3,
 }
 ---@enum TargetLostAction
 ---目标丢失行为

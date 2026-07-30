@@ -42,6 +42,11 @@ function GameObject:CreatePrefabInst(prefabid, worldid, x, y, z, trigger) end
 ---@return Object[] objects 返回创建对象的列表，如果需要objId，则需要用GetId()获取
 function GameObject:CreatePrefab(objectType, prefabid, x, y, z, num, trigger, worldid) end
 
+---查找星球
+---@param id integer 星球ID
+---@return boolean found 是否找到
+function GameObject:FindPlanet(id) end
+
 ---删除对象(玩家，方块，世界，ui 对象不能删除)
 ---@param objid integer | string 对象id
 ---@return boolean result

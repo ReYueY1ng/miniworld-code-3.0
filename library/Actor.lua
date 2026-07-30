@@ -580,3 +580,10 @@ function Actor:EmitByShooterTarget(objidA, emitid, objidB) end
 ---@param emitid string 发射器ID
 ---@param targetPos PositionTable 目标位置
 function Actor:EmitByShooterTargetPos(objid, emitid, targetPos) end
+
+---触发技能调用
+---@param objid integer 对象ID
+---@param skillName string 技能名称
+---@param growPatchName? string 成长补丁名称
+---@return boolean result
+function Actor:TriggerSkillCall(objid, skillName, growPatchName) end
