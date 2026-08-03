@@ -4,6 +4,7 @@
   "settings": {
     "Lua.runtime.version": "LuaJIT",
     "Lua.completion.autoRequire": false,
+    "Lua.runtime.plugin": "plugin.lua",
     "Lua.runtime.builtin": {
       "debug": "disable",
       "ffi": "disable",
