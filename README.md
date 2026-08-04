@@ -155,6 +155,9 @@ miniworld-code-3.0/
 │   ├── GlobalFunc.lua    # 全局工具函数
 │   ├── BaseEnv.lua       # 基础环境扩展
 │   └── ...               # 其他模块
+├── skills/               # AI 辅助开发 skill
+│   ├── miniworld-coding/          # 写游戏脚本
+│   └── miniworld-code-api-update/ # 更新类型定义库
 ├── test/diagnostics/     # 诊断测试文件（15 个，每个诊断一个）
 ├── docs/
 │   └── example.lua       # 完整组件编写示例
@@ -216,6 +219,15 @@ return MyComponent
 | `test_disabled_lib.lua` | 禁用标准库检测 |
 | `test_isvalid.lua` | GetComponent 后有效性检查 |
 | `test_scriptsupportevent.lua` | ScriptSupportEvent 检测 |
+
+## AI 辅助开发
+
+项目内置了两个 OpenCode Skill，用于 AI 辅助开发：
+
+- **`miniworld-coding`** — 编写游戏脚本时加载，提供组件编写规范、API 使用指南
+- **`miniworld-code-api-update`** — 更新类型定义库时加载，提供 API 来源优先级、参数签名获取流程
+
+在 OpenCode 中会根据任务自动匹配对应的 skill，无需手动选择。
 
 ## 相关资源
 
