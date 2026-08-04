@@ -35,7 +35,8 @@
             "table.new": "disable",
             "string.buffer": "disable"
         },
-        "completion.autoRequire": false
+        "completion.autoRequire": false,
+        "runtime.plugin": "plugin.lua"
     }
     ```
 
@@ -58,6 +59,9 @@
             "string.buffer": "disable"
         },
         "Lua.completion.autoRequire": false,
-        "Lua.runtime.version": "LuaJIT"
+        "Lua.runtime.version": "LuaJIT",
+        "Lua.runtime.plugin": "plugin.lua"
     }
     ```
+
+    插件会提供组件校验诊断（如生命周期方法检查、属性类型检查、openFnArgs 参数校验等），详见 [plugin.lua](plugin.lua)。
