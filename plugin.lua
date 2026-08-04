@@ -1,12 +1,9 @@
 -- Mini World UGC 3.0 LuaLS Plugin
 -- Provides custom diagnostics for component validation.
 --
--- IMPORTANT: This plugin uses the defineDiagnostic hack from LuaLS#2511.
--- It requires LuaLS to run with --develop=true flag:
---   * VS Code:  "Lua.languageServer.runtime.develop": true
---   * CLI:      lua-language-server --develop=true
---
--- Without --develop=true the plugin loads harmlessly but diagnostics are disabled.
+-- This plugin uses the defineDiagnostic technique from LuaLS#2511.
+-- Configure via Lua.runtime.plugin (no --develop flag needed):
+--   .luarc.json: "Lua.runtime.plugin": "plugin.lua"
 -- See: https://github.com/LuaLS/lua-language-server/issues/2511
 
 ---@alias DiagnosticSeverity
@@ -297,7 +294,19 @@ local function checkArrayItemTypes(argsTable, callback)
     end
 end
 
+-- Cache for findComponentTables results, keyed by URI + AST reference
+local _componentTablesCache = {}
+
 local function findComponentTables(state)
+    if not state or not state.ast then return {} end
+    local uri = state.uri
+    if uri then
+        local cached = _componentTablesCache[uri]
+        if cached and cached.ast == state.ast then
+            return cached.result
+        end
+    end
+
     local guide = require 'parser.guide'
     local componentTables = {}
     guide.eachSourceType(state.ast, 'setfield', function(source)
@@ -308,6 +317,10 @@ local function findComponentTables(state)
             end
         end
     end)
+
+    if uri then
+        _componentTablesCache[uri] = { ast = state.ast, result = componentTables }
+    end
     return componentTables
 end
 
@@ -606,26 +619,51 @@ local validOpenFnArgsParamTypes = {
     ["EntityType"] = true, ["Tag"] = true,
 }
 
+-- Cache for forEachOpenFnArgsTable results, keyed by URI + AST reference
+local _openFnArgsCache = {}
+
 ---Iterate over all openFnArgs table values in the AST.
 ---Handles both setfield (X.openFnArgs = {...}) and tablefield ({openFnArgs = {...}}).
 ---@param ast table Root AST node
+---@param uri string|nil Optional URI for caching
 ---@param callback fun(t: table) Called for each openFnArgs table
-local function forEachOpenFnArgsTable(ast, callback)
-    local guide = require 'parser.guide'
-    guide.eachSourceType(ast, 'table', function(source)
-        local parent = source.parent
-        if parent then
-            local isOpenFnArgs = false
-            if parent.type == 'tablefield' then
-                isOpenFnArgs = getKeyName(parent) == 'openFnArgs'
-            elseif parent.type == 'setfield' then
-                isOpenFnArgs = parent.field and parent.field[1] == 'openFnArgs'
-            end
-            if isOpenFnArgs then
-                callback(source)
-            end
+local function forEachOpenFnArgsTable(ast, uri, callback)
+    if not ast then return end
+
+    -- Try cache for the raw table nodes
+    local tables = nil
+    if uri then
+        local cached = _openFnArgsCache[uri]
+        if cached and cached.ast == ast then
+            tables = cached.tables
         end
-    end)
+    end
+
+    if not tables then
+        local guide = require 'parser.guide'
+        tables = {}
+        guide.eachSourceType(ast, 'table', function(source)
+            local parent = source.parent
+            if parent then
+                local isOpenFnArgs = false
+                if parent.type == 'tablefield' then
+                    isOpenFnArgs = getKeyName(parent) == 'openFnArgs'
+                elseif parent.type == 'setfield' then
+                    isOpenFnArgs = parent.field and parent.field[1] == 'openFnArgs'
+                end
+                if isOpenFnArgs then
+                    tables[#tables + 1] = source
+                end
+            end
+        end)
+        if uri then
+            _openFnArgsCache[uri] = { ast = ast, tables = tables }
+        end
+    end
+
+    for _, t in ipairs(tables) do
+        callback(t)
+    end
 end
 
 ---Check if a node is a valid ParamType for openFnArgs.
@@ -643,7 +681,7 @@ end
 -- 诊断6: openFnArgs params 类型无效
 defineDiagnostic("miniworld-openfnargs-params", "custom", "Warning", "Opened", function(uri, callback)
     withAst(uri, function(ast, _)
-        forEachOpenFnArgsTable(ast, function(openFnArgsTable)
+        forEachOpenFnArgsTable(ast, uri, function(openFnArgsTable)
             for _, methodEntry in ipairs(openFnArgsTable) do
                 local methodName = getKeyName(methodEntry)
                 if methodName and methodEntry.value and methodEntry.value.type == 'table' then
@@ -671,7 +709,7 @@ end)
 -- 诊断7: displayName 不是字符串
 defineDiagnostic("miniworld-openfnargs-displayname", "custom", "Warning", "Opened", function(uri, callback)
     withAst(uri, function(ast, _)
-        forEachOpenFnArgsTable(ast, function(openFnArgsTable)
+        forEachOpenFnArgsTable(ast, uri, function(openFnArgsTable)
             for _, methodEntry in ipairs(openFnArgsTable) do
                 local methodName = getKeyName(methodEntry)
                 if methodName and methodEntry.value and methodEntry.value.type == 'table' then
@@ -692,7 +730,7 @@ end)
 -- 诊断8: returnType 类型无效
 defineDiagnostic("miniworld-openfnargs-returntype", "custom", "Warning", "Opened", function(uri, callback)
     withAst(uri, function(ast, _)
-        forEachOpenFnArgsTable(ast, function(openFnArgsTable)
+        forEachOpenFnArgsTable(ast, uri, function(openFnArgsTable)
             for _, methodEntry in ipairs(openFnArgsTable) do
                 local methodName = getKeyName(methodEntry)
                 if methodName and methodEntry.value and methodEntry.value.type == 'table' then
@@ -767,7 +805,10 @@ defineDiagnostic("miniworld-missing-isvalid", "custom", "Warning", "Opened", fun
     withAst(uri, function(ast, guide)
         local getComponentCalls = {}
         local isValidCalls = {}
+        ---@type table<string, {start:number, finish:number}>
+        local conditionVarScope = {}
 
+        -- 遍历 call 节点，收集 GetComponent 和 IsValid 调用
         guide.eachSourceType(ast, 'call', function(source)
             if source.node then
                 local funcName = nil
@@ -777,10 +818,15 @@ defineDiagnostic("miniworld-missing-isvalid", "custom", "Warning", "Opened", fun
                     funcName = source.node.field[1]
                 end
                 if funcName == 'GetComponent' then
+                    -- 找出 GetComponent 返回值的赋值变量名
+                    local varName = nil
+                    local p = source.parent
+                    if p and p.type == 'local' then
+                        varName = p[1]
+                    end
                     table.insert(getComponentCalls, {
-                        start = source.start,
-                        finish = source.finish,
                         node = source,
+                        varName = varName,
                     })
                 elseif funcName == 'IsValid' then
                     table.insert(isValidCalls, {
@@ -788,6 +834,62 @@ defineDiagnostic("miniworld-missing-isvalid", "custom", "Warning", "Opened", fun
                         finish = source.finish,
                     })
                 end
+            end
+        end)
+
+        -- 遍历 if/while 条件，收集被 nil-check 的变量
+        local function collectConditionVar(condNode, scopeStart, scopeFinish)
+            if not condNode then return end
+            local varName = nil
+            if condNode.type == 'getlocal' then
+                -- if cmp then
+                varName = condNode[1]
+            elseif condNode.type == 'op' then
+                if condNode.op == 'and' then
+                    -- if cmp and cmp:IsValid() then
+                    if condNode[1] and condNode[1].type == 'getlocal' then
+                        varName = condNode[1][1]
+                    end
+                elseif condNode.op == 'not' then
+                    -- if not cmp then
+                    if condNode[1] and condNode[1].type == 'getlocal' then
+                        varName = condNode[1][1]
+                    end
+                end
+            end
+            if varName and not conditionVarScope[varName] then
+                conditionVarScope[varName] = { start = scopeStart, finish = scopeFinish }
+            end
+        end
+
+        guide.eachSourceType(ast, 'if', function(source)
+            if source.condition then
+                local funcStart, funcFinish = source.start, source.finish
+                local p = source.parent
+                while p do
+                    if p.type == 'function' then
+                        funcStart = p.start
+                        funcFinish = p.finish
+                        break
+                    end
+                    p = p.parent
+                end
+                collectConditionVar(source.condition, funcStart, funcFinish)
+            end
+        end)
+        guide.eachSourceType(ast, 'while', function(source)
+            if source.condition then
+                local funcStart, funcFinish = source.start, source.finish
+                local p = source.parent
+                while p do
+                    if p.type == 'function' then
+                        funcStart = p.start
+                        funcFinish = p.finish
+                        break
+                    end
+                    p = p.parent
+                end
+                collectConditionVar(source.condition, funcStart, funcFinish)
             end
         end)
 
@@ -807,10 +909,18 @@ defineDiagnostic("miniworld-missing-isvalid", "custom", "Warning", "Opened", fun
 
             if funcStart then
                 local foundValid = false
+                -- 检查是否有 IsValid 调用
                 for _, validCall in ipairs(isValidCalls) do
                     if validCall.start >= funcStart and validCall.finish <= funcFinish then
                         foundValid = true
                         break
+                    end
+                end
+                -- 检查是否有 nil 检查 (if cmp then / while cmp do)
+                if not foundValid and call.varName then
+                    local scope = conditionVarScope[call.varName]
+                    if scope and scope.start >= funcStart and scope.finish <= funcFinish then
+                        foundValid = true
                     end
                 end
 
@@ -818,7 +928,7 @@ defineDiagnostic("miniworld-missing-isvalid", "custom", "Warning", "Opened", fun
                     callback{
                         start = call.node.start,
                         finish = call.node.finish,
-                        message = '缓存的组件应先调用 IsValid() 判断有效性',
+                        message = '缓存的组件应先判断有效性 (IsValid 或 nil 检查)',
                     }
                 end
             end
@@ -877,7 +987,7 @@ local validOpenFnArgsFields = {
 
 defineDiagnostic("miniworld-openfnargs-invalid-value", "custom", "Warning", "Opened", function(uri, callback)
     withAst(uri, function(ast, _)
-        forEachOpenFnArgsTable(ast, function(openFnArgsTable)
+        forEachOpenFnArgsTable(ast, uri, function(openFnArgsTable)
             for _, obj in ipairs(openFnArgsTable) do
                 local key = getKeyName(obj)
                 if key and obj.value then
@@ -909,7 +1019,7 @@ end)
 
 defineDiagnostic("miniworld-openfnargs-invalid-field", "custom", "Warning", "Opened", function(uri, callback)
     withAst(uri, function(ast, _)
-        forEachOpenFnArgsTable(ast, function(openFnArgsTable)
+        forEachOpenFnArgsTable(ast, uri, function(openFnArgsTable)
             for _, obj in ipairs(openFnArgsTable) do
                 local key = getKeyName(obj)
                 if key and obj.value and obj.value.type == 'table' then
@@ -934,7 +1044,7 @@ end)
 
 defineDiagnostic("miniworld-openfnargs-params-array", "custom", "Warning", "Opened", function(uri, callback)
     withAst(uri, function(ast, _)
-        forEachOpenFnArgsTable(ast, function(openFnArgsTable)
+        forEachOpenFnArgsTable(ast, uri, function(openFnArgsTable)
             for _, methodEntry in ipairs(openFnArgsTable) do
                 local methodName = getKeyName(methodEntry)
                 if methodName and methodEntry.value and methodEntry.value.type == 'table' then
@@ -962,7 +1072,7 @@ end)
 
 defineDiagnostic("miniworld-openfnargs-array-no-itemtype", "custom", "Warning", "Opened", function(uri, callback)
     withAst(uri, function(ast, _)
-        forEachOpenFnArgsTable(ast, function(openFnArgsTable)
+        forEachOpenFnArgsTable(ast, uri, function(openFnArgsTable)
             for _, methodEntry in ipairs(openFnArgsTable) do
                 local methodName = getKeyName(methodEntry)
                 if methodName and methodEntry.value and methodEntry.value.type == 'table' then
@@ -1083,7 +1193,7 @@ end)
 
 defineDiagnostic("miniworld-openfnargs-params-format", "custom", "Hint", "Opened", function(uri, callback)
     withAst(uri, function(ast, _)
-        forEachOpenFnArgsTable(ast, function(openFnArgsTable)
+        forEachOpenFnArgsTable(ast, uri, function(openFnArgsTable)
             for _, methodEntry in ipairs(openFnArgsTable) do
                 local methodName = getKeyName(methodEntry)
                 if methodName and methodEntry.value and methodEntry.value.type == 'table' then

@@ -17,5 +17,6 @@
     "workspace.ignoreDir": [
         ".vscode",
         "skills"
-    ]
+    ],
+    "Lua.runtime.plugin": "plugin.lua"
 }
