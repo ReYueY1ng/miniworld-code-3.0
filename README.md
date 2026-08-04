@@ -222,12 +222,12 @@ return MyComponent
 
 ## AI 辅助开发
 
-项目内置了两个 OpenCode Skill，用于 AI 辅助开发：
+项目提供了两个 OpenCode Skill，用于 AI 辅助开发时需要手动引用：
 
-- **`miniworld-coding`** — 编写游戏脚本时加载，提供组件编写规范、API 使用指南
-- **`miniworld-code-api-update`** — 更新类型定义库时加载，提供 API 来源优先级、参数签名获取流程
+- **`miniworld-coding`** — 编写游戏脚本时使用，提供组件编写规范、API 使用指南
+- **`miniworld-code-api-update`** — 更新类型定义库时使用，提供 API 来源优先级、参数签名获取流程
 
-在 OpenCode 中会根据任务自动匹配对应的 skill，无需手动选择。
+使用方式：在 OpenCode 中通过 `skill(name="miniworld-coding")` 或 `/miniworld-coding` 加载。
 
 ## 相关资源
 
