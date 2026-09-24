@@ -787,20 +787,6 @@ defineDiagnostic("miniworld-customdata-missing-def", "custom", "Warning", "Opene
     end)
 end)
 
-defineDiagnostic("miniworld-script-support-event", "custom", "Information", "Opened", function(uri, callback)
-    withAst(uri, function(ast, guide)
-        guide.eachSourceType(ast, 'getglobal', function(source)
-            if source[1] == 'ScriptSupportEvent' then
-                callback{
-                    start = source.start,
-                    finish = source.finish,
-                    message = '建议使用组件事件系统替代 ScriptSupportEvent',
-                }
-            end
-        end)
-    end)
-end)
-
 defineDiagnostic("miniworld-missing-isvalid", "custom", "Warning", "Opened", function(uri, callback)
     withAst(uri, function(ast, guide)
         local getComponentCalls = {}

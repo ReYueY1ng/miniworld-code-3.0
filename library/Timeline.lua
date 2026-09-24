@@ -7,16 +7,22 @@ Timeline = {}
 
 ---对所有玩家播放Timeline
 ---@param timelineId string Timeline资源ID
----@return boolean code 是否成功
-function Timeline:PlayForAll(timelineId) end
+---@param refKind? number 播放参考系(0使用默认 1指定位置与旋转 2指定玩家)
+---@param anchorPos? table 锚点位置{x=x,y=y,z=z}(kind=1/2 单位cm)
+---@param anchorYaw? number 锚点朝向角度(kind=1/2)
+---@return number code 返回码(参考系错位为负 TIMELINE_PLAY_REJECT_*，否则0)
+function Timeline:PlayForAll(timelineId, refKind, anchorPos, anchorYaw) end
 
 ---对指定玩家播放Timeline
 ---@param uin number 玩家UIN
 ---@param timelineId string Timeline资源ID
 ---@param reverse? boolean 是否反向播放(默认false)
 ---@param playToEnd? boolean 是否播放到结尾(默认false)
----@return boolean code 是否成功
-function Timeline:PlayForPlayer(uin, timelineId, reverse, playToEnd) end
+---@param refKind? number 播放参考系(0使用默认 1指定位置与旋转 2指定玩家)
+---@param anchorPos? table 锚点位置{x=x,y=y,z=z}(kind=1/2 单位cm)
+---@param anchorYaw? number 锚点朝向角度(kind=1/2)
+---@return number code 返回码(参考系错位为负 TIMELINE_PLAY_REJECT_*，否则0)
+function Timeline:PlayForPlayer(uin, timelineId, reverse, playToEnd, refKind, anchorPos, anchorYaw) end
 
 ---暂停指定玩家的Timeline播放
 ---@param uin number 玩家UIN

@@ -225,8 +225,9 @@ function Block:SetBlockColor(x, y, z, color, worldId) end
 ---@param y integer 位置坐标
 ---@param z integer 位置坐标
 ---@param isactive boolean 是否开启
+---@param worldId? integer 星球id(默认当前主机所在星球)
 ---@return boolean result
-function Block:SetBlockSwichState(x, y, z, isactive) end
+function Block:SetBlockSwichState(x, y, z, isactive, worldId) end
 
 ---设置方块方向
 ---@param x integer 位置坐标

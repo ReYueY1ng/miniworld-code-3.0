@@ -418,6 +418,18 @@ function Player:ItemSkillCDDone(objid, itemid) end
 ---@return boolean result
 function Player:SetGunActionState(objid, action, switch) end
 
+---进入枪械状态
+---@param objid integer 玩家Uin
+---@param state GunActionState 枪械状态枚举
+---@return boolean result 是否设置成功
+function Player:EnterGunState(objid, state) end
+
+---离开枪械状态
+---@param objid integer 玩家Uin
+---@param state GunActionState 枪械状态枚举
+---@return boolean result 是否设置成功
+function Player:LevelGunState(objid, state) end
+
 ---获取玩家视角模式
 ---@param uin integer 玩家Uin
 ---@return ViewPortType viewmode 视角模式

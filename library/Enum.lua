@@ -126,15 +126,20 @@ BiomeType = {
     Beach = 19, -- 迷拉星沙滩
     Canyon = 64, -- 迷拉星峡谷
     CanyonEage = 65, -- 迷拉星峡谷边缘
+    CatDogVillage = 103, -- 猫狗村（中层patch）
     City = 78, -- 迷拉星末日城镇
     Cliff = 4, -- 迷拉星峭壁
     CliffEdge = 20, -- 迷拉星峭壁边缘
     CliffGinkgo = 82, -- 迷拉星峭壁银杏林
     CliffMaple = 81, -- 迷拉星峭壁枫叶林
     CliffPlum = 75, -- 迷拉星三角梅峭壁
+    CloverStream = 99, -- 四叶草溪（内层子地形）
     ConiferousForest = 6, -- 迷拉星针叶林
     ConiferousForestHills = 15, -- 迷拉星针叶林山丘
     ConiferousForestLake = 86, -- 迷拉星针叶林湖泊
+    CorruptededRuins = 104, -- 腐化遗岛（外层Boss区域）
+    CrystalIsland = 95, -- 晶簇浮岛（外层）
+    DarkWoods = 102, -- 昏暗树林（中层patch）
     DeepSea = 49, -- 迷拉星深海
     Desert = 2, -- 迷拉星沙漠
     DesertHills = 13, -- 迷拉星沙漠山丘
@@ -186,15 +191,27 @@ BiomeType = {
     Jungle = 7, -- 迷拉星丛林
     JungleBlueJacaranda = 80, -- 迷拉星丛林蓝花楹树林
     JungleHills = 17, -- 迷拉星丛林山丘
+    MushroomForest = 92, -- 菇林（内层子biome）
+    MushroomHills = 97, -- 荧菇丘陵（内层子地形）
+    MushroomPlain = 90, -- 荧菇平原（内层）
+    MushroomPlainEdge = 98, -- 荧菇平原边缘（内层最外环）
+    MushroomVillage = 105, -- 蘑菇村（内层patch）
     PlainsLake = 83, -- 迷拉星草原湖泊
     RainForest = 39, -- 迷拉星雨林
     RainForestLake = 87, -- 迷拉星雨林湖泊
     RedSoil = 11, -- 迷拉星红土
     RedSoilShore = 12, -- 迷拉星红土海岸
     River = 18, -- 迷拉星河流
+    RuneRelic = 100, -- 符光遗迹（内层patch子地形）
     Sea = 0, -- 迷拉星浅海
+    ShatteredIsles = 96, -- 破碎离岛（外层主地形）
+    StarForest = 93, -- 星之森林（中层）
+    StarForestEdge = 94, -- 碎岛边境（星影森林边缘子地形）
+    StarForestHills = 101, -- 星影森林丘陵（中层patch）
+    StarLakeLake = 91, -- 星辉湖泊（内层子biome）
     Swamp = 5, -- 迷拉星沼泽
     SwampRiverSide = 73, -- 迷拉星沼泽河畔
+    Void = 106, -- 星尘之境虚空
     Volcano = 42, -- 迷拉星火山主峰
     VolcanoCore = 46, -- 迷拉星火山口
     VolcanoMountain = 44, -- 迷拉星火山山脉
@@ -550,6 +567,14 @@ GunActionBan = {
     ReloadEmpty = 9, -- 腰射空仓换弹
     Run = 4, -- 持枪冲刺
 }
+---@enum GunActionState
+---枪械状态
+GunActionState = {
+    Aim = 6, -- 瞄准待机
+    Fire = 3, -- 腰射开火
+    Inspect = 11, -- 检视
+    Reload = 9, -- 腰射空仓换弹
+}
 ---@enum GunAttr
 ---枪械属性
 GunAttr = {
@@ -680,6 +705,7 @@ HurtType = {
 ---@enum InnerPopUpview
 ---游戏内弹窗界面类型
 InnerPopUpview = {
+    AdventureHandBook = 18, -- 冒险手册界面
     BackPackEra = 11, -- 背包科技界面
     BackPackRole = 12, -- 背包角色界面
     BackPackTask = 10, -- 背包任务界面
@@ -1347,6 +1373,7 @@ BlockStateType = {
     CoreBlock = 1,
     CustomCollider = 32,
     Occupied = 64,
+    SecondaryDirection = 512,
     Switch = 2,
 }
 ---@enum BtreeRangeType
@@ -1526,6 +1553,7 @@ GSoundType = {
 GameActorType = {
     ACTORTYPE_AQUATICMONSTER = 43,
     ACTORTYPE_ARROW = 9,
+    ACTORTYPE_BLOCK_AWAKEN = 155,
     ACTORTYPE_BLOCK_LASER = 39,
     ACTORTYPE_BOAT = 21,
     ACTORTYPE_BOOKEDITORTABLE = 53,

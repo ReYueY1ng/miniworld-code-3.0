@@ -138,13 +138,12 @@ git clone https://github.com/ReYueY1ng/miniworld-code-3.0.git
 | 诊断名 | 严重度 | 说明 |
 |--------|--------|------|
 | `miniworld-disabled-stdlib` | Warning | 检测使用了被禁用的标准库（`io`, `debug`, `ffi`, `require` 等） |
-| `miniworld-script-support-event` | Information | 建议使用 `AddTriggerEvent` 替代 `ScriptSupportEvent` |
 
 ## 项目结构
 
 ```
 miniworld-code-3.0/
-├── library/              # 类型定义文件（32 个 .lua 文件）
+├── library/              # 类型定义文件（31 个 .lua 文件）
 │   ├── Component.lua     # 组件体系（Component → WorldComponent → PlayerComponent 等）
 │   ├── Player.lua        # 玩家 API（~100 个方法）
 │   ├── World.lua         # 世界 API（~80 个方法）
@@ -218,7 +217,6 @@ return MyComponent
 | `test_array_itemtype.lua` | Array 的 itemType 必须有效 |
 | `test_disabled_lib.lua` | 禁用标准库检测 |
 | `test_isvalid.lua` | GetComponent 后有效性检查 |
-| `test_scriptsupportevent.lua` | ScriptSupportEvent 检测 |
 
 ## AI 辅助开发
 
