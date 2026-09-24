@@ -23,7 +23,6 @@ metadata:
 
 1. **不要编造不存在的 API** — 如果某个 API 真的不存在，寻找相似功能的替代 API
 2. **枚举优先使用 PascalCase 命名** (如 `AbsoluteCampType`)，全大写枚举一般是旧版本
-3. **尽量避免使用 `ScriptSupportEvent`** 注册事件
 
 ## 组件代码格式
 
