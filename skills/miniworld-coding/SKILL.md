@@ -406,11 +406,11 @@ printError(...)       -- 打印错误
 
 ```lua
 -- Global API (全局可用，坐标分开传)
-World:SpawnCreature(x, y, z, mobid, num)
-Block:ReplaceBlock(blockid, x, y, z, face, color)
+World:SpawnCreature(x, y, z, mobid, num, trigger?, worldId?)
+Block:ReplaceBlock(blockid, x, y, z, face, color, worldId?, btrigger?)
 
 -- Trigger API (触发器内可用，坐标合并为pos)
-Trigger.World:SpawnCreature(pos, mobid, num)
+Trigger.World:SetSpawnPoint(obiid, pos)
 Trigger.World:XyzToPos(x, y, z)  -- 辅助函数，创建pos
 ```
 
@@ -663,18 +663,19 @@ Item:GetNumberCustomData(instanceId, key)
 
 ### Timeline (剧情动画)
 ```lua
-Timeline:PlayForAll(timelineId)
-Timeline:PlayForPlayer(uin, id, reverse?, toEnd?)
+Timeline:PlayForAll(timelineId, refKind?, anchorPos?, anchorYaw?)
+Timeline:PlayForPlayer(uin, timelineId, reverse?, playToEnd?, refKind?, anchorPos?, anchorYaw?)
 Timeline:Pause(uin, timelineId)
 Timeline:Resume(uin, timelineId)
 Timeline:SkipForPlayer(uin)
 Timeline:GetPlayerState(uin, timelineId)
+Timeline:IsAllFinished(timelineId)
 ```
 
-### Emitter (粒子发射器)
+### 粒子发射器
 ```lua
-Emitter:EmitByPosition(pos, emitId, shooter?)
-Emitter:EmitByShooter(objId, emitId)
+World:EmitByPosition(pos, emitId, shooter?)
+Actor:EmitByShooter(objId, emitId)
 ```
 
 ### 云服 (Cloud Server)

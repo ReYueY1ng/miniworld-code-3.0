@@ -334,23 +334,21 @@ No automated tests. Verify by:
 ### Adding a New Player Method
 
 ```lua
----获取玩家背包物品数量
+---获取玩家昵称
 ---@param objid number 玩家ID
----@return number count 物品数量
-function Player:GetBackpackItemNum(objid) end
+---@return string nickname 昵称
+function Player:GetNickname(objid) end
 ```
 
 ### Adding a New World Method
 
 ```lua
----设置方块
+---设置世界出生点
 ---@param x number X坐标
 ---@param y number Y坐标
 ---@param z number Z坐标
----@param blockid number 方块ID
----@param blockdata number 方块数据
----@return boolean success 是否成功
-function World:SetBlock(x, y, z, blockid, blockdata) end
+---@param worldId number|nil 世界ID，不填为当前世界
+function World:SetSpawnPoint(x, y, z, worldId) end
 ```
 
 ### Adding a New Enum (Wiki Has It)
