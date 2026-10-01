@@ -31,18 +31,42 @@ When adding new APIs, follow this priority order:
 
 | Priority | Source | Purpose |
 |----------|--------|---------|
-| 1 | Environment table (`ugcscriptenv.txt`) | **ONLY AUTHORITY** - API must exist here |
+| 1 | Environment table (`devenv.lua`) | **ONLY AUTHORITY** - API must exist here |
 | 2 | Decompiled files | Get deep info / specific parameters |
 | 3 | Docs (`dev-wiki.mini1.cn`) | Get basic info |
 
 ### Locating Files
 
-**Environment table** (`ugcscriptenv.txt`):
-1. Try default location: `/home/yuey1ng/mini/miniworld-scripts/3.0/environments/ugcscriptenv.txt`
+**Environment table** (`devenv.lua`, format `mwenviron/1`):
+1. Try default location: `/home/yuey1ng/mini/miniworld-scripts/3.0/environments/devenv.lua`
 2. If not found, ask user for path OR download from:
    ```
-   https://github.com/ReYueY1ng/miniworld-scripts/raw/refs/heads/main/3.0/environments/ugcscriptenv.txt
+   https://github.com/ReYueY1ng/miniworld-scripts/raw/refs/heads/main/3.0/environments/devenv.lua
    ```
+
+It is plain Lua: `loadfile` it to get the table, or grep it for `["MethodName"] =`. A flat
+`Module:Method` + params listing comes from:
+
+```bash
+python3 tools/api-update/parse_env.py --face dev --output tmp/env-apis.json
+```
+
+Each entry also carries `mtype` (DevApiMType) and `rtypes` (DevApiRType restrictions); in the
+dump itself they are the tail of each function's `--[[...]]` annotation:
+
+```lua
+["GetFriendList"] = function(self, reportid, uin, index, size) end,
+--[[@F:/.../services/Player.lua:1234; @service Player.GetFriendList; @mtype ClientData; @rtype Uin_TimeLimit=(10,"调用频繁，请稍后尝试！")]]
+```
+
+`@mtype` decides whether the call goes over the network and **which extra arguments the
+engine injects** (`Mod` → `modId`, `HostAndClient` → `isHost`, `Block` → `runcallback`,
+`ReportHost` → `playerid`); `@rtype` is the rate limit / whitelist gate. Both must be taken
+into account when writing a signature.
+
+Older dumps (`ugcscriptenv.txt`, `ugcofficialenv.txt`) are read too, by the same parser;
+`python3 tools/migrate_env_dump.py <file.txt>` converts one and fills the `@mtype`/`@rtype`
+annotations from `3.0/environments/devapicfg.lua`.
 
 **Decompiled files** (optional, for parameter signatures):
 1. Try default location: `/run/media/yuey1ng/F25A9F0C5A9ECD2B/mini/dump/script_decompiled/luascript/ugc/framework`
@@ -367,7 +391,7 @@ NEW_ENUM = {
 ## Workflow for Adding New API
 
 1. **Locate Environment Table**: Check default path, ask user or download if not found
-2. **Verify**: Check `ugcscriptenv.txt` for API existence
+2. **Verify**: Check `devenv.lua` for API existence
 3. **Research**: Get parameters from decompiled files (ask user if not found) or docs
 4. **Locate**: Find correct file and position
 5. **Add**: Follow exact patterns above
@@ -388,7 +412,7 @@ NEW_ENUM = {
 ## Things to Avoid
 
 - **NEVER** fix spelling errors (official issue)
-- **NEVER** add API not in `ugcscriptenv.txt`
+- **NEVER** add API not in `devenv.lua`
 - **NEVER** skip Chinese comments
 - **NEVER** break dual enum system
 - **NEVER** complete empty stubs
@@ -410,7 +434,7 @@ NEW_ENUM = {
 
 After any change:
 
-- [ ] API exists in `ugcscriptenv.txt`
+- [ ] API exists in `devenv.lua`
 - [ ] Parameters verified (decompiled files if available, otherwise docs)
 - [ ] Chinese comments added
 - [ ] Enum dual system maintained (if applicable)

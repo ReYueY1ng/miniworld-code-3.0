@@ -1,141 +1,190 @@
 #!/usr/bin/env python3
-"""
-对比两个 ugcscriptenv 环境表文件，去除内存地址后排序对比。
+"""Structural diff between two Mini World UGC environment exports.
 
-使用方法:
-    python3 tools/env_diff.py [旧文件] [新文件]
+Both sides may be any mix of formats: the current ``mwenviron/1`` Lua export and
+the legacy ``ugcscriptenv.txt``.  The comparison runs on the parsed tree, so
+unlike a line diff it reports added/removed modules and methods, signature
+changes and moved members, not just changed text.
 
-默认路径:
-    旧: ~/Downloads/ugcscriptenv.txt
-    新: ~/mini/miniworld-scripts/3.0/environments/ugcscriptenv.txt
+    python3 tools/env_diff.py [old] [new] [--summary] [--json]
 
-选项:
-    --save     将排序后的文件保存到 tmp/ 目录
-    --summary  仅输出统计摘要，不输出详细 diff
+Defaults: old = ~/Downloads/ugcscriptenv.txt, new = the export in
+``miniworld-scripts/3.0/environments`` (``devenv.lua`` preferred).
 """
 
-import re
+from __future__ import annotations
+
+import argparse
+import json
 import sys
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-PROJECT_ROOT = SCRIPT_DIR.parent
+sys.path.insert(0, str(SCRIPT_DIR))
+
+import env_lib  # noqa: E402
 
 DEFAULT_OLD = Path.home() / "Downloads/ugcscriptenv.txt"
-DEFAULT_NEW = Path.home() / "mini/miniworld-scripts/3.0/environments/ugcscriptenv.txt"
 
 
-def strip_addresses(text: str) -> str:
-    """移除内存地址 (table: 0xHEX → table)"""
-    return re.sub(r'table:\s*0x[0-9a-fA-F]+', 'table', text)
+def surface(path: Path) -> tuple[env_lib.Header, dict[str, dict]]:
+    header, root = env_lib.load(path)
+    entries = env_lib.surface_entries(root)
+    details, _ = _function_meta(root)
+    for entry in entries:
+        if entry["kind"] == "function" and entry["name"] in details:
+            entry.update(details[entry["name"]])
+    return header, {entry["name"]: entry for entry in entries}
 
 
-def read_and_sort(filepath: Path) -> list[str]:
-    """读取文件，去掉地址，排序行，返回行列表"""
-    with open(filepath, 'r', encoding='utf-8') as f:
-        content = f.read()
-    stripped = strip_addresses(content)
-    lines = stripped.split('\n')
-    return sorted(lines)
+def _function_meta(root) -> tuple[dict[str, dict], set[str]]:
+    """Attach ``mtype``/``rtypes`` from each function's annotations."""
+    env = env_lib.main_index(root)
+    details: dict[str, dict] = {}
+    mod_only: set[str] = set()
+    if not isinstance(env, env_lib.Table):
+        return details, mod_only
+    addrs = env_lib.address_map(root)
+    visited: set = set()
+
+    def walk(node: env_lib.Table, module: str | None) -> None:
+        if node in visited:
+            return
+        visited.add(node)
+        for key in env_lib.sorted_keys(node):
+            if not isinstance(key, str) or key in env_lib.INTERNAL_KEYS:
+                continue
+            value = env_lib.deref(root, node.fields[key], addrs)
+            name = f"{module}:{key}" if module else key
+            if isinstance(value, env_lib.Func):
+                info: dict = {}
+                if value.mtype:
+                    info["mtype"] = value.mtype
+                    if value.mtype == "Mod" and value.service:
+                        mod_only.add(value.service)
+                if value.rtypes:
+                    info["rtypes"] = dict(value.rtypes)
+                if info:
+                    details[name] = info
+            elif isinstance(value, env_lib.Table) and value.ref is None:
+                if env_lib._classify(value) == "module":
+                    walk(value, name)
+
+    walk(env, None)
+    return details, mod_only
 
 
-def save_sorted(lines: list[str], filepath: Path):
-    """保存排序后的行到文件"""
-    with open(filepath, 'w', encoding='utf-8') as f:
-        f.write('\n'.join(lines))
+def _signature(entry: dict) -> tuple:
+    return (
+        entry.get("kind"),
+        tuple(entry.get("params") or ()),
+        tuple(sorted((entry.get("values") or {}).items())),
+        entry.get("mtype"),
+        tuple(sorted((entry.get("rtypes") or {}).items())),
+    )
 
 
-def print_diff(old_lines: list[str], new_lines: list[str], summary_only: bool = False):
-    """输出结构化 diff"""
-    old_set = set(old_lines)
-    new_set = set(new_lines)
+def diff(old: dict[str, dict], new: dict[str, dict]) -> dict:
+    added = sorted(set(new) - set(old))
+    removed = sorted(set(old) - set(new))
+    changed = []
+    for name in sorted(set(old) & set(new)):
+        before, after = _signature(old[name]), _signature(new[name])
+        if before != after:
+            changed.append({
+                "name": name,
+                "kind_old": old[name].get("kind"),
+                "kind_new": new[name].get("kind"),
+                "params_old": old[name].get("params"),
+                "params_new": new[name].get("params"),
+                "values_old": old[name].get("values"),
+                "values_new": new[name].get("values"),
+                "mtype_old": old[name].get("mtype"),
+                "mtype_new": new[name].get("mtype"),
+                "rtypes_old": old[name].get("rtypes"),
+                "rtypes_new": new[name].get("rtypes"),
+            })
+    return {"added": added, "removed": removed, "changed": changed}
 
-    added = sorted(new_set - old_set)
-    removed = sorted(old_set - new_set)
 
-    print(f"{'=' * 60}")
-    print(f"旧文件: {len(old_lines)} 行 ({len(old_set)} 唯一)")
-    print(f"新文件: {len(new_lines)} 行 ({len(new_set)} 唯一)")
-    print(f"{'=' * 60}")
-    print()
+def describe(result: dict, old: dict, new: dict, summary_only: bool) -> None:
+    added = [n for n in result["added"] if new[n].get("kind") in ("function", "variable")]
+    new_modules = [n for n in result["added"] if new[n].get("kind") in ("module", "class", "enum")]
+    removed = [n for n in result["removed"] if old[n].get("kind") in ("function", "variable")]
+    gone_modules = [n for n in result["removed"] if old[n].get("kind") in ("module", "class", "enum")]
 
+    print(f"old: {len(old)} entries    new: {len(new)} entries")
+    print(f"added {len(added)} APIs / {len(new_modules)} types   "
+          f"removed {len(removed)} APIs / {len(gone_modules)} types   "
+          f"changed {len(result['changed'])}")
     if summary_only:
-        print(f"新增: {len(added)} 行")
-        print(f"删除: {len(removed)} 行")
         return
 
-    if added:
-        print(f"--- 新增 ({len(added)} 行) ---")
-        for line in added:
-            print(f"+ {line}")
-        print()
+    def section(title: str, names: list[str]) -> None:
+        if not names:
+            return
+        print(f"\n--- {title} ({len(names)}) ---")
+        for name in names:
+            print(f"+ {name}" if title.startswith("added") else f"- {name}")
 
-    if removed:
-        print(f"--- 删除 ({len(removed)} 行) ---")
-        for line in removed:
-            print(f"- {line}")
-        print()
+    section("added APIs", added)
+    section("removed APIs", removed)
+    section("added types", new_modules)
+    section("removed types", gone_modules)
 
-    if not added and not removed:
-        print("两文件内容一致（仅地址差异）")
-        return
+    if result["changed"]:
+        print(f"\n--- signature changes ({len(result['changed'])}) ---")
+        for item in result["changed"]:
+            if item["params_old"] != item["params_new"]:
+                print(f"~ {item['name']}  ({', '.join(item['params_old'] or [])})"
+                      f" -> ({', '.join(item['params_new'] or [])})")
+            elif item["mtype_old"] != item["mtype_new"]:
+                print(f"~ {item['name']}  mtype {item['mtype_old']} -> {item['mtype_new']}")
+            elif item["rtypes_old"] != item["rtypes_new"]:
+                print(f"~ {item['name']}  rtype {describe_rtypes(item['rtypes_old'])}"
+                      f" -> {describe_rtypes(item['rtypes_new'])}")
+            else:
+                print(f"~ {item['name']}  {item['kind_old']} -> {item['kind_new']}")
 
-    # 版本行检测
-    old_ver = [l for l in old_lines if l.startswith('-- UGC Script Environment')]
-    new_ver = [l for l in new_lines if l.startswith('-- UGC Script Environment')]
-    if old_ver and new_ver and old_ver != new_ver:
-        print(f"版本变更: {old_ver[0]} → {new_ver[0]}")
+
+def describe_rtypes(rtypes: dict | None) -> str:
+    if not rtypes:
+        return "(none)"
+    return "{" + ", ".join(f"{k}={v}" for k, v in sorted(rtypes.items())) + "}"
 
 
-def main():
-    args = sys.argv[1:]
-    old_path = DEFAULT_OLD
-    new_path = DEFAULT_NEW
-    save = False
-    summary_only = False
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("old", nargs="?", type=Path, default=DEFAULT_OLD)
+    parser.add_argument("new", nargs="?", type=Path, default=None)
+    parser.add_argument("--summary", action="store_true")
+    parser.add_argument("--json", action="store_true")
+    args = parser.parse_args()
 
-    # Parse args
-    positional = []
-    for arg in args:
-        if arg == '--save':
-            save = True
-        elif arg == '--summary':
-            summary_only = True
-        else:
-            positional.append(arg)
+    old_path = args.old.expanduser()
+    new_path = args.new or env_lib.face_path("dev")
 
-    if len(positional) >= 1:
-        old_path = Path(positional[0])
-    if len(positional) >= 2:
-        new_path = Path(positional[1])
+    for label, path in (("old", old_path), ("new", new_path)):
+        if path is None or not path.exists():
+            print(f"错误: {label} 文件不存在 {path}", file=sys.stderr)
+            return 1
 
-    if not old_path.exists():
-        print(f"错误: 文件不存在 {old_path}", file=sys.stderr)
-        sys.exit(1)
-    if not new_path.exists():
-        print(f"错误: 文件不存在 {new_path}", file=sys.stderr)
-        sys.exit(1)
+    assert old_path is not None and new_path is not None
+    header_old, old = surface(old_path)
+    header_new, new = surface(new_path)
+    result = diff(old, new)
 
     print(f"对比: {old_path.name} (旧) vs {new_path.name} (新)")
+    if header_old.game and header_new.game and header_old.game != header_new.game:
+        print(f"版本变更: {header_old.game} -> {header_new.game}")
     print()
+    describe(result, old, new, args.summary)
 
-    old_sorted = read_and_sort(old_path)
-    new_sorted = read_and_sort(new_path)
-
-    if save:
-        tmp_dir = PROJECT_ROOT / "tmp"
-        tmp_dir.mkdir(parents=True, exist_ok=True)
-        if old_path.name == new_path.name:
-            save_sorted(old_sorted, tmp_dir / f"{old_path.stem}_old_sorted.txt")
-            save_sorted(new_sorted, tmp_dir / f"{new_path.stem}_new_sorted.txt")
-        else:
-            save_sorted(old_sorted, tmp_dir / f"{old_path.stem}_sorted.txt")
-            save_sorted(new_sorted, tmp_dir / f"{new_path.stem}_sorted.txt")
-        print(f"排序后文件已保存到: {tmp_dir}/")
-        print()
-
-    print_diff(old_sorted, new_sorted, summary_only=summary_only)
+    if args.json:
+        print("\n=== JSON ===")
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

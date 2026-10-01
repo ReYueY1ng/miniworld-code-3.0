@@ -1,0 +1,49 @@
+-- legacy dump produced by threadpool.env.dumptable: not valid Lua on purpose
+{
+    "__metatableX" = table: 0x1000 {
+        "__metatableX" = nil,
+        "__newindex" = table: 0x1001 {
+            "__metatableX" = nil,
+        },
+        "__index" = table: 0x1002 {
+            "__metatableX" = table: 0x1003 {
+                "__index" = table: 0x1004 {
+                    "__metatableX" = nil,
+                    "hidden" = "from gData",
+                },
+                "__metatable" = "read only",
+            },
+            "Mini" = table: 0x1100 {
+                "__metatableX" = nil,
+                "Class" = function(className, super) end,
+            },
+            "Player" = table: 0x1200 {
+                "__metatableX" = nil,
+                "GetHostUin" = function(self, uin) end,
+                "GetFriendList" = function(self, uin, page) end,
+                "GetHostUinAlias" = table: 0x1200 ,
+            },
+            "math" = table: 0x1300 {
+                "__metatableX" = nil,
+                "pi" = 3.1415926535898,
+                "huge" = inf,
+                "max" = function() end --[[Builtin function]],
+                "random" = function() end --[[Builtin function]],
+                "broken" = function() end -- Failed to get args: Player.Nope,
+            },
+            "Cyclic" = table: 0x1400 {
+                "__metatableX" = nil,
+                "name" = "cyclic",
+                "parent" = table: 0x1400 ,
+                "friend" = table: 0x1200 ,
+            },
+            "Enums" = table: 0x1500 {
+                "__metatableX" = nil,
+                "A" = 1,
+                "B" = 2,
+            },
+            "BackpackStartIndex" = 56000,
+        },
+    },
+    "_G" = table: 0x1600 ,
+}

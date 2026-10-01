@@ -133,12 +133,28 @@ No automated tests. Verify by:
 ## API Update Constraints
 
 ### 1. Environment Table Authority
-**环境表 (ugcscriptenv.txt) 为唯一权威** — 所有新增 API 必须在环境中存在。
+**环境表 (devenv.lua) 为唯一权威** — 所有新增 API 必须在环境中存在。
 
 ```bash
-# 环境表位置
-/home/yuey1ng/mini/miniworld-scripts/3.0/environments/ugcscriptenv.txt
+# 环境表位置（mwenviron/1 格式，合法 Lua，可直接 loadfile）
+/home/yuey1ng/mini/miniworld-scripts/3.0/environments/devenv.lua
+
+# 取一张扁平清单（Module:Method + params + mtype + rtypes），供逐项比对
+python3 tools/api-update/parse_env.py --face dev   # -> tmp/env-apis.json
+
+# 看两个版本之间新增/删除/签名与调用限制变化
+python3 tools/env_diff.py <旧环境表> <新环境表>
 ```
+
+每个函数尾部带 `--[[...]]` 注释，其中 `@mtype <DevApiMType>` 是调用类型（`Normal` /
+`Sync` / `Block` / `ClientData` / `HostAndClient` / `BoardCast` / `Mod` ...），
+`@rtype <DevApiRType>=<值>` 是调用限制（`Uin_TimeLimit` / `TimeLimit` / `WhiteList` /
+`CompareParam` / `ResetCompareParam` / `ResendMsg`）。这两个决定 API 是否走网络、
+**会注入哪些额外参数**（`Mod` → `modId`，`HostAndClient` → `isHost`，`Block` →
+`runcallback`，`ReportHost` → `playerid`），写类型定义时必须计入。
+
+> 旧的 `ugcscriptenv.txt` 已改名为 `devenv.lua` 并换成 `mwenviron/1` 格式；旧格式的副本可用
+> `python3 tools/migrate_env_dump.py <旧文件.txt>` 转换，`tools/env_lib.py` 两种格式都能读。
 
 ### 2. Spelling Errors — Do NOT Fix
 不修改拼写错误 (如 ColorGrandient, Lenght, toFistTime)，这是官方问题。
@@ -150,7 +166,7 @@ API 来源优先级 (从高到低):
 
 | 优先级 | 来源 | 用途 |
 |--------|------|------|
-| 1 | 环境表 (ugcscriptenv.txt) | 唯一权威，确认 API 存在 |
+| 1 | 环境表 (devenv.lua) | 唯一权威，确认 API 存在 |
 | 2 | 反编译文件 | 获取深层信息/具体参数 |
 | 3 | 新版文档 (dev-wiki.mini1.cn) | 获取基本信息 |
 | 4 | 旧版文档 (迷你世界脚本api.txt) | 备用参考 |
