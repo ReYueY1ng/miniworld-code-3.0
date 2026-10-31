@@ -20,6 +20,11 @@ function Player:SetGameResults(objid, result) end
 ---@return boolean result
 function Player:SetGameWin(objid) end
 
+---移除玩家
+---@param objid integer 玩家Uin
+---@return boolean result 是否成功
+function Player:KickPlayer(objid) end
+
 ---获取玩家手持道具
 ---@param objid integer 玩家Uin
 ---@return integer | string itemid 道具ID

@@ -1264,6 +1264,37 @@ function Mini.UiState.IsValueOfType(value) end
 ---@return any
 function Mini.UiState.CreateDefault() end
 
+---自定义UI工程ID
+---@class Mini.UIProject
+Mini.UIProject = {}
+
+---序列化
+---@param value any
+---@return any
+function Mini.UIProject.Serialize(value) end
+
+---反序列化
+---@param value any
+---@return any
+function Mini.UIProject.UnSerialize(value) end
+
+---转换为表
+---@return table
+function Mini.UIProject:ToTable() end
+
+---获取引用类型
+---@return number
+function Mini.UIProject.GetRefType() end
+
+---判断值类型
+---@param value any
+---@return boolean
+function Mini.UIProject.IsValueOfType(value) end
+
+---创建默认值
+---@return any
+function Mini.UIProject.CreateDefault() end
+
 ---分组视图（返回nil）
 ---@class Mini.GroupView
 Mini.GroupView = {}

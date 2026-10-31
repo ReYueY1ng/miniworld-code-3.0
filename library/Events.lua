@@ -507,6 +507,10 @@ TriggerEvent = {
     ---```itemnum``` — 事件中的道具数量<br>
     ---```eventworldid``` — 事件中的星球<br>
     PlayerUseItem = "Player.UseItem",
+    ---当玩家使用子弹<br>
+    ---\---传参---<br>
+    ---参数未知<br>
+    PlayerUseBullet = "Player.UseBullet",
     ---当玩家进入星球<br>
     ---\---传参---<br>
     ---```eventobjid``` — 触发事件的对象<br>

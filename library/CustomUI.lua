@@ -7,7 +7,7 @@ CustomUI = {}
 
 ---设置文本元件内容
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param text string 文本内容
 ---@param animid? integer 动画ID(缺省参数)
@@ -18,7 +18,7 @@ function CustomUI:SetText(playerid, uiid, elementid, text, animid, time, mode) e
 
 ---设置文本元件图案纹理
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param url string 图案纹理ID
 ---@return boolean result
@@ -26,7 +26,7 @@ function CustomUI:SetTexture(playerid, uiid, elementid, url) end
 
 ---设置元件大小
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param width number 元件宽度
 ---@param height number 元件高度
@@ -35,7 +35,7 @@ function CustomUI:SetSize(playerid, uiid, elementid, width, height) end
 
 ---设置文本元件字体大小
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param size number 字体大小
 ---@return boolean result
@@ -43,7 +43,7 @@ function CustomUI:SetFontSize(playerid, uiid, elementid, size) end
 
 ---设置文本元件颜色
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param color integer 颜色值(0xFFFFFF)
 ---@return boolean result
@@ -51,7 +51,7 @@ function CustomUI:SetColor(playerid, uiid, elementid, color) end
 
 ---显示元件
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param effectid? integer 动画ID(缺省参数)
 ---@param time? number 动画时长(缺省参数)
@@ -60,7 +60,7 @@ function CustomUI:ShowElement(playerid, uiid, elementid, effectid, time) end
 
 ---隐藏元件
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param effectid? integer 动画ID(缺省参数)
 ---@param time? number 动画时长(缺省参数)
@@ -69,7 +69,7 @@ function CustomUI:HideElement(playerid, uiid, elementid, effectid, time) end
 
 ---旋转元件
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param rotate number 旋转角度
 ---@return boolean result
@@ -77,7 +77,7 @@ function CustomUI:RotateElement(playerid, uiid, elementid, rotate) end
 
 ---设置透明度
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param alpha number 透明度
 ---@return boolean result
@@ -85,7 +85,7 @@ function CustomUI:SetAlpha(playerid, uiid, elementid, alpha) end
 
 ---设置状态
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param pageIndex string 状态值
 ---@param easeType? Easing 缓动类型枚举
 ---@param time? number 动画事件(缺省参数)
@@ -94,7 +94,7 @@ function CustomUI:SetState(playerid, uiid, pageIndex, easeType, time) end
 
 ---设置位置
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param x number X坐标值
 ---@param y number Y坐标值
@@ -103,7 +103,7 @@ function CustomUI:SetPosition(playerid, uiid, elementid, x, y) end
 
 ---设置装载器的模型缩放
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param x number X缩放
 ---@param y number Y缩放
@@ -153,7 +153,7 @@ function CustomUI:GetShortcutIcon(playerid, ix) end
 
 ---元件平滑移动到指定位置
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param time number 执行时间(需大于0)
 ---@param x number 横坐标值
@@ -163,7 +163,7 @@ function CustomUI:SmoothMoveTo(playerid, uiid, elementid, time, x, y) end
 
 ---元件平滑移动相对距离
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param time number 执行时间(需大于0)
 ---@param x number 横向距离
@@ -173,7 +173,7 @@ function CustomUI:SmoothMoveBy(playerid, uiid, elementid, time, x, y) end
 
 ---元件平滑改变到指定宽度和高度
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param time number 执行时间(需大于0)
 ---@param w number 宽度
@@ -183,7 +183,7 @@ function CustomUI:SmoothScaleTo(playerid, uiid, elementid, time, w, h) end
 
 ---元件平滑改变相对宽度和高度
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param time number 执行时间(需大于0)
 ---@param w number 宽度
@@ -193,7 +193,7 @@ function CustomUI:SmoothScaleBy(playerid, uiid, elementid, time, w, h) end
 
 ---元件平滑改变相对缩放大小（子节点也会改变大小）
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param time number 执行时间
 ---@param x number 目标X缩放值
@@ -205,7 +205,7 @@ function CustomUI:SmoothScaleByEx(playerid, uiid, elementid, time, x, y, delayTi
 
 ---元件平滑旋转到指定角度
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param time number 执行时间(需大于0)
 ---@param angle number 角度值
@@ -214,7 +214,7 @@ function CustomUI:SmoothRotateTo(playerid, uiid, elementid, time, angle) end
 
 ---元件平滑旋转到相对角度
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param time number 执行时间(需大于0)
 ---@param angle number 角度值
@@ -223,7 +223,7 @@ function CustomUI:SmoothRotateBy(playerid, uiid, elementid, time, angle) end
 
 ---播放动画
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param animid integer 动画ID
 ---@param time number 单次执行时间(需大于0)
@@ -236,7 +236,7 @@ function CustomUI:PlayElementAnim(playerid, uiid, elementid, animid, time, mode,
 
 ---元件停止动画
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param itype? 0 | 1 类型（如果为0就是停止所有的UI的动效，1就是停止elementid对应的UI动效）(默认1)
 ---@return boolean result
@@ -244,7 +244,7 @@ function CustomUI:StopAnim(playerid, uiid, elementid, itype) end
 
 ---设置装载器的模型（调用道具实例的模型：模型名称填ItemInstance_道具实例id）
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param modleName string 模型名称
 ---@return boolean result
@@ -252,7 +252,7 @@ function CustomUI:SetLoaderModel(playerid, uiid, elementid, modleName) end
 
 ---设置装载器的模型缩放
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param modlescale number 缩放大小
 ---@return boolean result
@@ -260,7 +260,7 @@ function CustomUI:SetLoaderModelScale(playerid, uiid, elementid, modlescale) end
 
 ---设置装载器的模型方向
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param yaw number 水平角度(角度制)
 ---@return boolean result
@@ -268,7 +268,7 @@ function CustomUI:SetLoaderModelDir(playerid, uiid, elementid, yaw) end
 
 ---设置装载器的模型位置坐标
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param x number 坐标x
 ---@param y number 坐标y
@@ -278,7 +278,7 @@ function CustomUI:SetLoaderModelPosition(playerid, uiid, elementid, x, y, z) end
 
 ---设置装载器的模型动画
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param animid integer | string 动画ID
 ---@param playmode? AnimMode 播放模式
@@ -288,7 +288,7 @@ function CustomUI:SetLoaderModelAct(playerid, uiid, elementid, animid, playmode,
 
 ---滑动列表跳转到某位置
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param x number X坐标值
 ---@param y number y坐标值
@@ -297,7 +297,7 @@ function CustomUI:TurnSliderToPos(playerid, uiid, elementid, x, y) end
 
 ---设置滑动列表的滑动方式
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param dir UIScollDir 滑动方式（0仅左右，1仅上下，2自由滑动）
 ---@return boolean result
@@ -305,7 +305,7 @@ function CustomUI:SetSliderDir(playerid, uiid, elementid, dir) end
 
 ---设置滑动条的图案
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param url string 图片库链接
 ---@return boolean result
@@ -313,7 +313,7 @@ function CustomUI:SetSliderBarImg(playerid, uiid, elementid, url) end
 
 ---设置元件相对位置
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param v HorizontalOffset 水平偏移枚举
 ---@param xOffset number x方向数值
@@ -326,7 +326,7 @@ function CustomUI:SetRelationPosition(playerid, uiid, elementid, v, xOffset, xUn
 
 ---设置元件相对大小
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param width number 宽度数值
 ---@param widthUnits PixelUnits 像素单位枚举
@@ -337,21 +337,23 @@ function CustomUI:SetRelationSize(playerid, uiid, elementid, width, widthUnits, 
 
 ---动态创建元件
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementType ElementType 元件类型枚举
+---@param widget3DObjId? integer 挂载的3D控件对象ID
 ---@return string elementid 新建出来元件ID
-function CustomUI:CreateElement(playerid, uiid, elementType) end
+function CustomUI:CreateElement(playerid, uiid, elementType, widget3DObjId) end
 
 ---克隆元件
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 被克隆的元件ID
+---@param widget3DObjId? integer 挂载的3D控件对象ID
 ---@return string elementid 克隆出来的元件ID
-function CustomUI:CloneElement(playerid, uiid, elementid) end
+function CustomUI:CloneElement(playerid, uiid, elementid, widget3DObjId) end
 
 ---修改元件父元件
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param parentElementid string 父元件ID
 ---@return boolean result
@@ -359,7 +361,7 @@ function CustomUI:ChangeParent(playerid, uiid, elementid, parentElementid) end
 
 ---设置玩家界面进度条的值
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param itype ProgressVal 类型枚举
 ---@param value number 设定值
@@ -368,16 +370,26 @@ function CustomUI:SetProgressBarValue(playerid, uiid, elementid, itype, value) e
 
 ---获取玩家界面进度条的值
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@return number min 返回的值
 ---@return number max 返回的值
 ---@return number value 返回的值
 function CustomUI:GetProgressBarValue(playerid, uiid, elementid) end
 
+---设置玩家界面进度条数据（最小值、最大值、当前值）
+---@param playerid integer 玩家ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
+---@param elementid string 元件ID
+---@param min number 最小值
+---@param max number 最大值
+---@param value number 当前值
+---@return boolean result
+function CustomUI:SetProgressBarData(playerid, uiid, elementid, min, max, value) end
+
 ---设置玩家界面进度条的纹理
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param itype ProgressImg 类型枚举
 ---@param url string 图片ID
@@ -386,7 +398,7 @@ function CustomUI:SetProgressBarResId(playerid, uiid, elementid, itype, url) end
 
 ---进度条文本平滑计时
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param bval number 开始值
 ---@param eval number 结束值
@@ -396,7 +408,7 @@ function CustomUI:SmoothChangeProgress(playerid, uiid, elementid, bval, eval, ti
 
 ---设置动画元件动画ID
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param animid integer 内置动画ID
 ---@param animindex integer 动画序列
@@ -406,7 +418,7 @@ function CustomUI:SetSpineAnimID(playerid, uiid, elementid, animid, animindex, p
 
 ---进度条文本平滑增加计时
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param time number 时长
 ---@param ptype 1 | 2 | 3 类型枚举（1增加，2减小，3 变化至）
@@ -455,14 +467,14 @@ function CustomUI:GetScreenSize(playerid) end
 
 ---删除元件
 ---@param playerid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@return boolean result
 function CustomUI:DeleteElement(playerid, uiid, elementid) end
 
 ---设置元件位置绑定到生物
 ---@param objid integer 对象ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param actorId integer 绑定的生物ID
 ---@param offset PositionTable 位置偏移
@@ -471,14 +483,14 @@ function CustomUI:SetPositionBindActor(objid, uiid, elementid, actorId, offset) 
 
 ---移除元件位置绑定生物
 ---@param objid integer 对象ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@return boolean result
 function CustomUI:RemovePositionBindActor(objid, uiid, elementid) end
 
 ---设置元件位置绑定方块
 ---@param objid integer 对象ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param blockPos PositionTable 方块位置
 ---@return boolean result
@@ -486,7 +498,7 @@ function CustomUI:SetPositionBandBlock(objid, uiid, elementid, blockPos) end
 
 ---移除元件位置绑定方块
 ---@param objid integer 对象ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@return boolean result
 function CustomUI:RemovePositionBandBlock(objid, uiid, elementid) end
@@ -500,7 +512,7 @@ function CustomUI:GetElementAttrValue(objid, elementid, attrIdx) end
 
 ---获取界面属性值<br>**调用限制**: 仅白名单用户可用
 ---@param objid integer 对象ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param attrIdx UIAttr 属性枚举
 ---@return any value 属性值
 function CustomUI:GetUIViewAttrValue(objid, uiid, attrIdx) end
@@ -509,8 +521,9 @@ function CustomUI:GetUIViewAttrValue(objid, uiid, attrIdx) end
 ---@param playerid integer 玩家ID
 ---@param elementid string 元件ID
 ---@param mapType MapMarkType 地图标记类型
+---@param uiid? string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@return boolean result
-function CustomUI:SetBeaconMapType(playerid, elementid, mapType) end
+function CustomUI:SetBeaconMapType(playerid, elementid, mapType, uiid) end
 
 ---设置信标绑定位置
 ---@param playerid integer 玩家ID
@@ -518,15 +531,17 @@ function CustomUI:SetBeaconMapType(playerid, elementid, mapType) end
 ---@param bandPosX number 绑定X坐标
 ---@param bandPosY number 绑定Y坐标
 ---@param bandPosZ number 绑定Z坐标
+---@param uiid? string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@return boolean result
-function CustomUI:SetBeaconBandPos(playerid, elementid, bandPosX, bandPosY, bandPosZ) end
+function CustomUI:SetBeaconBandPos(playerid, elementid, bandPosX, bandPosY, bandPosZ, uiid) end
 
 ---设置信标对象ID
 ---@param playerid integer 玩家ID
 ---@param elementid string 元件ID
 ---@param objId integer 对象ID
+---@param uiid? string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@return boolean result
-function CustomUI:SetBeaconObjId(playerid, elementid, objId) end
+function CustomUI:SetBeaconObjId(playerid, elementid, objId, uiid) end
 
 ---设置信标偏移
 ---@param playerid integer 玩家ID
@@ -534,26 +549,29 @@ function CustomUI:SetBeaconObjId(playerid, elementid, objId) end
 ---@param offsetX number X偏移
 ---@param offsetY number Y偏移
 ---@param offsetZ number Z偏移
+---@param uiid? string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@return boolean result
-function CustomUI:SetBeaconOffset(playerid, elementid, offsetX, offsetY, offsetZ) end
+function CustomUI:SetBeaconOffset(playerid, elementid, offsetX, offsetY, offsetZ, uiid) end
 
 ---设置信标夹具类型
 ---@param playerid integer 玩家ID
 ---@param elementid string 元件ID
 ---@param clampType integer 夹具类型
+---@param uiid? string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@return boolean result
-function CustomUI:SetBeaconClampType(playerid, elementid, clampType) end
+function CustomUI:SetBeaconClampType(playerid, elementid, clampType, uiid) end
 
 ---设置信标半径
 ---@param playerid integer 玩家ID
 ---@param elementid string 元件ID
 ---@param radius number 半径
+---@param uiid? string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@return boolean result
-function CustomUI:SetBeaconRadius(playerid, elementid, radius) end
+function CustomUI:SetBeaconRadius(playerid, elementid, radius, uiid) end
 
 ---设置URL图标<br>**调用限制**: 仅白名单用户可用
 ---@param objid integer 玩家ID
----@param uiid string 界面ID
+---@param uiid string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@param elementid string 元件ID
 ---@param url string 图标URL
 ---@return boolean result
@@ -564,8 +582,9 @@ function CustomUI:SetUrlIcon(objid, uiid, elementid, url) end
 ---@param elementid string 元件ID
 ---@param horizontalMargin number 水平边距
 ---@param verticalMargin number 垂直边距
+---@param uiid? string|number UI标识（string为2D界面ID，number为挂载显示板组件且内容为自定义UI的对象ID）
 ---@return boolean result
-function CustomUI:SetBeaconMargin(playerid, elementid, horizontalMargin, verticalMargin) end
+function CustomUI:SetBeaconMargin(playerid, elementid, horizontalMargin, verticalMargin, uiid) end
 
 ---设置系统设置按钮可见性<br>**调用限制**: 仅白名单用户可用（5 个 UIN）
 ---@param objid integer 玩家ID

@@ -143,10 +143,11 @@ git clone https://github.com/ReYueY1ng/miniworld-code-3.0.git
 
 ```
 miniworld-code-3.0/
-├── library/              # 类型定义文件（31 个 .lua 文件）
+├── library/              # 类型定义文件（32 个 .lua 文件）
 │   ├── Component.lua     # 组件体系（Component → WorldComponent → PlayerComponent 等）
 │   ├── Player.lua        # 玩家 API（~100 个方法）
 │   ├── World.lua         # 世界 API（~80 个方法）
+│   ├── DisplayBoard.lua  # 显示板 API（文字/图片/进度条/自定义UI 显示板）
 │   ├── Enum.lua          # 枚举类型（~100+ 个枚举，含 PascalCase + UPPER_SNAKE_CASE 双体系）
 │   ├── Events.lua        # 事件枚举（TriggerEvent + ObjectEvent）
 │   ├── Mini.lua          # Mini 类型系统（Mini.Number, Mini.String, Mini.Vec3 等）

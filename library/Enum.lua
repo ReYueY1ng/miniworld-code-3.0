@@ -367,6 +367,52 @@ DeviceType = {
     Other = 0, -- 其他
     PC = 1, -- PC端
 }
+---@enum DisplayBoardAutoSize
+---显示板文字自动大小
+DisplayBoardAutoSize = {
+    None = 1, -- 不自动缩放文字
+    ScaleText = 0, -- 根据显示板尺寸缩放文字
+}
+---@enum DisplayBoardColorAttr
+---显示板颜色属性
+DisplayBoardColorAttr = {
+    All = 2, -- 整体颜色
+    Background = 1, -- 背景颜色
+    Progress = 5, -- 进度条颜色
+    ProgressBackground = 6, -- 进度条背景颜色
+    Text = 3, -- 文字板颜色
+}
+---@enum DisplayBoardContentType
+---显示板内容类型
+DisplayBoardContentType = {
+    Image = 0, -- 图片显示板
+    Interface = 3, -- 自定义UI显示板
+    Progress = 2, -- 进度条显示板
+    Text = 1, -- 文字显示板
+}
+---@enum DisplayBoardImgAttr
+---显示板图片属性
+DisplayBoardImgAttr = {
+    Image = 3, -- 图片板图片
+    ProgressBackground = 1, -- 进度板背景图片
+    ProgressImg = 2, -- 进度板图片
+}
+---@enum DisplayBoardNumAttr
+---显示板数值属性
+DisplayBoardNumAttr = {
+    AllAlpha = 12, -- 整体透明度
+    BackgroundAlpha = 11, -- 背景透明度
+    FontSize = 8, -- 文字板字体大小
+    Height = 7, -- 显示板高度
+    Light = 13, -- 亮光
+    ProgressCurAnaMaxVal = 5, -- 进度板当前值和最大值
+    ProgressCurVal = 2, -- 进度板当前值
+    ProgressMaxVal = 4, -- 进度板最大值
+    ProgressMinVal = 3, -- 进度板最小值
+    ResponseDistance = 15, -- 响应距离
+    VisibleLen = 14, -- 可见距离
+    Width = 6, -- 显示板宽度
+}
 ---@enum DropMode
 ---掉落物掉落方式
 DropMode = {
@@ -436,6 +482,13 @@ ElementAttr = {
     GlobalPos = 106, -- 全局位置
     GlobalPosX = 14, -- 全局位置X
     GlobalPosY = 15, -- 全局位置Y
+    FontSize = 109, -- 字号
+    ProgressBackground = 108, -- 进度条背景图标
+    ProgressCurrentAndMaxValue = 113, -- 进度条当前值和最大值
+    ProgressCurrentValue = 112, -- 进度条当前值
+    ProgressImg = 107, -- 进度条前景图标
+    ProgressMaxValue = 111, -- 进度条最大值
+    ProgressMinValue = 110, -- 进度条最小值
     Texture = 16, -- 纹理
 }
 ---@enum ElementType
@@ -701,6 +754,14 @@ HurtType = {
     Sun = 8, -- 日晒 attack_sun
     Toxin = 4, -- 毒素伤害 attack_poison
     Wither = 5, -- 凋零伤害 attack_wither
+}
+---@enum ImageFillType
+---UI图片填充方式
+ImageFillType = {
+    Fill = 0, -- 裁切填充
+    Fit = 1, -- 等比适配
+    Stretch = 2, -- 拉伸填充
+    Tile = 3, -- 平铺填充
 }
 ---@enum InnerPopUpview
 ---游戏内弹窗界面类型
@@ -1131,6 +1192,26 @@ TouchState = {
 TurnFaceDir = {
     Pitch = 2, -- 垂直朝向
     Yaw = 1, -- 水平朝向
+}
+---@enum UIBarProgressDirection
+---UI进度条方向
+UIBarProgressDirection = {
+    BottomToTop = 2, -- 从下到上
+    LeftToRight = 0, -- 从左到右
+    RightToLeft = 1, -- 从右到左
+    TopToBottom = 3, -- 从上到下
+}
+---@enum UIProgressType
+---显示板进度条类型
+UIProgressType = {
+    Bar = 0, -- 条形进度条
+    Ring = 1, -- 环形进度条
+}
+---@enum UIRowProgressDirection
+---UI环形进度条方向
+UIRowProgressDirection = {
+    Clockwise = 0, -- 顺时针
+    CounterClockwise = 1, -- 逆时针
 }
 ---@enum UIAttr
 ---界面属性
