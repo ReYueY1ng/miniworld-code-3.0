@@ -56,6 +56,18 @@ TriggerEvent = {
     ---\---传参---<br>
     ---```eventworldid``` — 事件中的星球<br>
     PlanetCreated = "Planet.Created",
+    ---截图并上传（官方文档未收录）<br>
+    ---\---传参---<br>
+    ---参数未知<br>
+    CaptureAndUploadScreenshot = "Game.CaptureAndUploadScreenshot",
+    ---当小地图图标被点击（官方文档未收录）<br>
+    ---\---传参---<br>
+    ---参数未知<br>
+    MiniMapIconClick = "MiniMapIconClick",
+    ---付费地图商店下单（官方文档未收录）<br>
+    ---\---传参---<br>
+    ---参数未知<br>
+    PayMapShopOrder = "Game.PayMapShopOrder",
 
     --#endregion
     --#region 玩家
@@ -521,6 +533,18 @@ TriggerEvent = {
     ---```eventobjid``` — 触发事件的对象<br>
     ---```eventworldid``` — 事件中的星球<br>
     PlayerLeavePlanet = "Player.LeavePlanet",
+    ---当玩家动画播放完成（官方文档未收录）<br>
+    ---\---传参---<br>
+    ---参数未知<br>
+    PlayerAnimFinish = "Player.AnimFinish",
+    ---当玩家触碰方块（官方文档未收录）<br>
+    ---\---传参---<br>
+    ---参数未知<br>
+    PlayerTouchBlock = "Player.TouchBlock",
+    ---当玩家触碰对象（官方文档未收录）<br>
+    ---\---传参---<br>
+    ---参数未知<br>
+    PlayerTouchObj = "Player.TouchObj",
 
     --#endregion
     --#region 方块
@@ -648,6 +672,10 @@ TriggerEvent = {
     ---```y``` — 事件中的位置<br>
     ---```z``` — 事件中的位置<br>
     BlockTrigger = "Block.Trigger",
+    ---当方块被触碰（官方文档未收录）<br>
+    ---\---传参---<br>
+    ---参数未知<br>
+    BlockBeTouched = "Block.BeTouched",
 
     --#endregion
     --#region 界面
@@ -1600,6 +1628,10 @@ TriggerEvent = {
     ---```z``` — 事件中的位置<br>
     ---```eventworldid``` — 事件中的星球<br>
     AreaObjCreate = "AreaObj.Create",
+    ---当对象被触碰（官方文档未收录）<br>
+    ---\---传参---<br>
+    ---参数未知<br>
+    ObjBeTouched = "Obj.BeTouched",
 
     --#endregion
     --#region 角色
@@ -2195,6 +2227,22 @@ TriggerEvent = {
     ---\---传参---<br>
     ---参数未知<br>
     BluePrintBuildBegin = "BluePrint.BuildBegin",
+    ---蓝图建造开始（ObsBluePrint 事件，官方文档未收录）<br>
+    ---\---传参---<br>
+    ---参数未知<br>
+    ObsBluePrintBuildBegin = "ObsBluePrint.BuildBegin",
+    ---蓝图建造结束（ObsBluePrint 事件，官方文档未收录）<br>
+    ---\---传参---<br>
+    ---参数未知<br>
+    ObsBluePrintBuildEnd = "ObsBluePrint.BuildEnd",
+    ---蓝图加载完成（ObsBluePrint 事件，官方文档未收录）<br>
+    ---\---传参---<br>
+    ---参数未知<br>
+    ObsBluePrintLoaded = "ObsBluePrint.Loaded",
+    ---蓝图卸载完成（ObsBluePrint 事件，官方文档未收录）<br>
+    ---\---传参---<br>
+    ---参数未知<br>
+    ObsBluePrintUnLoaded = "ObsBluePrint.UnLoaded",
     ---建造生物生成<br>
     ---\---传参---<br>
     ---参数未知<br>
