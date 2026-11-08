@@ -591,11 +591,59 @@ PARAM_DESC.update({
 })
 
 
+COMPOUNDS = (
+    ("short", "cut"), ("blue", "print"), ("back", "pack"), ("base", "64"),
+    ("world", "id"), ("team", "id"), ("item", "id"), ("block", "id"),
+    ("buff", "id"), ("player", "id"), ("actor", "id"), ("grid", "id"),
+    ("var", "id"), ("ui", "id"), ("obj", "id"), ("area", "id"),
+    ("model", "id"), ("music", "id"), ("anim", "id"), ("skin", "id"),
+    ("effect", "id"), ("particle", "id"), ("role", "type"),
+    ("nick", "name"), ("short", "cut"), ("snap", "short"),
+)
+
+TYPO_FIX = {
+    "shurt": "shortcut", "usrer": "user", "usrerinfo": "userinfo",
+    "avator": "avatar", "szie": "size", "nomal": "normal", "pase": "pause",
+    "resum": "resume", "attched": "attached", "misssile": "missile",
+    "dispath": "dispatch", "varable": "variable", "snyc": "sync",
+    "linsten": "listen", "swich": "switch", "recoder": "recorder",
+    "indexs": "indices", "rang": "range", "camer": "camera", "sever": "server",
+    "whit": "white", "revie": "review", "mun": "num", "fvo": "fov",
+    "bykey": "key", "revie": "review", "sing": "single",
+}
+
+NOISE = {"the", "of", "a", "an", "act"}
+
+MATH_WORDS = {
+    "abs": "绝对值", "ceil": "向上取整", "floor": "向下取整", "round": "四舍五入",
+    "sin": "正弦", "cos": "余弦", "tan": "正切", "sqrt": "平方根", "pow": "幂",
+    "pow10": "10 的幂", "log10": "常用对数", "ldexp": "浮点倍数", "deg": "角度",
+    "rad": "弧度", "lerp": "插值", "div": "除法", "divide": "除法",
+    "multiply": "乘法", "sub": "减法", "negate": "取负", "xor": "异或",
+    "concat": "拼接", "even": "偶数", "odd": "奇数", "prime": "质数",
+    "positive": "正数", "negative": "负数", "zero": "零", "greater": "大于",
+    "less": "小于", "equal": "相等", "arithmetic": "四则运算", "logic": "逻辑",
+}
+
+
 def tokenize(method: str) -> list[str]:
     spaced = re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", method)
     spaced = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1 \2", spaced)
+    spaced = re.sub(r"([A-Za-z])([0-9]+)$", r"\1 \2", spaced)
     spaced = re.sub(r"[^A-Za-z0-9]+", " ", spaced)
-    return [word.lower() for word in spaced.split() if word]
+    words = [TYPO_FIX.get(word.lower(), word.lower()) for word in spaced.split() if word]
+    merged: list[str] = []
+    index = 0
+    while index < len(words):
+        for left, right in COMPOUNDS:
+            if words[index] == left and index + 1 < len(words) and words[index + 1] == right:
+                merged.append(left + right)
+                index += 2
+                break
+        else:
+            merged.append(words[index])
+            index += 1
+    return [word for word in merged if word not in NOISE]
 
 
 def _translate(word: str) -> str:
@@ -603,11 +651,57 @@ def _translate(word: str) -> str:
         return VERBS[word]
     if word in NOUNS:
         return NOUNS[word]
+    if word in MATH_WORDS:
+        return MATH_WORDS[word]
+    if re.fullmatch(r"[a-z]+\d+", word):
+        return _translate(re.sub(r"\d+$", "", word))
+    if word.endswith("es") and word[:-2] in NOUNS:
+        return NOUNS[word[:-2]]
+    if word.endswith("s") and word[:-1] in NOUNS:
+        return NOUNS[word[:-1]]
     return word
 
 
 def _phrase(words: list[str]) -> str:
     return "".join(_translate(word) for word in words)
+
+
+CONNECTORS = ("by", "in", "on", "for", "with", "from", "to", "and", "or")
+
+ADD_VERBS = {"add", "insert", "append", "push", "move", "mount", "put", "set"}
+
+
+def _compose(words: list[str]) -> str:
+    if not words:
+        return ""
+    for connector in CONNECTORS:
+        if connector not in words:
+            continue
+        index = words.index(connector)
+        before, after = words[:index], words[index + 1:]
+        if not before or not after:
+            continue
+        left, right = _compose(before), _compose(after)
+        if connector == "by":
+            return "按" + right + left
+        if connector == "in":
+            return "在" + right + "中" + left
+        if connector == "on":
+            return "在" + right + "上" + left
+        if connector == "for":
+            return "为" + right + left
+        if connector == "with":
+            return "使用" + right + left
+        if connector == "from":
+            return "从" + right + left
+        if connector == "to":
+            if before[0] in ADD_VERBS:
+                head, rest = before[0], _compose(before[1:])
+                return "将" + rest + _translate(head) + "到" + right
+            return left + "转换为" + right
+        joiner = "和" if connector == "and" else "或"
+        return left + joiner + right
+    return _phrase(words)
 
 
 def purpose(method: str) -> str:
@@ -616,28 +710,26 @@ def purpose(method: str) -> str:
     words = tokenize(method)
     if not words:
         return f"调用 {method}"
-    for connector in ("by", "in", "on", "for", "with", "from", "to"):
-        if connector not in words:
-            continue
-        index = words.index(connector)
-        before, after = words[:index], words[index + 1:]
-        if not before or not after:
-            continue
-        if connector == "by":
-            return "按" + _phrase(after) + _phrase(before)
-        if connector == "in":
-            return "在" + _phrase(after) + "中" + _phrase(before)
-        if connector == "on":
-            return "在" + _phrase(after) + "上" + _phrase(before)
-        if connector == "for":
-            return "为" + _phrase(after) + _phrase(before)
-        if connector == "with":
-            return "使用" + _phrase(after) + _phrase(before)
-        if connector == "from":
-            return "从" + _phrase(after) + _phrase(before)
-        if connector == "to":
-            return _phrase(before) + "转换为" + _phrase(after)
-    return _phrase(words)
+    while words and words[-1] in CONNECTORS:
+        words = words[:-1]
+    if not words:
+        return f"调用 {method}"
+    if words[0] == "on" and len(words) > 1:
+        return _compose(words[1:]) + "时触发"
+    if words[0] in MATH_WORDS:
+        rest = _compose(words[1:])
+        return f"计算{MATH_WORDS[words[0]]}{rest}" if rest else f"计算{MATH_WORDS[words[0]]}"
+    if words[0] == "get" and len(words) > 1 and words[1] in ("is", "has", "can"):
+        flags, index = [], 1
+        while index < len(words) and words[index] in ("is", "has", "can"):
+            flags.append(words[index])
+            index += 1
+        prefix = "判断是否拥有" if "has" in flags else "判断是否"
+        return prefix + _compose(words[index:])
+    if words[0] == "get" and len(words) > 1 and words[1] in MATH_WORDS:
+        rest = _compose(words[2:])
+        return f"获取{MATH_WORDS[words[1]]}{rest}"
+    return _compose(words)
 
 
 def param_desc(name: str) -> str:
@@ -646,8 +738,10 @@ def param_desc(name: str) -> str:
         return PARAM_DESC[key]
     if re.fullmatch(r"pos\d*", key):
         return "位置"
-    if re.fullmatch(r"vec\d*", key) or re.fullmatch(r"v\d+", key):
+    if re.fullmatch(r"vec\d*", key):
         return "向量"
+    if re.fullmatch(r"v\d+", key):
+        return "数值"
     words = tokenize(name)
     if words and all(word in NOUNS for word in words):
         return "".join(NOUNS[word] for word in words)
@@ -662,7 +756,8 @@ def param_desc(name: str) -> str:
     return f"参数 {name}"
 
 
-def return_info(type_text: str, method: str, params: list[str] | None = None) -> tuple[str, str]:
+def return_info(type_text: str, method: str, params: list[str] | None = None,
+                index: int = 0) -> tuple[str, str]:
     params = params or []
     lowered = method.lower()
     if type_text == "boolean":
@@ -693,10 +788,126 @@ def return_info(type_text: str, method: str, params: list[str] | None = None) ->
         desc = "执行结果"
 
     name = "result"
-    if lowered.startswith(("get", "find", "query")):
+    if index:
+        name = f"result{index + 1}"
+    elif lowered.startswith(("get", "find", "query")):
         name = "value"
     elif "Mini.Vec3" in type_text:
         name = "pos"
     if name in params:
-        name = "ret"
+        name = "ret" if not index else f"ret{index + 1}"
     return name, desc
+
+
+VERBS.update({
+    "make": "生成", "modify": "修改", "alter": "修改", "turn": "转换",
+    "split": "拆分", "sort": "排序", "export": "导出", "apply": "应用",
+    "expand": "扩展", "extend": "扩展", "fill": "填充", "interact": "交互",
+    "activate": "激活", "pick": "拾取", "wear": "穿戴", "collect": "收集",
+    "evaluate": "评价", "deal": "处理", "operate": "操作", "upgrade": "升级",
+    "finish": "完成", "skip": "跳过", "quit": "退出", "vibrate": "震动",
+    "snap": "吸附", "melt": "融化", "login": "登录", "ban": "封禁",
+    "capture": "捕获", "gain": "获得", "share": "分享", "trace": "追踪",
+    "decode": "解码", "extract": "提取", "judge": "判定", "detection": "检测",
+    "preview": "预览", "edit": "编辑", "del": "删除", "forbid": "禁止",
+    "allow": "允许", "escape": "逃脱", "die": "使死亡", "shoot": "发射",
+    "aim": "瞄准", "defeat": "击败", "exchange": "兑换", "pay": "支付",
+    "broadcast": "广播", "contain": "包含", "exist": "存在", "summoner": "召唤",
+})
+
+NOUNS.update({
+    "task": "任务", "var": "变量", "order": "订单", "graphics": "图文",
+    "prefab": "预制体", "component": "组件", "cmp": "组件", "string": "字符串",
+    "element": "元件", "base": "基础", "sky": "天空", "random": "随机",
+    "storage": "存储", "shortcut": "快捷栏", "tool": "工具", "res": "资源",
+    "target": "目标", "shooter": "射手", "hand": "手", "str": "字符串",
+    "smooth": "平滑", "math": "数学", "pack": "背包", "bool": "布尔值",
+    "nick": "昵称", "frame": "帧", "filter": "过滤", "user": "用户",
+    "userinfo": "用户信息", "loader": "加载器", "icon": "图标", "number": "数字",
+    "btree": "行为树", "back": "背包", "guide": "引导", "cur": "当前",
+    "any": "任意", "transmit": "传送", "skin": "皮肤", "ex": "扩展",
+    "row": "行", "col": "列", "run": "运行", "desc": "描述", "transform": "变换",
+    "yaw": "偏航角", "dirty": "脏标记", "mini": "迷你", "visible": "可见",
+    "chain": "连锁", "furnace": "熔炉", "projectile": "抛射物", "function": "函数",
+    "equal": "相等", "ray": "射线", "first": "首次", "valid": "有效",
+    "near": "附近", "tick": "刻", "avatar": "形象", "status": "状态",
+    "slider": "滑块", "line": "线", "info": "信息", "tab": "页签",
+    "asset": "资源", "permissions": "权限", "permit": "权限", "immune": "免疫",
+    "rot": "旋转", "marker": "标记", "blueprint": "蓝图", "float": "浮点数",
+    "values": "值", "psychedelic": "迷幻", "vision": "视野", "screen": "屏幕",
+    "display": "显示", "craft": "合成", "crafting": "合成", "food": "食物",
+    "val": "值", "tree": "树", "movement": "移动", "bound": "边界",
+    "size": "尺寸", "initial": "初始", "summer": "夏日", "fish": "钓鱼",
+    "role": "角色", "objective": "目标", "results": "结果", "shake": "震动",
+    "tips": "提示", "times": "次数", "death": "死亡", "relative": "相对",
+    "creature": "生物", "transfer": "转移", "tostring": "字符串",
+    "maps": "地图", "container": "容器", "obj": "对象", "type": "类型",
+    "auto": "自动", "enough": "足够", "empty": "空", "stack": "堆叠",
+    "normal": "普通", "rod": "鱼竿", "not": "不", "city": "城市",
+    "horse": "马", "spine": "骨骼", "pic": "图片", "rows": "行",
+    "tmp": "临时", "midway": "中途", "down": "下", "rule": "规则",
+    "life": "生命", "dev": "开发", "sync": "同步", "listen": "监听",
+    "weather": "天气", "instance": "实例", "eye": "眼睛", "height": "高度",
+    "riding": "骑乘", "forever": "永久", "able": "能够", "be": "为",
+    "forward": "前进", "white": "白", "living": "存活", "req": "请求",
+    "zombie": "僵尸", "setting": "设置", "system": "系统", "msg": "消息",
+    "coin": "金币", "advertising": "广告", "ads": "广告", "left": "左",
+    "mob": "生物", "explosion": "爆炸", "snapshot": "快照", "chunk": "区块",
+    "percent": "百分比", "center": "中心", "relation": "关系", "light": "光照",
+    "rect": "矩形", "range": "范围", "durability": "耐久", "enchant": "附魔",
+    "mouse": "鼠标", "attached": "附着", "precious": "珍稀",
+    "manager": "管理器", "lv": "等级", "cmd": "指令", "test": "测试",
+    "dispatch": "分发", "inscription": "铭文", "spell": "法术",
+    "automatic": "自动", "variable": "变量", "server": "服务器",
+    "other": "其他", "magazine": "弹匣", "colors": "颜色", "color": "颜色",
+    "local": "本地", "bounceback": "回弹", "txt": "文本", "touch": "触摸",
+    "csv": "CSV", "nil": "空", "billboard": "公告牌", "internal": "内部",
+    "btn": "按钮", "begin": "开始", "record": "记录", "error": "错误",
+    "head": "头部", "ai": "AI", "aquatic": "水生", "mass": "质量",
+    "base64": "Base64", "general": "通用", "reported": "上报",
+    "strength": "强度", "survive": "生存", "real": "真实",
+    "developer": "开发者", "mall": "商城", "ability": "能力",
+    "hitted": "受击", "used": "已使用", "coins": "金币", "clip": "片段",
+    "polaroid": "拍立得", "home": "家", "bad": "坏", "native": "原生",
+    "next": "下一个", "playing": "播放中", "broadcast": "广播",
+    "replaceable": "可替换", "svr": "服务器", "login": "登录", "mid": "中间",
+    "flag": "标记", "planet": "星球", "ms": "毫秒", "boxtime": "宝箱时间",
+    "worldid": "星球ID", "match": "匹配", "station": "站点", "snow": "雪",
+    "heat": "热度", "sizeblock": "方块尺寸", "space": "空间", "spc": "特殊",
+    "switch": "开关", "parent": "父级", "beacon": "信标", "font": "字体",
+    "single": "单个", "des": "描述", "arrow": "箭头", "nav": "导航",
+    "path": "路径", "surface": "表面", "opt": "可选", "fixed": "固定",
+    "un": "取消", "enum": "枚举", "inviter": "邀请者", "origin": "原点",
+    "house": "房屋", "goods": "商品", "book": "书", "adventure": "冒险",
+    "era": "时代", "specialty": "专长", "fov": "视野", "win": "获胜",
+    "mobile": "移动端", "areas": "区域", "loaded": "已加载",
+    "lut": "查找表", "template": "模板", "inner": "内部", "index": "索引",
+    "mark": "标记", "off": "关闭", "up": "开启", "destruct": "销毁",
+    "discard": "丢弃", "isinteger": "是否为整数", "isnil": "是否为空",
+    "v3": "三维向量", "att": "属性", "indexs": "索引用表",
+})
+
+
+TYPO_FIX.update({"dis": "cancel", "recoverinitial": "restore", "itemidand": "itemid"})
+
+VERBS.update({"cancel": "取消", "restore": "恢复"})
+
+NOUNS.update({
+    "itemid": "道具ID", "blockid": "方块ID", "buffid": "状态ID",
+    "playerid": "玩家ID", "actorid": "角色ID", "objid": "对象ID",
+    "gridid": "格子ID", "varid": "变量ID", "uiid": "界面ID",
+    "teamid": "队伍ID", "areaid": "区域ID", "worldid": "星球ID",
+    "modelid": "模型ID", "musicid": "音乐ID", "animid": "动画ID",
+    "skinid": "皮肤ID", "effectid": "特效ID", "particleid": "粒子ID",
+    "roletype": "角色类型", "box": "框", "def": "定义", "recorder": "记录器",
+    "uin": "Uin", "cbuffid": "状态ID", "ver": "版本", "nickname": "昵称",
+})
+
+
+NOUNS.update({
+    "pass": "通过", "single": "单人", "screenshot": "截图", "missile": "抛射物",
+    "indices": "索引列表", "band": "频段", "and": "和", "or": "或",
+    "review": "审核", "author": "作者", "processing": "处理中", "ix": "图标",
+    "snapshort": "截图",
+})
+VERBS.update({"pass": "通过"})

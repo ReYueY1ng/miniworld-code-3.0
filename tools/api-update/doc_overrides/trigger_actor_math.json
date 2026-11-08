@@ -1,0 +1,1985 @@
+{
+  "Trigger.Math:Abs": {
+    "desc": "计算数值的绝对值",
+    "params": {
+      "v1": "数值或可转为数字的字符串"
+    },
+    "returns": [
+      "number? result 绝对值，无法转为数字时为 nil"
+    ]
+  },
+  "Trigger.Math:Ceil": {
+    "desc": "把数值向上取整",
+    "params": {
+      "v1": "数值或可转为数字的字符串"
+    },
+    "returns": [
+      "number? result 取整结果，无法转为数字时为 nil"
+    ]
+  },
+  "Trigger.Math:ColorTostring": {
+    "desc": "把颜色数值转成 0x 开头的十六进制字符串",
+    "params": {
+      "v1": "颜色数值（ARGB 整数）"
+    },
+    "returns": [
+      "string result 颜色字符串"
+    ]
+  },
+  "Trigger.Math:CompareGreater": {
+    "desc": "判断第一个值是否大于第二个值",
+    "params": {
+      "v1": "左值",
+      "v2": "右值"
+    },
+    "returns": [
+      "boolean result 比较结果，任一参数为 nil 时返回 false"
+    ]
+  },
+  "Trigger.Math:CompareGreaterEqual": {
+    "desc": "判断第一个值是否大于等于第二个值",
+    "params": {
+      "v1": "左值",
+      "v2": "右值"
+    },
+    "returns": [
+      "boolean result 比较结果，任一参数为 nil 时返回 false"
+    ]
+  },
+  "Trigger.Math:CompareLess": {
+    "desc": "判断第一个值是否小于第二个值",
+    "params": {
+      "v1": "左值",
+      "v2": "右值"
+    },
+    "returns": [
+      "boolean result 比较结果，任一参数为 nil 时返回 false"
+    ]
+  },
+  "Trigger.Math:CompareLessEqual": {
+    "desc": "判断第一个值是否小于等于第二个值",
+    "params": {
+      "v1": "左值",
+      "v2": "右值"
+    },
+    "returns": [
+      "boolean result 比较结果，任一参数为 nil 时返回 false"
+    ]
+  },
+  "Trigger.Math:Concat": {
+    "desc": "按顺序把所有参数拼接成字符串",
+    "returns": [
+      "string? result 拼接结果，没有参数时为 nil"
+    ],
+    "notes": [
+      "非字符串参数会先按 tostring 转换"
+    ]
+  },
+  "Trigger.Math:ContainStr": {
+    "desc": "判断第一个字符串中是否包含第二个字符串",
+    "params": {
+      "str1": "被查找的字符串",
+      "str2": "要查找的子串"
+    },
+    "returns": [
+      "boolean result 是否包含，参数不是字符串时返回 false"
+    ],
+    "notes": [
+      "内部使用 string.find，子串中的魔法字符按 Lua 模式解析"
+    ]
+  },
+  "Trigger.Math:Cos": {
+    "desc": "计算弧度的余弦值",
+    "params": {
+      "v1": "弧度值"
+    },
+    "returns": [
+      "number? result 余弦值，无法转为数字时为 nil"
+    ]
+  },
+  "Trigger.Math:Deg": {
+    "desc": "把弧度转换为角度",
+    "params": {
+      "v1": "弧度值"
+    },
+    "returns": [
+      "number? result 角度值，无法转为数字时为 nil"
+    ]
+  },
+  "Trigger.Math:DivAndFloor": {
+    "desc": "两数相除后向下取整",
+    "params": {
+      "v1": "被除数",
+      "v2": "除数"
+    },
+    "returns": [
+      "number? result 取整后的商，除数 0 或参数无法转数字时为 nil"
+    ]
+  },
+  "Trigger.Math:Equal": {
+    "desc": "判断两个值是否相等",
+    "params": {
+      "v1": "左值",
+      "v2": "右值"
+    },
+    "returns": [
+      "boolean result 比较结果"
+    ],
+    "notes": [
+      "两个数字之间允许 1e-17 的误差，其他类型直接比较"
+    ]
+  },
+  "Trigger.Math:Exp": {
+    "desc": "计算 e 的指定次方",
+    "params": {
+      "v1": "指数"
+    },
+    "returns": [
+      "number? result 计算结果，无法转为数字时为 nil"
+    ]
+  },
+  "Trigger.Math:Floor": {
+    "desc": "把数值向下取整",
+    "params": {
+      "v1": "数值"
+    },
+    "returns": [
+      "number? result 取整结果，无法转为数字时为 nil"
+    ]
+  },
+  "Trigger.Math:IsEven": {
+    "desc": "判断数值是否为偶数",
+    "params": {
+      "num": "待判断的数值"
+    },
+    "returns": [
+      "boolean result 是否偶数，非数字参数返回 false"
+    ]
+  },
+  "Trigger.Math:IsNegative": {
+    "desc": "判断数值是否为负数",
+    "params": {
+      "num": "待判断的数值"
+    },
+    "returns": [
+      "boolean result 是否小于 0，非数字参数返回 false"
+    ]
+  },
+  "Trigger.Math:IsOdd": {
+    "desc": "判断数值是否为奇数",
+    "params": {
+      "num": "待判断的数值"
+    },
+    "returns": [
+      "boolean result 是否奇数，非数字参数返回 false"
+    ]
+  },
+  "Trigger.Math:IsPositive": {
+    "desc": "判断数值是否为正数",
+    "params": {
+      "num": "待判断的数值"
+    },
+    "returns": [
+      "boolean result 是否大于 0，非数字参数返回 false"
+    ]
+  },
+  "Trigger.Math:IsPrime": {
+    "desc": "判断数值是否为质数",
+    "params": {
+      "num": "待判断的数值"
+    },
+    "returns": [
+      "boolean result 是否质数，非数字或小于等于 1 时返回 false"
+    ],
+    "notes": [
+      "判断前先取绝对值，负数按正数处理"
+    ]
+  },
+  "Trigger.Math:Isinteger": {
+    "desc": "判断数值是否为整数",
+    "params": {
+      "num": "待判断的数值"
+    },
+    "returns": [
+      "boolean result 是否为整数，非数字参数返回 false"
+    ]
+  },
+  "Trigger.Math:Isnil": {
+    "desc": "判断值是否为 nil",
+    "params": {
+      "v1": "待判断的值"
+    },
+    "returns": [
+      "boolean result 是否为 nil"
+    ]
+  },
+  "Trigger.Math:Ldexp": {
+    "desc": "计算数值乘以 2 的指定次方",
+    "params": {
+      "v1": "底数",
+      "v2": "2 的指数"
+    },
+    "returns": [
+      "number? result 计算结果，参数无法转数字时为 nil"
+    ]
+  },
+  "Trigger.Math:Log": {
+    "desc": "计算自然对数",
+    "params": {
+      "v1": "真数，需大于 0"
+    },
+    "returns": [
+      "number? result 对数值，真数小于等于 0 时为 nil"
+    ]
+  },
+  "Trigger.Math:Log10": {
+    "desc": "计算以 10 为底的对数",
+    "params": {
+      "v1": "真数，需大于 0"
+    },
+    "returns": [
+      "number? result 对数值，真数小于等于 0 时为 nil"
+    ]
+  },
+  "Trigger.Math:LogicCompareTable": {
+    "desc": "深度比较两个值是否逻辑相等",
+    "params": {
+      "a": "左值",
+      "b": "右值"
+    },
+    "returns": [
+      "boolean result 是否相等"
+    ],
+    "notes": [
+      "类型不同直接返回 false，数字按 1e-6 容差比较",
+      "表要求字段一一对应且数量一致",
+      "stype 为 36 的两个表会先按 id*1000+等级 归一化 val 再比较"
+    ]
+  },
+  "Trigger.Math:MathAdd": {
+    "desc": "两数相加",
+    "params": {
+      "v1": "被加数",
+      "v2": "加数"
+    },
+    "returns": [
+      "number? result 和，参数无法转数字时为 nil"
+    ]
+  },
+  "Trigger.Math:MathArithmetic": {
+    "desc": "校验四则运算参数后调用传入函数取结果",
+    "params": {
+      "fn": "无参调用的运算函数，返回值即结果"
+    },
+    "returns": [
+      "any? result 运算结果，参数非法或除零时为 nil"
+    ],
+    "notes": [
+      "额外参数按 运算符/操作数 交替传入，仅参与校验",
+      "实现以 fn() 无参方式调用，参数不会传给 fn",
+      "参数个数必须为奇数且不少于 3 个"
+    ]
+  },
+  "Trigger.Math:MathDivide": {
+    "desc": "两数相除",
+    "params": {
+      "v1": "被除数",
+      "v2": "除数"
+    },
+    "returns": [
+      "number? result 商，除数为 0 或参数无法转数字时为 nil"
+    ]
+  },
+  "Trigger.Math:MathExtractOpt": {
+    "desc": "计算指定次方根",
+    "params": {
+      "v1": "被开方数",
+      "v2": "根次数"
+    },
+    "returns": [
+      "number? result 开方结果，偶次根号下为负数或参数非法时为 nil"
+    ],
+    "notes": [
+      "被开方数为 0 时直接返回 0"
+    ]
+  },
+  "Trigger.Math:MathMultiply": {
+    "desc": "两数相乘",
+    "params": {
+      "v1": "被乘数",
+      "v2": "乘数"
+    },
+    "returns": [
+      "number? result 积，参数无法转数字时为 nil"
+    ]
+  },
+  "Trigger.Math:MathSub": {
+    "desc": "两数相减",
+    "params": {
+      "v1": "被减数",
+      "v2": "减数"
+    },
+    "returns": [
+      "number? result 差，参数无法转数字时为 nil"
+    ]
+  },
+  "Trigger.Math:MathUnFixedBaseLog": {
+    "desc": "计算以第一个值为底的对数",
+    "params": {
+      "v1": "底数，需大于 0 且不等于 1",
+      "v2": "真数"
+    },
+    "returns": [
+      "number? result 对数值，底数非法或参数无法转数字时为 nil"
+    ]
+  },
+  "Trigger.Math:MathXor": {
+    "desc": "对两个值做逻辑异或",
+    "params": {
+      "v1": "左值",
+      "v2": "右值"
+    },
+    "returns": [
+      "any? result 仅一方为真时返回另一方，否则为 nil 或 false"
+    ]
+  },
+  "Trigger.Math:Max": {
+    "desc": "取两个数中的较大值",
+    "params": {
+      "v1": "数值一",
+      "v2": "数值二"
+    },
+    "returns": [
+      "number? result 较大值，参数无法转数字时为 nil"
+    ]
+  },
+  "Trigger.Math:Min": {
+    "desc": "取两个数中的较小值",
+    "params": {
+      "v1": "数值一",
+      "v2": "数值二"
+    },
+    "returns": [
+      "number? result 较小值，参数无法转数字时为 nil"
+    ]
+  },
+  "Trigger.Math:Mod": {
+    "desc": "计算两数取模的结果",
+    "params": {
+      "v1": "被除数",
+      "v2": "除数"
+    },
+    "returns": [
+      "number? result 余数，除数为 0 或参数无法转数字时为 nil"
+    ]
+  },
+  "Trigger.Math:ModEqualZero": {
+    "desc": "判断两数取模结果是否为 0",
+    "params": {
+      "v1": "被除数",
+      "v2": "除数"
+    },
+    "returns": [
+      "boolean? result 余数是否为 0，参数无法转数字时为 nil"
+    ]
+  },
+  "Trigger.Math:Negate": {
+    "desc": "取数值的相反数",
+    "params": {
+      "v1": "数值"
+    },
+    "returns": [
+      "number? result 相反数，无法转为数字时为 nil"
+    ]
+  },
+  "Trigger.Math:NotEqual": {
+    "desc": "判断两个值是否不相等",
+    "params": {
+      "v1": "左值",
+      "v2": "右值"
+    },
+    "returns": [
+      "boolean result 是否不相等"
+    ],
+    "notes": [
+      "直接按 Lua 的 ~= 比较，不做数值容差"
+    ]
+  },
+  "Trigger.Math:Pow": {
+    "desc": "计算第一个值的指定次方",
+    "params": {
+      "v1": "底数",
+      "v2": "指数"
+    },
+    "returns": [
+      "number? result 幂值，参数无法转数字时为 nil"
+    ]
+  },
+  "Trigger.Math:Pow10": {
+    "desc": "计算 10 的指定次方",
+    "params": {
+      "v1": "指数"
+    },
+    "returns": [
+      "number? result 幂值，无法转为数字时为 nil"
+    ]
+  },
+  "Trigger.Math:Rad": {
+    "desc": "把角度转换为弧度",
+    "params": {
+      "v1": "角度值"
+    },
+    "returns": [
+      "number? result 弧度值，无法转为数字时为 nil"
+    ]
+  },
+  "Trigger.Math:Random": {
+    "desc": "在指定区间内取随机数",
+    "params": {
+      "v1": "区间下限",
+      "v2": "区间上限"
+    },
+    "returns": [
+      "number? result 随机数，参数无法转数字时为 nil"
+    ],
+    "notes": [
+      "两端都是整数时返回整数，否则按最大小数位数返回小数",
+      "下限大于上限时自动交换",
+      "每次调用都会用当前时间重新设置随机种子"
+    ]
+  },
+  "Trigger.Math:Round": {
+    "desc": "把数值四舍五入取整",
+    "params": {
+      "v1": "数值"
+    },
+    "returns": [
+      "number? result 取整结果，无法转为数字时为 nil"
+    ],
+    "notes": [
+      "实现为 floor(x+0.5)，负数向零方向取整"
+    ]
+  },
+  "Trigger.Math:Sin": {
+    "desc": "计算弧度的正弦值",
+    "params": {
+      "v1": "弧度值"
+    },
+    "returns": [
+      "number? result 正弦值，无法转为数字时为 nil"
+    ]
+  },
+  "Trigger.Math:Sqrt": {
+    "desc": "计算数值的平方根",
+    "params": {
+      "v1": "被开方数，需大于等于 0"
+    },
+    "returns": [
+      "number? result 平方根，负数或无法转为数字时为 nil"
+    ]
+  },
+  "Trigger.Math:StrToBool": {
+    "desc": "把字符串转换为布尔值",
+    "params": {
+      "str": "待转换的字符串"
+    },
+    "returns": [
+      "boolean result 仅忽略大小写的 false 返回 false，其余一律 true"
+    ]
+  },
+  "Trigger.Math:StrToColor": {
+    "desc": "把十六进制颜色字符串转换为数值",
+    "params": {
+      "str": "十六进制颜色字符串"
+    },
+    "returns": [
+      "number? result 颜色数值，无法解析时为 nil"
+    ]
+  },
+  "Trigger.Math:StrToV3": {
+    "desc": "把逗号分隔的字符串解析成坐标表",
+    "params": {
+      "str": "格式为 x,y,z 的字符串"
+    },
+    "returns": [
+      "table? pos 坐标表 {x,y,z}，分段数不是 3 时为 nil"
+    ]
+  },
+  "Trigger.Math:Tan": {
+    "desc": "计算弧度的正切值",
+    "params": {
+      "v1": "弧度值"
+    },
+    "returns": [
+      "number? result 正切值，无法转为数字时为 nil"
+    ]
+  },
+  "Trigger.Math:TanAngle2Rad": {
+    "desc": "把角度取模 180 后转为弧度",
+    "params": {
+      "v1": "角度值"
+    },
+    "returns": [
+      "number? result 弧度值，取模后为 90 度或参数非法时为 nil"
+    ]
+  },
+  "Trigger.Math:Tostring": {
+    "desc": "把数值转成最多保留 5 位小数的字符串",
+    "params": {
+      "v1": "待转换的值"
+    },
+    "returns": [
+      "string? result 字符串，参数为 nil 时返回 nil"
+    ],
+    "notes": [
+      "数字按 floor(|x|*100000+0.1)/100000 截断，非数字按 tostring 输出"
+    ]
+  },
+  "Trigger.Math:V3Tostring": {
+    "desc": "把坐标向量格式化为 x,y,z 字符串",
+    "params": {
+      "v1": "坐标向量"
+    },
+    "returns": [
+      "string result 坐标字符串（保留 2 位小数）"
+    ],
+    "notes": [
+      "不含 x/y/z 的值按 tostring 输出"
+    ]
+  },
+  "Trigger.Actor:ActorDoHurt": {
+    "desc": "让角色对指定对象造成一次伤害",
+    "params": {
+      "doobj": "造成伤害的角色ID",
+      "data": "受击对象ID或其数组",
+      "value": "伤害值，需大于 0",
+      "itype": "攻击类型（HURTTYPE/AttackType）"
+    },
+    "returns": [
+      "boolean result 是否至少有一个目标受击成功"
+    ],
+    "notes": [
+      "目标不存在或伤害不大于 0 时不生效"
+    ]
+  },
+  "Trigger.Actor:AddOrRemoveTags": {
+    "desc": "为角色添加或移除标签",
+    "params": {
+      "actorids": "角色ID或其数组",
+      "badd": "操作类型：1 添加，2 移除",
+      "tags": "标签或标签数组",
+      "icount": "标签引用计数，添加默认 1、移除默认 0"
+    },
+    "returns": [
+      "boolean result 是否全部执行成功"
+    ],
+    "notes": [
+      "badd 不是 1/2 时直接返回 false",
+      "移除时空字符串标签会被跳过"
+    ]
+  },
+  "Trigger.Actor:AppendSpeed": {
+    "desc": "给对象叠加一个方向上的速度",
+    "params": {
+      "data": "对象ID或其数组",
+      "dir": "方向：单位向量 {x,y,z} 或 FaceDir 方向枚举",
+      "speed": "速度大小"
+    },
+    "returns": [
+      "boolean result 是否叠加成功"
+    ],
+    "notes": [
+      "向量方向会先归一化再乘以速度",
+      "数字方向会按对象当前朝向换算成向量"
+    ]
+  },
+  "Trigger.Actor:ChangActorMoveType": {
+    "desc": "修改角色的移动方式",
+    "params": {
+      "data": "对象ID或其数组",
+      "moveType": "移动方式（MoveType）：0 行走，1 飞行，2 游泳"
+    },
+    "returns": [
+      "boolean result 是否修改成功"
+    ],
+    "notes": [
+      "玩家只能切换行走/游泳与飞行，其他角色交给 AI 移动模式处理"
+    ]
+  },
+  "Trigger.Actor:ChangeCustomModel": {
+    "desc": "替换对象的外观模型",
+    "params": {
+      "data": "对象ID或其数组",
+      "modtype": "模型名，格式为 类型_ID（itemprefab/blockprefab/mobprefab/entityprefab/templateprefab/ModelCompObj/ItemInstance/playerskin）"
+    },
+    "returns": [
+      "boolean result 是否替换成功"
+    ],
+    "notes": [
+      "模型名为空、没有下划线或对象无 Model 组件时返回 false"
+    ]
+  },
+  "Trigger.Actor:CheckActorType": {
+    "desc": "判断对象是否为指定对象类型",
+    "params": {
+      "objid": "对象ID",
+      "itype": "对象类型（ObjType）"
+    },
+    "returns": [
+      "boolean result 类型是否一致"
+    ]
+  },
+  "Trigger.Actor:CheckPickupActionValid": {
+    "desc": "校验拾取事件的双方类型与动作是否符合条件",
+    "params": {
+      "param": "拾取事件参数，含 pickupType、eventobjid、toobjid",
+      "actor1Type": "发起者类型：1 玩家，2 生物",
+      "pickupType": "要求的拾取动作类型（PickupActionType）",
+      "actor2Type": "目标类型：1 玩家，2 生物"
+    },
+    "returns": [
+      "boolean result 是否符合条件"
+    ],
+    "notes": [
+      "事件动作类型不一致或双方类型不符时返回 false"
+    ]
+  },
+  "Trigger.Actor:CheckTargetActorType": {
+    "desc": "判断对象类型是否等于给定结果",
+    "params": {
+      "objid": "对象ID",
+      "itype": "对象类型（ObjType）",
+      "ret": "期望的布尔结果：true 要求类型一致，false 要求不一致"
+    },
+    "returns": [
+      "boolean result 是否与期望一致"
+    ]
+  },
+  "Trigger.Actor:ClearActorWithId": {
+    "desc": "按对象ID清除星球上的全部实例",
+    "params": {
+      "killtype": "清除方式：1 击杀并产生掉落，2 直接清除",
+      "actorids": "对象ID或其数组",
+      "worldId": "星球ID，默认当前星球"
+    },
+    "returns": [
+      "boolean result 是否执行成功"
+    ],
+    "notes": [
+      "匹配的是对象类型/配置ID，会清除该ID的所有实例",
+      "多个ID时任一成功即返回 true"
+    ]
+  },
+  "Trigger.Actor:CompareMovementMode": {
+    "desc": "判断对象的移动方式是否与给定值一致",
+    "params": {
+      "objid": "对象ID",
+      "movementMode": "移动方式（MoveType）"
+    },
+    "returns": [
+      "boolean result 是否一致"
+    ]
+  },
+  "Trigger.Actor:CompareTeam": {
+    "desc": "判断所有对象是否都属于指定队伍",
+    "params": {
+      "data": "对象ID或其数组",
+      "team": "队伍ID（AbsoluteCampType）"
+    },
+    "returns": [
+      "boolean result 是否全部属于该队伍"
+    ],
+    "notes": [
+      "对象没有队伍或 data 为空时返回 false"
+    ]
+  },
+  "Trigger.Actor:FindNearestBlock": {
+    "desc": "查找对象附近最近的指定类型方块坐标",
+    "params": {
+      "objid": "对象ID",
+      "blockid": "方块类型ID，数字配置ID或资源ID字符串",
+      "blockRange": "查找半径（格）"
+    },
+    "returns": [
+      "table? pos 方块坐标 {x,y,z}，未找到时为 nil"
+    ]
+  },
+  "Trigger.Actor:GetBoundSzie": {
+    "desc": "获取对象模型碰撞盒某一轴向的尺寸",
+    "params": {
+      "obj": "对象ID",
+      "ix": "轴向索引：x/y/z"
+    },
+    "returns": [
+      "number? value 对应轴向的尺寸，参数或索引无效时为 nil"
+    ],
+    "notes": [
+      "方法名 Szie 是引擎原始的 Size 拼写错误"
+    ]
+  },
+  "Trigger.Actor:GetBtreeVarValue": {
+    "desc": "读取生物行为树黑板的变量值",
+    "params": {
+      "objid": "生物对象ID",
+      "treeId": "行为树ID，实现中未使用",
+      "varid": "行为树变量ID"
+    },
+    "returns": [
+      "any? value 变量值，组数据或读取失败时为 nil"
+    ],
+    "notes": [
+      "treeId 不参与查询",
+      "表类型的值取第一个字段返回，数组返回 nil"
+    ]
+  },
+  "Trigger.Actor:GetPickupActorID": {
+    "desc": "获取角色抱起关系中的对端对象ID",
+    "params": {
+      "objid": "角色对象ID",
+      "roleType": "查询方向（RolePickupType）：1 Carrying，2 Carried"
+    },
+    "returns": [
+      "integer result 对象ID，未处于抱起关系时返回 0"
+    ],
+    "notes": [
+      "roleType 决定取抱起者还是被抱者一侧的ID"
+    ]
+  },
+  "Trigger.Actor:GetPosition": {
+    "desc": "获取对象的世界坐标",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "table? pos 坐标 {x,y,z}，单位格，对象不存在时为 nil"
+    ]
+  },
+  "Trigger.Actor:GetProjectileShootMob": {
+    "desc": "获取抛射物的发射生物ID",
+    "params": {
+      "data": "抛射物事件参数，含 HelpObjid"
+    },
+    "returns": [
+      "integer? objid 发射生物ID，发射者不是生物时为 nil"
+    ],
+    "notes": [
+      "以 4294967296 作为玩家与生物ID的分界"
+    ]
+  },
+  "Trigger.Actor:GetProjectileShootPlayer": {
+    "desc": "获取抛射物的发射玩家ID",
+    "params": {
+      "data": "抛射物事件参数，含 HelpObjid"
+    },
+    "returns": [
+      "integer? objid 发射玩家ID，发射者不是玩家时为 nil"
+    ]
+  },
+  "Trigger.Actor:IncreasesAttr": {
+    "desc": "按方式增减或直接设置角色属性",
+    "params": {
+      "data": "对象ID或其数组",
+      "atttype": "属性类型（RoleAttr）",
+      "itype": "操作方式：1 增加，2 减少，3 直接设为 val",
+      "val": "属性数值"
+    },
+    "returns": [
+      "boolean result 是否全部成功"
+    ],
+    "notes": [
+      "val 为 0 时直接返回 true",
+      "属性值不会低于 0"
+    ]
+  },
+  "Trigger.Actor:KillSelf": {
+    "desc": "击杀指定对象",
+    "params": {
+      "data": "对象ID或其数组"
+    },
+    "returns": [
+      "boolean? result 是否全部击杀成功，data 为 nil 时无返回值"
+    ]
+  },
+  "Trigger.Actor:ObjToAnyObj": {
+    "desc": "把对象ID转换为通用对象ID",
+    "params": {
+      "objid": "对象ID",
+      "roletype": "对象类型（ObjType）"
+    },
+    "returns": [
+      "integer? objid 转换后的ID，类型不支持或ID不合法时为 nil"
+    ],
+    "notes": [
+      "玩家ID必须小于 4294967296",
+      "生物、抛射物、掉落物、区域原样返回"
+    ]
+  },
+  "Trigger.Actor:PaseOrResumeSoundEffectById": {
+    "desc": "切换对象身上音效的暂停与恢复状态",
+    "params": {
+      "data": "对象ID或其数组",
+      "musicId": "音效ID"
+    },
+    "returns": [
+      "boolean result 固定为 false"
+    ],
+    "notes": [
+      "按对象+音效记录状态，再次调用即反向切换",
+      "实现缺陷：返回值恒为 false，不代表操作失败"
+    ]
+  },
+  "Trigger.Actor:PauseSoundEffectById": {
+    "desc": "暂停对象身上正在播放的音效",
+    "params": {
+      "data": "对象ID或其数组",
+      "musicId": "音效ID，-1 表示全部音效"
+    },
+    "returns": [
+      "boolean result 是否暂停成功"
+    ]
+  },
+  "Trigger.Actor:PlayAnimByObj": {
+    "desc": "让对象播放另一个对象的动作",
+    "params": {
+      "actorids": "播放者ID或其数组",
+      "objidB": "被模仿的对象ID"
+    },
+    "returns": [
+      "boolean result 是否播放成功"
+    ],
+    "notes": [
+      "仅玩家、生物和实体生效",
+      "两个ID相同时不执行并返回 false"
+    ]
+  },
+  "Trigger.Actor:PlayBodyEffectById": {
+    "desc": "在对象身上播放指定特效",
+    "params": {
+      "data": "对象ID或其数组",
+      "effectids": "特效ID、资源ID或ID数组",
+      "scale": "特效缩放，默认 1",
+      "ptme": "播放时长（秒），不传时按特效定义"
+    },
+    "returns": [
+      "boolean result 是否播放成功"
+    ],
+    "notes": [
+      "特效ID解析不到定义时返回 false",
+      "单次播放且未给时长时按特效定义时长"
+    ]
+  },
+  "Trigger.Actor:PlayBodyParticleById": {
+    "desc": "在对象身上播放粒子特效并设置变换",
+    "params": {
+      "data": "对象ID或其数组",
+      "effectids": "粒子特效ID/名称或数组",
+      "ptme": "播放时长（秒），空或非正数表示持续播放",
+      "offset": "偏移（格），默认 {x=0,y=0,z=0}",
+      "rot": "旋转，默认 {x=0,y=0,z=0}",
+      "scale": "缩放，默认 {x=1,y=1,z=1}"
+    },
+    "returns": [
+      "boolean result 是否播放成功"
+    ],
+    "notes": [
+      "offset 会从格换算成引擎内部单位"
+    ]
+  },
+  "Trigger.Actor:PlaySoundEffectById": {
+    "desc": "在对象身上按声音ID播放音效",
+    "params": {
+      "data": "对象ID或其数组",
+      "soundId": "声音ID",
+      "volume": "音量 0-100，内部换算为 0-1",
+      "pitch": "音调，默认 1",
+      "isLoop": "是否循环播放，默认 false"
+    },
+    "returns": [
+      "boolean result 是否播放成功"
+    ],
+    "notes": [
+      "soundId 找不到对应音频时返回 false"
+    ]
+  },
+  "Trigger.Actor:RecoverinitialModel": {
+    "desc": "把对象外观恢复为初始模型",
+    "params": {
+      "data": "对象ID或其数组"
+    },
+    "returns": [
+      "boolean result 是否恢复成功"
+    ]
+  },
+  "Trigger.Actor:RemoveImmuneAttackType": {
+    "desc": "移除对象的攻击类型免疫",
+    "params": {
+      "data": "对象ID或其数组",
+      "vlues": "攻击类型ID，-1 表示无敌"
+    },
+    "returns": [
+      "boolean? result 是否全部成功，data 为 nil 时无返回值"
+    ]
+  },
+  "Trigger.Actor:ResumeSoundEffectById": {
+    "desc": "恢复对象身上被暂停的音效",
+    "params": {
+      "data": "对象ID或其数组",
+      "musicId": "音效ID，-1 表示全部音效"
+    },
+    "returns": [
+      "boolean result 是否恢复成功"
+    ]
+  },
+  "Trigger.Actor:RoleToAnyObj": {
+    "desc": "把角色ID转换为通用对象ID",
+    "params": {
+      "objid": "角色ID",
+      "roletype": "角色类型：ObjType.Player 或 ObjType.Mob"
+    },
+    "returns": [
+      "integer? objid 转换后的ID，类型或ID不合法时为 nil"
+    ]
+  },
+  "Trigger.Actor:SetActorDir": {
+    "desc": "设置角色的水平或垂直朝向",
+    "params": {
+      "data": "对象ID或其数组",
+      "itype": "朝向类型：1 水平偏航，2 垂直俯仰",
+      "value": "角度值（度）"
+    },
+    "returns": [
+      "boolean result 是否全部设置成功"
+    ],
+    "notes": [
+      "itype 不是 1/2 时不做任何事但返回 true"
+    ]
+  },
+  "Trigger.Actor:SetAttr": {
+    "desc": "设置角色的属性值",
+    "params": {
+      "data": "对象ID或其数组",
+      "atttype": "属性类型（RoleAttr）",
+      "val": "属性值，NaN 和无穷会被拒绝"
+    },
+    "returns": [
+      "boolean result 是否全部设置成功"
+    ],
+    "notes": [
+      "血量、最大血量、恢复等属性下限为 0",
+      "移动速度类属性变化会触发属性变化事件"
+    ]
+  },
+  "Trigger.Actor:SetBodyEffectScale": {
+    "desc": "调整对象身上特效的缩放",
+    "params": {
+      "data": "对象ID或其数组",
+      "effectids": "特效ID/名称或数组",
+      "size": "缩放倍率"
+    },
+    "returns": [
+      "boolean result 是否调整成功"
+    ]
+  },
+  "Trigger.Actor:SetBodyParticleTransform": {
+    "desc": "调整对象身上粒子特效的偏移、旋转与缩放",
+    "params": {
+      "data": "对象ID或其数组",
+      "effectids": "粒子特效ID/名称或数组",
+      "offset": "偏移（格），默认 {x=0,y=0,z=0}",
+      "rot": "旋转，默认 {x=0,y=0,z=0}",
+      "scale": "缩放，默认 {x=1,y=1,z=1}"
+    },
+    "returns": [
+      "boolean result 是否调整成功"
+    ]
+  },
+  "Trigger.Actor:SetBtreeVarValue": {
+    "desc": "设置生物行为树黑板的变量值",
+    "params": {
+      "objid": "生物对象ID",
+      "treeId": "行为树ID，实现中未使用",
+      "varid": "行为树变量ID",
+      "val": "变量值，不能为 nil"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "treeId 不参与写入",
+      "组数据无法设置"
+    ]
+  },
+  "Trigger.Actor:SetCmpBaseState": {
+    "desc": "开关角色的能力状态",
+    "params": {
+      "data": "对象ID或其数组",
+      "attr": "能力类型（Ability），1000 以上按能力组处理",
+      "switch": "是否启用"
+    },
+    "returns": [
+      "boolean result 是否全部成功"
+    ],
+    "notes": [
+      "可受伤、可被击杀、死亡掉落、切换快捷栏、旋转摄像机等有专门处理",
+      "仅对玩家有效的操作在生物上会失败"
+    ]
+  },
+  "Trigger.Actor:SetFaceDir": {
+    "desc": "按四方向枚举设置对象朝向",
+    "params": {
+      "data": "对象ID或其数组",
+      "facedir": "朝向（FaceDir.PosX/NegX/PosZ/NegZ），其他方向返回 false"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "玩家通过旋转摄像机实现，其他对象直接设置偏航角"
+    ]
+  },
+  "Trigger.Actor:SetFaceYaw": {
+    "desc": "设置对象的水平朝向角",
+    "params": {
+      "data": "对象ID或其数组",
+      "value": "偏航角（度）"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "玩家通过旋转摄像机实现，其他对象直接设置偏航角"
+    ]
+  },
+  "Trigger.Actor:SetImmuneAttackType": {
+    "desc": "为对象添加攻击类型免疫",
+    "params": {
+      "data": "对象ID或其数组",
+      "vlues": "攻击类型ID，-1 表示完全无敌"
+    },
+    "returns": [
+      "boolean? result 是否全部成功，data 为 nil 时无返回值"
+    ]
+  },
+  "Trigger.Actor:SetNickName": {
+    "desc": "设置角色的昵称",
+    "params": {
+      "data": "对象ID或其数组",
+      "nick": "昵称文本"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "命中敏感词时昵称整体替换为 ****"
+    ]
+  },
+  "Trigger.Actor:SetPosition": {
+    "desc": "设置对象的世界坐标",
+    "params": {
+      "data": "对象ID或其数组",
+      "position": "坐标向量 {x,y,z}，单位格"
+    },
+    "returns": [
+      "boolean result 是否全部成功"
+    ],
+    "notes": [
+      "x/y/z 任一不是数字时返回 false"
+    ]
+  },
+  "Trigger.Actor:SetTeam": {
+    "desc": "设置角色所属队伍",
+    "params": {
+      "data": "对象ID或其数组",
+      "teamid": "队伍ID（AbsoluteCampType），0-1000"
+    },
+    "returns": [
+      "boolean result 是否全部成功"
+    ],
+    "notes": [
+      "只改队伍，不重置属性"
+    ]
+  },
+  "Trigger.Actor:StopBodyEffectById": {
+    "desc": "停止对象身上正在播放的特效",
+    "params": {
+      "data": "对象ID或其数组",
+      "effectids": "特效ID/名称或数组"
+    },
+    "returns": [
+      "boolean result 是否执行成功"
+    ],
+    "notes": [
+      "即使没有匹配到已播放的特效也返回 true"
+    ]
+  },
+  "Trigger.Actor:StopSoundEffectById": {
+    "desc": "停止对象身上指定音效",
+    "params": {
+      "data": "对象ID或其数组",
+      "soundId": "声音ID，-1 表示全部音效"
+    },
+    "returns": [
+      "boolean result 是否停止成功"
+    ]
+  },
+  "Trigger.Actor:TryInteractActor": {
+    "desc": "对角色执行拾取、投掷、放下或解绑交互",
+    "params": {
+      "objid": "角色对象ID",
+      "action": "动作（PickupActionType）：1 拾取，2 放下，3 投掷，4 解绑",
+      "speed": "投掷/放下的初速度，默认 10",
+      "dir": "方向：FaceDir 枚举或向量，默认零向量",
+      "hasInertance": "是否保留惯性，默认 false"
+    },
+    "returns": [
+      "boolean result 是否执行成功"
+    ],
+    "notes": [
+      "仅对存活角色生效",
+      "拾取固定向前搜索 2 格",
+      "放下和投掷仅在方向有效时执行"
+    ]
+  },
+  "Trigger.Actor:TryMoveToPos": {
+    "desc": "让角色寻路移动到目标坐标",
+    "params": {
+      "objid": "角色对象ID",
+      "position": "目标坐标 {x,y,z}，单位格",
+      "cancontrol": "是否允许玩家期间接管，默认 false"
+    },
+    "returns": [
+      "boolean result 是否成功下发移动"
+    ],
+    "notes": [
+      "玩家坐标会做半格偏移后交给寻路，生物直接设置目标点"
+    ]
+  },
+  "Trigger.ArrayTmp:GetActorsByTags": {
+    "desc": "获取区域内带指定标签的对象临时数组",
+    "params": {
+      "areaid": "区域ID",
+      "mathcmode": "匹配方式（MatchMode）：1 全部匹配，2 任一匹配",
+      "tags": "标签或标签数组",
+      "itype": "对象类型：1 玩家，2 生物，3 掉落物，4 抛射物，5 实体，6 区域",
+      "bexactmatch": "是否精确匹配标签"
+    },
+    "returns": [
+      "table result 对象ID的临时数组，无匹配时为空数组"
+    ]
+  },
+  "Trigger.ArrayTmp:GetAllPlayers": {
+    "desc": "获取所有玩家的临时数组",
+    "params": {
+      "alive": "玩家状态：1 存活，0 阵亡，-1 全部，默认 -1"
+    },
+    "returns": [
+      "table result 玩家ID的临时数组"
+    ]
+  },
+  "Trigger.ArrayTmp:GetAreaBlocks": {
+    "desc": "获取区域内出现过的方块类型临时数组",
+    "params": {
+      "areaid": "区域ID"
+    },
+    "returns": [
+      "table result 方块类型ID的临时数组，区域无效时为空数组"
+    ],
+    "notes": [
+      "能映射到资源ID的方块会以字符串形式返回"
+    ]
+  },
+  "Trigger.ArrayTmp:GetAreaCreatures": {
+    "desc": "获取区域内的生物临时数组",
+    "params": {
+      "areaid": "区域ID"
+    },
+    "returns": [
+      "table result 生物ID的临时数组，区域无效时为空数组"
+    ]
+  },
+  "Trigger.ArrayTmp:GetAreaDropItems": {
+    "desc": "获取区域内的掉落物临时数组",
+    "params": {
+      "areaid": "区域ID"
+    },
+    "returns": [
+      "table result 掉落物ID的临时数组，区域无效时为空数组"
+    ]
+  },
+  "Trigger.ArrayTmp:GetAreaEntity": {
+    "desc": "获取区域内的实体临时数组",
+    "params": {
+      "areaid": "区域ID"
+    },
+    "returns": [
+      "table result 实体ID的临时数组，区域无效时为空数组"
+    ]
+  },
+  "Trigger.ArrayTmp:GetAreaMisssile": {
+    "desc": "获取区域内的抛射物临时数组",
+    "params": {
+      "areaid": "区域ID"
+    },
+    "returns": [
+      "table result 抛射物ID的临时数组，区域无效时为空数组"
+    ],
+    "notes": [
+      "方法名 Misssile 是引擎原始拼写"
+    ]
+  },
+  "Trigger.ArrayTmp:GetAreaObjEntity": {
+    "desc": "获取区域内的区域对象临时数组",
+    "params": {
+      "areaid": "查询范围所在的区域ID"
+    },
+    "returns": [
+      "table result 区域对象ID的临时数组，区域无效时为空数组"
+    ]
+  },
+  "Trigger.ArrayTmp:GetAreaPlayers": {
+    "desc": "获取区域内的玩家临时数组",
+    "params": {
+      "areaid": "区域ID"
+    },
+    "returns": [
+      "table result 玩家ID的临时数组，区域无效时为空数组"
+    ]
+  },
+  "Trigger.ArrayTmp:GetAreaRelativeActors": {
+    "desc": "获取区域内与指定玩家有相对关系的角色数组",
+    "params": {
+      "areaid": "区域ID",
+      "uin": "参照玩家Uin",
+      "relativing": "相对关系ID",
+      "actortype": "角色类型（ObjType.Player/Mob/Role）"
+    },
+    "returns": [
+      "table result 对象ID的临时数组，无匹配时为空数组"
+    ],
+    "notes": [
+      "actortype 不支持时按数字组返回"
+    ]
+  },
+  "Trigger.ArrayTmp:GetNewInviteGroup": {
+    "desc": "获取玩家最近邀请进房间的玩家临时数组",
+    "params": {
+      "playerid": "玩家ID"
+    },
+    "returns": [
+      "table result 玩家ID的临时数组，请求失败时为空数组"
+    ],
+    "notes": [
+      "同一玩家 10 秒内重复请求会被拒绝并返回空数组"
+    ]
+  },
+  "Trigger.ArrayTmp:GetRelativeActor": {
+    "desc": "获取与指定玩家有相对关系的角色数组",
+    "params": {
+      "uin": "参照玩家Uin",
+      "relativing": "相对关系ID",
+      "actortype": "角色类型（ObjType.Player/Mob/Role）"
+    },
+    "returns": [
+      "table result 对象ID的临时数组，无匹配时为空数组"
+    ]
+  },
+  "Trigger.ArrayTmp:GetTableRowIndex": {
+    "desc": "查找表格中首个满足条件的行号",
+    "params": {
+      "varId": "表格变量ID",
+      "playerId": "玩家ID，公共表传 0",
+      "col": "列号或列名",
+      "itype": "匹配方式：1 相等，2 不等",
+      "value": "比较值"
+    },
+    "returns": [
+      "number? row 行号，未找到或变量不存在时为 nil"
+    ],
+    "notes": [
+      "坐标表按 x/y/z 逐分量比较"
+    ]
+  },
+  "Trigger.ArrayTmp:GetTableRowIndexs": {
+    "desc": "查找表格中所有满足条件的行号",
+    "params": {
+      "varId": "表格变量ID",
+      "playerId": "玩家ID，公共表传 0",
+      "col": "列号或列名",
+      "itype": "匹配方式：1 相等，2 不等",
+      "value": "比较值"
+    },
+    "returns": [
+      "table result 行号临时数组，未找到时为空数组"
+    ]
+  },
+  "Trigger.ArrayTmp:GetTableValuesByCol": {
+    "desc": "按列取出表格中的全部值",
+    "params": {
+      "varId": "表格变量ID",
+      "playerId": "玩家ID，公共表传 0",
+      "col": "列号或列名"
+    },
+    "returns": [
+      "table result 列值的临时数组，空列或无有效元素时为空数组"
+    ],
+    "notes": [
+      "按列定义的类型选择变量组，未定义时按首元素类型推断"
+    ]
+  },
+  "Trigger.ArrayTmp:GetTeamCreatures": {
+    "desc": "获取队伍中的生物临时数组",
+    "params": {
+      "teamid": "队伍ID"
+    },
+    "returns": [
+      "table result 生物ID的临时数组，队伍无效时为空数组"
+    ],
+    "notes": [
+      "teamid 无效时按 -1 处理"
+    ]
+  },
+  "Trigger.ArrayTmp:GetTeamLivingActor": {
+    "desc": "获取队伍中的玩家与生物角色数组",
+    "params": {
+      "teamid": "队伍ID"
+    },
+    "returns": [
+      "table result 角色ID的临时数组，玩家在前、生物在后"
+    ],
+    "notes": [
+      "名字虽为 LivingActor，实现未过滤存活状态"
+    ]
+  },
+  "Trigger.ArrayTmp:GetTeamMobs": {
+    "desc": "获取队伍中的生物临时数组",
+    "params": {
+      "teamid": "队伍ID"
+    },
+    "returns": [
+      "table result 生物ID的临时数组，队伍无效时为空数组"
+    ],
+    "notes": [
+      "通过触发器全局数据检索队伍成员"
+    ]
+  },
+  "Trigger.ArrayTmp:GetTeamPlayers": {
+    "desc": "获取队伍中的玩家临时数组",
+    "params": {
+      "teamid": "队伍ID",
+      "alive": "玩家状态：1 存活，0 阵亡，-1 全部，默认 -1"
+    },
+    "returns": [
+      "table result 玩家ID的临时数组，队伍无效时为空数组"
+    ],
+    "notes": [
+      "队伍ID需在 0-6 之间，超出范围返回空数组"
+    ]
+  },
+  "Trigger.ArrayTmp:GetVarTabValue": {
+    "desc": "读取表格变量中指定行与列的值",
+    "params": {
+      "varId": "表格变量ID",
+      "playerId": "玩家ID，公共表传 0",
+      "col": "列号或列名",
+      "rows": "行号",
+      "value": "未使用"
+    },
+    "returns": [
+      "any? result 单元格的值，变量或行列无效时为 nil"
+    ],
+    "notes": [
+      "value 参数在实现中被忽略"
+    ]
+  },
+  "Trigger.ArrayTmp:InsertValue": {
+    "desc": "向数组变量末尾追加一个值",
+    "params": {
+      "value": "要追加的值",
+      "varid": "数组变量ID",
+      "playerid": "玩家ID，公共变量传 0"
+    },
+    "returns": [
+      "boolean result 是否插入成功"
+    ]
+  },
+  "Trigger.ArrayTmp:InsertValueToArray": {
+    "desc": "在数组变量的指定位置插入值",
+    "params": {
+      "varId": "数组变量ID",
+      "playerId": "玩家ID，公共变量传 0",
+      "index": "插入位置，从 1 开始",
+      "value": "要插入的值"
+    },
+    "returns": [
+      "boolean result 是否插入成功"
+    ]
+  },
+  "Trigger.ArrayTmp:InsertValuesToArray": {
+    "desc": "把另一个数组的全部值追加到目标数组",
+    "params": {
+      "varId": "目标数组变量ID",
+      "playerId": "目标数组所属玩家ID",
+      "varId2": "来源数组变量ID",
+      "playerId2": "来源数组所属玩家ID"
+    },
+    "returns": [
+      "boolean result 是否插入成功"
+    ]
+  },
+  "Trigger.ArrayTmp:InsertVarTabValue": {
+    "desc": "在表格变量指定行插入一行数据",
+    "params": {
+      "varId": "表格变量ID",
+      "playerId": "玩家ID，公共表传 0",
+      "index": "行号"
+    },
+    "returns": [
+      "boolean? result 是否插入成功，变量不存在时为 nil"
+    ],
+    "notes": [
+      "可变参数按列顺序组成一行"
+    ]
+  },
+  "Trigger.ArrayTmp:ObjInTmpGroup": {
+    "desc": "判断值是否存在于临时数组中",
+    "params": {
+      "v1": "要查找的值",
+      "v2": "临时数组"
+    },
+    "returns": [
+      "boolean result 是否存在"
+    ]
+  },
+  "Trigger.ArrayTmp:RemoveByValue": {
+    "desc": "从数组变量中移除指定值",
+    "params": {
+      "value": "要移除的值",
+      "varid": "数组变量ID",
+      "playerid": "玩家ID，公共变量传 0"
+    },
+    "returns": [
+      "boolean result 是否移除成功"
+    ]
+  },
+  "Trigger.ArrayTmp:ReplaceValueToArray": {
+    "desc": "把数组变量中的旧值替换为新值",
+    "params": {
+      "varId": "数组变量ID",
+      "playerId": "玩家ID，公共变量传 0",
+      "value": "新值",
+      "oldValue": "被替换的旧值"
+    },
+    "returns": [
+      "boolean result 是否替换成功"
+    ],
+    "notes": [
+      "会替换所有匹配到的旧值"
+    ]
+  },
+  "Trigger.ArrayTmp:SetTableRows": {
+    "desc": "按条件批量写入表格指定列的值",
+    "params": {
+      "varId": "表格变量ID",
+      "playerId": "玩家ID，公共表传 0",
+      "frow": "条件列",
+      "itype": "匹配方式：1 相等，2 不等",
+      "fvalue": "条件值",
+      "col": "要写入的列",
+      "value": "写入值"
+    },
+    "returns": [
+      "boolean? result 是否写入成功，变量不存在时为 nil"
+    ],
+    "notes": [
+      "坐标表按 x/y/z 逐分量比较"
+    ]
+  },
+  "Trigger.ArrayTmp:SetValueToArray": {
+    "desc": "设置数组变量指定位置的值",
+    "params": {
+      "varId": "数组变量ID",
+      "playerId": "玩家ID，公共变量传 0",
+      "index": "位置索引",
+      "value": "写入值"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ]
+  },
+  "Trigger.ArrayTmp:SetVarTabValue": {
+    "desc": "设置表格变量中指定行与列的值",
+    "params": {
+      "varId": "表格变量ID",
+      "playerId": "玩家ID，公共表传 0",
+      "col": "列号或列名",
+      "rows": "行号或行号数组",
+      "value": "写入值"
+    },
+    "returns": [
+      "boolean? result 是否写入成功，rows 类型不支持时为 nil"
+    ]
+  },
+  "Trigger.ArrayTmp:SplitStrArray": {
+    "desc": "按分隔符把字符串拆成临时数组",
+    "params": {
+      "str": "待拆分的字符串",
+      "mark": "分隔符"
+    },
+    "returns": [
+      "table result 字符串临时数组，参数不是字符串时为空数组"
+    ]
+  },
+  "Trigger.Backpack:ActDestructEquip": {
+    "desc": "销毁玩家装备栏中指定格子的装备",
+    "params": {
+      "data": "玩家ID或其数组",
+      "equipid": "装备栏格子ID（装备栏起始+槽位，武器槽无效）"
+    },
+    "returns": [
+      "boolean result 是否销毁成功"
+    ],
+    "notes": [
+      "仅支持头部到自定义3槽位，武器槽直接返回 false"
+    ]
+  },
+  "Trigger.Backpack:ActEquipOffByEquipID": {
+    "desc": "把装备栏中的装备脱下",
+    "params": {
+      "data": "玩家ID或其数组",
+      "equipid": "装备栏格子ID，武器槽无效"
+    },
+    "returns": [
+      "boolean result 是否脱下成功"
+    ],
+    "notes": [
+      "自动寻找空格子，快捷栏优先、其次背包栏",
+      "没有空格子时装备直接丢弃"
+    ]
+  },
+  "Trigger.Backpack:ActEquipUpByResID": {
+    "desc": "让玩家自动穿上背包中的指定装备",
+    "params": {
+      "data": "玩家ID或其数组",
+      "itemid": "道具类型ID，数字配置ID或资源ID字符串"
+    },
+    "returns": [
+      "boolean result 是否穿上成功"
+    ],
+    "notes": [
+      "依次在快捷栏、背包栏查找该道具",
+      "目标装备格已有道具时交换位置",
+      "道具不是装备类型或找不到可穿位置时返回 false"
+    ]
+  },
+  "Trigger.Backpack:AddItem": {
+    "desc": "向玩家背包添加道具",
+    "params": {
+      "num": "道具数量，需大于 0",
+      "itemid": "道具类型ID，数字配置ID或资源ID字符串",
+      "data": "玩家ID或其数组"
+    },
+    "returns": [
+      "boolean result 是否添加成功，玩家背包不可用时为 false"
+    ],
+    "notes": [
+      "固定优先放入快捷栏，放不下再进背包栏",
+      "道具不可被脚本使用时返回 false",
+      "返回值只反映调用是否成功，不代表实际放入数量"
+    ]
+  },
+  "Trigger.Backpack:CreateItemID": {
+    "desc": "按指定优先位置创建道具",
+    "params": {
+      "itemnum": "道具数量，需大于 0",
+      "itemid": "道具类型ID",
+      "data": "玩家ID或其数组",
+      "ipos": "优先存放栏（BackpackType）：1 快捷栏，2 背包栏，3 装备栏"
+    },
+    "returns": [
+      "boolean result 是否创建成功"
+    ],
+    "notes": [
+      "装备栏创建失败时回落到背包栏",
+      "各栏都放不下的剩余数量会在玩家位置生成掉落物",
+      "ipos 为其他值时按快捷栏+背包栏处理"
+    ]
+  },
+  "Trigger.Backpack:DiscardItemByID": {
+    "desc": "丢弃玩家背包中指定类型的道具",
+    "params": {
+      "data": "玩家ID或其数组",
+      "itemnum": "丢弃数量，需大于 0",
+      "itemid": "道具类型ID"
+    },
+    "returns": [
+      "boolean result 是否执行成功"
+    ],
+    "notes": [
+      "按背包栏、快捷栏顺序查找后丢弃",
+      "数量不足或道具不存在时也返回 true"
+    ]
+  },
+  "Trigger.Backpack:EnoughSpaceForItem": {
+    "desc": "检查玩家背包能否装下指定数量的道具",
+    "params": {
+      "objid": "玩家ID",
+      "itemnum": "道具数量",
+      "itemid": "道具类型ID"
+    },
+    "returns": [
+      "boolean result 是否有足够空间"
+    ],
+    "notes": [
+      "统计范围包含背包栏与快捷栏"
+    ]
+  },
+  "Trigger.Backpack:GetShurtItemid": {
+    "desc": "读取玩家指定背包格的道具ID",
+    "params": {
+      "playerid": "玩家ID",
+      "gridtype": "格子类型（BackpackType）：1 快捷栏，2 背包栏，3 装备栏",
+      "index": "格子在栏内的序号，从 1 开始"
+    },
+    "returns": [
+      "integer|string? itemid 道具ID，MOD 道具为资源ID字符串，格子为空或参数无效时为 nil"
+    ],
+    "notes": [
+      "格子ID换算：快捷栏 1000+序号-1，背包栏 序号-1，装备栏 8000+序号-1",
+      "方法名 Shurt 是引擎原始拼写"
+    ]
+  },
+  "Trigger.Backpack:GetShurtItemnum": {
+    "desc": "读取玩家指定背包格的道具数量",
+    "params": {
+      "playerid": "玩家ID",
+      "gridtype": "格子类型（BackpackType）：1 快捷栏，2 背包栏，3 装备栏",
+      "index": "格子在栏内的序号，从 1 开始"
+    },
+    "returns": [
+      "integer? num 道具数量，格子为空或参数无效时为 nil"
+    ]
+  },
+  "Trigger.Backpack:PlayShortCutItemEffect": {
+    "desc": "在玩家手持指定道具时播放特效",
+    "params": {
+      "data": "玩家ID或其数组",
+      "itemid": "道具类型ID",
+      "effectid": "特效ID，仅支持数字",
+      "scale": "缩放"
+    },
+    "returns": [
+      "boolean result 是否播放成功"
+    ],
+    "notes": [
+      "effectid 不是数字或找不到特效定义时返回 false"
+    ]
+  },
+  "Trigger.Backpack:PlayShortCutItemParticle": {
+    "desc": "在玩家手持指定道具时播放粒子特效",
+    "params": {
+      "data": "玩家ID或其数组",
+      "itemid": "道具类型ID",
+      "effectids": "粒子特效ID/名称或数组",
+      "offset": "偏移，默认 {x=0,y=0,z=0}",
+      "rot": "旋转，默认 {x=0,y=0,z=0}",
+      "scale": "缩放，默认 {x=1,y=1,z=1}"
+    },
+    "returns": [
+      "boolean result 是否播放成功"
+    ]
+  },
+  "Trigger.Backpack:PlayShortCutIxEffect": {
+    "desc": "播放玩家手持道具的特效",
+    "params": {
+      "data": "玩家ID或其数组",
+      "effectid": "特效ID或特效名",
+      "scale": "缩放"
+    },
+    "returns": [
+      "boolean result 是否播放成功"
+    ],
+    "notes": [
+      "数字特效ID会先查特效定义再取名称"
+    ]
+  },
+  "Trigger.Backpack:PlayShortCutIxParticle": {
+    "desc": "播放玩家手持道具的粒子特效",
+    "params": {
+      "data": "玩家ID或其数组",
+      "effectids": "粒子特效ID/名称或数组",
+      "offset": "偏移，默认 {x=0,y=0,z=0}",
+      "rot": "旋转，默认 {x=0,y=0,z=0}",
+      "scale": "缩放，默认 {x=1,y=1,z=1}"
+    },
+    "returns": [
+      "boolean result 是否播放成功"
+    ]
+  },
+  "Trigger.Backpack:RemoveGridItem": {
+    "desc": "移除指定背包格内的道具",
+    "params": {
+      "data": "玩家ID或其数组",
+      "gridid": "格子ID",
+      "itemnum": "移除数量，需大于 0"
+    },
+    "returns": [
+      "boolean result 是否移除成功"
+    ],
+    "notes": [
+      "格子被锁定时不执行并返回 false"
+    ]
+  },
+  "Trigger.Backpack:RemoveItem": {
+    "desc": "按道具ID从背包移除一定数量",
+    "params": {
+      "data": "玩家ID或其数组",
+      "itemnum": "移除数量，需大于 0",
+      "itemid": "道具类型ID"
+    },
+    "returns": [
+      "boolean result 是否实际移除了道具"
+    ],
+    "notes": [
+      "实际移除数量为 0 时返回 false"
+    ]
+  },
+  "Trigger.Backpack:SetGridItem": {
+    "desc": "直接设置背包指定格子中的道具",
+    "params": {
+      "data": "玩家ID或其数组",
+      "gridid": "格子ID",
+      "itemid": "道具类型ID",
+      "itemnum": "道具数量，需大于 0"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "格子被锁定或道具不可被脚本使用时返回 false"
+    ]
+  },
+  "Trigger.Backpack:StopShortCutItemEffect": {
+    "desc": "停止玩家手持指定道具时播放的特效",
+    "params": {
+      "data": "玩家ID或其数组",
+      "itemid": "道具类型ID",
+      "effectids": "特效ID/名称或数组"
+    },
+    "returns": [
+      "boolean result 是否执行成功"
+    ]
+  },
+  "Trigger.Backpack:StopShortCutIxEffect": {
+    "desc": "停止玩家手持道具上播放的特效",
+    "params": {
+      "data": "玩家ID或其数组",
+      "effectids": "特效ID/名称或数组"
+    },
+    "returns": [
+      "boolean result 是否执行成功"
+    ]
+  },
+  "Trigger.Component:AddComponent": {
+    "desc": "为对象添加组件",
+    "params": {
+      "object": "对象ID或对象表",
+      "cmpName": "组件名"
+    },
+    "returns": [
+      "boolean result 是否添加成功"
+    ],
+    "notes": [
+      "对象不存在或组件创建失败时返回 false"
+    ]
+  },
+  "Trigger.Component:AddEvent": {
+    "desc": "向对象注册事件回调",
+    "params": {
+      "cmp": "组件实例，作为回调的 self",
+      "object": "对象ID或对象表",
+      "event": "事件枚举，不能为空",
+      "fn": "回调函数",
+      "priority": "监听优先级"
+    },
+    "returns": [
+      "boolean result 是否注册成功"
+    ]
+  },
+  "Trigger.Component:CallBlockComponentFunctionByPos": {
+    "desc": "调用坐标处方块组件上的函数",
+    "params": {
+      "pos": "坐标 {x,y,z}，可带 worldId 或 mapId",
+      "cmpName": "组件名",
+      "fnName": "函数名"
+    },
+    "returns": [
+      "boolean result 是否调用成功"
+    ],
+    "notes": [
+      "坐标处没有方块或组件函数未启用时返回 false"
+    ]
+  },
+  "Trigger.Component:CallBlockComponentFunctionByPosVar": {
+    "desc": "调用坐标处方块组件函数并返回结果",
+    "params": {
+      "pos": "坐标 {x,y,z}，可带 worldId 或 mapId",
+      "cmpName": "组件名",
+      "fnName": "函数名"
+    },
+    "returns": [
+      "any? result 函数返回值，失败或函数未启用时为 nil"
+    ],
+    "notes": [
+      "以 cmp:fnName(pos, ...) 形式调用"
+    ]
+  },
+  "Trigger.Component:CallComponentFunction": {
+    "desc": "调用对象组件上的函数",
+    "params": {
+      "object": "对象ID或对象表",
+      "cmpName": "组件名",
+      "fnName": "函数名"
+    },
+    "returns": [
+      "boolean result 是否调用成功"
+    ],
+    "notes": [
+      "函数必须存在且事件已启用"
+    ]
+  },
+  "Trigger.Component:CallComponentFunctionVar": {
+    "desc": "调用对象组件函数并返回结果",
+    "params": {
+      "object": "对象ID或对象表",
+      "cmpName": "组件名",
+      "fnName": "函数名"
+    },
+    "returns": [
+      "any? result 函数返回值，失败或函数未启用时为 nil"
+    ]
+  },
+  "Trigger.Component:CheckCmpFunctionCallType": {
+    "desc": "按返回类型标记调用组件函数",
+    "params": {
+      "fun": "组件函数",
+      "cmp": "组件实例",
+      "checkType": "期望的返回类型标记"
+    },
+    "returns": [
+      "any? result 第二个返回值等于 checkType 时返回第一个返回值，否则为 nil"
+    ]
+  },
+  "Trigger.Component:GetBlockComponentPropertyByPos": {
+    "desc": "读取坐标处方块组件的属性",
+    "params": {
+      "pos": "坐标 {x,y,z}，可带 worldId 或 mapId",
+      "cmpName": "组件名",
+      "property": "属性名"
+    },
+    "returns": [
+      "any? value 属性值，方块或组件不存在时为 nil"
+    ]
+  },
+  "Trigger.Component:GetComponentProperty": {
+    "desc": "读取对象组件的属性",
+    "params": {
+      "object": "对象ID或对象表",
+      "cmpName": "组件名",
+      "property": "属性名"
+    },
+    "returns": [
+      "any? value 属性值，组件不存在时为 nil"
+    ]
+  },
+  "Trigger.Component:GetIsHasCmp": {
+    "desc": "判断对象是否挂载了指定组件",
+    "params": {
+      "object": "对象ID或对象表",
+      "cmpName": "组件名"
+    },
+    "returns": [
+      "boolean result 是否拥有该组件"
+    ],
+    "notes": [
+      "对象查不到或已失效时返回 false"
+    ]
+  },
+  "Trigger.Component:IncreasesComponentProperty": {
+    "desc": "在组件属性上累加数值",
+    "params": {
+      "object": "对象ID或对象表",
+      "cmpName": "组件名",
+      "property": "属性名",
+      "value": "增量，可为负数"
+    },
+    "returns": [
+      "boolean result 是否累加成功"
+    ],
+    "notes": [
+      "属性必须已存在且为数字，否则调用会报错"
+    ]
+  },
+  "Trigger.Component:IsEventEnable": {
+    "desc": "判断组件的某个事件函数是否启用",
+    "params": {
+      "funcname": "组件上的函数名",
+      "cmp": "组件实例"
+    },
+    "returns": [
+      "boolean? result 是否启用，组件或函数不存在时为 nil"
+    ]
+  },
+  "Trigger.Component:RemoveComponent": {
+    "desc": "移除对象上的指定组件",
+    "params": {
+      "object": "对象ID或对象表",
+      "cmpName": "组件名"
+    },
+    "returns": [
+      "boolean result 是否执行成功"
+    ],
+    "notes": [
+      "只要对象可访问就返回 true，不校验组件是否真的存在"
+    ]
+  },
+  "Trigger.Component:RunCmpBaseFn": {
+    "desc": "以保护模式执行组件的基础事件函数",
+    "params": {
+      "cmp": "组件实例",
+      "fn": "要执行的函数"
+    },
+    "notes": [
+      "函数未启用时不执行",
+      "线程池可用时投递到线程池执行"
+    ]
+  },
+  "Trigger.Component:SetComponentProperty": {
+    "desc": "设置对象组件的属性",
+    "params": {
+      "object": "对象ID或对象表",
+      "cmpName": "组件名",
+      "property": "属性名",
+      "value": "属性值"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "组件不存在时返回 false"
+    ]
+  },
+  "Trigger.Component:SetEventIsEnable": {
+    "desc": "启用或禁用组件的某个事件函数",
+    "params": {
+      "funcname": "组件上的函数名",
+      "enable": "是否启用",
+      "cmp": "组件实例"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "组件或函数不存在时返回 false"
+    ]
+  }
+}

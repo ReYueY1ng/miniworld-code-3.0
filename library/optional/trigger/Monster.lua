@@ -7,6 +7,9 @@
 ---@class Trigger.Monster
 Trigger.Monster = {}
 
----获取生物外观
----@param monsterid any 生物ID
+---获取生物类型对应的外观资源名
+---字符串参数直接拼成 mobprefab_<参数>
+---数字参数先查自定义资源ID，再回退为 mob_<类型ID>
+---@param monsterid integer 生物ID或生物预制资源ID
+---@return string? result 外观名，形如 mobprefab_<资源ID> 或 mob_<类型ID>，无法解析时为 nil
 function Trigger.Monster:GetMonsterFacade(monsterid) end

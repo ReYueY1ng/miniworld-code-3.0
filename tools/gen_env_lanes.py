@@ -38,12 +38,13 @@ PROJECT_ROOT = TOOLS_DIR.parent
 LIBRARY_DIR = PROJECT_ROOT / "library"
 OFFICIAL_DIR = LIBRARY_DIR / "optional" / "official"
 TRIGGER_DIR = LIBRARY_DIR / "optional" / "trigger"
+OVERRIDES_DIR = TOOLS_DIR / "api-update" / "doc_overrides"
 WIKI_DOCS = PROJECT_ROOT / "tmp" / "wiki_data" / "all_api.json"
 DECOMPILED_CACHE = TOOLS_DIR / "api-update" / "decompiled-types.json"
 
 sys.path.insert(0, str(TOOLS_DIR))
 import env_lib  # noqa: E402
-from decompiled_types import ALIASES as DECOMPILED_ALIASES  # noqa: E402
+from decompiled_types import ALIASES as DECOMPILED_ALIASES, name_type_hint  # noqa: E402
 from doc_text import param_desc, purpose, return_info  # noqa: E402
 
 
@@ -96,6 +97,8 @@ TRIGGER_MODULES = {
 
 RESERVED_PARAM_NAMES = {"function", "local", "end", "then", "repeat", "until", "goto"}
 
+NUMERIC_VALUES = re.compile(r"(?:^|[：:，,（(])\s*-?\d+")
+
 
 def load_face(face: str) -> list[dict]:
     path = env_lib.face_path(face)
@@ -128,16 +131,27 @@ def wiki_item(docs: dict[tuple[str, str], dict], qualifier: str, method: str) ->
 
 
 def param_type(item: dict | None, name: str) -> tuple[str, str]:
+    """Wiki parameter type/description, including the "/ string" union style."""
     if not item:
-        return "any", ""
+        return "", ""
     for param in item.get("params", []):
         if not isinstance(param, dict):
             continue
         if param.get("name") != name:
             continue
         raw = str(param.get("type", "")).strip()
-        return TYPE_MAP.get(raw, "any"), str(param.get("description", "")).strip()
-    return "any", ""
+        desc = str(param.get("description", "")).strip()
+        union = re.match(r"^/\s*(\w+)\s*(.*)$", desc)
+        if union:
+            extra = TYPE_MAP.get(union.group(1), "")
+            base = TYPE_MAP.get(raw, "")
+            desc = union.group(2).strip()
+            if extra and base:
+                raw = f"{base} | {extra}"
+            elif extra:
+                raw = extra
+        return raw, desc
+    return "", ""
 
 
 def clean_desc(text: str) -> str:
@@ -189,38 +203,104 @@ def load_decompiled_cache() -> dict:
         return {}
 
 
-def decompiled_inference(cache: dict, qualifier: str, method: str,
-                         env_params: list[str], is_trigger: bool) -> tuple[dict, set, str | None]:
+def load_overrides() -> dict[tuple[str, str], dict]:
+    merged: dict[tuple[str, str], dict] = {}
+    if not OVERRIDES_DIR.is_dir():
+        return merged
+    for path in sorted(OVERRIDES_DIR.glob("*.json")):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as error:
+            raise SystemExit(f"invalid doc override file {path}: {error}")
+        for key, value in data.items():
+            if not isinstance(value, dict) or ":" not in key:
+                raise SystemExit(f"invalid doc override entry {key!r} in {path}")
+            qualifier, method = key.rsplit(":", 1)
+            merged.setdefault((qualifier, method), value)
+    return merged
+
+
+def decompiled_entry(cache: dict, qualifier: str, method: str, is_trigger: bool) -> dict | None:
     lane = cache.get("trigger" if is_trigger else "service", {})
-    entry = None
     for candidate in (qualifier, *DECOMPILED_ALIASES.get(qualifier, ()), qualifier.split(".")[-1]):
         entry = lane.get(f"{candidate}:{method}")
         if entry:
-            break
-    if not entry:
-        return {}, set(), None
+            return entry
+    return None
 
+
+def source_names(entry: dict, env_params: list[str]) -> dict[str, str]:
+    """Map each environment parameter to the name used by the implementation."""
     names = entry.get("names") or []
-    source_types = entry.get("params") or {}
-    aligned: dict[str, str] = {}
     if len(names) == len(env_params):
-        for env_name, source_name in zip(env_params, names):
-            value = source_types.get(source_name)
-            if value:
-                aligned[env_name] = value
-    else:
-        aligned = {k: v for k, v in source_types.items() if k in env_params}
-    return aligned, set(entry.get("optional") or []), entry.get("returns")
+        return {env: names[index] for index, env in enumerate(env_params)}
+    return {name: name for name in env_params}
+
+
+def aligned_list(entry: dict, key: str, mapping: dict[str, str]) -> dict[str, str]:
+    values = entry.get(key) or {}
+    aligned: dict[str, str] = {}
+    for env_name, source_name in mapping.items():
+        if source_name in values:
+            aligned[env_name] = values[source_name]
+    return aligned
+
+
+def wiki_return_lines(item: dict | None) -> list[str]:
+    """Convert the wiki's "name: type 描述" return text into @return payloads."""
+    if not item:
+        return []
+    raw = clean_desc(item.get("returns", ""))
+    if not raw or raw.endswith("无"):
+        return []
+    raw = re.sub(r"^ret\s*[:：]\s*", "", raw)
+    named = re.match(r"^(\w+)\s*[:：]\s*([\w.|\[\]]+)\s+(.+)$", raw)
+    if named:
+        return [f"{named.group(2)} {named.group(1)} {named.group(3)}"]
+    typed = re.match(r"^([\w.|\[\]]+)\s+(.+)$", raw)
+    if typed:
+        return [f"{typed.group(1)} result {typed.group(2)}"]
+    return []
+
+
+def evidence_param_notes(entry: dict, source_name: str) -> str:
+    notes: list[str] = []
+    enum = (entry.get("enums") or {}).get(source_name)
+    if enum and enum.get("type"):
+        notes.append(f"取值见 {enum['type'].split('.')[-1]}")
+    defaults = entry.get("defaults") or {}
+    if source_name in defaults:
+        value = str(defaults[source_name]).strip()
+        if value.startswith("{"):
+            value = "{}"
+        elif len(value) > 16:
+            value = value[:16] + "…"
+        notes.append(f"默认 {value}")
+    bounds = entry.get("bounds") or {}
+    if source_name in bounds:
+        notes.append(f"需 {bounds[source_name]}")
+    return "，".join(notes)
 
 
 def emit_function(lines: list[str], qualifier: str, method: str, entry: dict,
                   docs: dict[tuple[str, str], dict],
                   whitelist_names: set[str] | None = None,
                   decompiled: dict | None = None,
-                  is_trigger: bool = False) -> None:
+                  is_trigger: bool = False,
+                  overrides: dict[tuple[str, str], dict] | None = None) -> None:
     params = param_names(entry)
     item = wiki_item(docs, qualifier, method)
-    desc = clean_desc(item.get("description", "")) if item else ""
+    override = (overrides or {}).get((qualifier, method), {})
+    source = decompiled_entry(decompiled or {}, qualifier, method, is_trigger) or {}
+    mapping = source_names(source, params)
+    source_types = {env: (source.get("params") or {})[name]
+                    for env, name in mapping.items() if name in (source.get("params") or {})}
+    source_optional = {env for env, name in mapping.items()
+                       if name in set(source.get("optional") or [])}
+
+    desc = clean_desc(override.get("desc", ""))
+    if not desc:
+        desc = clean_desc(item.get("description", "")) if item else ""
     if not desc:
         desc = purpose(method)
     parts = [p.strip() for p in re.split(r"<br\s*/?>", desc) if p.strip()]
@@ -229,23 +309,67 @@ def emit_function(lines: list[str], qualifier: str, method: str, entry: dict,
         lines.append(f"---{part}{suffix}")
     if is_whitelisted(entry, whitelist_names):
         lines.append("---**调用限制**: 仅白名单用户可用")
-    source_types, source_optional, source_return = decompiled_inference(
-        decompiled or {}, qualifier, method, params, is_trigger)
+    for note in override.get("notes") or []:
+        text = clean_desc(note)
+        if text:
+            lines.append(f"---{text}")
+
+    override_params = {str(k): str(v) for k, v in (override.get("params") or {}).items()}
     for name in params:
         if name == "...":
             lines.append("---@vararg any")
             continue
-        ptype, pdesc = param_type(item, name)
-        if name in source_types:
-            ptype = source_types[name]
-        if not pdesc:
-            pdesc = param_desc(name)
+        ptype = source_types.get(name) or ""
+        guessed = False
+        if not ptype:
+            ptype = param_type(item, name)[0]
+        if not ptype:
+            ptype = name_type_hint(name, is_trigger) or ""
+            guessed = True
+        if not ptype:
+            ptype = "any"
+        pdesc = override_params.get(name, "")
+        batch = "integer[]" in ptype
+        if pdesc:
+            pass
+        elif batch:
+            pdesc = "对象ID或其数组，数组中每个对象都执行一次"
+        elif param_type(item, name)[1]:
+            pdesc = param_type(item, name)[1]
+            extra = evidence_param_notes(source, mapping.get(name, name))
+            if extra and extra not in pdesc:
+                pdesc = f"{pdesc}，{extra}"
+        else:
+            notes = evidence_param_notes(source, mapping.get(name, name))
+            base = param_desc(name)
+            if notes:
+                pdesc = f"{base}，{notes}" if not base.startswith("参数 ") else notes
+            else:
+                pdesc = base
+        pdesc = clean_desc(pdesc)
+        if guessed and ptype == "boolean" and NUMERIC_VALUES.search(pdesc):
+            ptype = "number"
         marker = "?" if name in source_optional else ""
         suffix = f" {pdesc}" if pdesc else ""
         lines.append(f"---@param {name}{marker} {ptype}{suffix}")
-    if source_return:
-        result_name, result_desc = return_info(source_return, method, params)
-        lines.append(f"---@return {source_return} {result_name} {result_desc}")
+
+    for payload in override.get("returns") or []:
+        lines.append(f"---@return {clean_desc(payload)}")
+    if not override.get("returns"):
+        returns_list = source.get("returns_list") or (
+            [source["returns"]] if source.get("returns") else [])
+        if returns_list:
+            used: set[str] = set()
+            for index, type_text in enumerate(returns_list):
+                result_name, result_desc = return_info(type_text, method, params, index=index)
+                while result_name in used:
+                    result_name = f"{result_name}{index + 1}"
+                used.add(result_name)
+                lines.append(f"---@return {type_text} {result_name} {result_desc}")
+        else:
+            for payload in wiki_return_lines(item):
+                lines.append(f"---@return {payload}")
+
     signature = ", ".join(params)
     call = f"function {qualifier}:{method}({signature}) end"
     if len(call) <= 120 or not params:
@@ -292,7 +416,8 @@ def method_of(name: str) -> str:
 
 def generate_official(entries: list[dict], docs: dict[tuple[str, str], dict],
                       write: bool, whitelist_names: set[str] | None = None,
-                      decompiled: dict | None = None) -> dict:
+                      decompiled: dict | None = None,
+                      overrides: dict[tuple[str, str], dict] | None = None) -> dict:
     grouped: dict[str, list[dict]] = defaultdict(list)
     for entry in entries:
         grouped[qualifier_of(entry["name"])].append(entry)
@@ -329,6 +454,7 @@ def generate_official(entries: list[dict], docs: dict[tuple[str, str], dict],
                 whitelist_names,
                 decompiled,
                 False,
+                overrides,
             )
         emitted += len(methods)
         if write:
@@ -375,7 +501,10 @@ def trigger_submodules(functions: list[dict], modules: list[dict]) -> list[str]:
 
 def generate_trigger(functions: list[dict], modules: list[dict], write: bool,
                      whitelist_names: set[str] | None = None,
-                     decompiled: dict | None = None) -> dict:
+                     decompiled: dict | None = None,
+                     docs: dict[tuple[str, str], dict] | None = None,
+                     overrides: dict[tuple[str, str], dict] | None = None) -> dict:
+    docs = docs or {}
     submodules = trigger_submodules(functions, modules)
     top_level = [e for e in functions if trigger_parts(e["name"])[0] is None]
     by_sub: dict[str, list[dict]] = defaultdict(list)
@@ -406,10 +535,11 @@ def generate_trigger(functions: list[dict], modules: list[dict], write: bool,
                 "Trigger",
                 trigger_parts(entry["name"])[1],
                 entry,
-                {},
+                docs,
                 whitelist_names,
                 decompiled,
                 True,
+                overrides,
             )
 
     sub_files: dict[str, list[str]] = {}
@@ -431,10 +561,11 @@ def generate_trigger(functions: list[dict], modules: list[dict], write: bool,
                 f"Trigger.{sub}",
                 trigger_parts(entry["name"])[1],
                 entry,
-                {},
+                docs,
                 whitelist_names,
                 decompiled,
                 True,
+                overrides,
             )
         sub_files[sub] = file_lines
 
@@ -480,17 +611,19 @@ def main() -> int:
     docs = load_wiki_docs()
     whitelist_names = load_whitelist_names()
     decompiled = load_decompiled_cache()
+    overrides = load_overrides()
 
     if args.only in (None, "official"):
         entries = official_entries()
-        stats = generate_official(entries, docs, write, whitelist_names, decompiled)
+        stats = generate_official(entries, docs, write, whitelist_names, decompiled, overrides)
         print("official lane:", json.dumps(stats, ensure_ascii=False))
         if args.verify:
             print(f"  emitted {count_functions(OFFICIAL_DIR)}/{stats['expected']} functions on disk")
 
     if args.only in (None, "trigger"):
         functions, modules = trigger_entries()
-        stats = generate_trigger(functions, modules, write, whitelist_names, decompiled)
+        stats = generate_trigger(functions, modules, write, whitelist_names, decompiled,
+                                 docs, overrides)
         print("trigger lane:", json.dumps(stats, ensure_ascii=False))
         if args.verify:
             print(f"  emitted {count_functions(TRIGGER_DIR)}/{stats['expected']} functions on disk")

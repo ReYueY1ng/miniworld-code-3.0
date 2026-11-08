@@ -7,18 +7,23 @@
 ---@class ObjectLib
 ObjectLib = {}
 
----获取区域数据
----@param libobjid any 库对象ID
+---获取区域库对象的数据
+---@param libobjid integer 库对象ID
+---@return table? data 区域数据表，失败时为 nil
 function ObjectLib:GetAreaData(libobjid) end
 
----获取道具数据
----@param libobjid any 库对象ID
+---获取道具库对象的数据
+---引擎实现调用 getLivingData，返回内容与 GetLivingData 相同
+---@param libobjid integer 库对象ID
+---@return table? data 道具数据表，失败时为 nil
 function ObjectLib:GetItemData(libobjid) end
 
----获取living数据
----@param libobjid any 库对象ID
+---获取生物库对象的数据
+---@param libobjid integer 库对象ID
+---@return table? data 生物数据表，失败时为 nil
 function ObjectLib:GetLivingData(libobjid) end
 
----获取位置数据
----@param libobjid any 库对象ID
+---获取位置库对象的数据
+---@param libobjid integer 库对象ID
+---@return table? data 位置数据表，失败时为 nil
 function ObjectLib:GetPositionData(libobjid) end

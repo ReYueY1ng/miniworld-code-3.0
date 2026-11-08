@@ -1,0 +1,945 @@
+{
+  "Trigger:AllAttackType": {
+    "desc": "返回表示全部攻击类型的占位值",
+    "returns": [
+      "integer value 固定为 -1，表示全部攻击类型"
+    ],
+    "notes": [
+      "脚本层没有具体枚举，仅回传 -1 供参数位使用"
+    ]
+  },
+  "Trigger:AllSound": {
+    "desc": "返回表示全部音效的占位值",
+    "returns": [
+      "integer value 固定为 -1，表示全部音效"
+    ]
+  },
+  "Trigger:AllStatus": {
+    "desc": "把传入的状态参数原样返回，用作全部状态的占位",
+    "params": {
+      "data": "状态参数，可为单个状态ID或状态ID数组"
+    },
+    "returns": [
+      "any data 传入的 data 本身"
+    ]
+  },
+  "Trigger:AnyValue2Str": {
+    "desc": "把任意值转成字符串，表结构优先取 val 字段",
+    "params": {
+      "value": "待转换的值，为含 val 字段的表时取 val"
+    },
+    "returns": [
+      "string text 转换后的文本"
+    ],
+    "notes": [
+      "不含 val 的普通表会得到 \"table: 0x...\" 形式的地址字符串"
+    ]
+  },
+  "Trigger:DoObjOrArrayAction": {
+    "desc": "对单个对象或数组中的每个对象依次执行回调",
+    "params": {
+      "src": "单个对象或对象数组（VarArray）",
+      "fn": "逐个对象执行的回调，入参为该对象本身"
+    },
+    "notes": [
+      "只有 __className_ 为 VarArray 的 table、带 Size 方法的 userdata 才会展开，其他值当作单个对象处理",
+      "回调的返回值被忽略"
+    ]
+  },
+  "Trigger:GetAttrVal": {
+    "desc": "从属性参数表中取出角色或玩家属性值",
+    "params": {
+      "param": "属性参数表，含 actorattrval 或 playerattrval 字段"
+    },
+    "returns": [
+      "any value 属性值，两个字段都为空或入参非 table 时为 nil"
+    ],
+    "notes": [
+      "先取 actorattrval，取不到再回退 playerattrval"
+    ]
+  },
+  "Trigger:GetEffectParams": {
+    "desc": "读取特效组件所使用的道具ID",
+    "params": {
+      "cmp": "特效组件对象"
+    },
+    "returns": [
+      "number? itemid 特效道具ID，组件不支持该能力或参数为空时为 nil"
+    ]
+  },
+  "Trigger:GetElementID": {
+    "desc": "校验元件ID是否属于指定界面并原样返回",
+    "params": {
+      "uiID": "界面ID，与元件ID的 `界面ID_` 前缀比较",
+      "elementid": "待校验的元件ID"
+    },
+    "returns": [
+      "string result 属于该界面时返回元件ID，否则返回空字符串"
+    ],
+    "notes": [
+      "按 \"_\" 拆分后比较第一段，比较是字符串相等，uiID 建议传字符串",
+      "元件ID为 nil 时直接返回空字符串"
+    ]
+  },
+  "Trigger:GetLastCreateBlockId": {
+    "desc": "取最近一次创建的方块ID",
+    "returns": [
+      "number|string? blockid 最近记录的方块ID，未记录时为 nil"
+    ]
+  },
+  "Trigger:GetLastCreateCreatureId": {
+    "desc": "取最近一次创建的生物ID",
+    "returns": [
+      "integer? actorid 最近记录的生物ID，未记录时为 nil"
+    ]
+  },
+  "Trigger:GetLastCreateCreatureObjId": {
+    "desc": "取最近一次创建的生物对象实例ID",
+    "returns": [
+      "integer? objid 最近创建的生物对象ID，未记录时为 nil"
+    ],
+    "notes": [
+      "该值由引擎在创建生物对象时写入，触发器侧没有对应的 setter 接口"
+    ]
+  },
+  "Trigger:GetLastCreateEffectId": {
+    "desc": "取最近一次创建的特效ID",
+    "returns": [
+      "number|string? effectid 最近记录的特效ID，未记录时为 nil"
+    ]
+  },
+  "Trigger:GetLastCreateItemId": {
+    "desc": "取最近一次创建的道具ID",
+    "returns": [
+      "number|string? itemid 最近记录的道具ID，未记录时为 nil"
+    ]
+  },
+  "Trigger:GetMobId": {
+    "desc": "取生物组件所在的生物对象ID",
+    "params": {
+      "cmp": "挂在生物上的组件对象"
+    },
+    "returns": [
+      "integer? objid 生物对象ID，组件不属于生物时为 nil"
+    ],
+    "notes": [
+      "先用 cmp.gameObject:GetObjType() 与生物类型比较，不匹配则返回 nil"
+    ]
+  },
+  "Trigger:GetPlayerId": {
+    "desc": "取玩家组件所在的玩家对象ID",
+    "params": {
+      "cmp": "挂在玩家上的组件对象"
+    },
+    "returns": [
+      "integer? objid 玩家对象ID，组件不属于玩家时为 nil"
+    ]
+  },
+  "Trigger:GetPrefabIdStr": {
+    "desc": "把预制体ID统一转成字符串",
+    "params": {
+      "id": "预制体ID，数字或字符串"
+    },
+    "returns": [
+      "string? str 预制体ID字符串，入参为 nil 时为 nil"
+    ]
+  },
+  "Trigger:GetPrefabInfo": {
+    "desc": "组装含预制体ID和对象类型的信息表",
+    "params": {
+      "id": "预制体ID",
+      "objType": "对象类型枚举"
+    },
+    "returns": [
+      "table info 形如 {id = 预制体ID, type = 对象类型} 的表"
+    ]
+  },
+  "Trigger:GetRandomColor": {
+    "desc": "生成一个随机的 32 位颜色值",
+    "returns": [
+      "integer color 随机颜色值，格式为 0xRRGGBBAA"
+    ],
+    "notes": [
+      "内部用 os.time() 与随机数拼接后调用 math.randomseed，会改变全局随机序列"
+    ]
+  },
+  "Trigger:GetStringLength": {
+    "desc": "取字符串的字节长度",
+    "params": {
+      "str": "待测量的字符串"
+    },
+    "returns": [
+      "integer length 字节数，非字符串入参返回 0"
+    ],
+    "notes": [
+      "按字节计算，UTF-8 中文通常占 3 字节；按字符计数请参考 Substring 的索引口径"
+    ]
+  },
+  "Trigger:GetUIObject": {
+    "desc": "原样返回传入的界面对象ID",
+    "params": {
+      "id": "界面对象ID"
+    },
+    "returns": [
+      "any id 传入的 id 本身"
+    ],
+    "notes": [
+      "不做查找或类型转换，仅用于参数类型占位"
+    ]
+  },
+  "Trigger:GetWorld": {
+    "desc": "取当前世界对象ID",
+    "returns": [
+      "integer worldid 世界对象ID"
+    ]
+  },
+  "Trigger:PrintTag": {
+    "desc": "回传传入的标签值，不产生实际打印输出",
+    "params": {
+      "tag": "标签值"
+    },
+    "returns": [
+      "any tag 传入的 tag 本身"
+    ],
+    "notes": [
+      "可变参数被忽略"
+    ]
+  },
+  "Trigger:SetLastCreateBlockId": {
+    "desc": "记录最近创建的方块ID",
+    "params": {
+      "blockid": "要记录的方块ID，数字或字符串"
+    },
+    "notes": [
+      "只写触发器内部状态，不实际创建方块，可被 GetLastCreateBlockId 读出"
+    ]
+  },
+  "Trigger:SetLastCreateCreatureId": {
+    "desc": "记录最近创建的生物ID",
+    "params": {
+      "actorid": "要记录的生物ID"
+    },
+    "notes": [
+      "只写触发器内部状态，不实际创建生物"
+    ]
+  },
+  "Trigger:SetLastCreateEffectId": {
+    "desc": "记录最近创建的特效ID",
+    "params": {
+      "effectid": "要记录的特效ID，数字或字符串"
+    }
+  },
+  "Trigger:SetLastCreateItemId": {
+    "desc": "记录最近创建的道具ID",
+    "params": {
+      "itemid": "要记录的道具ID，数字或字符串"
+    }
+  },
+  "Trigger:SplitStr": {
+    "desc": "按分隔符拆分字符串并取指定的一段",
+    "params": {
+      "str": "待拆分的字符串",
+      "mark": "分隔符",
+      "index": "取第几段，从 1 开始"
+    },
+    "returns": [
+      "string? part 第 index 段，参数类型不符或下标越界时为 nil"
+    ]
+  },
+  "Trigger:Str2Obj": {
+    "desc": "按类型标记把字符串还原成对象ID或数值",
+    "params": {
+      "itype": "类型标记：大于 5000 按对象ID处理，2001~5000 强制转数字，不超过 2000 原样返回字符串",
+      "str": "待转换的字符串"
+    },
+    "returns": [
+      "number|string? obj 转换结果，str 为空、为 \"nil\" 或无法转换时为 nil"
+    ],
+    "notes": [
+      "itype 大于 5000 时能转成数字就返回数字，否则保留原字符串",
+      "2001~5000 段用 tonumber 转换，非数字字符串得到 nil"
+    ]
+  },
+  "Trigger:String2Playerid": {
+    "desc": "把字符串形式的玩家ID转成数字",
+    "params": {
+      "str": "字符串形式的玩家ID"
+    },
+    "returns": [
+      "number? playerid 数字ID，非数字字符串时为 nil"
+    ]
+  },
+  "Trigger:Substring": {
+    "desc": "按字符而不是字节截取子字符串",
+    "params": {
+      "content": "原字符串",
+      "startIdx": "起始字符索引，从 1 开始，0 视作 1，负数表示从末尾倒数",
+      "endIdx": "结束字符索引，负数表示从末尾倒数，两端都为正且起始大于结束时自动交换"
+    },
+    "returns": [
+      "string part 截取结果，content 非字符串或为空时为空字符串"
+    ],
+    "notes": [
+      "索引越界会被夹到有效字符范围内",
+      "中文等多字节字符按一个字符计算"
+    ]
+  },
+  "Trigger:ToMobId": {
+    "desc": "判定并返回生物ID",
+    "params": {
+      "id": "待判定的对象ID"
+    },
+    "returns": [
+      "number? mobid 不小于 2^32 的ID，其他情况为 nil"
+    ],
+    "notes": [
+      "玩家ID与生物ID共用同一数值空间，以 2^32 为分界"
+    ]
+  },
+  "Trigger:ToPlayerId": {
+    "desc": "判定并返回玩家ID",
+    "params": {
+      "id": "待判定的对象ID"
+    },
+    "returns": [
+      "number? playerid 小于 2^32 的ID，其他情况为 nil"
+    ]
+  },
+  "Trigger:TransmitToCategoryRoom": {
+    "desc": "把玩家传送到目标地图的分类房间",
+    "returns": [
+      "boolean result 请求是否已提交，参数非法或房间不可传送时为 false"
+    ],
+    "notes": [
+      "实参依次为玩家ID或ID数组、目标地图ID、房间分类（字符串或字符串数组）",
+      "VarArray 形式的入参会先展开成普通数组",
+      "传送异步完成，失败时向玩家弹出提示",
+      "仅白名单用户可用"
+    ]
+  },
+  "Trigger:Wait": {
+    "desc": "在当前线程等待指定秒数",
+    "params": {
+      "second": "等待秒数，需不小于 0",
+      "cmp": "跟随的组件，用于检查是否已失效"
+    },
+    "returns": [
+      "boolean result threadpool 等待返回 1003 时为 true，其余情况为 false"
+    ],
+    "notes": [
+      "second 非数字、为负数或线程池不可用时返回 false",
+      "cmp 存在且已失效时立即返回 true，不进入等待"
+    ]
+  },
+  "Trigger.CustomUI:ChangeParent": {
+    "desc": "把指定元件挂到新的父元件下",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "被移动的元件ID",
+      "parentElementid": "新的父元件ID"
+    },
+    "returns": [
+      "boolean? result 引擎变更父子关系的结果，UI 环境不可用时为 nil"
+    ],
+    "notes": [
+      "多个玩家时前一个失败后不再处理后续玩家"
+    ]
+  },
+  "Trigger.CustomUI:CloneElement": {
+    "desc": "克隆指定元件并由引擎生成新的元件ID",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "被克隆的元件ID",
+      "widget3DObjId": "3D 界面对象ID，普通界面传 0"
+    },
+    "returns": [
+      "boolean|string|nil result 主机侧成功时为新元件ID，失败为 false，客机侧为 nil"
+    ],
+    "notes": [
+      "新元件ID格式为 `<原元件ID>#clone<序号>`，同一元件重复克隆序号递增",
+      "多玩家时前一个失败后不再处理后续玩家"
+    ]
+  },
+  "Trigger.CustomUI:CreateElement": {
+    "desc": "在指定界面下动态创建元件并返回新元件ID",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，可为数字或字符串，为空时直接返回 false",
+      "elementType": "元件类型枚举（ElementType）",
+      "widget3DObjId": "3D 界面对象ID，普通界面传 0"
+    },
+    "returns": [
+      "boolean|string|nil result 主机侧成功时为新元件ID，失败为 false，客机侧为 nil"
+    ],
+    "notes": [
+      "新元件ID格式为 `<界面ID>_new<序号>`，按玩家分别递增",
+      "数字界面ID会先解析成界面工程ID",
+      "客机侧只执行本地创建，返回值不代表创建结果"
+    ]
+  },
+  "Trigger.CustomUI:DeleteElement": {
+    "desc": "删除指定界面中的元件",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "要删除的元件ID"
+    },
+    "returns": [
+      "boolean result 固定为 false，删除动作已执行"
+    ],
+    "notes": [
+      "引擎服务删除后无条件返回 false，不能用返回值判断是否删除成功"
+    ]
+  },
+  "Trigger.CustomUI:GetElementAttrValue": {
+    "desc": "读取元件属性，位置尺寸等复合属性按 X/Y 分量返回",
+    "params": {
+      "playerid": "玩家ID，同时作为结果上报目标",
+      "elementid": "元件ID",
+      "enumId": "属性枚举（ElementAttr）：3/4 位置X/Y，6/7 宽高，12/13 滚动X/Y，14/15 全局坐标X/Y"
+    },
+    "returns": [
+      "any? value 属性值，Id(2) 返回元件ID字符串，取不到时为 nil"
+    ],
+    "notes": [
+      "复合属性先查 Position(103)、Size(104)、ScrollPosition(105)、GlobalPos(106) 再拆出分量",
+      "其他枚举直接透传引擎的元件属性查询"
+    ]
+  },
+  "Trigger.CustomUI:GetProgressBarValue": {
+    "desc": "读取进度条元件的最小值、最大值或当前值",
+    "params": {
+      "objid": "对象ID，同时作为结果上报目标",
+      "uiid": "界面ID，为空时返回 false",
+      "elementid": "进度条元件ID",
+      "itype": "取值类型（ProgressVal）：1 最小值，2 最大值，3 当前值，4 最小值与最大值"
+    },
+    "returns": [
+      "number|table|boolean|nil value 数值、类型 4 的 [最小值, 最大值] 临时数组，或失败标记"
+    ],
+    "notes": [
+      "界面未打开或元件不存在时取不到数值",
+      "类型 4 返回引擎的 NUMBERGROUP 临时数组，元素依次为最小值、最大值"
+    ]
+  },
+  "Trigger.CustomUI:GetScreenSize": {
+    "desc": "取目标客机屏幕的宽度或高度",
+    "params": {
+      "objid": "对象ID，同时作为结果上报目标",
+      "ix": "取哪一维：\"w\" 宽度，\"h\" 高度"
+    },
+    "returns": [
+      "number? size 依 ix 取到的屏幕宽或高，取数失败或 ix 不是 w/h 时为 nil"
+    ],
+    "notes": [
+      "尺寸以目标端实际上报值为准",
+      "接口只返回单个数，不会返回整张宽高表"
+    ]
+  },
+  "Trigger.CustomUI:HideElement": {
+    "desc": "隐藏指定元件，可附带播放隐藏动画",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "元件ID",
+      "effectid": "隐藏动画ID，0 表示不使用动画",
+      "time": "动画时长（秒），大于 0 且 effectid 不为 0 时播放动画"
+    },
+    "returns": [
+      "boolean? result 播放动画分支固定为 true，否则为引擎隐藏操作的结果"
+    ],
+    "notes": [
+      "动画分支不校验元件是否存在，直接返回 true"
+    ]
+  },
+  "Trigger.CustomUI:MakeElementAnim": {
+    "desc": "组装元件动画参数表供 PlayAnim 使用",
+    "params": {
+      "animid": "动画ID",
+      "time": "播放时长（秒），缺省为 0",
+      "mode": "播放模式，与引擎动画模式编号一致"
+    },
+    "returns": [
+      "table info 形如 {animid = 动画ID, time = 时长, mode = 模式} 的表"
+    ],
+    "notes": [
+      "只构造参数，不触发播放"
+    ]
+  },
+  "Trigger.CustomUI:MakeSmoothMoveBy": {
+    "desc": "组装平滑偏移移动参数表供 PlaySmoothAnim 使用",
+    "params": {
+      "time": "时长（秒），缺省为 0",
+      "dir": "\"x\" 按水平方向偏移，其他值一律按垂直方向处理",
+      "isadd": "1 或 3 表示正向偏移，其他值反向",
+      "len": "偏移量，缺省时直接返回 false"
+    },
+    "returns": [
+      "boolean|table info 成功为参数表，len 缺省时为 false"
+    ],
+    "notes": [
+      "isadd 传 3 时改为移动到语义（type 1，另一轴留 nil），否则为偏移语义（type 2，另一轴补 0）"
+    ]
+  },
+  "Trigger.CustomUI:MakeSmoothMoveTo": {
+    "desc": "组装平滑移动到指定坐标的参数表",
+    "params": {
+      "time": "时长（秒），缺省为 0",
+      "x": "目标X坐标，缺省为 0",
+      "y": "目标Y坐标，缺省为 0"
+    },
+    "returns": [
+      "table info 形如 {type = 1, time = 时长, x = X, y = Y} 的表"
+    ]
+  },
+  "Trigger.CustomUI:MakeSmoothRotateBy": {
+    "desc": "组装平滑相对旋转参数表",
+    "params": {
+      "time": "时长（秒），缺省为 0",
+      "isadd": "1 或 3 表示正向旋转，其他值反向",
+      "angle": "旋转角度，缺省为 0"
+    },
+    "returns": [
+      "table info 形如 {type = 6 或 5, time = 时长, angle = 角度} 的表"
+    ],
+    "notes": [
+      "isadd 传 3 时改为旋转到语义（type 5），角度按正向处理"
+    ]
+  },
+  "Trigger.CustomUI:MakeSmoothRotateTo": {
+    "desc": "组装平滑旋转到指定角度的参数表",
+    "params": {
+      "time": "时长（秒），缺省为 0",
+      "angle": "目标角度，缺省为 0"
+    },
+    "returns": [
+      "table info 形如 {type = 5, time = 时长, angle = 角度} 的表"
+    ]
+  },
+  "Trigger.CustomUI:MakeSmoothScaleBy": {
+    "desc": "组装平滑缩放偏移参数表",
+    "params": {
+      "time": "时长（秒），缺省为 0",
+      "dir": "\"w\" 改宽度，其他值一律按高度处理",
+      "isadd": "1 或 3 表示正向缩放，其他值反向",
+      "len": "缩放变化量，缺省时直接返回 false"
+    },
+    "returns": [
+      "boolean|table info 成功为参数表，len 缺省时为 false"
+    ],
+    "notes": [
+      "isadd 传 3 时改为缩放到语义（type 3），否则为缩放偏移语义（type 4，另一轴补 0）"
+    ]
+  },
+  "Trigger.CustomUI:MakeSmoothScaleTo": {
+    "desc": "组装平滑缩放到指定宽高的参数表",
+    "params": {
+      "time": "时长（秒），缺省为 0",
+      "w": "目标宽度，缺省为 0",
+      "h": "目标高度，缺省为 0"
+    },
+    "returns": [
+      "table info 形如 {type = 3, time = 时长, w = 宽, h = 高} 的表"
+    ]
+  },
+  "Trigger.CustomUI:MakeUITextAnim": {
+    "desc": "组装文本元件动画参数表，模式固定为 2",
+    "params": {
+      "animid": "文本动画ID",
+      "time": "时长（秒），缺省为 0"
+    },
+    "returns": [
+      "table info 形如 {mode = 2, animid = 动画ID, time = 时长} 的表"
+    ],
+    "notes": [
+      "与 MakeElementAnim 的区别是 mode 固定为文本动画模式"
+    ]
+  },
+  "Trigger.CustomUI:PlayAnim": {
+    "desc": "按参数表播放元件动画",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "元件ID",
+      "info": "动画参数表，缺省为 {}"
+    },
+    "returns": [
+      "boolean result 是否触发成功"
+    ],
+    "notes": [
+      "info.animid、info.time、info.mode 必须都是数字且 time 大于 0，否则类型校验失败返回 false",
+      "多玩家时前一个失败后不再处理后续玩家"
+    ]
+  },
+  "Trigger.CustomUI:PlaySmoothAnim": {
+    "desc": "按参数表对元件播放平滑动画",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "元件ID",
+      "info": "MakeSmooth* 生成的参数表，type 取 1~6 决定动画类别"
+    },
+    "returns": [
+      "boolean result 是否触发成功"
+    ],
+    "notes": [
+      "info 缺省或缺少 type 时返回 false 且不做动画",
+      "type 不在 1~6 范围内时不执行任何动画但仍返回 true"
+    ]
+  },
+  "Trigger.CustomUI:RotateElement": {
+    "desc": "设置元件的旋转角度",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "元件ID",
+      "rotate": "旋转角度（角度制）"
+    },
+    "returns": [
+      "boolean? result 引擎设置旋转的结果，UI 环境不可用时为 nil"
+    ]
+  },
+  "Trigger.CustomUI:SetAlpha": {
+    "desc": "设置元件的透明度",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "元件ID",
+      "alpha": "透明度，0~100"
+    },
+    "returns": [
+      "boolean? result 引擎设置透明度的结果，UI 环境不可用时为 nil"
+    ]
+  },
+  "Trigger.CustomUI:SetBeaconBand": {
+    "desc": "设置信标元件指向的坐标或对象",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "elementid": "信标元件ID",
+      "itype": "信标定位类型（BeaconMapType）：0 世界坐标，1 对象",
+      "param": "类型 0 传含 x/y/z 的表，类型 1 传大于 0 的对象ID",
+      "uiid": "界面ID，为空时直接返回 false"
+    },
+    "returns": [
+      "boolean? result 引擎设置信标的结果，参数类型不符时为 false"
+    ],
+    "notes": [
+      "类型 0 要求 param 为 table，类型 1 要求 param 为大于 0 的数字，否则直接返回 false"
+    ]
+  },
+  "Trigger.CustomUI:SetColor": {
+    "desc": "设置文本元件的颜色",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "元件ID",
+      "color": "颜色：数字、\"0xRRGGBB\" 或 \"RRGGBB\" 字符串、{r, g, b} 表"
+    },
+    "returns": [
+      "boolean? result 引擎设置颜色的结果，颜色非法时为 false 或 nil"
+    ],
+    "notes": [
+      "十六进制字符串会补齐或截断到 6 位后转换，非法字符串返回 false",
+      "表形式按 0~255 取整并合成 RGB 数值"
+    ]
+  },
+  "Trigger.CustomUI:SetFontSize": {
+    "desc": "设置文本元件的字体大小",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "元件ID",
+      "size": "字体大小"
+    },
+    "returns": [
+      "boolean? result 引擎设置字号的结果，UI 环境不可用时为 nil"
+    ]
+  },
+  "Trigger.CustomUI:SetLoaderModel": {
+    "desc": "设置装载器元件显示的模型",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "装载器元件ID",
+      "modelName": "模型名，形如 `类型_ID`；avator、ModelCompObj、ItemInstance 前缀会被解析成实际模型"
+    },
+    "returns": [
+      "boolean result 主机侧为同步下发结果，客机侧固定为 false"
+    ],
+    "notes": [
+      "模型名必须含 \"_\" 才会被解析，否则直接失败",
+      "主机侧解析前缀后通过同步广播给客户端，客机分支执行完仍返回 false"
+    ]
+  },
+  "Trigger.CustomUI:SetLoaderModelAct": {
+    "desc": "设置装载器模型播放的动画",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "装载器元件ID",
+      "animid": "动画ID，数字或字符串",
+      "speed": "播放速度，0~1",
+      "playmode": "播放模式（AnimMode）"
+    },
+    "returns": [
+      "boolean? result 引擎设置模型动画的结果，参数类型不符时为 false"
+    ],
+    "notes": [
+      "引擎侧参数顺序是（animid, playmode, speed），本接口已代为对调"
+    ]
+  },
+  "Trigger.CustomUI:SetLoaderModelDir": {
+    "desc": "设置装载器模型的水平朝向",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "装载器元件ID",
+      "yaw": "水平旋转角度（角度制）"
+    },
+    "returns": [
+      "boolean? result 引擎设置朝向的结果，UI 环境不可用时为 nil"
+    ]
+  },
+  "Trigger.CustomUI:SetLoaderModelScale": {
+    "desc": "设置装载器模型的缩放大小",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "装载器元件ID",
+      "scale": "缩放比例，需不小于 0"
+    },
+    "returns": [
+      "boolean? result 引擎设置缩放的结果，UI 环境不可用时为 nil"
+    ]
+  },
+  "Trigger.CustomUI:SetPosition": {
+    "desc": "设置元件在界面中的坐标位置",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "元件ID",
+      "x": "X坐标",
+      "y": "Y坐标"
+    },
+    "returns": [
+      "boolean? result 引擎设置坐标的结果，x/y 非数字时返回 false"
+    ]
+  },
+  "Trigger.CustomUI:SetProgressBarResId": {
+    "desc": "设置进度条元件的背景或进度纹理",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "进度条元件ID",
+      "itype": "纹理类型（ProgressImg）：1 背景图，2 进度图",
+      "url": "图片资源ID"
+    },
+    "returns": [
+      "boolean? result 引擎设置纹理的结果，类型越界时为 nil"
+    ]
+  },
+  "Trigger.CustomUI:SetProgressBarValue": {
+    "desc": "设置进度条元件的最小值、最大值或当前值",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "进度条元件ID",
+      "itype": "赋值类型（ProgressVal）：1 最小值，2 最大值，3 当前值，4 最大值与当前值同时设为 value",
+      "value": "设定的数值"
+    },
+    "returns": [
+      "boolean? result 是否设置成功，类型或元件ID非法时为 nil"
+    ],
+    "notes": [
+      "类型 4 会连发两次设置，两次都成功才返回 true"
+    ]
+  },
+  "Trigger.CustomUI:SetRelationPosition": {
+    "desc": "按锚点与单位设置元件的相对偏移位置",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "元件ID",
+      "v": "水平偏移基准（HorizontalOffset）",
+      "xOffset": "X偏移值",
+      "xUnits": "X单位（PixelUnits）",
+      "h": "垂直偏移基准（VerticalOffset）",
+      "yOffset": "Y偏移值",
+      "yUnits": "Y单位（PixelUnits）"
+    },
+    "returns": [
+      "boolean? result 引擎设置相对位置的结果，UI 环境不可用时为 nil"
+    ]
+  },
+  "Trigger.CustomUI:SetRelationSize": {
+    "desc": "按单位设置元件的相对宽高",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "元件ID",
+      "width": "宽度值",
+      "widthUnits": "宽度单位（PixelUnits）",
+      "height": "高度值",
+      "heightUnits": "高度单位（PixelUnits）"
+    },
+    "returns": [
+      "boolean? result 引擎设置相对大小的结果，UI 环境不可用时为 nil"
+    ]
+  },
+  "Trigger.CustomUI:SetSize": {
+    "desc": "设置元件的尺寸",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "元件ID",
+      "width": "元件宽度",
+      "height": "元件高度"
+    },
+    "returns": [
+      "boolean? result 引擎设置尺寸的结果，UI 环境不可用时为 nil"
+    ]
+  },
+  "Trigger.CustomUI:SetSliderBarImg": {
+    "desc": "设置滑动条的滑块图案",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "滑动条或滑动列表元件ID",
+      "url": "滑块图案资源ID或链接"
+    },
+    "returns": [
+      "boolean? result 引擎设置图案的结果，url 为空时为 false"
+    ]
+  },
+  "Trigger.CustomUI:SetSliderDir": {
+    "desc": "限制滑动列表的滑动方向",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "滑动列表元件ID",
+      "dir": "滑动方式：0 仅左右，1 仅上下，2 自由滑动"
+    },
+    "returns": [
+      "boolean? result 引擎设置滑动方向的结果，UI 环境不可用时为 nil"
+    ]
+  },
+  "Trigger.CustomUI:SetSpineAnimID": {
+    "desc": "设置动画元件的动画ID、序列与播放模式",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "动画元件ID",
+      "animid": "内置动画ID，数字或字符串",
+      "animindex": "动画序列",
+      "playmode": "播放模式（生成定义中写作 ViedoPlayMode）"
+    },
+    "returns": [
+      "boolean? result 引擎设置动画的结果，参数缺失或类型不符时为 false"
+    ]
+  },
+  "Trigger.CustomUI:SetState": {
+    "desc": "切换界面状态，可带缓动过渡",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "pageIndex": "状态标识，形如 `界面ID-状态ID` 或 `状态ID-页面ID`，必须含 \"-\"",
+      "easeType": "缓动类型（Easing），缺省 -1 表示无缓动",
+      "time": "过渡时长（秒），缺省为 0"
+    },
+    "returns": [
+      "boolean? result 引擎切换状态的结果，参数不合法时为 false"
+    ],
+    "notes": [
+      "只有 time 大于 0 且 easeType 不小于 0 时才走缓动过渡，否则立即切换",
+      "标识含多个 \"-\" 时只取最后一个分段，前段为空则用 uiid 作为界面ID",
+      "状态段为空或 time 为负时直接返回 false"
+    ]
+  },
+  "Trigger.CustomUI:SetText": {
+    "desc": "设置文本元件的内容，可带打字机等动画",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "文本元件ID",
+      "text": "文本内容",
+      "info": "动画参数表 {animid, time, mode}，缺省为 {mode = 0, animid = 0, time = 0}"
+    },
+    "returns": [
+      "boolean result 是否下发成功"
+    ],
+    "notes": [
+      "只有 animid 不为 0、time 大于 0 且三个字段都是数字时才走动画分支，否则直接改文本",
+      "主机侧会先拆分多语言标记串再同步给客户端",
+      "多玩家时前一个失败后不再处理后续玩家"
+    ]
+  },
+  "Trigger.CustomUI:SetTexture": {
+    "desc": "设置元件的图案纹理",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "元件ID",
+      "url": "图案纹理资源ID"
+    },
+    "returns": [
+      "boolean? result 引擎设置纹理的结果，UI 环境不可用时为 nil"
+    ]
+  },
+  "Trigger.CustomUI:ShowElement": {
+    "desc": "显示指定元件，可附带播放显示动画",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "元件ID",
+      "effectid": "显示动画ID，0 表示不使用动画",
+      "time": "动画时长（秒），大于 0 且 effectid 不为 0 时播放动画"
+    },
+    "returns": [
+      "boolean? result 播放动画分支固定为 true，否则为引擎显示操作的结果"
+    ]
+  },
+  "Trigger.CustomUI:SmoothIncreaseProgress": {
+    "desc": "让进度条在指定时长内平滑增加、减少或变化到目标值",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "进度条元件ID",
+      "time": "时长（秒）",
+      "ptype": "变化方式：1 增加，2 减少，3 变化至",
+      "value": "变化值"
+    },
+    "returns": [
+      "boolean? result 引擎平滑修改的结果，参数类型不符时为 false"
+    ]
+  },
+  "Trigger.CustomUI:StopAnim": {
+    "desc": "停止元件上正在播放的动画",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "元件ID",
+      "itype": "停止类型：0 全部动效，1 指定元件动效，缺省按 1 处理"
+    },
+    "returns": [
+      "boolean result 是否已下发停止指令"
+    ],
+    "notes": [
+      "itype 被引擎当作动画类型参数传入停止接口，脚本层只补默认值不做范围校验"
+    ]
+  },
+  "Trigger.CustomUI:TurnSliderToPos": {
+    "desc": "让滑动列表滚动到指定坐标",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "uiid": "界面ID，为空时直接返回 false",
+      "elementid": "滑动列表元件ID",
+      "x": "目标X坐标",
+      "y": "目标Y坐标"
+    },
+    "returns": [
+      "boolean? result 引擎滚动操作的结果，UI 环境不可用时为 nil"
+    ]
+  }
+}

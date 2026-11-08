@@ -7,29 +7,38 @@
 ---@class Log
 Log = {}
 
----获取全部消息
+---把多个参数拼接为一条日志文本
+---表会递归序列化，userdata 会尝试转换为数组
+---表最多展开 100 项
 ---@vararg any
+---@return string result 以逗号拼接的文本
 function Log:GetAllMessage(...) end
 
----打印
+---按当前日志级别输出日志
+---仅在日志级别大于等于 5 时输出
+---移动端走 MiniLogError，PC 端走 MiniLog
 ---@vararg any
 function Log:Print(...) end
 
----打印表
+---输出表内容
+---当前版本为空实现，不输出任何内容
 ---@vararg any
 function Log:PrintTable(...) end
 
----刷新打开记录
----@param isOpen any 是否打开
+---开关开发者日志输出
+---@param isOpen boolean 是否开启
 function Log:RefreshOpenLog(isOpen) end
 
----上报error
+---上报脚本错误
+---当前版本为空实现
 ---@param modId any 模组ID
----@param msg any 消息
+---@param msg string 错误信息
 function Log:ReportError(modId, msg) end
 
----表转换为string
----@param value table 值
----@param maxItems? number 最大道具
----@param indent? number 参数 indent
+---把表递归格式化为可读字符串
+---字符串用 %q 加引号，嵌套表按四空格缩进
+---@param value table 待格式化的表
+---@param maxItems? number 最多展开的项数，默认 100
+---@param indent? number 初始缩进层级，默认 0
+---@return string result 格式化文本
 function Log:TableToString(value, maxItems, indent) end

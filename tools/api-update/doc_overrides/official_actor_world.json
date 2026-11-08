@@ -1,0 +1,2005 @@
+{
+  "Actor:ActorHurtArea": {
+    "desc": "对区域内对象统一造成伤害，当前实现为空",
+    "params": {
+      "objid": "对象ID",
+      "areaid": "区域ID",
+      "damage": "伤害值",
+      "attacktype": "攻击类型",
+      "ignoreList": "忽略的对象ID列表",
+      "ignoreResist": "是否忽略抗性",
+      "ignoreTriggerEvent": "是否忽略触发事件"
+    },
+    "notes": [
+      "引擎侧函数体为空，调用不会产生任何效果"
+    ]
+  },
+  "Actor:AddModAttrib": {
+    "desc": "为角色叠加一条模组属性加成",
+    "params": {
+      "objid": "对象ID",
+      "attrtype": "属性类型编号",
+      "value": "加成数值"
+    },
+    "returns": [
+      "boolean result 是否叠加成功"
+    ],
+    "notes": [
+      "attrtype 与 value 必须为数字，否则直接返回 false",
+      "角色必须具有生物属性组件才能生效"
+    ]
+  },
+  "Actor:FindLevelNearestBlock": {
+    "desc": "查找角色周围最近的指定方块并返回坐标",
+    "params": {
+      "objid": "对象ID",
+      "blockid": "方块ID，可传资源ID字符串",
+      "blockRange": "搜索范围（方块数）"
+    },
+    "returns": [
+      "number? x 方块X坐标",
+      "number? y 方块Y坐标",
+      "number? z 方块Z坐标"
+    ],
+    "notes": [
+      "未找到方块或参数非法时返回 nil"
+    ]
+  },
+  "Actor:FindLevelRandomsortBlock": {
+    "desc": "以随机顺序在角色周围查找指定方块坐标",
+    "params": {
+      "objid": "对象ID",
+      "blockid": "方块ID，可传资源ID字符串",
+      "blockRange": "搜索范围（方块数）"
+    },
+    "returns": [
+      "number? x 方块X坐标",
+      "number? y 方块Y坐标",
+      "number? z 方块Z坐标"
+    ],
+    "notes": [
+      "与最近搜索的区别在于命中顺序随机"
+    ]
+  },
+  "Actor:GetBodySize": {
+    "desc": "获取角色碰撞体的宽与高",
+    "params": {
+      "objid": "对象ID",
+      "bodySizeType": "身体大小类型，默认 0"
+    },
+    "returns": [
+      "number? w 宽度（格）",
+      "number? h 高度（格）"
+    ],
+    "notes": [
+      "底层返回值按 1/100 换算为格，角色不存在时为 nil"
+    ]
+  },
+  "Actor:GetChargingMaxNum": {
+    "desc": "获取技能槽的蓄力上限数量",
+    "params": {
+      "objid": "对象ID",
+      "slot": "技能槽位，从 1 开始"
+    },
+    "returns": [
+      "number? num 蓄力上限数量"
+    ],
+    "notes": [
+      "槽位会减 1 后传给底层"
+    ]
+  },
+  "Actor:GetChargingMaxTime": {
+    "desc": "获取技能槽的蓄力上限时间",
+    "params": {
+      "objid": "对象ID",
+      "slot": "技能槽位，从 1 开始"
+    },
+    "returns": [
+      "number? time 蓄力上限时间"
+    ],
+    "notes": []
+  },
+  "Actor:GetChargingNum": {
+    "desc": "获取技能槽当前的蓄力数量",
+    "params": {
+      "objid": "对象ID",
+      "slot": "技能槽位，从 1 开始"
+    },
+    "returns": [
+      "number? num 当前蓄力数量"
+    ],
+    "notes": []
+  },
+  "Actor:GetChargingTime": {
+    "desc": "获取技能槽当前的蓄力时间",
+    "params": {
+      "objid": "对象ID",
+      "slot": "技能槽位，从 1 开始"
+    },
+    "returns": [
+      "number? time 当前蓄力时间"
+    ],
+    "notes": []
+  },
+  "Actor:GetCurrMapId": {
+    "desc": "获取角色当前所在地图ID",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "number mapid 地图ID，取不到时为 -1"
+    ],
+    "notes": []
+  },
+  "Actor:GetGunInfo": {
+    "desc": "获取角色手持枪械的品质、等级与特性数",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "integer? quality 枪械品质",
+      "integer level 枪械等级",
+      "integer fertcount 特性数量"
+    ],
+    "notes": [
+      "角色不存在或未持枪时整体返回 nil"
+    ]
+  },
+  "Actor:GetLastFallSpeed": {
+    "desc": "获取角色最近一次下落速度",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "number value 下落速度，取不到时为 0"
+    ],
+    "notes": []
+  },
+  "Actor:GetLevelMode": {
+    "desc": "获取地图是否开启等级模式",
+    "params": {},
+    "returns": [
+      "any? mode 等级模式开关值，未初始化时为 nil"
+    ],
+    "notes": [
+      "结果首次读取后缓存在 self._isStarLevelMode"
+    ]
+  },
+  "Actor:GetMainModel": {
+    "desc": "把外观名解析为主模型资源名",
+    "params": {
+      "facade": "外观名，形如 ModelCompObj_1234"
+    },
+    "returns": [
+      "string? res 主模型资源名"
+    ],
+    "notes": [
+      "形如 ModelCompObj_<对象ID> 时查询模型组件，其余情况原样返回"
+    ]
+  },
+  "Actor:GetOrientation": {
+    "desc": "获取角色当前的欧拉角朝向",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "number? x X轴角度",
+      "number? y Y轴角度",
+      "number? z Z轴角度"
+    ],
+    "notes": [
+      "角色不存在时返回 nil"
+    ]
+  },
+  "Actor:GetOverlayGravity": {
+    "desc": "获取角色重力覆盖倍率",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "number|boolean? result 重力倍率，未设置时为 1，参数非法时为 false"
+    ],
+    "notes": [
+      "底层存储值为倍率的 -8 倍"
+    ]
+  },
+  "Actor:GetSkillCD": {
+    "desc": "获取技能槽的剩余冷却时间",
+    "params": {
+      "objid": "对象ID",
+      "slot": "技能槽位，从 1 开始"
+    },
+    "returns": [
+      "number? cd 剩余冷却秒数"
+    ],
+    "notes": []
+  },
+  "Actor:GetSkillMaxCD": {
+    "desc": "获取技能槽的最大冷却时间",
+    "params": {
+      "objid": "对象ID",
+      "slot": "技能槽位，从 1 开始"
+    },
+    "returns": [
+      "number? maxcd 最大冷却秒数"
+    ],
+    "notes": []
+  },
+  "Actor:InitTriggerGlobalData": {
+    "desc": "初始化触发器全局数据管理器引用",
+    "params": {},
+    "notes": [
+      "内部按需懒调用，一般无需手动执行"
+    ]
+  },
+  "Actor:IsHaveSkill": {
+    "desc": "判断技能槽是否已装配技能",
+    "params": {
+      "objid": "对象ID",
+      "slot": "技能槽位，从 1 开始"
+    },
+    "returns": [
+      "boolean? has 是否拥有技能"
+    ],
+    "notes": [
+      "参数非法时返回 nil，角色不存在时返回 false"
+    ]
+  },
+  "Actor:IsMob": {
+    "desc": "判断对象ID是否为生物",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "boolean result 是否是生物"
+    ],
+    "notes": [
+      "对象ID必须大于 4294967296 且能在生物表中找到"
+    ]
+  },
+  "Actor:OrganizeFacadeList": {
+    "desc": "重建可用的生物与道具外观列表",
+    "params": {},
+    "notes": [
+      "结果写入 self.facadeList，元素形如 mob_<ID>、block_<ID>、item_<ID>",
+      "会遍历生物表与道具表，开销较大"
+    ]
+  },
+  "Actor:PlayAct": {
+    "desc": "让角色播放指定触发器动作",
+    "params": {
+      "objid": "对象ID",
+      "actid": "动作ID"
+    },
+    "returns": [
+      "boolean result 是否播放成功"
+    ],
+    "notes": [
+      "玩家对象走客户端任务下发，其他角色直接在服务端播放",
+      "动作ID需存在于触发器动作表"
+    ]
+  },
+  "Actor:PlayAnimById": {
+    "desc": "按动画ID在角色身上播放动画",
+    "params": {
+      "objid": "对象ID",
+      "animid": "动画ID",
+      "inputloopmode": "循环模式",
+      "playLayer": "播放层",
+      "crossfade": "过渡融合时长"
+    },
+    "returns": [
+      "boolean result 是否播放成功"
+    ],
+    "notes": []
+  },
+  "Actor:PlayBodyEffect": {
+    "desc": "播放角色身上的指定类型身体特效",
+    "params": {
+      "objid": "对象ID",
+      "itype": "特效类型，可传编号或资源名"
+    },
+    "returns": [
+      "boolean result 是否播放成功"
+    ],
+    "notes": [
+      "类型校验条件写成或，任意值都会通过"
+    ]
+  },
+  "Actor:PlayBodyEffectByFile": {
+    "desc": "按特效文件播放角色身体特效",
+    "params": {
+      "objid": "对象ID",
+      "filename": "特效文件名",
+      "sync": "是否同步给其他玩家，默认 true"
+    },
+    "returns": [
+      "boolean result 是否播放成功"
+    ],
+    "notes": []
+  },
+  "Actor:PlaySkill": {
+    "desc": "模拟按下技能槽触发技能",
+    "params": {
+      "objid": "对象ID",
+      "slot": "技能槽位，从 1 开始"
+    },
+    "returns": [
+      "boolean result 是否触发成功"
+    ],
+    "notes": [
+      "最终调用底层技能输入按下接口"
+    ]
+  },
+  "Actor:PlaySoundByName": {
+    "desc": "在角色位置播放指定名称音效",
+    "params": {
+      "objid": "对象ID",
+      "name": "音效资源名",
+      "volume": "音量，默认 1",
+      "pitch": "音调，默认 1",
+      "flag": "播放标志，默认 3"
+    },
+    "returns": [
+      "boolean result 是否播放成功"
+    ],
+    "notes": []
+  },
+  "Actor:PlayerHurt": {
+    "desc": "让一个角色对另一个角色造成伤害",
+    "params": {
+      "objid": "攻击者对象ID",
+      "targetid": "目标对象ID",
+      "damage": "伤害值",
+      "attacktype": "攻击类型，默认固定伤害",
+      "ignoreResist": "是否忽略抗性，默认 false",
+      "ignoreTriggerEvent": "是否忽略触发事件"
+    },
+    "returns": [
+      "boolean result 是否造成伤害成功"
+    ],
+    "notes": [
+      "伤害值必须大于 0，先走受击组件再退回基础受击流程"
+    ]
+  },
+  "Actor:SetActorControl": {
+    "desc": "设置角色操作是否交由脚本接管",
+    "params": {
+      "objid": "对象ID",
+      "b": "是否交由脚本控制"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": []
+  },
+  "Actor:SetActorDir": {
+    "desc": "设置角色的水平或俯仰朝向",
+    "params": {
+      "objid": "对象ID",
+      "itype": "朝向类型：FaceType.Yaw 水平，FaceType.Pitch 俯仰",
+      "value": "目标角度（度）"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": []
+  },
+  "Actor:SetBehitDisable": {
+    "desc": "设置角色是否免疫受击",
+    "params": {
+      "objid": "对象ID",
+      "value": "是否免疫受击"
+    },
+    "returns": [
+      "boolean result 是否发生变更"
+    ],
+    "notes": [
+      "当前值已与目标值相同时返回 false"
+    ]
+  },
+  "Actor:SetBodyEffectScaleByFile": {
+    "desc": "按特效文件设置身体特效缩放",
+    "params": {
+      "objid": "对象ID",
+      "filename": "特效文件名",
+      "scale": "缩放比例，取值 0 到 5"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "小于等于 0 会改成 1，大于 5 会截断为 5"
+    ]
+  },
+  "Actor:SetCanCollide": {
+    "desc": "设置角色是否参与碰撞",
+    "params": {
+      "objid": "对象ID",
+      "value": "是否参与碰撞"
+    },
+    "returns": [
+      "boolean result 是否发生变更"
+    ],
+    "notes": [
+      "会同步碰撞状态到客户端",
+      "当前值已相同时返回 false"
+    ]
+  },
+  "Actor:SetCharging": {
+    "desc": "设置技能槽的蓄力状态",
+    "params": {
+      "objid": "对象ID",
+      "slot": "技能槽位，从 1 开始",
+      "ischarging": "是否处于蓄力中"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": []
+  },
+  "Actor:SetChargingValue": {
+    "desc": "设置技能槽当前的蓄力值",
+    "params": {
+      "objid": "对象ID",
+      "slot": "技能槽位，从 1 开始",
+      "value": "蓄力值"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": []
+  },
+  "Actor:SetCharginginfo": {
+    "desc": "一次性写入技能槽的蓄力参数",
+    "params": {
+      "objid": "对象ID",
+      "slot": "技能槽位，从 1 开始",
+      "max": "蓄力上限时间",
+      "num": "当前蓄力数量",
+      "maxnum": "蓄力上限数量",
+      "isauto": "是否自动蓄力"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "六个参数类型必须全部正确，否则整次设置失败"
+    ]
+  },
+  "Actor:SetFirstSearch": {
+    "desc": "设置角色是否优先搜索目标",
+    "params": {
+      "objid": "对象ID",
+      "firstsearch": "是否优先搜索"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": []
+  },
+  "Actor:SetModAttrib": {
+    "desc": "直接设置角色的模组属性值",
+    "params": {
+      "objid": "对象ID",
+      "attrtype": "属性类型编号",
+      "value": "属性数值"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "与 AddModAttrib 的区别是覆盖而非叠加"
+    ]
+  },
+  "Actor:SetMotionChange": {
+    "desc": "设置角色每帧附加的位移速度",
+    "params": {
+      "objid": "对象ID",
+      "x": "X分量",
+      "y": "Y分量",
+      "z": "Z分量"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "玩家走客户端接口，其他角色直接设置运动速度"
+    ]
+  },
+  "Actor:SetOrientation": {
+    "desc": "设置角色或对象的欧拉角朝向",
+    "params": {
+      "objid": "对象ID",
+      "x": "X轴角度",
+      "y": "Y轴角度",
+      "z": "Z轴角度"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "非对象实体只应用 Y 轴角度，X 与 Z 被忽略"
+    ]
+  },
+  "Actor:SetOverlayGravity": {
+    "desc": "设置角色重力覆盖倍率",
+    "params": {
+      "objid": "对象ID",
+      "val": "重力倍率，限制在 -1 到 10"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "越界值会被夹取，底层按倍率的 -8 倍存储"
+    ]
+  },
+  "Actor:SetRidePosition": {
+    "desc": "设置对象骑乘组件的挂点位置",
+    "params": {
+      "objid": "对象ID",
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标"
+    },
+    "notes": [
+      "对象或骑乘组件不存在时静默忽略"
+    ]
+  },
+  "Actor:SetScale": {
+    "desc": "设置角色或对象的缩放比例",
+    "params": {
+      "objid": "对象ID",
+      "x": "X轴缩放",
+      "y": "Y轴缩放",
+      "z": "Z轴缩放"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "非对象实体只取 Y 轴数值作为统一缩放"
+    ]
+  },
+  "Actor:SetSkillCD": {
+    "desc": "设置技能槽的冷却时间",
+    "params": {
+      "objid": "对象ID",
+      "slot": "技能槽位，从 1 开始",
+      "cd": "冷却时间（秒）"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": []
+  },
+  "Actor:SetSkillCDInfo": {
+    "desc": "设置技能槽的最大冷却与自动冷却",
+    "params": {
+      "objid": "对象ID",
+      "slot": "技能槽位，从 1 开始",
+      "maxcd": "最大冷却时间（秒）",
+      "isauto": "是否自动进入冷却"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": []
+  },
+  "Actor:SkillIsCharging": {
+    "desc": "判断技能槽是否正在蓄力",
+    "params": {
+      "objid": "对象ID",
+      "slot": "技能槽位，从 1 开始"
+    },
+    "returns": [
+      "boolean? charging 是否蓄力中"
+    ],
+    "notes": [
+      "参数非法时返回 nil，角色不存在时返回 false"
+    ]
+  },
+  "Actor:StopAllAnim": {
+    "desc": "停止角色身上播放的全部动画",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "any? result 底层停止结果，角色不存在时为 false"
+    ],
+    "notes": []
+  },
+  "Actor:StopBodyEffect": {
+    "desc": "停止角色身上的指定类型身体特效",
+    "params": {
+      "objid": "对象ID",
+      "itype": "特效类型，可传编号或资源名"
+    },
+    "returns": [
+      "boolean result 是否停止成功"
+    ],
+    "notes": [
+      "类型校验条件写成或，任意值都会通过"
+    ]
+  },
+  "Actor:TriggerAttrChangeEvent": {
+    "desc": "手动派发角色属性变更事件",
+    "params": {
+      "objid": "对象ID",
+      "atttype": "属性类型",
+      "val": "变化后的值"
+    },
+    "returns": [
+      "boolean? result 对象不存在时为 false，正常时无返回值"
+    ],
+    "notes": [
+      "玩家派发 Player.ChangeAttr，其他角色派发 Actor.ChangeAttr",
+      "只触发事件，不会真正修改属性值"
+    ]
+  },
+  "Actor:TryMoveToNoSearch": {
+    "desc": "让角色朝目标点移动且不做寻路搜索",
+    "params": {
+      "objid": "对象ID",
+      "x": "目标X坐标",
+      "y": "目标Y坐标",
+      "z": "目标Z坐标"
+    },
+    "returns": [
+      "boolean result 是否下发成功"
+    ],
+    "notes": []
+  },
+  "World:AddCustomMarker": {
+    "desc": "在小地图上添加一个自定义标记",
+    "params": {
+      "uin": "玩家Uin",
+      "iconName": "图标资源名",
+      "name": "标记名称",
+      "x": "X坐标",
+      "z": "Z坐标",
+      "level": "标记等级",
+      "trace": "是否显示追踪线",
+      "des": "标记短描述",
+      "desColor": "描述颜色",
+      "iconMask": "图标遮罩",
+      "desc": "标记详细描述",
+      "type": "标记类型"
+    },
+    "returns": [
+      "boolean result 恒为 true"
+    ],
+    "notes": [
+      "uin 未参与实现，标记对所有玩家可见",
+      "找不到小地图控件时也返回 true"
+    ]
+  },
+  "World:BroadcastModBlockDataEx": {
+    "desc": "向方块周围玩家广播模组方块数据",
+    "params": {
+      "x": "方块X坐标",
+      "y": "方块Y坐标",
+      "z": "方块Z坐标",
+      "msgSubId": "消息子ID",
+      "mapid": "地图ID",
+      "content": "自定义数据表"
+    },
+    "notes": [
+      "只发给方块周围 9600 单位内的玩家",
+      "会自动向 content 写入 blockposx/y/z、msgSubId、mapid"
+    ]
+  },
+  "World:CheckBlockIsReplaceable": {
+    "desc": "检查指定位置的模组方块可否被替换",
+    "params": {
+      "mapid": "地图ID",
+      "x": "方块X坐标",
+      "y": "方块Y坐标",
+      "z": "方块Z坐标"
+    },
+    "returns": [
+      "boolean result 是否可替换"
+    ],
+    "notes": [
+      "位置没有模组材质时返回 true"
+    ]
+  },
+  "World:CheckSummerActActivate": {
+    "desc": "检查夏日活动是否已激活，当前恒为 false",
+    "params": {
+      "callback": "回调函数",
+      "activatename": "活动名称"
+    },
+    "returns": [
+      "boolean result 恒为 false"
+    ],
+    "notes": [
+      "引擎侧实现直接返回 false，不执行回调"
+    ]
+  },
+  "World:ClearCustomMarkerByResName": {
+    "desc": "按图标资源名清空小地图自定义标记",
+    "params": {
+      "uin": "玩家Uin",
+      "iconName": "图标资源名"
+    },
+    "returns": [
+      "boolean result 恒为 true"
+    ],
+    "notes": [
+      "uin 未参与实现，清除的是本地全部同类标记"
+    ]
+  },
+  "World:CloseStorageBoxFrame": {
+    "desc": "关闭当前打开的储物箱界面",
+    "params": {
+      "uin": "玩家Uin"
+    },
+    "returns": [
+      "boolean result 是否关闭成功"
+    ],
+    "notes": [
+      "uin 未参与实现",
+      "界面未打开时返回 false"
+    ]
+  },
+  "World:CreateExplosion": {
+    "desc": "在指定坐标创建一次爆炸",
+    "params": {
+      "objid": "造成爆炸的对象ID，默认 0",
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标",
+      "explosionRadius": "爆炸半径",
+      "flaming": "是否带火焰，默认 false",
+      "smoking": "是否带烟雾，默认 false",
+      "dirmask": "方向遮罩，默认 0",
+      "damageType": "伤害类型，默认 0"
+    },
+    "returns": [
+      "boolean result 是否创建成功"
+    ],
+    "notes": [
+      "对象ID会先按世界对象ID查找对应角色作为爆炸来源"
+    ]
+  },
+  "World:CreateExplosionNew": {
+    "desc": "创建不依赖对象的爆炸并结算范围内伤害",
+    "params": {
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标",
+      "radius": "爆炸半径",
+      "upHalf": "爆炸向上延伸比例",
+      "atkValue": "伤害值",
+      "isDestroyBlock": "是否破坏方块"
+    },
+    "returns": [
+      "boolean result 是否创建成功"
+    ],
+    "notes": []
+  },
+  "World:DelCustomMarker": {
+    "desc": "按名称和坐标删除小地图自定义标记",
+    "params": {
+      "uin": "玩家Uin",
+      "iconName": "图标资源名",
+      "name": "标记名称",
+      "x": "X坐标",
+      "z": "Z坐标",
+      "level": "标记等级"
+    },
+    "returns": [
+      "boolean result 恒为 true"
+    ],
+    "notes": [
+      "uin 未参与实现"
+    ]
+  },
+  "World:EditCustomMarker": {
+    "desc": "修改小地图上已有的自定义标记",
+    "params": {
+      "uin": "玩家Uin",
+      "iconName": "图标资源名",
+      "name": "标记名称",
+      "x": "X坐标",
+      "z": "Z坐标",
+      "level": "标记等级",
+      "trace": "是否显示追踪线",
+      "des": "标记短描述",
+      "desColor": "描述颜色",
+      "iconMask": "图标遮罩",
+      "desc": "标记详细描述",
+      "type": "标记类型"
+    },
+    "returns": [
+      "boolean result 恒为 true"
+    ],
+    "notes": [
+      "同时更新小地图与像素地图两个控件",
+      "uin 未参与实现"
+    ]
+  },
+  "World:FindNearActorListByDefId": {
+    "desc": "查找范围内指定定义ID的角色列表",
+    "params": {
+      "centerX": "中心X坐标",
+      "centerY": "中心Y坐标",
+      "centerZ": "中心Z坐标",
+      "radius": "搜索半径",
+      "defId": "定义ID，可传资源ID字符串",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "boolean ret 是否查找成功",
+      "table? list 角色对象ID数组"
+    ],
+    "notes": [
+      "资源ID字符串会先转换为配置ID"
+    ]
+  },
+  "World:FindNearActorListByTeam": {
+    "desc": "查找范围内指定队伍的角色列表",
+    "params": {
+      "centerX": "中心X坐标",
+      "centerY": "中心Y坐标",
+      "centerZ": "中心Z坐标",
+      "radius": "搜索半径",
+      "team": "队伍编号",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "table? list 角色对象ID数组"
+    ],
+    "notes": [
+      "未找到角色或星球不存在时返回 nil"
+    ]
+  },
+  "World:FindNearCanSpawnMobPosList": {
+    "desc": "查找范围内可用于生成生物的位置",
+    "params": {
+      "centerX": "中心X坐标",
+      "centerY": "中心Y坐标",
+      "centerZ": "中心Z坐标",
+      "radius": "搜索半径",
+      "includeCenterPos": "是否包含中心点，默认 true",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "boolean ret 是否查找成功",
+      "table? list 可用坐标数组"
+    ],
+    "notes": [
+      "坐标数组元素为向量对象"
+    ]
+  },
+  "World:FindNearestActorByDefId": {
+    "desc": "查找范围内距离最近的角色",
+    "params": {
+      "posX": "参考点X坐标",
+      "posY": "参考点Y坐标",
+      "posZ": "参考点Z坐标",
+      "radius": "搜索半径",
+      "defId": "定义ID，可传资源ID字符串",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "number? objid 角色对象ID"
+    ],
+    "notes": [
+      "找不到角色时返回 nil"
+    ]
+  },
+  "World:GetBiomeDesc": {
+    "desc": "获取指定群系的定义数据",
+    "params": {
+      "biomeId": "群系ID"
+    },
+    "returns": [
+      "userdata? def 群系定义数据"
+    ],
+    "notes": []
+  },
+  "World:GetCurrMapId": {
+    "desc": "获取当前所在地图ID",
+    "params": {},
+    "returns": [
+      "number mapid 地图ID，取不到时为 -1"
+    ],
+    "notes": []
+  },
+  "World:GetInnerViewEnable": {
+    "desc": "查询指定的内视图是否启用",
+    "params": {
+      "iview": "内视图类型枚举值"
+    },
+    "returns": [
+      "boolean result 是否启用"
+    ],
+    "notes": [
+      "创造模式地图恒为 false",
+      "返回值是内部标记取反后的结果"
+    ]
+  },
+  "World:GetLoginSvrTime": {
+    "desc": "获取服务器登录时间戳",
+    "params": {},
+    "returns": [
+      "number time 登录时服务器时间戳（秒）"
+    ],
+    "notes": [
+      "登录时间未记录时回落到当前服务器时间"
+    ]
+  },
+  "World:GetMainPlayerPos": {
+    "desc": "获取主玩家所在的方块坐标",
+    "params": {},
+    "returns": [
+      "number? x 方块X坐标",
+      "number? y 方块Y坐标",
+      "number? z 方块Z坐标"
+    ],
+    "notes": [
+      "世界坐标按 1/100 取整换算为方块坐标",
+      "主玩家不存在时返回 nil"
+    ]
+  },
+  "World:GetMidJoin": {
+    "desc": "获取房间是否允许中途加入",
+    "params": {},
+    "returns": [
+      "boolean result 是否允许中途加入"
+    ],
+    "notes": [
+      "读取游戏规则中的中途加入开关"
+    ]
+  },
+  "World:GetMiniMapFlagPos": {
+    "desc": "获取小地图上指定图标的坐标列表",
+    "params": {
+      "key": "数字时取官方标记下标，字符串时取自定义标记名"
+    },
+    "returns": [
+      "table? list 坐标数组，元素为 {x, z}"
+    ],
+    "notes": [
+      "官方标记下标依次为 1 出生点、2 死亡点、3 星站、4 图腾、5 传送门、6 Boss、7 死亡罐、8 最新死亡罐"
+    ]
+  },
+  "World:GetPlanetComponent": {
+    "desc": "获取星球对象上的指定组件",
+    "params": {
+      "worldId": "星球ID",
+      "cmpName": "组件名称"
+    },
+    "returns": [
+      "userdata? cmp 组件对象"
+    ],
+    "notes": [
+      "组件类名不存在时返回 nil"
+    ]
+  },
+  "World:GetServerTimeMs": {
+    "desc": "获取服务器毫秒时间戳",
+    "params": {},
+    "returns": [
+      "number time 服务器时间戳（毫秒）"
+    ],
+    "notes": []
+  },
+  "World:GetSkyBoxtime": {
+    "desc": "把小时数换算为天空盒时间档位",
+    "params": {
+      "time": "小时数，负数取当前小时，99 原样返回"
+    },
+    "returns": [
+      "number? hour 时间档位"
+    ],
+    "notes": [
+      "档位取 4/6/8/12/16/18/20/24 中不超过输入值的最后一档，24 会转成 0"
+    ]
+  },
+  "World:GetSnapshot": {
+    "desc": "保存当前画面为 UGC 资源图并返回文件名",
+    "params": {
+      "dt": "时间标记，用于拼截图文件名"
+    },
+    "returns": [
+      "string? name 资源文件名"
+    ],
+    "notes": [
+      "截图未完成、地图ID无效或参数为空时返回 nil",
+      "成功后会把图片登记到当前地图资源中"
+    ]
+  },
+  "World:GetTreeModel": {
+    "desc": "获取指定方块处的树木模型信息",
+    "params": {
+      "stBlockPos": "方块坐标，需含 x/y/z",
+      "bCreateActorTree": "是否同时创建树木角色，默认 true"
+    },
+    "returns": [
+      "table? data 含 actorid 与 blocks 字段的表"
+    ],
+    "notes": [
+      "blocks 为方块ID到数量的映射"
+    ]
+  },
+  "World:GetTreeModelMod": {
+    "desc": "获取模组树木合并后的模型信息",
+    "params": {
+      "stBlockPosList": "方块坐标数组",
+      "bCreateActorTree": "是否同时创建树木角色"
+    },
+    "returns": [
+      "table? data 含 actorid 与 blocks 字段的表"
+    ],
+    "notes": [
+      "多个方块坐标会合并统计方块ID与数量"
+    ]
+  },
+  "World:GetWorldid": {
+    "desc": "获取当前星球ID",
+    "params": {},
+    "returns": [
+      "number worldid 星球ID，取不到时为 0"
+    ],
+    "notes": []
+  },
+  "World:NotifyGameInfo2All": {
+    "desc": "向玩家批量推送游戏提示信息",
+    "params": {
+      "info": "提示文本",
+      "objids": "玩家Uin数组，默认全部玩家"
+    },
+    "returns": [
+      "boolean result 是否推送成功"
+    ],
+    "notes": [
+      "玩家列表为空或文本不是字符串时返回 false"
+    ]
+  },
+  "World:ReceiveModBlockDataEx": {
+    "desc": "处理模组方块自定义数据并下发到客户端",
+    "params": {
+      "content": "数据表，需含 mapid、blockposx/y/z、msgSubId"
+    },
+    "notes": [
+      "msgSubId 为 1 设置叠加色、2 设置 UV 动画开关、3 播放动画、4 无操作"
+    ]
+  },
+  "World:RegisterMatchTeleport": {
+    "desc": "注册一次匹配传送请求",
+    "params": {
+      "content": "需含 player_uin 与 detail 的数据表"
+    },
+    "returns": [
+      "boolean result 是否注册成功"
+    ],
+    "notes": [
+      "会把 content.type 强制置为 0"
+    ]
+  },
+  "World:SendToClientOpenTransferStationUI": {
+    "desc": "通知客户端打开传送站界面",
+    "params": {
+      "playerid": "玩家ID",
+      "mapid": "地图ID",
+      "srcGateId": "源星站ID"
+    },
+    "notes": [
+      "playerid 为空时不下发"
+    ]
+  },
+  "World:SetIsCreateSnow": {
+    "desc": "设置星球是否生成积雪",
+    "params": {
+      "value": "是否生成积雪",
+      "worldId": "星球ID"
+    },
+    "notes": [
+      "value 不是布尔值时静默忽略"
+    ]
+  },
+  "World:SetMapIconSettingCfg": {
+    "desc": "设置小地图图标显示配置",
+    "params": {
+      "cfg": "图标配置表"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "cfg 不是表时返回 false"
+    ]
+  },
+  "World:SetPicAndShare": {
+    "desc": "异步写入截图并打开分享界面",
+    "params": {
+      "uin": "玩家Uin",
+      "fileName": "图片文件名",
+      "needShare": "是否显示分享按钮"
+    },
+    "notes": [
+      "在线程池中执行，图片按 1920x1080 从包内拷出",
+      "移动端会额外扫描图片入库"
+    ]
+  },
+  "World:SetSkyBoxFilterForMod": {
+    "desc": "为模组设置天空盒滤镜颜色或模板",
+    "params": {
+      "playerid": "玩家ID",
+      "itype": "滤镜类型：SKYBOXFILTER.COLOR 颜色，TEMPLATE 模板",
+      "value": "颜色表 {r,g,b} 或模板编号"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "playerid 未参与实现，影响全局后处理",
+      "模板模式下只有默认模板才会关闭后处理"
+    ]
+  },
+  "World:SetSkyBoxFilterSwitch": {
+    "desc": "开关玩家的景深天空盒滤镜",
+    "params": {
+      "playerid": "玩家ID",
+      "itype": "滤镜类型，仅支持 SkyboxFilterSwitch.Dofenable",
+      "value": "开关值，布尔或 0/1",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "boolean result 是否下发成功"
+    ],
+    "notes": [
+      "通过 UGC 环境接口按玩家推送"
+    ]
+  },
+  "World:SetWeatherType": {
+    "desc": "设置当前星球天气类型",
+    "params": {
+      "wtype": "天气类型枚举值"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "天气管理器不存在时也会返回 true"
+    ]
+  },
+  "World:ShowTransferView": {
+    "desc": "打开玩家的星站传送界面",
+    "params": {
+      "playerid": "玩家ID",
+      "mapid": "地图ID",
+      "srcGateId": "源星站ID"
+    },
+    "returns": [
+      "boolean result 是否处理成功"
+    ],
+    "notes": [
+      "目标不是主玩家时改发客户端消息打开",
+      "没有可传送目标时会弹提示"
+    ]
+  },
+  "World:SnapShortAndOpenShareFrame": {
+    "desc": "异步截图并打开分享界面",
+    "params": {
+      "uin": "玩家Uin",
+      "needShare": "是否显示分享按钮"
+    },
+    "notes": [
+      "在线程池中调用拍照分享按钮逻辑",
+      "uin 未参与实现"
+    ]
+  },
+  "World:Snapshot": {
+    "desc": "请求以指定尺寸保存游戏截图",
+    "params": {
+      "w": "图片宽度",
+      "h": "图片高度"
+    },
+    "returns": [
+      "boolean result 是否提交成功"
+    ],
+    "notes": [
+      "星球ID无效时返回 false"
+    ]
+  },
+  "World:SpawnEquipOrGun": {
+    "desc": "在指定坐标生成一件装备或枪械",
+    "params": {
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标",
+      "itemid": "道具ID，可传资源ID字符串",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "number|boolean? result 生成的对象ID，失败时为 false 或 nil"
+    ],
+    "notes": [
+      "生成的是可直接拾取的装备实体"
+    ]
+  },
+  "World:SpawnItem": {
+    "desc": "在指定坐标生成掉落道具",
+    "params": {
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标",
+      "itemid": "道具ID，可传资源ID字符串",
+      "num": "生成数量，默认 1",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "number|boolean? result 生成的对象ID，失败时为 false 或 nil"
+    ],
+    "notes": [
+      "坐标会向下取整",
+      "只有启用了脚本的道具才能生成"
+    ]
+  },
+  "World:UseTransferTo": {
+    "desc": "把一名玩家传送到另一名玩家身边",
+    "params": {
+      "playerUin": "被传送玩家Uin",
+      "toUin": "目标玩家Uin"
+    },
+    "returns": [
+      "number result 传送结果码，无世界时为 -1"
+    ],
+    "notes": []
+  },
+  "World:getChunkRandomSpawnPos": {
+    "desc": "获取区块内的随机生成点坐标",
+    "params": {
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标"
+    },
+    "returns": [
+      "number? x 随机点X坐标",
+      "number? y 随机点Y坐标",
+      "number? z 随机点Z坐标"
+    ],
+    "notes": [
+      "底层返回失败时整体返回 nil"
+    ]
+  },
+  "Data.Map:CreateTmpMap": {
+    "desc": "创建一个临时的键值表对象",
+    "params": {
+      "varType": "变量的值类型",
+      "data": "初始数据表"
+    },
+    "returns": [
+      "userdata map 临时键值表对象"
+    ],
+    "notes": [
+      "不写入玩家变量，只用于本地构造与比较"
+    ]
+  },
+  "Data.Map:GetAllValue": {
+    "desc": "获取键值变量的全部内容",
+    "params": {
+      "varId": "变量ID",
+      "playerId": "玩家ID"
+    },
+    "returns": [
+      "table? data 键值对表"
+    ],
+    "notes": [
+      "变量不存在时返回 nil"
+    ]
+  },
+  "Data.Map:GetMapValue": {
+    "desc": "读取键值变量中指定键的值",
+    "params": {
+      "varId": "变量ID",
+      "playerId": "玩家ID",
+      "key": "键名"
+    },
+    "returns": [
+      "any? value 键对应的值"
+    ],
+    "notes": []
+  },
+  "Data.Map:GetShowRunData": {
+    "desc": "把键值变量内容转成可显示的字符串列表",
+    "params": {
+      "varId": "变量ID",
+      "playerId": "玩家ID"
+    },
+    "returns": [
+      "table list 形如 key=value 的字符串数组"
+    ],
+    "notes": [
+      "最多输出 100 条",
+      "表类型的值会先编码再拼接"
+    ]
+  },
+  "Data.Map:GetUserDataValue": {
+    "desc": "读取全局用户数据的指定键",
+    "params": {
+      "key": "键名"
+    },
+    "returns": [
+      "any? value 键对应的值"
+    ],
+    "notes": [
+      "读取的是跨地图全局键值表"
+    ]
+  },
+  "Data.Map:GetUserDataValueInMap": {
+    "desc": "读取当前地图内用户数据的指定键",
+    "params": {
+      "key": "键名"
+    },
+    "returns": [
+      "any? value 键对应的值"
+    ],
+    "notes": [
+      "读取的是仅本地图有效的键值表"
+    ]
+  },
+  "Data.Map:RemoveMapValue": {
+    "desc": "删除键值变量中的指定键",
+    "params": {
+      "varId": "变量ID",
+      "playerId": "玩家ID",
+      "key": "键名"
+    },
+    "returns": [
+      "any? result 底层删除结果"
+    ],
+    "notes": []
+  },
+  "Data.Map:SetMapValue": {
+    "desc": "写入键值变量中指定键的值",
+    "params": {
+      "varId": "变量ID",
+      "playerId": "玩家ID",
+      "key": "键名",
+      "value": "要写入的值"
+    },
+    "returns": [
+      "any? result 底层写入结果"
+    ],
+    "notes": [
+      "键名需通过 __CheckKey 校验才会写入"
+    ]
+  },
+  "Data.Map:SetUserDataValue": {
+    "desc": "写入全局用户数据的指定键",
+    "params": {
+      "key": "键名",
+      "value": "要写入的值"
+    },
+    "returns": [
+      "any? result 底层写入结果"
+    ],
+    "notes": [
+      "写入的是跨地图全局键值表"
+    ]
+  },
+  "Data.Map:SetUserDataValueInMap": {
+    "desc": "写入当前地图内用户数据的指定键",
+    "params": {
+      "key": "键名",
+      "value": "要写入的值"
+    },
+    "returns": [
+      "any? result 底层写入结果"
+    ],
+    "notes": [
+      "写入的是仅本地图有效的键值表"
+    ]
+  },
+  "Data.Map:__CheckKey": {
+    "desc": "校验并规范化键值表的键名",
+    "params": {
+      "key": "待校验的键名"
+    },
+    "returns": [
+      "string? key 规范化后的键名，非法时为 nil"
+    ],
+    "notes": [
+      "字符串键长度上限 50，且只允许字母、数字和英文符号",
+      "数字键会被转成字符串"
+    ]
+  },
+  "WorldContainer:AddFurnace": {
+    "desc": "在指定坐标放置一个熔炉容器",
+    "params": {
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标",
+      "blockid": "方块ID，可传资源ID字符串"
+    },
+    "returns": [
+      "boolean result 是否添加成功"
+    ],
+    "notes": [
+      "方块ID留空时使用默认熔炉"
+    ]
+  },
+  "WorldContainer:AddStorageBox": {
+    "desc": "在指定坐标放置一个储物箱容器",
+    "params": {
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标",
+      "blockid": "方块ID，可传资源ID字符串"
+    },
+    "returns": [
+      "boolean result 是否添加成功"
+    ],
+    "notes": [
+      "方块ID留空时使用默认储物箱"
+    ]
+  },
+  "WorldContainer:CheckFurnace": {
+    "desc": "检查指定坐标是否存在熔炉",
+    "params": {
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标"
+    },
+    "returns": [
+      "boolean result 是否存在熔炉",
+      "string? blockid 熔炉方块ID"
+    ],
+    "notes": []
+  },
+  "WorldContainer:GetFurnaceHeatPercent": {
+    "desc": "获取熔炉的加热进度百分比",
+    "params": {
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标",
+      "lev": "燃料槽等级，默认 1"
+    },
+    "returns": [
+      "number? percent 加热进度百分比"
+    ],
+    "notes": [
+      "坐标不是熔炉时返回 nil"
+    ]
+  },
+  "WorldContainer:GetFurnaceMeltPercent": {
+    "desc": "获取熔炉的熔炼进度百分比",
+    "params": {
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标"
+    },
+    "returns": [
+      "number? percent 熔炼进度百分比"
+    ],
+    "notes": [
+      "坐标不是熔炉时返回 nil"
+    ]
+  },
+  "WorldContainer:Is2Sizeblock": {
+    "desc": "判断方块ID是否属于两格高方块",
+    "params": {
+      "blockid": "方块ID"
+    },
+    "returns": [
+      "boolean result 是否两格高"
+    ],
+    "notes": [
+      "仅认 1180、1181、390008、390103、390105 这几个ID"
+    ]
+  },
+  "WorldContainer:RemoveFurnace": {
+    "desc": "移除指定坐标的熔炉容器",
+    "params": {
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标"
+    },
+    "returns": [
+      "boolean result 是否移除成功"
+    ],
+    "notes": []
+  },
+  "WorldContainer:RemoveStorageBox": {
+    "desc": "移除指定坐标的储物箱容器",
+    "params": {
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标"
+    },
+    "returns": [
+      "boolean result 是否移除成功"
+    ],
+    "notes": []
+  },
+  "WorldContainer:SetGridAttr": {
+    "desc": "设置容器格子的数量、耐久或韧性",
+    "params": {
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标",
+      "gridid": "格子序号，从 1 开始",
+      "attr": "属性：GridAttr.ItemNum 数量、Durable 耐久、Toughness 韧性",
+      "value": "目标数值",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "boolean|integer result 成功为 true，数量清空时返回 0，失败为 false"
+    ],
+    "notes": [
+      "坐标会向下取整",
+      "储物箱格子序号超出箱子格数时失败",
+      "熔炉只接受原料槽与燃料槽",
+      "数值会被夹取到格子最大值"
+    ]
+  },
+  "WorldContainer:SetSummoner": {
+    "desc": "设置召唤器方块的冷却时间与冷却类型",
+    "params": {
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标",
+      "changeCD": "是否修改冷却时间",
+      "CD": "冷却时间（秒）",
+      "CDType": "冷却类型"
+    },
+    "returns": [
+      "number result 成功为 1，失败为 0"
+    ],
+    "notes": [
+      "冷却类型每次都会写入，冷却时间只在 changeCD 为 true 时写入"
+    ]
+  },
+  "WorldContainer:SetSummonerLevel": {
+    "desc": "设置召唤器方块的等级",
+    "params": {
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标",
+      "level": "目标等级"
+    },
+    "returns": [
+      "number result 成功为 1，失败为 0"
+    ],
+    "notes": []
+  },
+  "Data:GetRowByColIndex": {
+    "desc": "按列序号和值查找 CSV 表中的行",
+    "params": {
+      "filename": "CSV 文件名",
+      "col": "列序号",
+      "value": "要匹配的值"
+    },
+    "returns": [
+      "table? row 匹配到的行数据"
+    ],
+    "notes": []
+  },
+  "Data:GetRowByColName": {
+    "desc": "按列名和值查找 CSV 表中的行",
+    "params": {
+      "filename": "CSV 文件名",
+      "name": "列名",
+      "value": "要匹配的值"
+    },
+    "returns": [
+      "table? row 匹配到的行数据"
+    ],
+    "notes": []
+  },
+  "Data:GetRowByIndex": {
+    "desc": "按行号读取 CSV 表的一行",
+    "params": {
+      "filename": "CSV 文件名",
+      "row": "行号"
+    },
+    "returns": [
+      "table? row 行数据"
+    ],
+    "notes": []
+  },
+  "Data:GetRows": {
+    "desc": "获取 CSV 表的全部行",
+    "params": {
+      "filename": "CSV 文件名"
+    },
+    "returns": [
+      "table? rows 行数组"
+    ],
+    "notes": []
+  },
+  "Data:GetVarID": {
+    "desc": "按变量名获取变量ID",
+    "params": {
+      "varname": "变量名"
+    },
+    "returns": [
+      "number? varId 变量ID"
+    ],
+    "notes": [
+      "变量不存在时返回 nil"
+    ]
+  },
+  "Data:LoadCsv2Table": {
+    "desc": "把 CSV 文件加载为可查询的二维表",
+    "params": {
+      "filename": "CSV 文件名",
+      "colkey": "作为列键的行号",
+      "istartrow": "起始行",
+      "istartcol": "起始列",
+      "ingnoremask": "忽略遮罩标记"
+    },
+    "returns": [
+      "boolean? result 是否加载成功"
+    ],
+    "notes": [
+      "失败时会向玩家 0 推送 \"文件名 Load File\" 提示"
+    ]
+  },
+  "Data:ReadPlayerData": {
+    "desc": "读取玩家的存档数据",
+    "params": {
+      "uin": "玩家Uin",
+      "filename": "存档文件名"
+    },
+    "returns": [
+      "table? data 存档数据表"
+    ],
+    "notes": [
+      "uin 或文件名缺失时不读取"
+    ]
+  },
+  "Data:ReadPlayerDataToMap": {
+    "desc": "读取玩家存档并转换为键值表",
+    "params": {
+      "uin": "玩家Uin",
+      "filename": "存档文件名"
+    },
+    "returns": [
+      "table? data 存档数据表"
+    ],
+    "notes": [
+      "与 ReadPlayerData 的区别是结果按键值对组织"
+    ]
+  },
+  "Data:SavePlayerData": {
+    "desc": "保存玩家的存档数据",
+    "params": {
+      "uin": "玩家Uin",
+      "filename": "存档文件名",
+      "tabval": "要保存的表数据"
+    },
+    "returns": [
+      "boolean? result 是否保存成功"
+    ],
+    "notes": [
+      "三个参数缺一不可"
+    ]
+  },
+  "Data:SavePlayerDataToMap": {
+    "desc": "把表数据按键值对保存为玩家存档",
+    "params": {
+      "uin": "玩家Uin",
+      "filename": "存档文件名",
+      "tabval": "要保存的表数据"
+    },
+    "returns": [
+      "boolean? result 是否保存成功"
+    ],
+    "notes": [
+      "三个参数缺一不可"
+    ]
+  },
+  "GameRule:GetAllowMidwayJoin": {
+    "desc": "获取房间是否允许中途加入",
+    "params": {},
+    "returns": [
+      "number value 1 允许，0 不允许"
+    ],
+    "notes": []
+  },
+  "GameRule:GetCountDown": {
+    "desc": "获取开局倒计时设置",
+    "params": {},
+    "returns": [
+      "number value 倒计时秒数"
+    ],
+    "notes": []
+  },
+  "GameRule:GetDisplayScore": {
+    "desc": "获取是否显示分数",
+    "params": {},
+    "returns": [
+      "number value 1 显示，0 不显示"
+    ],
+    "notes": []
+  },
+  "GameRule:GetGameRuleValue": {
+    "desc": "读取指定游戏规则的值",
+    "params": {
+      "ruleId": "规则ID，GMRULE_ 系列常量"
+    },
+    "returns": [
+      "number value 规则值，规则ID非数字时为 0"
+    ],
+    "notes": []
+  },
+  "GameRule:GetKillNotify": {
+    "desc": "获取击杀提示的显示设置",
+    "params": {},
+    "returns": [
+      "number value 规则值"
+    ],
+    "notes": []
+  },
+  "GameRule:GetLifeNum": {
+    "desc": "获取玩家生命数设置",
+    "params": {},
+    "returns": [
+      "number value 生命数"
+    ],
+    "notes": []
+  },
+  "GameRule:GetMobGen": {
+    "desc": "获取是否开启生物生成",
+    "params": {},
+    "returns": [
+      "number value 1 开启，0 关闭"
+    ],
+    "notes": []
+  },
+  "GameRule:IsDevBuild": {
+    "desc": "判断当前是否为开发构建",
+    "params": {},
+    "returns": [
+      "boolean result 是否开发构建"
+    ],
+    "notes": [
+      "接口ID为 999 时直接视为开发构建"
+    ]
+  },
+  "GameRule:RefreshLevelModeUI": {
+    "desc": "按等级模式开关刷新经验条显示",
+    "params": {},
+    "notes": [
+      "租借服务器模式下不处理"
+    ]
+  },
+  "GameRule:SetAllowMidwayJoin": {
+    "desc": "设置房间是否允许中途加入",
+    "params": {
+      "set": "是否允许中途加入"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": []
+  },
+  "GameRule:SetCountDown": {
+    "desc": "设置开局倒计时",
+    "params": {
+      "val": "倒计时秒数"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": []
+  },
+  "GameRule:SetDisplayScore": {
+    "desc": "设置是否显示分数",
+    "params": {
+      "set": "是否显示分数"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": []
+  },
+  "GameRule:SetGameRuleValue": {
+    "desc": "修改指定游戏规则的值",
+    "params": {
+      "ruleId": "规则ID，GMRULE_ 系列常量",
+      "val": "规则新值"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "规则ID非数字或规则管理器不可用时返回 false"
+    ]
+  },
+  "GameRule:SetKillNotify": {
+    "desc": "设置是否显示击杀提示",
+    "params": {
+      "set": "是否显示击杀提示"
+    },
+    "notes": [
+      "内部转调 SetGameRuleValue，不返回结果"
+    ]
+  },
+  "GameRule:SetLifeNum": {
+    "desc": "设置玩家生命数",
+    "params": {
+      "lifenum": "生命数"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": []
+  },
+  "GameRule:SetMobGen": {
+    "desc": "设置是否开启生物生成",
+    "params": {
+      "set": "是否开启生物生成"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": []
+  },
+  "GameRule:SetPlayerAttrState": {
+    "desc": "设置玩家属性的开放状态",
+    "params": {
+      "option": "属性选项",
+      "value": "状态值"
+    },
+    "notes": [
+      "游戏制作管理器不存在时静默忽略"
+    ]
+  },
+  "GameRule:SetPlayerGamePermits": {
+    "desc": "设置玩家在房间中的权限",
+    "params": {
+      "uin": "玩家Uin",
+      "mode": "权限模式",
+      "val": "权限值"
+    },
+    "notes": [
+      "通过权限模块脚本下发，固定传参 2"
+    ]
+  },
+  "GameRule:SetReviveCostBtnIcon": {
+    "desc": "设置复活消耗按钮的图标",
+    "params": {
+      "url": "图标资源地址"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "死亡界面管理器不存在时返回 false"
+    ]
+  },
+  "Data.Array:ClearNilValue": {
+    "desc": "清理数组中的空值，当前实现为空",
+    "params": {
+      "varId": "变量ID",
+      "playerId": "玩家ID"
+    },
+    "notes": [
+      "引擎侧函数体只有 return，不清理任何数据"
+    ]
+  },
+  "Data.Array:ConvertNomalArray": {
+    "desc": "把数组对象转换为普通 Lua 数组",
+    "params": {
+      "array": "数组对象"
+    },
+    "returns": [
+      "table|userdata result 普通数组，非数组对象时原样返回"
+    ],
+    "notes": [
+      "属性数组与变量数组都会取出全部元素"
+    ]
+  },
+  "Data.Array:DealArrayData": {
+    "desc": "校验道具数组是否有效且类型匹配",
+    "params": {
+      "data": "待校验的数组对象",
+      "itemType": "道具类型"
+    },
+    "returns": [
+      "userdata? data 校验通过的数组对象"
+    ],
+    "notes": [
+      "对象无效或类型不匹配时返回 nil",
+      "变量数组分支为空，直接返回 nil"
+    ]
+  },
+  "Data.Array:DealTagToArrayData": {
+    "desc": "把标签统一转换为数组或字符串向量",
+    "params": {
+      "tags": "标签，可为字符串、表或数组对象",
+      "isToC": "是否转换为 C++ 字符串向量",
+      "varType": "变量值类型",
+      "outval": "复用的输出向量"
+    },
+    "returns": [
+      "table|userdata? result 转换结果，标签为空时返回 nil"
+    ],
+    "notes": [
+      "varType 不为空时不做任何转换，直接返回 nil",
+      "空字符串标签会被丢弃",
+      "isToC 为 false 时原样返回或包装成单元素表"
+    ]
+  },
+  "Data.Table:GetColItemType": {
+    "desc": "获取表格指定列的道具类型",
+    "params": {
+      "varId": "变量ID",
+      "playerId": "玩家ID",
+      "col": "列号"
+    },
+    "returns": [
+      "number? itemType 道具类型"
+    ],
+    "notes": [
+      "变量不存在时返回 nil"
+    ]
+  },
+  "Data.Table:UpdateLineValues": {
+    "desc": "按行批量更新表格数据",
+    "params": {
+      "varId": "变量ID",
+      "playerId": "玩家ID",
+      "value": "行数据表"
+    },
+    "returns": [
+      "any? result 底层更新结果"
+    ],
+    "notes": []
+  },
+  "Timer:IsPause": {
+    "desc": "判断计时器是否处于暂停状态",
+    "params": {
+      "id": "计时器ID"
+    },
+    "returns": [
+      "boolean result 是否暂停"
+    ],
+    "notes": [
+      "ID 为空或计时器管理器不存在时返回 false"
+    ]
+  },
+  "Timer:IsPlaying": {
+    "desc": "判断计时器是否正在运行",
+    "params": {
+      "id": "计时器ID"
+    },
+    "returns": [
+      "boolean result 是否运行中"
+    ],
+    "notes": [
+      "ID 为空或计时器管理器不存在时返回 false"
+    ]
+  },
+  "Game:ShowMsgBox": {
+    "desc": "弹出系统消息框显示文本",
+    "params": {
+      "msg": "消息文本，非字符串会被转成字符串"
+    },
+    "notes": [
+      "文本会先经过关键字过滤"
+    ]
+  },
+  "Timeline:PauseForPlayer": {
+    "desc": "暂停或继续玩家的时间轴播放",
+    "params": {
+      "uin": "玩家Uin",
+      "timelineId": "时间轴ID",
+      "pause": "是否暂停"
+    },
+    "returns": [
+      "boolean result 是否调用成功"
+    ],
+    "notes": [
+      "时间轴管理器缺失或参数为空时返回 false"
+    ]
+  }
+}

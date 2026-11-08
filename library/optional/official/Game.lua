@@ -7,6 +7,7 @@
 ---@class Game
 Game = {}
 
----显示消息box
----@param msg string 消息
+---弹出系统消息框显示文本
+---文本会先经过关键字过滤
+---@param msg string 消息文本，非字符串会被转成字符串
 function Game:ShowMsgBox(msg) end

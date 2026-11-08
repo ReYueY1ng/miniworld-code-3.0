@@ -1,0 +1,1575 @@
+{
+  "Item:AddModelPart": {
+    "desc": "按道具实例ID为道具添加模型部件",
+    "params": {
+      "playerid": "玩家ID",
+      "instId": "道具实例ID",
+      "partName": "子部件名称",
+      "boneName": "挂点骨骼名称",
+      "modelStr": "模型资源名",
+      "offset": "位置偏移，默认 {x=0,y=0,z=0}",
+      "rot": "旋转角度，默认全 0",
+      "scale": "缩放比例，默认全 1"
+    },
+    "returns": [
+      "string? partName 子部件名称，失败时为 nil"
+    ],
+    "notes": [
+      "先用 GetGridIndexByInstId 定位格子，再转发 AddModelPartByGrid",
+      "偏移量以格为单位，内部乘 100 转换为引擎单位",
+      "修改约 0.5 秒后才会同步到客机，界面模型需等同步后再刷新"
+    ]
+  },
+  "Item:AddModelPartByGrid": {
+    "desc": "按背包格子索引为道具添加模型部件",
+    "params": {
+      "playerid": "玩家ID",
+      "gridIndex": "背包格子索引",
+      "partName": "子部件名称",
+      "boneName": "挂点骨骼名称",
+      "modelStr": "模型资源名",
+      "offset": "位置偏移，默认 {x=0,y=0,z=0}",
+      "rot": "旋转角度，默认全 0",
+      "scale": "缩放比例，默认全 1"
+    },
+    "returns": [
+      "string? partName 子部件名称，失败时为 nil"
+    ],
+    "notes": [
+      "仅对带模型组件的道具实例有效",
+      "partName、boneName、modelStr 必须为字符串，offset/rot/scale 必须为 table 或省略"
+    ]
+  },
+  "Item:CreateGunInBackpack": {
+    "desc": "在玩家背包中创建一把实例化枪械",
+    "params": {
+      "playerid": "玩家ID",
+      "itemid": "道具ID（数字配置ID或资源ID字符串）",
+      "gridIndex": "目标格子索引，省略或传 -1 时自动选择"
+    },
+    "returns": [
+      "string? instId 道具实例ID，失败时为 nil"
+    ],
+    "notes": [
+      "仅对允许脚本使用的枪械道具有效",
+      "目标格子不可用或背包已满时创建失败"
+    ]
+  },
+  "Item:DeleteModelPart": {
+    "desc": "按道具实例ID删除模型部件",
+    "params": {
+      "playerid": "玩家ID",
+      "instId": "道具实例ID",
+      "partName": "子部件名称"
+    },
+    "returns": [
+      "boolean result 是否删除成功"
+    ],
+    "notes": [
+      "先用 GetGridIndexByInstId 定位格子，再转发 DeleteModelPartByGrid"
+    ]
+  },
+  "Item:DeleteModelPartByGrid": {
+    "desc": "按背包格子索引删除道具模型部件",
+    "params": {
+      "playerid": "玩家ID",
+      "gridIndex": "背包格子索引",
+      "partName": "子部件名称"
+    },
+    "returns": [
+      "boolean result 是否删除成功"
+    ],
+    "notes": [
+      "仅对带模型组件的道具实例有效"
+    ]
+  },
+  "Item:GetArrayData": {
+    "desc": "按道具实例ID读取自定义数组数据",
+    "params": {
+      "playerid": "玩家ID",
+      "instId": "道具实例ID",
+      "key": "数据键名"
+    },
+    "returns": [
+      "table? value 数组数据，实例无效或键不存在时为 nil"
+    ],
+    "notes": [
+      "返回的是引擎 JSON 数组转换出的 table 副本"
+    ]
+  },
+  "Item:GetArrayDataByGrid": {
+    "desc": "按背包格子索引读取道具的自定义数组数据",
+    "params": {
+      "playerid": "玩家ID",
+      "gridIndex": "背包格子索引",
+      "key": "数据键名"
+    },
+    "returns": [
+      "table? value 数组数据，读取失败时为 nil"
+    ]
+  },
+  "Item:GetBoolData": {
+    "desc": "按道具实例ID读取自定义布尔数据",
+    "params": {
+      "playerid": "玩家ID",
+      "instId": "道具实例ID",
+      "key": "数据键名"
+    },
+    "returns": [
+      "boolean? value 布尔值，读取失败时为 nil"
+    ]
+  },
+  "Item:GetBoolDataByGrid": {
+    "desc": "按背包格子索引读取道具的自定义布尔数据",
+    "params": {
+      "playerid": "玩家ID",
+      "gridIndex": "背包格子索引",
+      "key": "数据键名"
+    },
+    "returns": [
+      "boolean? value 布尔值，读取失败时为 nil"
+    ]
+  },
+  "Item:GetCraftDef": {
+    "desc": "获取配方定义并转换为 Lua 表",
+    "params": {
+      "idCraft": "配方ID（数字配置ID或资源ID字符串）"
+    },
+    "returns": [
+      "table? craft 配方表，失败时为 nil"
+    ],
+    "notes": [
+      "返回字段：id 配方ID、rid 产物道具ID、rc 产物数量、craftingItemId 制作道具ID、aMaterials 材料数组、type 配方类型",
+      "aMaterials 元素为 {id = 材料道具ID, c = 数量}"
+    ]
+  },
+  "Item:GetCraftDefByIndex": {
+    "desc": "按序号获取配方定义",
+    "params": {
+      "iCraft": "配方序号，从 1 开始"
+    },
+    "returns": [
+      "table? craft 配方表，序号非法或配方无效时为 nil"
+    ],
+    "notes": [
+      "内部按 iCraft-1 访问配置数组"
+    ]
+  },
+  "Item:GetCraftDefCount": {
+    "desc": "获取配方配置的总数量",
+    "params": {},
+    "returns": [
+      "number count 配方数量，配置管理器不可用时为 0"
+    ]
+  },
+  "Item:GetDropItemNum": {
+    "desc": "获取掉落物对象携带的道具数量",
+    "params": {
+      "objid": "掉落物对象ID"
+    },
+    "returns": [
+      "number? num 道具数量，对象无效时为 nil"
+    ]
+  },
+  "Item:GetEquipBaseDesc": {
+    "desc": "获取装备的基础属性描述文本",
+    "params": {
+      "itemid": "道具ID（数字配置ID或资源ID字符串）"
+    },
+    "returns": [
+      "table? descs 属性描述数组，非装备或未配置时为 nil"
+    ],
+    "notes": [
+      "只输出数值非零的属性，包括生命、伤害、防御、移动速度"
+    ]
+  },
+  "Item:GetFoodAddFoodVal": {
+    "desc": "获取食物增加饱食度的数值",
+    "params": {
+      "itemid": "道具ID（数字配置ID或资源ID字符串）"
+    },
+    "returns": [
+      "number value 增加的饱食度，道具不存在或非食物时为 0"
+    ]
+  },
+  "Item:GetGridIndexByInstId": {
+    "desc": "按道具实例ID查询其所在的背包格子索引",
+    "params": {
+      "playerid": "玩家ID",
+      "instId": "道具实例ID"
+    },
+    "returns": [
+      "number? gridIndex 背包格子索引，未找到时为 nil"
+    ],
+    "notes": [
+      "只在该玩家的背包范围内查找"
+    ]
+  },
+  "Item:GetGunAttr": {
+    "desc": "按实例ID获取枪械实例属性",
+    "params": {
+      "playerid": "玩家ID",
+      "instId": "道具实例ID",
+      "key": "属性键（GunAttr）"
+    },
+    "returns": [
+      "any value 属性值，键非法或读取失败时为 nil"
+    ],
+    "notes": [
+      "按 GunAttr 配置的类型分别读取 number/enum/string/boolean",
+      "先用 GetGridIndexByInstId 定位格子"
+    ]
+  },
+  "Item:GetGunAttrByGrid": {
+    "desc": "按背包格子索引获取枪械实例属性",
+    "params": {
+      "playerid": "玩家ID",
+      "gridIndex": "背包格子索引",
+      "key": "属性键（GunAttr）"
+    },
+    "returns": [
+      "any value 属性值，键非法或读取失败时为 nil"
+    ],
+    "notes": [
+      "按 GunAttr 配置的类型分别读取 number/enum/string/boolean"
+    ]
+  },
+  "Item:GetGunGridIndexInBackpack": {
+    "desc": "获取玩家背包中所有枪械所在的格子索引",
+    "params": {
+      "playerid": "玩家ID"
+    },
+    "returns": [
+      "table? gridIndexes 格子索引数组，背包内没有枪械时为 nil"
+    ]
+  },
+  "Item:GetGunInstIdInBackpack": {
+    "desc": "获取玩家背包中所有枪械的道具实例ID",
+    "params": {
+      "playerid": "玩家ID"
+    },
+    "returns": [
+      "table? instIds 道具实例ID数组，背包内没有枪械时为 nil"
+    ]
+  },
+  "Item:GetGunPrefabAttr": {
+    "desc": "获取枪械预制体上的属性值",
+    "params": {
+      "playerid": "玩家ID",
+      "instId": "道具实例ID",
+      "key": "属性键（GunAttr）"
+    },
+    "returns": [
+      "any value 预制属性值，键非法或读取失败时为 nil"
+    ],
+    "notes": [
+      "仅自定义枪械有效",
+      "读取的是道具模板（预制）配置值，不是实例被修改后的值"
+    ]
+  },
+  "Item:GetGunPrefabAttrByGrid": {
+    "desc": "按背包格子索引获取枪械预制体属性",
+    "params": {
+      "playerid": "玩家ID",
+      "gridIndex": "背包格子索引",
+      "key": "属性键（GunAttr）"
+    },
+    "returns": [
+      "any value 预制属性值，键非法或读取失败时为 nil"
+    ],
+    "notes": [
+      "仅自定义枪械有效"
+    ]
+  },
+  "Item:GetInstIdByGridIndex": {
+    "desc": "获取背包格子中道具的实例ID",
+    "params": {
+      "playerid": "玩家ID",
+      "gridIndex": "背包格子索引"
+    },
+    "returns": [
+      "string? instId 道具实例ID，格子无实例时为 nil"
+    ]
+  },
+  "Item:GetItemId": {
+    "desc": "获取掉落物对象对应的道具ID",
+    "params": {
+      "objid": "掉落物对象ID"
+    },
+    "returns": [
+      "number|string? itemid 道具ID，对象无效时为 nil"
+    ],
+    "notes": [
+      "自定义资源掉落物会直接返回资源ID字符串"
+    ]
+  },
+  "Item:GetItemIdByGrid": {
+    "desc": "按背包格子索引获取道具ID",
+    "params": {
+      "playerid": "玩家ID",
+      "gridIndex": "背包格子索引"
+    },
+    "returns": [
+      "number? itemid 道具ID，格子为空或读取失败时为 nil"
+    ]
+  },
+  "Item:GetItemIdByInstId": {
+    "desc": "按道具实例ID获取道具ID",
+    "params": {
+      "playerid": "玩家ID",
+      "instId": "道具实例ID"
+    },
+    "returns": [
+      "number? itemid 道具ID，实例无效时为 nil"
+    ]
+  },
+  "Item:GetItemStackMax": {
+    "desc": "获取道具的最大堆叠数量",
+    "params": {
+      "itemid": "道具ID（数字配置ID或资源ID字符串）"
+    },
+    "returns": [
+      "number? stackMax 最大堆叠数，道具不存在时为 nil"
+    ]
+  },
+  "Item:GetItemType": {
+    "desc": "获取道具的类型枚举值",
+    "params": {
+      "itemid": "道具ID（数字配置ID或资源ID字符串）"
+    },
+    "returns": [
+      "number? itemType 道具类型，道具不存在时为 nil"
+    ]
+  },
+  "Item:GetNumberData": {
+    "desc": "按道具实例ID读取自定义 number 数据",
+    "params": {
+      "playerid": "玩家ID",
+      "instId": "道具实例ID",
+      "key": "数据键名"
+    },
+    "returns": [
+      "number? value 数值，读取失败时为 nil"
+    ]
+  },
+  "Item:GetNumberDataByGrid": {
+    "desc": "按背包格子索引读取道具的自定义 number 数据",
+    "params": {
+      "playerid": "玩家ID",
+      "gridIndex": "背包格子索引",
+      "key": "数据键名"
+    },
+    "returns": [
+      "number? value 数值，读取失败时为 nil"
+    ]
+  },
+  "Item:GetPrefabModelPart": {
+    "desc": "获取道具预制的模型部件列表",
+    "params": {
+      "playerid": "玩家ID",
+      "instId": "道具实例ID"
+    },
+    "returns": [
+      "table? parts 部件数组，没有部件时为 nil"
+    ],
+    "notes": [
+      "元素字段：boneName、modelStr、offset、rot、scale",
+      "每个元素均为新建的 table 副本"
+    ]
+  },
+  "Item:GetPrefabModelPartByGrid": {
+    "desc": "按背包格子索引获取道具预制的模型部件列表",
+    "params": {
+      "playerid": "玩家ID",
+      "gridIndex": "背包格子索引"
+    },
+    "returns": [
+      "table? parts 部件数组，没有部件时为 nil"
+    ],
+    "notes": [
+      "元素字段：boneName、modelStr、offset、rot、scale"
+    ]
+  },
+  "Item:GetResIdByGrid": {
+    "desc": "按背包格子索引获取道具实例的预制资源ID",
+    "params": {
+      "playerid": "玩家ID",
+      "gridIndex": "背包格子索引"
+    },
+    "returns": [
+      "string? resId 预制资源ID，读取失败时为 nil"
+    ]
+  },
+  "Item:GetResIdByInstId": {
+    "desc": "按道具实例ID获取预制资源ID",
+    "params": {
+      "playerid": "玩家ID",
+      "instId": "道具实例ID"
+    },
+    "returns": [
+      "string? resId 预制资源ID，实例无效时为 nil"
+    ]
+  },
+  "Item:GetStringData": {
+    "desc": "按道具实例ID读取自定义字符串数据",
+    "params": {
+      "playerid": "玩家ID",
+      "instId": "道具实例ID",
+      "key": "数据键名"
+    },
+    "returns": [
+      "string? value 字符串值，读取失败时为 nil"
+    ]
+  },
+  "Item:GetStringDataByGrid": {
+    "desc": "按背包格子索引读取道具的自定义字符串数据",
+    "params": {
+      "playerid": "玩家ID",
+      "gridIndex": "背包格子索引",
+      "key": "数据键名"
+    },
+    "returns": [
+      "string? value 字符串值，读取失败时为 nil"
+    ]
+  },
+  "Item:GetToolBaseDesc": {
+    "desc": "获取工具或武器的基础属性描述文本",
+    "params": {
+      "itemid": "道具ID（数字配置ID或资源ID字符串）"
+    },
+    "returns": [
+      "table? descs 属性描述数组，非工具或未配置时为 nil"
+    ],
+    "notes": [
+      "包含攻击、各类防御、移速、游泳速度、温度抗性等非零属性",
+      "Type 为 14 的投掷类武器读取投掷物配置的攻击属性"
+    ]
+  },
+  "Item:GetToolType": {
+    "desc": "获取工具类型枚举值",
+    "params": {
+      "itemid": "道具ID（数字配置ID或资源ID字符串）"
+    },
+    "returns": [
+      "number type 工具类型，道具不存在或非工具时为 0"
+    ]
+  },
+  "Item:ModifyGunAttr": {
+    "desc": "按实例ID修改枪械实例属性",
+    "params": {
+      "playerid": "玩家ID",
+      "instId": "道具实例ID",
+      "key": "属性键（GunAttr）",
+      "value": "新属性值"
+    },
+    "returns": [
+      "boolean result 是否修改成功"
+    ],
+    "notes": [
+      "value 的类型必须与 GunAttr 配置一致，枚举值会做合法性校验",
+      "先用 GetGridIndexByInstId 定位格子"
+    ]
+  },
+  "Item:ModifyGunAttrByGrid": {
+    "desc": "按背包格子索引修改枪械实例属性",
+    "params": {
+      "playerid": "玩家ID",
+      "gridIndex": "背包格子索引",
+      "key": "属性键（GunAttr）",
+      "value": "新属性值"
+    },
+    "returns": [
+      "boolean result 是否修改成功"
+    ],
+    "notes": [
+      "value 的类型必须与 GunAttr 配置一致"
+    ]
+  },
+  "Item:ModifyModelPart": {
+    "desc": "按道具实例ID修改模型部件",
+    "params": {
+      "playerid": "玩家ID",
+      "instId": "道具实例ID",
+      "partName": "子部件名称",
+      "boneName": "挂点骨骼名称",
+      "modelStr": "模型资源名",
+      "offset": "位置偏移",
+      "rot": "旋转角度",
+      "scale": "缩放比例"
+    },
+    "returns": [
+      "boolean result 是否修改成功"
+    ],
+    "notes": [
+      "只修改传入的参数，未传的字段保持原值",
+      "部件不存在或道具没有模型部件时返回 false"
+    ]
+  },
+  "Item:ModifyModelPartByGrid": {
+    "desc": "按背包格子索引修改模型部件",
+    "params": {
+      "playerid": "玩家ID",
+      "gridIndex": "背包格子索引",
+      "partName": "子部件名称",
+      "boneName": "挂点骨骼名称",
+      "modelStr": "模型资源名",
+      "offset": "位置偏移",
+      "rot": "旋转角度",
+      "scale": "缩放比例"
+    },
+    "returns": [
+      "boolean result 是否修改成功"
+    ],
+    "notes": [
+      "只修改传入的参数，未传的字段保持原值"
+    ]
+  },
+  "Item:PlayAct": {
+    "desc": "让道具对象播放指定动作",
+    "params": {
+      "objid": "道具对象ID",
+      "animid": "动作ID",
+      "playmode": "播放模式（AnimMode）"
+    },
+    "returns": [
+      "boolean result 是否播放成功"
+    ],
+    "notes": [
+      "道具需要配置对应动作"
+    ]
+  },
+  "Item:SetArrayData": {
+    "desc": "按道具实例ID写入自定义数组数据",
+    "params": {
+      "playerid": "玩家ID",
+      "instId": "道具实例ID",
+      "key": "数据键名",
+      "value": "数组表"
+    },
+    "returns": [
+      "boolean result 是否写入成功"
+    ],
+    "notes": [
+      "value 必须是 table，内部序列化为 JSON 数组"
+    ]
+  },
+  "Item:SetArrayDataByGrid": {
+    "desc": "按背包格子索引写入自定义数组数据",
+    "params": {
+      "playerid": "玩家ID",
+      "gridIndex": "背包格子索引",
+      "key": "数据键名",
+      "value": "数组表"
+    },
+    "returns": [
+      "boolean result 是否写入成功"
+    ],
+    "notes": [
+      "value 必须是 table"
+    ]
+  },
+  "Item:SetBoolData": {
+    "desc": "按道具实例ID写入自定义布尔数据",
+    "params": {
+      "playerid": "玩家ID",
+      "instId": "道具实例ID",
+      "key": "数据键名",
+      "value": "布尔值"
+    },
+    "returns": [
+      "boolean result 是否写入成功"
+    ]
+  },
+  "Item:SetBoolDataByGrid": {
+    "desc": "按背包格子索引写入自定义布尔数据",
+    "params": {
+      "playerid": "玩家ID",
+      "gridIndex": "背包格子索引",
+      "key": "数据键名",
+      "value": "布尔值"
+    },
+    "returns": [
+      "boolean result 是否写入成功"
+    ]
+  },
+  "Item:SetGridAttr": {
+    "desc": "设置掉落物或投掷物的格子属性",
+    "params": {
+      "objid": "掉落物或投掷物对象ID",
+      "attr": "格子属性（GridAttr.ItemNum/Durable/Toughness）",
+      "value": "属性值"
+    },
+    "returns": [
+      "boolean|number? result 设置结果：成功为 true，数量清零返回 0，失败为 false 或 nil"
+    ],
+    "notes": [
+      "物品数量超过最大堆叠时会按上限截断，小于等于 0 时清空格子",
+      "耐久度与韧性会被限制在 0 到上限之间",
+      "投掷物不支持数量和韧性属性，设置数量直接返回 false"
+    ]
+  },
+  "Item:SetNumberData": {
+    "desc": "按道具实例ID写入自定义 number 数据",
+    "params": {
+      "playerid": "玩家ID",
+      "instId": "道具实例ID",
+      "key": "数据键名",
+      "value": "数值"
+    },
+    "returns": [
+      "boolean result 是否写入成功"
+    ],
+    "notes": [
+      "value 必须是 number"
+    ]
+  },
+  "Item:SetNumberDataByGrid": {
+    "desc": "按背包格子索引写入自定义 number 数据",
+    "params": {
+      "playerid": "玩家ID",
+      "gridIndex": "背包格子索引",
+      "key": "数据键名",
+      "value": "数值"
+    },
+    "returns": [
+      "boolean result 是否写入成功"
+    ]
+  },
+  "Item:SetStringData": {
+    "desc": "按道具实例ID写入自定义字符串数据",
+    "params": {
+      "playerid": "玩家ID",
+      "instId": "道具实例ID",
+      "key": "数据键名",
+      "value": "字符串值"
+    },
+    "returns": [
+      "boolean result 是否写入成功"
+    ],
+    "notes": [
+      "value 必须是 string"
+    ]
+  },
+  "Item:SetStringDataByGrid": {
+    "desc": "按背包格子索引写入自定义字符串数据",
+    "params": {
+      "playerid": "玩家ID",
+      "gridIndex": "背包格子索引",
+      "key": "数据键名",
+      "value": "字符串值"
+    },
+    "returns": [
+      "boolean result 是否写入成功"
+    ]
+  },
+  "Item:_AddModelPartByGrid": {
+    "desc": "直接按格子对象为道具添加模型部件",
+    "params": {
+      "grid": "背包格子对象",
+      "partName": "子部件名称",
+      "boneName": "挂点骨骼名称",
+      "modelStr": "模型资源名",
+      "offset": "位置偏移，默认 {x=0,y=0,z=0}",
+      "rot": "旋转角度，默认全 0",
+      "scale": "缩放比例，默认全 1"
+    },
+    "returns": [
+      "string? partName 子部件名称，失败时为 nil"
+    ],
+    "notes": [
+      "内部接口，modelStr 为空字符串时直接失败",
+      "偏移量内部乘 100 转换为引擎单位"
+    ]
+  },
+  "Item:_BeginModifyItemByGrid": {
+    "desc": "锁定格子中的道具以开始一次修改",
+    "params": {
+      "grid": "背包格子对象"
+    },
+    "returns": [
+      "boolean result 是否成功进入修改状态"
+    ],
+    "notes": [
+      "成功后必须调用 GunSmithMgr:EndModifyItem 结束修改"
+    ]
+  },
+  "Item:_DeleteModelPartByGrid": {
+    "desc": "直接从格子对象删除道具模型部件",
+    "params": {
+      "grid": "背包格子对象",
+      "partName": "子部件名称"
+    },
+    "returns": [
+      "boolean result 是否删除成功"
+    ]
+  },
+  "Item:_GetArrayDataByGrid": {
+    "desc": "直接从格子对象读取自定义数组数据",
+    "params": {
+      "grid": "背包格子对象",
+      "key": "数据键名"
+    },
+    "returns": [
+      "table? value 数组数据，读取失败时为 nil"
+    ]
+  },
+  "Item:_GetBoolDataByGrid": {
+    "desc": "直接从格子对象读取自定义布尔数据",
+    "params": {
+      "grid": "背包格子对象",
+      "key": "数据键名"
+    },
+    "returns": [
+      "boolean? value 布尔值，读取失败时为 nil"
+    ]
+  },
+  "Item:_GetGridByInstId": {
+    "desc": "按道具实例ID定位其所在的格子对象",
+    "params": {
+      "instanceId": "道具实例ID（数字或数字字符串）"
+    },
+    "returns": [
+      "userdata? grid 格子对象，实例不存在时为 nil"
+    ],
+    "notes": [
+      "实例属于方块时按方块坐标取格子，属于角色时按角色格子接口取"
+    ]
+  },
+  "Item:_GetGunAttrByGrid": {
+    "desc": "直接从格子对象读取枪械实例属性",
+    "params": {
+      "grid": "背包格子对象",
+      "key": "属性键（GunAttr）"
+    },
+    "returns": [
+      "any value 属性值，键非法或读取失败时为 nil"
+    ]
+  },
+  "Item:_GetGunPrefabAttrByGrid": {
+    "desc": "直接从格子对象读取枪械预制属性",
+    "params": {
+      "grid": "背包格子对象",
+      "key": "属性键（GunAttr）"
+    },
+    "returns": [
+      "any value 预制属性值，键非法或读取失败时为 nil"
+    ]
+  },
+  "Item:_GetItemIdByGrid": {
+    "desc": "直接从格子对象读取道具ID",
+    "params": {
+      "grid": "背包格子对象"
+    },
+    "returns": [
+      "number? itemid 道具ID，读取失败时为 nil"
+    ]
+  },
+  "Item:_GetNumberDataByGrid": {
+    "desc": "直接从格子对象读取自定义 number 数据",
+    "params": {
+      "grid": "背包格子对象",
+      "key": "数据键名"
+    },
+    "returns": [
+      "number? value 数值，读取失败时为 nil"
+    ]
+  },
+  "Item:_GetObjDataByGrid": {
+    "desc": "直接从格子对象读取 Object 自定义数据",
+    "params": {
+      "grid": "背包格子对象",
+      "key": "数据键名"
+    },
+    "returns": [
+      "table? value 对象数据转换出的 table，读取失败时为 nil"
+    ]
+  },
+  "Item:_GetResIdByGrid": {
+    "desc": "直接从格子对象读取预制资源ID",
+    "params": {
+      "grid": "背包格子对象"
+    },
+    "returns": [
+      "string? resId 预制资源ID，读取失败时为 nil"
+    ]
+  },
+  "Item:_GetStringDataByGrid": {
+    "desc": "直接从格子对象读取自定义字符串数据",
+    "params": {
+      "grid": "背包格子对象",
+      "key": "数据键名"
+    },
+    "returns": [
+      "string? value 字符串值，读取失败时为 nil"
+    ]
+  },
+  "Item:_ModifyGunAttributeByGrid": {
+    "desc": "直接从格子对象修改枪械属性",
+    "params": {
+      "grid": "背包格子对象",
+      "key": "属性键（GunAttr）",
+      "value": "新属性值"
+    },
+    "returns": [
+      "boolean result 是否修改成功"
+    ],
+    "notes": [
+      "value 的类型必须与 GunAttr 配置一致"
+    ]
+  },
+  "Item:_ModifyModelPartByGrid": {
+    "desc": "直接从格子对象修改模型部件",
+    "params": {
+      "grid": "背包格子对象",
+      "partName": "子部件名称",
+      "boneName": "挂点骨骼名称",
+      "modelStr": "模型资源名",
+      "offset": "位置偏移",
+      "rot": "旋转角度",
+      "scale": "缩放比例"
+    },
+    "returns": [
+      "boolean result 是否修改成功"
+    ],
+    "notes": [
+      "只修改传入的参数，未传的字段保持原值"
+    ]
+  },
+  "Item:_SetArrayDataByGrid": {
+    "desc": "直接从格子对象写入自定义数组数据",
+    "params": {
+      "grid": "背包格子对象",
+      "key": "数据键名",
+      "value": "数组表"
+    },
+    "returns": [
+      "boolean result 是否写入成功"
+    ]
+  },
+  "Item:_SetBoolDataByGrid": {
+    "desc": "直接从格子对象写入自定义布尔数据",
+    "params": {
+      "grid": "背包格子对象",
+      "key": "数据键名",
+      "value": "布尔值"
+    },
+    "returns": [
+      "boolean result 是否写入成功"
+    ]
+  },
+  "Item:_SetNumberDataByGrid": {
+    "desc": "直接从格子对象写入自定义 number 数据",
+    "params": {
+      "grid": "背包格子对象",
+      "key": "数据键名",
+      "value": "数值"
+    },
+    "returns": [
+      "boolean result 是否写入成功"
+    ]
+  },
+  "Item:_SetObjDataByGrid": {
+    "desc": "直接从格子对象写入 Object 自定义数据",
+    "params": {
+      "grid": "背包格子对象",
+      "key": "数据键名",
+      "value": "对象表"
+    },
+    "returns": [
+      "boolean result 是否写入成功"
+    ],
+    "notes": [
+      "value 必须是 table，内部序列化为 JSON 对象"
+    ]
+  },
+  "Item:_SetStringDataByGrid": {
+    "desc": "直接从格子对象写入自定义字符串数据",
+    "params": {
+      "grid": "背包格子对象",
+      "key": "数据键名",
+      "value": "字符串值"
+    },
+    "returns": [
+      "boolean result 是否写入成功"
+    ]
+  },
+  "Item:__TransformCraftingDefToTable": {
+    "desc": "把引擎配方定义转换为纯 Lua 表",
+    "params": {
+      "craftingDef": "引擎配方定义对象"
+    },
+    "returns": [
+      "table? craft 配方表，定义无效时为 nil"
+    ],
+    "notes": [
+      "缺少产物ID或材料数量小于等于 0 时返回 nil",
+      "结果字段：id、rid、rc、craftingItemId、aMaterials、type"
+    ]
+  },
+  "Block:ConvertBlockDirToData": {
+    "desc": "把方块朝向换算为对应的方块数据值",
+    "params": {
+      "blockid": "方块ID（数字配置ID或资源ID字符串）",
+      "data": "当前方块数据值",
+      "dir": "朝向（FaceDir）"
+    },
+    "returns": [
+      "number? data 换算后的方块数据值，失败时为 nil"
+    ],
+    "notes": [
+      "转发引擎 BlockApi:convertBlockDirToData"
+    ]
+  },
+  "Block:CreateNormalBluePrintByName": {
+    "desc": "按位置和尺寸创建命名的普通蓝图",
+    "params": {
+      "pos": "蓝图起点位置，含 worldId/mapId 时用于确定星球",
+      "dim": "蓝图尺寸 {x,y,z}",
+      "name": "蓝图名称",
+      "worldId": "目标星球ID，省略时取 pos.worldId 或 pos.mapId"
+    },
+    "returns": [
+      "boolean result 是否创建成功"
+    ],
+    "notes": [
+      "创建过程用 pcall 保护，引擎报错时返回 false"
+    ]
+  },
+  "Block:GetBlockCfgID": {
+    "desc": "获取指定方块坐标上的方块配置ID",
+    "params": {
+      "x": "X坐标，内部向下取整",
+      "y": "Y坐标，内部向下取整",
+      "z": "Z坐标，内部向下取整",
+      "worldId": "星球ID，省略时使用当前世界"
+    },
+    "returns": [
+      "number? blockid 方块配置ID，星球或坐标无效时为 nil"
+    ]
+  },
+  "Block:GetBlockDataByDir": {
+    "desc": "获取方块在指定朝向下的数据值",
+    "params": {
+      "blockid": "方块ID（数字配置ID或资源ID字符串）",
+      "dir": "朝向（FaceDir）"
+    },
+    "returns": [
+      "number? data 方块数据值，失败时为 nil"
+    ]
+  },
+  "Block:GetBlockDefType": {
+    "desc": "获取方块配置的类型",
+    "params": {
+      "blockid": "方块ID（数字配置ID或资源ID字符串）"
+    },
+    "returns": [
+      "number? blockType 方块类型，方块不存在时为 nil"
+    ]
+  },
+  "Block:GetBlockToolType": {
+    "desc": "获取方块所需的挖掘工具类型与等级",
+    "params": {
+      "blockid": "方块ID（数字配置ID或资源ID字符串）"
+    },
+    "returns": [
+      "number? toolType 工具类型，方块不存在时为 nil",
+      "number? level 所需工具等级"
+    ],
+    "notes": [
+      "两个返回值同时返回或同时无返回值"
+    ]
+  },
+  "Block:GetBluePrintManager": {
+    "desc": "生成玩家蓝图文件名的递增序号",
+    "params": {
+      "uin": "玩家Uin"
+    },
+    "returns": [
+      "number idx 基于服务器毫秒时间的递增序号"
+    ],
+    "notes": [
+      "同一玩家在同一秒内重复调用时序号强制加一，避免蓝图重名",
+      "供 GetBluePrintFileName 等内部创建蓝图流程使用"
+    ]
+  },
+  "Block:PlayAct": {
+    "desc": "让指定位置的方块播放动作",
+    "params": {
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标",
+      "animid": "动作ID",
+      "playmode": "播放模式（AnimMode）"
+    },
+    "returns": [
+      "boolean result 是否播放成功"
+    ]
+  },
+  "Block:PlayParticleEffect": {
+    "desc": "在指定方块位置播放粒子特效",
+    "params": {
+      "x": "X坐标，内部向下取整",
+      "y": "Y坐标，内部向下取整",
+      "z": "Z坐标，内部向下取整",
+      "particleId": "粒子特效ID",
+      "scale": "缩放比例，必须传入",
+      "ptime": "播放时长（秒），小于等于 0 时永久播放"
+    },
+    "returns": [
+      "boolean result 是否播放成功"
+    ],
+    "notes": [
+      "坐标会向下取整到方块",
+      "scale 与 ptime 均不能省略",
+      "时长内部按每秒 20 帧换算",
+      "粒子配置不存在时返回 false"
+    ]
+  },
+  "Block:PlayParticleEffectWorld": {
+    "desc": "以触发器方式在世界坐标播放粒子特效",
+    "params": {
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标",
+      "particleId": "粒子特效ID",
+      "scale": "缩放比例，默认 1",
+      "ptime": "播放时长（秒），PlayMode 为 2 时省略默认 30 秒，其余情况小于等于 0 永久播放"
+    },
+    "returns": [
+      "boolean result 是否播放成功"
+    ],
+    "notes": [
+      "仅对 TriggerType 大于 0 的粒子配置生效",
+      "播放时开启触发器可见性参数"
+    ]
+  },
+  "Block:StopParticleEffectOnPos": {
+    "desc": "停止指定方块位置上的粒子特效",
+    "params": {
+      "x": "X坐标，内部向下取整",
+      "y": "Y坐标，内部向下取整",
+      "z": "Z坐标，内部向下取整",
+      "particleId": "粒子特效ID"
+    },
+    "returns": [
+      "boolean result 是否停止成功"
+    ],
+    "notes": [
+      "粒子配置不存在时返回 false"
+    ]
+  },
+  "Block:StopParticleEffectWorld": {
+    "desc": "停止以触发器方式播放的世界粒子特效",
+    "params": {
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标",
+      "particleId": "粒子特效ID"
+    },
+    "returns": [
+      "boolean result 是否停止成功"
+    ],
+    "notes": [
+      "仅对 TriggerType 大于 0 的粒子配置生效"
+    ]
+  },
+  "Area:BlockInAreaRange": {
+    "desc": "检测区域范围内是否存在指定方块",
+    "params": {
+      "blockid": "方块ID（数字配置ID或资源ID字符串）",
+      "posbeg": "范围起点坐标 {x,y,z}",
+      "posend": "范围终点坐标 {x,y,z}",
+      "worldId": "星球ID，省略时使用当前世界"
+    },
+    "returns": [
+      "boolean result 范围内是否存在该方块，失败时为 false"
+    ],
+    "notes": [
+      "坐标会自动归一化为起点小于终点"
+    ]
+  },
+  "Area:CreateAreaRect": {
+    "desc": "按中心点和各轴扩展距离创建矩形区域",
+    "params": {
+      "pos": "区域中心坐标 {x,y,z}",
+      "dim": "各轴扩展距离 {x,y,z}",
+      "btmp": "是否临时区域，默认 true",
+      "worldId": "星球ID，省略时使用当前世界"
+    },
+    "returns": [
+      "number|boolean result 区域ID，失败时为 false"
+    ],
+    "notes": [
+      "实际范围为 center±dim",
+      "相同范围已有区域时直接复用其ID"
+    ]
+  },
+  "Area:DestroyBlockAreaRange": {
+    "desc": "破坏区域范围内的指定方块",
+    "params": {
+      "posbeg": "范围起点坐标 {x,y,z}",
+      "posend": "范围终点坐标 {x,y,z}",
+      "blockid": "方块ID（数字配置ID或资源ID字符串），传 0 表示所有方块",
+      "n": "最大破坏数量，传 0 表示不限制",
+      "candrop": "是否掉落道具，默认 false",
+      "btriggerevent": "是否触发方块被破坏事件",
+      "worldId": "星球ID，省略时使用当前世界"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "逐帧处理，单帧处理不完的方块留到后续帧",
+      "方块ID需通过脚本使用校验"
+    ]
+  },
+  "Area:DestroyRangeBlock": {
+    "desc": "破坏区域范围内的方块并指定掉落数量",
+    "params": {
+      "posbeg": "范围起点坐标 {x,y,z}",
+      "posend": "范围终点坐标 {x,y,z}",
+      "blockid": "方块ID（数字配置ID或资源ID字符串），传 0 表示所有方块",
+      "n": "最大破坏数量，传 0 表示不限制",
+      "dropCount": "每个方块的掉落数量，默认 -1 表示按方块默认掉落",
+      "btriggerevent": "是否触发方块被破坏事件",
+      "worldId": "星球ID，省略时使用当前世界"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "逐帧处理，单帧处理不完的方块留到后续帧",
+      "方块ID需通过脚本使用校验"
+    ]
+  },
+  "Area:ExpandArea": {
+    "desc": "按各轴距离向两端扩大区域",
+    "params": {
+      "areaid": "区域ID",
+      "x": "X轴扩大距离，实际向两端各扩展一半",
+      "y": "Y轴扩大距离，实际向两端各扩展一半",
+      "z": "Z轴扩大距离，实际向两端各扩展一半"
+    },
+    "returns": [
+      "number|boolean value 扩大后的区域ID，失败时为 false"
+    ],
+    "notes": [
+      "扩大后创建的是临时区域",
+      "原区域不会自动销毁"
+    ]
+  },
+  "Area:GetActorsByTags": {
+    "desc": "按标签查找区域范围内的角色",
+    "params": {
+      "posbeg": "范围起点坐标 {x,y,z}",
+      "posend": "范围终点坐标 {x,y,z}",
+      "tags": "标签数组",
+      "actortype": "角色类型（ObjType.Player/Mob/Role）",
+      "mathcmode": "标签匹配方式（MatchMode）",
+      "bexactmatch": "是否精确匹配标签",
+      "worldId": "星球ID，省略时使用当前世界"
+    },
+    "returns": [
+      "number num 匹配到的角色数量",
+      "table objs 角色对象ID数组"
+    ],
+    "notes": [
+      "actortype 仅支持 Player、Mob、Role",
+      "参数非法或没有匹配对象时无返回值",
+      "内部锁定对象列表后立即解锁"
+    ]
+  },
+  "Area:GetAllObjsInAreaRangByTypes": {
+    "desc": "按对象类型索引数组获取区域范围内的对象",
+    "params": {
+      "posbeg": "范围起点坐标 {x,y,z}",
+      "posend": "范围终点坐标 {x,y,z}",
+      "objtypeidxs": "对象类型索引数组（0 玩家、1 生物、2 掉落物、3 投掷物、4 实体、5 区域）"
+    },
+    "returns": [
+      "table? objs 对象ID数组，失败时为 nil"
+    ],
+    "notes": [
+      "该接口不接收 worldId，使用引擎当前世界"
+    ]
+  },
+  "Area:GetAllObjsInAreaRangeByObjTypes": {
+    "desc": "按对象类型数组获取区域范围内的全部对象",
+    "params": {
+      "posbeg": "范围起点坐标 {x,y,z}",
+      "posend": "范围终点坐标 {x,y,z}",
+      "objtypes": "对象类型数组（ObjType）",
+      "worldId": "星球ID，省略时使用当前世界"
+    },
+    "returns": [
+      "table? objs 对象ID数组，失败时为 nil"
+    ],
+    "notes": [
+      "可一次查询多种 ObjType"
+    ]
+  },
+  "Area:GetAreaByPos": {
+    "desc": "查找包含指定坐标的区域",
+    "params": {
+      "pos": "坐标 {x,y,z}",
+      "worldId": "星球ID，省略时使用当前世界"
+    },
+    "returns": [
+      "number|boolean? areaid 区域ID：未找到为 nil，参数非法为 false"
+    ],
+    "notes": [
+      "返回区域对象ID或临时区域ID"
+    ]
+  },
+  "Area:GetPosOffset": {
+    "desc": "计算坐标按维度叠加偏移后的新坐标",
+    "params": {
+      "srcpos": "源坐标 {x,y,z}",
+      "dim": "各轴偏移量 {x,y,z}"
+    },
+    "returns": [
+      "table? pos 新坐标 {x,y,z}，参数缺字段时为 nil"
+    ]
+  },
+  "Area:OffsetArea": {
+    "desc": "把区域按各轴距离平移",
+    "params": {
+      "areaid": "区域ID",
+      "x": "X轴平移距离，可为负",
+      "y": "Y轴平移距离，可为负",
+      "z": "Z轴平移距离，可为负"
+    },
+    "returns": [
+      "number|boolean value 平移后的区域ID，失败时为 false"
+    ],
+    "notes": [
+      "平移后创建的是临时区域",
+      "原区域不会自动销毁"
+    ]
+  },
+  "Buff:GetBuffCfgId": {
+    "desc": "把状态ID统一转换为状态配置ID",
+    "params": {
+      "buffid": "状态ID（数字配置ID或资源ID字符串）"
+    },
+    "returns": [
+      "number? cfgid 状态配置ID，资源ID无法解析时为 nil"
+    ],
+    "notes": [
+      "数字ID原样返回"
+    ]
+  },
+  "Buff:GetBuffDefTicks": {
+    "desc": "获取状态的默认持续 tick 数",
+    "params": {
+      "buffid": "状态ID（数字配置ID或资源ID字符串）"
+    },
+    "returns": [
+      "number? ticks 默认持续 tick 数，失败时为 nil"
+    ]
+  },
+  "Buff:GetBuffIdAndLv": {
+    "desc": "把状态ID拆分为基础状态ID和等级",
+    "params": {
+      "buffid": "状态ID（数字配置ID或资源ID字符串）"
+    },
+    "returns": [
+      "number buffid 状态配置ID",
+      "number lv 状态等级"
+    ],
+    "notes": [
+      "自定义状态直接返回配置ID和等级 1",
+      "普通状态按 ID/1000 取整和 ID%1000 拆分"
+    ]
+  },
+  "Buff:GetBuffName": {
+    "desc": "获取对象身上指定状态的名称",
+    "params": {
+      "objid": "对象ID",
+      "buffid": "状态ID（可带等级）"
+    },
+    "returns": [
+      "string? name 状态名称，对象未携带该状态时为 nil"
+    ]
+  },
+  "Buff:GetToCBuffId": {
+    "desc": "获取状态对应的基础状态ID",
+    "params": {
+      "buffid": "状态ID（数字配置ID或资源ID字符串）"
+    },
+    "returns": [
+      "number? buffid 基础状态ID，无法解析时为 nil"
+    ],
+    "notes": [
+      "普通状态取 ID/1000 去掉等级部分",
+      "自定义状态返回自身ID"
+    ]
+  },
+  "Buff:RefreshAllBuffTick": {
+    "desc": "刷新对象身上全部状态的 tick 计时",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "boolean result 是否刷新成功"
+    ],
+    "notes": [
+      "仅对拥有生物属性的角色生效"
+    ]
+  },
+  "GameEffect:ApplyPsychedelicVisionClient": {
+    "desc": "在客户端应用迷幻视觉效果",
+    "params": {
+      "content": "效果参数表：isshow、token、useScreenEffect、screenEffectType、screenEffectSpeed、usePostProcess"
+    },
+    "returns": [
+      "boolean result 是否应用成功"
+    ],
+    "notes": [
+      "content 为空时返回 false",
+      "isshow 为 false 时恢复默认屏幕特效、后处理与相机视野",
+      "token 与当前记录不一致时忽略关闭请求"
+    ]
+  },
+  "GameEffect:ClosePsychedelicVision": {
+    "desc": "关闭指定玩家的迷幻视觉效果",
+    "params": {
+      "uin": "玩家Uin",
+      "token": "效果标识"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "玩家在本机时直接本地关闭，否则下发客户端消息",
+      "WorldMgr 未初始化时返回 false"
+    ]
+  },
+  "GameEffect:CloseScreenEffect": {
+    "desc": "关闭指定玩家的屏幕全屏特效",
+    "params": {
+      "uin": "玩家Uin"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "GameEffect:ShowPsychedelicVision": {
+    "desc": "为指定玩家显示迷幻视觉效果",
+    "params": {
+      "uin": "玩家Uin",
+      "content": "效果参数表，可省略"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "content 会被补上 uin 并强制 isshow=true",
+      "玩家在本机时直接本地显示，否则下发客户端消息"
+    ]
+  },
+  "GameEffect:ShowScreenEffect": {
+    "desc": "为指定玩家显示屏幕全屏特效",
+    "params": {
+      "uin": "玩家Uin",
+      "ctype": "特效类型",
+      "isloop": "是否循环播放",
+      "incspeed": "特效播放速度"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "GameObject:CreateEditEmptyActor": {
+    "desc": "创建一个空的编辑用角色对象",
+    "params": {},
+    "returns": [
+      "userdata? obj 空角色对象，创建失败时为 nil"
+    ],
+    "notes": [
+      "对象不保存到区块",
+      "对象类型被设为 ObjType.Empty"
+    ]
+  },
+  "GameObject:FindBlockObjectForInternal": {
+    "desc": "查找方块对应的游戏对象",
+    "params": {
+      "id": "方块对象ID，传数字时先按方块类型映射为资源ID"
+    },
+    "returns": [
+      "userdata? obj 方块对象，未找到时为 nil"
+    ]
+  },
+  "GameObject:GetObjType": {
+    "desc": "获取游戏对象的类型",
+    "params": {
+      "objId": "对象ID"
+    },
+    "returns": [
+      "number? objtype 对象类型（ObjType），对象不存在时为 nil"
+    ]
+  },
+  "GameObject:GetWorld": {
+    "desc": "获取当前世界的游戏对象",
+    "params": {},
+    "returns": [
+      "userdata? world 世界游戏对象，失败时为 nil"
+    ]
+  },
+  "ObjectLib:GetAreaData": {
+    "desc": "获取区域库对象的数据",
+    "params": {
+      "libobjid": "库对象ID"
+    },
+    "returns": [
+      "table? data 区域数据表，失败时为 nil"
+    ]
+  },
+  "ObjectLib:GetItemData": {
+    "desc": "获取道具库对象的数据",
+    "params": {
+      "libobjid": "库对象ID"
+    },
+    "returns": [
+      "table? data 道具数据表，失败时为 nil"
+    ],
+    "notes": [
+      "引擎实现调用 getLivingData，返回内容与 GetLivingData 相同"
+    ]
+  },
+  "ObjectLib:GetLivingData": {
+    "desc": "获取生物库对象的数据",
+    "params": {
+      "libobjid": "库对象ID"
+    },
+    "returns": [
+      "table? data 生物数据表，失败时为 nil"
+    ]
+  },
+  "ObjectLib:GetPositionData": {
+    "desc": "获取位置库对象的数据",
+    "params": {
+      "libobjid": "库对象ID"
+    },
+    "returns": [
+      "table? data 位置数据表，失败时为 nil"
+    ]
+  },
+  "Biome:FindNearCity": {
+    "desc": "查找玩家附近的城市",
+    "params": {
+      "uin": "玩家Uin",
+      "range": "搜索范围（格）"
+    },
+    "returns": [
+      "any result 最近城市数据，失败时为 false"
+    ],
+    "notes": [
+      "以玩家当前坐标为中心查询",
+      "玩家、世界或城市管理器不存在时返回 false"
+    ]
+  },
+  "Biome:GenCityPrecious": {
+    "desc": "为玩家生成城镇宝藏点",
+    "params": {
+      "uin": "玩家Uin"
+    },
+    "returns": [
+      "boolean result 是否生成成功"
+    ],
+    "notes": [
+      "本机玩家会直接打开藏宝图界面，其他玩家由客户端消息打开",
+      "本机玩家生成位置 y 小于 0 时提示失败并返回 false"
+    ]
+  },
+  "Biome:GetBiomeId": {
+    "desc": "获取指定水平坐标所在的群系ID",
+    "params": {
+      "x": "X坐标",
+      "z": "Z坐标",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "number biomeid 群系ID，世界或接口不可用时为 -1"
+    ]
+  },
+  "DisplayBoard:GetBillboard": {
+    "desc": "获取显示板对象上的公告板组件",
+    "params": {
+      "objId": "对象ID"
+    },
+    "returns": [
+      "userdata? component UIBillboard 组件，对象或组件不存在时为 nil"
+    ]
+  },
+  "DisplayBoard:GetElementID": {
+    "desc": "获取显示板属性对应的元件ID",
+    "params": {
+      "objId": "对象ID",
+      "property": "属性类型：0 图片、1 文本、2 进度条"
+    },
+    "returns": [
+      "string? elementid 元件ID，属性非法时为 nil"
+    ],
+    "notes": [
+      "格式为 DisplayBoard@<对象ID>_image1/_text1/_progress1"
+    ]
+  },
+  "DisplayBoard:RefreshComponent": {
+    "desc": "用快照数据刷新显示板组件",
+    "params": {
+      "objId": "对象ID",
+      "snapshot": "组件快照表；传 false 表示移除组件",
+      "version": "快照版本号"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "组件已存在时直接返回 true",
+      "快照组件名不是 UIBillboard 时返回 false"
+    ]
+  },
+  "Graphics:FindGraphics": {
+    "desc": "查找指定坐标上的图文信息",
+    "params": {
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标",
+      "playerid": "玩家ID",
+      "itype": "图文类型"
+    },
+    "returns": [
+      "boolean result 是否成功找到或处理"
+    ],
+    "notes": [
+      "转发引擎 GraphicsApi:findGraphics，仅返回调用成功状态"
+    ]
+  },
+  "Graphics:GetInnerGraphicsOffset_OnClient": {
+    "desc": "在客户端读取玩家内嵌图文的偏移高度",
+    "params": {
+      "reportid": "主控端回传报告ID，省略则不回传",
+      "objid": "保留参数，当前未使用",
+      "tuin": "目标玩家Uin",
+      "itype": "图文类型（PlayerNameType：昵称/称号/头部特效）"
+    },
+    "returns": [
+      "number offest 偏移高度，玩家或身体不存在时为 0"
+    ],
+    "notes": [
+      "原始值大于 0 时会减去 100 的基准高度",
+      "reportid 非空时通过 DataSycMgr 把结果回传宿主"
+    ]
+  },
+  "Graphics:SnycGraphicsInfo2Client": {
+    "desc": "把图文信息同步到客户端",
+    "params": {},
+    "returns": [
+      "boolean result 是否同步成功"
+    ],
+    "notes": [
+      "转发引擎 GraphicsApi:snycGraphicsInfo2Client"
+    ]
+  }
+}

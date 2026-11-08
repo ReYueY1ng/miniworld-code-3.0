@@ -1,0 +1,1477 @@
+{
+  "Trigger.Player:ChangeViewMode": {
+    "desc": "切换玩家视角模式并可锁定视角",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "viewmode": "视角枚举 ViewPortType（0 主视角、1 后视、2 前视、3 后视2、4 俯视、5 自定义）",
+      "islock": "是否锁定视角"
+    },
+    "returns": [
+      "boolean result 是否全部切换成功"
+    ],
+    "notes": [
+      "viewmode 不是 number 或 islock 不是 boolean 时直接返回 false"
+    ]
+  },
+  "Trigger.Player:EventGridID2GridEnum": {
+    "desc": "把快捷栏事件格子ID换算成从 0 起的格子序号",
+    "params": {
+      "gridid": "事件格子ID，1000~1007 视为快捷栏第 1~8 格"
+    },
+    "returns": [
+      "number result 换算后的格子序号，非数字入参返回 nil"
+    ],
+    "notes": [
+      "1000~1007 之外的数字原样返回"
+    ]
+  },
+  "Trigger.Player:GetAimPoint": {
+    "desc": "获取玩家瞄准射线命中点的坐标",
+    "params": {
+      "objid": "玩家ID"
+    },
+    "returns": [
+      "table pos 命中点坐标（米），无命中返回 nil"
+    ],
+    "notes": [
+      "取的是玩家拾取结果，玩家不存在或没有命中时返回 nil"
+    ]
+  },
+  "Trigger.Player:GetBackPackGridID": {
+    "desc": "获取背包栏格子ID，当前实现原样返回入参",
+    "params": {
+      "ix": "背包栏格子索引"
+    },
+    "returns": [
+      "any gridid 原样返回的入参"
+    ],
+    "notes": [
+      "引擎未做换算，需要真实格子索引请用 ToBackPackGridID"
+    ]
+  },
+  "Trigger.Player:GetBackpackItemNum": {
+    "desc": "统计玩家快捷栏与背包栏中指定道具的总数量",
+    "params": {
+      "objid": "玩家ID",
+      "itemid": "道具ID，支持资源ID字符串"
+    },
+    "returns": [
+      "number count 该道具的总数量，没有时为 0"
+    ],
+    "notes": [
+      "统计范围只有快捷栏与背包栏，不含装备栏与扩展背包",
+      "被锁定的格子不计入"
+    ]
+  },
+  "Trigger.Player:GetEquipGridID": {
+    "desc": "获取装备栏格子ID，当前实现原样返回入参",
+    "params": {
+      "ix": "装备栏格子索引"
+    },
+    "returns": [
+      "any gridid 原样返回的入参"
+    ],
+    "notes": [
+      "引擎未做换算，需要真实格子索引请用 ToEquipGridID"
+    ]
+  },
+  "Trigger.Player:GetFirstInviter": {
+    "desc": "查询玩家的首次邀请人Uin（阻塞接口）",
+    "params": {
+      "uin": "玩家Uin"
+    },
+    "returns": [
+      "number|nil uin 邀请人玩家Uin，查询失败返回 nil"
+    ],
+    "notes": [
+      "阻塞接口，触发请求间隔 10 秒",
+      "结果依赖邀请好友列表接口异步回填"
+    ]
+  },
+  "Trigger.Player:GetGridItemID": {
+    "desc": "读取玩家指定格子里的道具ID",
+    "params": {
+      "playerid": "玩家ID",
+      "gridid": "格子ID（背包栏、快捷栏或装备栏）"
+    },
+    "returns": [
+      "number|string|nil itemid 道具ID，自定义道具为资源ID字符串；空格返回 nil"
+    ],
+    "notes": [
+      "格子被锁定或没有道具时返回 nil"
+    ]
+  },
+  "Trigger.Player:GetGridItemNum": {
+    "desc": "读取玩家指定格子里的道具数量",
+    "params": {
+      "playerid": "玩家ID",
+      "gridid": "格子ID（背包栏、快捷栏或装备栏）"
+    },
+    "returns": [
+      "number num 道具数量，空格返回 0"
+    ]
+  },
+  "Trigger.Player:GetRayOriginPos": {
+    "desc": "获取玩家射线检测起点的坐标",
+    "params": {
+      "uin": "玩家Uin"
+    },
+    "returns": [
+      "table pos 起点坐标（米），取不到返回 nil"
+    ],
+    "notes": [
+      "取的是玩家拾取射线起点，随摄像机朝向变化"
+    ]
+  },
+  "Trigger.Player:GetRevivePoint": {
+    "desc": "获取玩家复活点所在的方块坐标",
+    "params": {
+      "objid": "玩家ID",
+      "worldId": "星球ID，-1 或不传表示不限星球"
+    },
+    "returns": [
+      "table pos 复活点坐标表，含 x、y、z 与 worldId（星球ID）；没有复活点返回 nil"
+    ]
+  },
+  "Trigger.Player:GetShortCutGridID": {
+    "desc": "把快捷栏序号换算成格子ID",
+    "params": {
+      "ix": "快捷栏序号，从 0 开始"
+    },
+    "returns": [
+      "number|nil gridid 序号加 1000 得到的格子ID，ix 为空返回 nil"
+    ],
+    "notes": [
+      "快捷栏格子起始索引为 1000"
+    ]
+  },
+  "Trigger.Player:HasFriend": {
+    "desc": "判断两名玩家是否为好友并与期望值比较（阻塞接口）",
+    "params": {
+      "playerid": "玩家Uin",
+      "friendid": "目标玩家Uin",
+      "flag": "期望的好友状态，true 表示期望是好友"
+    },
+    "returns": [
+      "boolean result 实际好友状态是否与 flag 一致"
+    ],
+    "notes": [
+      "阻塞接口，好友关系来自外部查询结果",
+      "任一Uin为空时按非好友处理"
+    ]
+  },
+  "Trigger.Player:IsMiniVip": {
+    "desc": "判断玩家是否为迷你会员",
+    "params": {
+      "playerid": "玩家ID"
+    },
+    "returns": [
+      "boolean result 是否为迷你会员"
+    ],
+    "notes": [
+      "会员等级取自开发者商店接口，需要联网查询"
+    ]
+  },
+  "Trigger.Player:MakeCamerFvoAttr": {
+    "desc": "构造摄像机视野（FOV）变换属性表",
+    "params": {
+      "playerid": "玩家ID"
+    },
+    "returns": [
+      "table attr 属性表，含 itype=3（视野）、uin=玩家ID"
+    ],
+    "notes": [
+      "与 MakeCamerPosAttr、MakeCamerRotAttr 一同供摄像机变换参数使用"
+    ]
+  },
+  "Trigger.Player:MakeCamerPosAttr": {
+    "desc": "构造摄像机位置变换属性表",
+    "params": {
+      "playerid": "玩家ID",
+      "dir": "方向轴，作为属性键使用"
+    },
+    "returns": [
+      "table attr 属性表，含 itype=1（位置）、uin、dir"
+    ]
+  },
+  "Trigger.Player:MakeCamerRotAttr": {
+    "desc": "构造摄像机旋转变换属性表",
+    "params": {
+      "playerid": "玩家ID",
+      "dir": "方向轴，作为属性键使用"
+    },
+    "returns": [
+      "table attr 属性表，含 itype=2（旋转）、uin、dir"
+    ]
+  },
+  "Trigger.Player:MoveGridItem": {
+    "desc": "在玩家背包内把道具从源格子移动到目标格子",
+    "params": {
+      "playerid": "玩家ID",
+      "num": "移动数量，必须大于 0，否则直接失败",
+      "gridsrc": "源格子ID",
+      "griddst": "目标格子ID"
+    },
+    "returns": [
+      "boolean result 是否移动成功"
+    ],
+    "notes": [
+      "目标格子属于装备栏时会校验道具能否装备",
+      "源格子或目标格子被锁定时失败"
+    ]
+  },
+  "Trigger.Player:NotifyGameInfo2Self": {
+    "desc": "向玩家单独推送一条飘窗提示文字",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "content": "提示文字，非字符串会被转成字符串"
+    },
+    "returns": [
+      "boolean result 是否全部推送成功"
+    ],
+    "notes": [
+      "content 为空字符串时返回 false",
+      "只在指定玩家的屏幕上显示，不进聊天框"
+    ]
+  },
+  "Trigger.Player:NotifySystemMsg2Self": {
+    "desc": "向玩家单独发送一条系统聊天消息",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "content": "消息内容，非字符串会被转成字符串"
+    },
+    "returns": [
+      "boolean result 是否全部发送成功"
+    ],
+    "notes": [
+      "content 为空字符串时返回 false"
+    ]
+  },
+  "Trigger.Player:OpenDevGoodsWearHouse": {
+    "desc": "为开发者打开开发者商店的仓库页面",
+    "params": {
+      "uin": "玩家Uin"
+    },
+    "returns": [
+      "boolean result 是否打开成功"
+    ],
+    "notes": [
+      "仅开发者本人（房主）可用，其他玩家调用返回 false",
+      "打开的是迷你商店的仓库页 WareHouse"
+    ]
+  },
+  "Trigger.Player:OpenInnerView": {
+    "desc": "控制玩家游戏内置界面的打开与关闭",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "bopen": "是否打开，false 表示关闭",
+      "view": "界面枚举 InnerPopUpview",
+      "exparam": "附加参数：储物箱界面传方块坐标，道具提示界面传道具ID"
+    },
+    "returns": [
+      "boolean result 是否全部处理成功"
+    ],
+    "notes": [
+      "创建器(Gamemaker)模式或已被禁用的界面无法打开",
+      "传入不存在的界面返回 false"
+    ]
+  },
+  "Trigger.Player:OpenInnerView_AdventureHandBook": {
+    "desc": "打开或关闭玩家的冒险手书界面",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "bopen": "是否打开，false 表示关闭"
+    },
+    "returns": [
+      "boolean result 是否全部处理成功"
+    ]
+  },
+  "Trigger.Player:OpenInnerView_AnimView": {
+    "desc": "打开或关闭玩家的动作表情界面",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "bopen": "是否打开，false 表示关闭"
+    },
+    "returns": [
+      "boolean result 是否全部处理成功"
+    ]
+  },
+  "Trigger.Player:OpenInnerView_BackPackEra": {
+    "desc": "打开或关闭玩家的时代背包界面",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "bopen": "是否打开，false 表示关闭"
+    },
+    "returns": [
+      "boolean result 是否全部处理成功"
+    ],
+    "notes": [
+      "仅生存模式可用，其它模式会提示不支持并返回 false"
+    ]
+  },
+  "Trigger.Player:OpenInnerView_BackPackRole": {
+    "desc": "打开或关闭玩家的角色背包界面",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "bopen": "是否打开，false 表示关闭"
+    },
+    "returns": [
+      "boolean result 是否全部处理成功"
+    ]
+  },
+  "Trigger.Player:OpenInnerView_BackPackTask": {
+    "desc": "打开或关闭玩家的任务背包界面",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "bopen": "是否打开，false 表示关闭"
+    },
+    "returns": [
+      "boolean result 是否全部处理成功"
+    ],
+    "notes": [
+      "仅生存模式可用，其它模式会提示不支持并返回 false"
+    ]
+  },
+  "Trigger.Player:OpenInnerView_BuffStatus": {
+    "desc": "打开或关闭玩家的状态（Buff）界面",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "bopen": "是否打开，false 表示关闭"
+    },
+    "returns": [
+      "boolean result 是否全部处理成功"
+    ]
+  },
+  "Trigger.Player:OpenInnerView_CollectMaps": {
+    "desc": "打开或关闭地图收集界面",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "bopen": "是否打开，false 表示关闭"
+    },
+    "returns": [
+      "boolean result 是否全部处理成功"
+    ]
+  },
+  "Trigger.Player:OpenInnerView_EvaluateMaps": {
+    "desc": "打开或关闭地图点赞评价界面",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "bopen": "是否打开，false 表示关闭"
+    },
+    "returns": [
+      "boolean result 是否全部处理成功"
+    ]
+  },
+  "Trigger.Player:OpenInnerView_FollowTheAuthor": {
+    "desc": "关注作者界面的占位接口，当前不产生任何效果",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "bopen": "是否打开，false 表示关闭"
+    },
+    "returns": [
+      "boolean result 恒为 false"
+    ],
+    "notes": [
+      "打开与关闭分支都是空实现"
+    ]
+  },
+  "Trigger.Player:OpenInnerView_InviteFriend": {
+    "desc": "打开或关闭邀请好友进房界面",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "bopen": "是否打开，false 表示关闭"
+    },
+    "returns": [
+      "boolean result 是否全部处理成功"
+    ]
+  },
+  "Trigger.Player:OpenInnerView_ItemProcessing": {
+    "desc": "打开或关闭道具加工界面",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "bopen": "是否打开，false 表示关闭"
+    },
+    "returns": [
+      "boolean result 是否全部处理成功"
+    ]
+  },
+  "Trigger.Player:OpenInnerView_ItemTips": {
+    "desc": "打开或关闭道具提示浮窗",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "bopen": "是否打开，false 表示关闭",
+      "itemid": "要展示的道具ID，资源ID字符串会转换成配置ID"
+    },
+    "returns": [
+      "boolean result 是否全部处理成功"
+    ],
+    "notes": [
+      "道具ID为空或小于等于 0 时只会关闭已打开的提示框并返回 false"
+    ]
+  },
+  "Trigger.Player:OpenInnerView_MiniMap": {
+    "desc": "打开或关闭小地图界面",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "bopen": "是否打开，false 表示关闭"
+    },
+    "returns": [
+      "boolean result 是否全部处理成功"
+    ]
+  },
+  "Trigger.Player:OpenInnerView_MiniShop": {
+    "desc": "打开或关闭迷你商店界面",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "bopen": "是否打开，false 表示关闭"
+    },
+    "returns": [
+      "boolean result 是否全部处理成功"
+    ]
+  },
+  "Trigger.Player:OpenInnerView_Specialty": {
+    "desc": "打开或关闭专长界面",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "bopen": "是否打开，false 表示关闭"
+    },
+    "returns": [
+      "boolean result 是否全部处理成功"
+    ]
+  },
+  "Trigger.Player:OpenInnerView_StorageBox": {
+    "desc": "打开或关闭指定位置的储物箱界面",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "bopen": "是否打开，false 表示关闭",
+      "pos": "储物箱所在方块坐标，打开时必填"
+    },
+    "returns": [
+      "boolean result 是否全部处理成功"
+    ],
+    "notes": [
+      "打开时缺少坐标或坐标无效会返回 false"
+    ]
+  },
+  "Trigger.Player:PaseOrResumeMusic": {
+    "desc": "在暂停与继续之间切换玩家的背景音乐",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "musicId": "声音ID"
+    },
+    "returns": [
+      "boolean result 是否全部切换成功"
+    ],
+    "notes": [
+      "按玩家与声音记录暂停状态，首次调用为暂停",
+      "musicId 为空时不做任何操作，仍返回 true"
+    ]
+  },
+  "Trigger.Player:PauseMusic": {
+    "desc": "暂停玩家正在播放的2D背景音乐",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "musicId": "声音ID"
+    },
+    "returns": [
+      "boolean result 是否全部暂停成功"
+    ],
+    "notes": [
+      "只对 PlayMusic 播放的背景音乐有效",
+      "musicId 为空时不做任何操作，仍返回 true"
+    ]
+  },
+  "Trigger.Player:PlayMusic": {
+    "desc": "为玩家播放2D背景音乐",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "musicId": "声音ID",
+      "volume": "音量",
+      "pitch": "音调",
+      "isLoop": "是否循环播放"
+    },
+    "returns": [
+      "boolean result 是否全部播放成功"
+    ],
+    "notes": [
+      "播放成功后会记录该玩家该声音的播放状态，供暂停与停止接口使用"
+    ]
+  },
+  "Trigger.Player:ResetCameraAttr": {
+    "desc": "把玩家摄像机属性恢复到默认状态",
+    "params": {
+      "data": "玩家ID或玩家ID数组"
+    },
+    "returns": [
+      "boolean result 是否全部重置成功"
+    ],
+    "notes": [
+      "data 为空时返回 false"
+    ]
+  },
+  "Trigger.Player:ResumeMusic": {
+    "desc": "继续播放被暂停的2D背景音乐",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "musicId": "声音ID"
+    },
+    "returns": [
+      "boolean result 是否全部恢复成功"
+    ],
+    "notes": [
+      "只对 PlayMusic 播放过的背景音乐有效"
+    ]
+  },
+  "Trigger.Player:RotateCamera": {
+    "desc": "立即把玩家视角旋转到指定的偏航角与俯仰角",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "yaw": "偏航角（度）",
+      "pitch": "俯仰角（度）"
+    },
+    "returns": [
+      "boolean result 是否全部旋转成功"
+    ],
+    "notes": [
+      "瞬时旋转，没有平滑过渡参数",
+      "yaw 或 pitch 为空时返回 false"
+    ]
+  },
+  "Trigger.Player:SetCameraAnimFov": {
+    "desc": "以动画方式改变玩家摄像机视野（FOV）",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "isadd": "变更方式：1 增加、2 减少、3 直接设为",
+      "value": "视野值",
+      "animid": "缓动枚举 Easing",
+      "time": "动画时长"
+    },
+    "returns": [
+      "boolean result 是否全部下发成功"
+    ],
+    "notes": [
+      "任一参数为空返回 false；动画在客户端播放"
+    ]
+  },
+  "Trigger.Player:SetCameraAnimPos": {
+    "desc": "以动画方式沿单轴改变玩家摄像机位置",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "sigdir": "轴向，取 x、y、z 之一",
+      "isadd": "变更方式：1 增加、2 减少、3 直接设为",
+      "value": "偏移量（米），内部会乘以 100 换算成厘米",
+      "animid": "缓动枚举 Easing",
+      "time": "动画时长"
+    },
+    "returns": [
+      "boolean result 是否全部下发成功"
+    ],
+    "notes": [
+      "value 不是 number 时直接返回 false"
+    ]
+  },
+  "Trigger.Player:SetCameraAnimPosEx": {
+    "desc": "以动画方式沿单轴改变摄像机位置（不做百分位换算）",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "sigdir": "轴向，取 x、y、z 之一",
+      "isadd": "变更方式：1 增加、2 减少、3 直接设为",
+      "value": "偏移量（米），直接使用不除以 100",
+      "animid": "缓动枚举 Easing",
+      "time": "动画时长"
+    },
+    "returns": [
+      "boolean result 是否全部下发成功"
+    ],
+    "notes": [
+      "与 SetCameraAnimPos 的唯一区别是 value 不再除以 100"
+    ]
+  },
+  "Trigger.Player:SetCameraAnimRot": {
+    "desc": "以动画方式沿单轴改变玩家摄像机旋转角度",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "sigdir": "轴向，取 x、y、z 之一",
+      "isadd": "变更方式：1 增加、2 减少、3 直接设为",
+      "value": "旋转角度",
+      "animid": "缓动枚举 Easing",
+      "time": "动画时长"
+    },
+    "returns": [
+      "boolean result 是否全部下发成功"
+    ]
+  },
+  "Trigger.Player:SetCameraAttrState": {
+    "desc": "开关玩家摄像机的指定属性",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "attr": "摄像机属性枚举 CameraModel（1 移动跟随、2 旋转跟随、3 自动归纳、4 相对旋转、5 角色半透明）",
+      "enable": "是否启用"
+    },
+    "returns": [
+      "boolean result 是否全部设置成功"
+    ],
+    "notes": [
+      "attr 为空返回 false；enable 必须是 boolean"
+    ]
+  },
+  "Trigger.Player:SetCameraMountObj": {
+    "desc": "把玩家摄像机挂载到指定对象上",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "objid": "挂载目标对象ID"
+    },
+    "returns": [
+      "boolean result 是否全部设置成功"
+    ],
+    "notes": [
+      "objid 为空返回 false"
+    ]
+  },
+  "Trigger.Player:SetCameraMountPos": {
+    "desc": "把玩家摄像机固定挂载到指定坐标",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "pos": "挂载位置坐标"
+    },
+    "returns": [
+      "boolean result 是否全部设置成功"
+    ],
+    "notes": [
+      "pos 为空返回 false"
+    ]
+  },
+  "Trigger.Player:SetCameraRotMode": {
+    "desc": "设置玩家摄像机的旋转模式",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "attr": "旋转模式枚举 CameraRotate（1 全方向、2 仅偏航、3 仅俯仰、4 不旋转）"
+    },
+    "returns": [
+      "boolean result 是否全部设置成功"
+    ],
+    "notes": [
+      "attr 为空返回 false"
+    ]
+  },
+  "Trigger.Player:SetGameDefeat": {
+    "desc": "把指定玩家移出本局游戏",
+    "params": {
+      "data": "玩家ID或玩家ID数组"
+    },
+    "returns": [
+      "boolean? result 是否全部移出成功，data 为空时返回 nil"
+    ],
+    "notes": [
+      "会先给该玩家下发被移出提示，0.5 秒后请求房间踢人",
+      "单机（无 zmq）模式下会对其他所有玩家执行移出"
+    ]
+  },
+  "Trigger.Player:SetGameWin": {
+    "desc": "结束游戏并把指定玩家设为胜者",
+    "params": {
+      "data": "玩家ID或玩家ID数组"
+    },
+    "returns": [
+      "boolean? result 是否成功结束游戏，data 为空时返回 nil"
+    ],
+    "notes": [
+      "走游戏结束流程，会触发结算"
+    ]
+  },
+  "Trigger.Player:SetGunActionState": {
+    "desc": "屏蔽或恢复玩家指定的枪械动作",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "attr": "枪械动作枚举 GunActionBan（1 装备、2 开火、3 装填、4 奔跑、5 开镜等）",
+      "switch": "是否屏蔽"
+    },
+    "returns": [
+      "boolean result 是否全部设置成功"
+    ],
+    "notes": [
+      "attr 不是 number 或 switch 不是 boolean 时返回 false"
+    ]
+  },
+  "Trigger.Player:SetItemDropAttAction": {
+    "desc": "禁止或允许玩家丢弃指定道具",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "itemid": "道具ID，支持资源ID字符串",
+      "switch": "是否禁止丢弃，默认 false"
+    },
+    "returns": [
+      "boolean result 是否全部设置成功"
+    ],
+    "notes": [
+      "内部设置的是玩家的道具丢弃禁用属性 ItemDisableDrop"
+    ]
+  },
+  "Trigger.Player:SetItemThrowAttAction": {
+    "desc": "禁止或允许玩家投掷指定道具",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "itemid": "道具ID，支持资源ID字符串",
+      "switch": "是否禁止投掷，默认 false"
+    },
+    "returns": [
+      "boolean result 是否全部设置成功"
+    ],
+    "notes": [
+      "内部设置的是玩家的道具投掷禁用属性 ItemDisableThrow"
+    ]
+  },
+  "Trigger.Player:SetJoinJudge": {
+    "desc": "把玩家切到队伍999并记录切换前的队伍",
+    "params": {
+      "data": "玩家ID或玩家ID数组"
+    },
+    "returns": [
+      "boolean result 是否全部切换成功"
+    ],
+    "notes": [
+      "切换前的队伍会保存在服务内部，供 SetQuitJudge 恢复"
+    ]
+  },
+  "Trigger.Player:SetMobileVibrate": {
+    "desc": "触发玩家手机震动",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "time": "震动时长（毫秒），需大于 0",
+      "amplitude": "震动强度，1~255"
+    },
+    "returns": [
+      "boolean result 是否全部触发成功"
+    ],
+    "notes": [
+      "time 缺失或小于等于 0 时返回 false"
+    ]
+  },
+  "Trigger.Player:SetQuitJudge": {
+    "desc": "把玩家恢复为加入判定前的队伍",
+    "params": {
+      "data": "玩家ID或玩家ID数组"
+    },
+    "returns": [
+      "boolean result 是否全部恢复成功"
+    ],
+    "notes": [
+      "没有 SetJoinJudge 记录时切到队伍 0"
+    ]
+  },
+  "Trigger.Player:SetRevivePoint": {
+    "desc": "设置玩家复活点的方块坐标",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "pos": "复活点坐标（方块）",
+      "worldId": "星球ID，默认取 pos.worldId 或 pos.mapId"
+    },
+    "returns": [
+      "boolean result 是否全部设置成功"
+    ],
+    "notes": [
+      "坐标会向下取整",
+      "玩家不在指定星球时失败"
+    ]
+  },
+  "Trigger.Player:ShakeCamera": {
+    "desc": "抖动玩家镜头",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "duration": "抖动持续时间",
+      "power": "抖动强度，1~1000"
+    },
+    "returns": [
+      "boolean result 是否全部触发成功"
+    ],
+    "notes": [
+      "duration 或 power 为空时返回 false"
+    ]
+  },
+  "Trigger.Player:StopMusic": {
+    "desc": "停止玩家正在播放的2D背景音乐",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "musicId": "声音ID"
+    },
+    "returns": [
+      "boolean result 是否全部停止成功"
+    ],
+    "notes": [
+      "停止成功后会清除该玩家该声音的播放记录"
+    ]
+  },
+  "Trigger.Player:StopShakeCamera": {
+    "desc": "停止玩家当前的镜头抖动",
+    "params": {
+      "data": "玩家ID或玩家ID数组"
+    },
+    "returns": [
+      "boolean result 是否全部停止成功"
+    ]
+  },
+  "Trigger.Player:ToBackPackGridID": {
+    "desc": "把背包栏序号换算成格子索引",
+    "params": {
+      "ix": "背包栏序号，1~100"
+    },
+    "returns": [
+      "number|nil gridid 序号减 1 得到的索引，越界或非数字返回 nil"
+    ]
+  },
+  "Trigger.Player:ToEquipGridID": {
+    "desc": "把装备栏序号换算成格子索引",
+    "params": {
+      "ix": "装备栏序号，1~8"
+    },
+    "returns": [
+      "number|nil gridid 换算后的格子索引，越界或非数字返回 nil"
+    ],
+    "notes": [
+      "1~5 返回 8000~8004，6~8 返回 8006~8008"
+    ]
+  },
+  "Trigger.Player:ToShortCutGridID": {
+    "desc": "把快捷栏序号换算成格子索引",
+    "params": {
+      "ix": "快捷栏序号，1~8"
+    },
+    "returns": [
+      "number|nil gridid 序号减 1 得到的索引，越界或非数字返回 nil"
+    ]
+  },
+  "Trigger.Player:UseItem": {
+    "desc": "让玩家使用指定道具",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "itemnum": "道具数量，当前引擎实现未使用该参数",
+      "itemid": "道具ID，资源ID字符串会转换成配置ID"
+    },
+    "returns": [
+      "boolean? result 是否全部使用成功，data 为空时返回 nil"
+    ],
+    "notes": [
+      "每次调用只按 itemid 使用一次，itemnum 不参与逻辑"
+    ]
+  },
+  "Trigger.World:CalcDirectionByPos2Pos": {
+    "desc": "计算位置1指向位置2的单位方向向量",
+    "params": {
+      "pos1": "起点坐标表 {x,y,z}",
+      "pos2": "终点坐标表 {x,y,z}"
+    },
+    "returns": [
+      "table|nil dir 单位方向向量 {x,y,z}，入参非法返回 nil"
+    ],
+    "notes": [
+      "两点重合时长度为 0，会得到 inf 或 nan"
+    ]
+  },
+  "Trigger.World:CalcHorizontalAngle": {
+    "desc": "计算起点指向目标的水平角度",
+    "params": {
+      "posSrc": "起点坐标",
+      "posDst": "目标坐标"
+    },
+    "returns": [
+      "number angle 水平角度（度，0~360），入参非法返回 -1"
+    ]
+  },
+  "Trigger.World:CalcVectorDirectionAngle": {
+    "desc": "计算两个向量之间的夹角",
+    "params": {
+      "vec1": "向量1 {x,y,z}",
+      "vec2": "向量2 {x,y,z}"
+    },
+    "returns": [
+      "number angle 夹角（度，0~180），入参非法或存在零向量返回 -1"
+    ]
+  },
+  "Trigger.World:CalcVerticalAngle": {
+    "desc": "计算起点指向目标的垂直俯仰角",
+    "params": {
+      "posSrc": "起点坐标",
+      "posDst": "目标坐标"
+    },
+    "returns": [
+      "number angle 俯仰角（度，-90~90），入参非法返回 -1"
+    ],
+    "notes": [
+      "两点水平距离为 0 时，按高度差返回 90、-90 或 0"
+    ]
+  },
+  "Trigger.World:CanMobSpawnOnPosXZ": {
+    "desc": "从给定高度向上查找可刷怪落脚点的高度",
+    "params": {
+      "pos": "起点坐标（固定 x、z）",
+      "worldId": "星球ID，默认当前主机所在星球"
+    },
+    "returns": [
+      "number posy 找到的可刷怪落脚Y坐标，找不到返回 -1"
+    ],
+    "notes": [
+      "pos 为空时直接返回 -1"
+    ]
+  },
+  "Trigger.World:CompareBiomeGroup": {
+    "desc": "判断当前地形组是否等于目标地形组",
+    "params": {
+      "v1": "当前地形组，取自 GetBiomeGroup",
+      "v2": "目标地形组枚举 WeatherGroup"
+    },
+    "returns": [
+      "boolean result 是否属于该地形组"
+    ],
+    "notes": [
+      "v2 为 Global（0）时恒返回 true"
+    ]
+  },
+  "Trigger.World:CompareGameMode": {
+    "desc": "比较当前世界游戏模式是否与给定模式一致",
+    "params": {
+      "isequal": "1 表示判断相等，其他值表示判断不相等",
+      "mode": "游戏模式枚举 WorldType"
+    },
+    "returns": [
+      "boolean result 比较结果"
+    ],
+    "notes": [
+      "isequal 为空时返回 false"
+    ]
+  },
+  "Trigger.World:DespawnActor": {
+    "desc": "移除指定生物或区域，玩家改为判定失败",
+    "params": {
+      "killtype": "移除方式：1 击杀、2 直接移除",
+      "data": "对象ID或对象ID数组"
+    },
+    "returns": [
+      "boolean result 是否全部处理成功"
+    ],
+    "notes": [
+      "玩家不会被直接移除，killtype=2 时按失败结算",
+      "骑乘中的生物会先解除骑乘关系再移除",
+      "其它 killtype 不做任何操作"
+    ]
+  },
+  "Trigger.World:DespawnAreas": {
+    "desc": "移除指定的区域对象",
+    "params": {
+      "data": "区域ID或区域ID数组"
+    },
+    "returns": [
+      "boolean result 是否全部移除成功"
+    ]
+  },
+  "Trigger.World:DespawnObject": {
+    "desc": "移除指定对象，玩家改为判定失败",
+    "params": {
+      "data": "对象ID或对象ID数组"
+    },
+    "returns": [
+      "boolean result 是否全部移除成功"
+    ],
+    "notes": [
+      "玩家不会被移除，而是按失败结算"
+    ]
+  },
+  "Trigger.World:GetBiomeGroup": {
+    "desc": "获取指定位置所在地形组的类型",
+    "params": {
+      "pos": "位置坐标（只用 x 与 z）",
+      "worldId": "星球ID，默认当前主机所在星球"
+    },
+    "returns": [
+      "number|nil group 地形组ID（WeatherGroup），取不到返回 nil"
+    ]
+  },
+  "Trigger.World:GetContainerGridAttr": {
+    "desc": "读取容器格子的属性值",
+    "params": {
+      "pos": "容器方块坐标",
+      "gridid": "格子序号，从 1 开始",
+      "attr": "属性枚举 GridAttr：1 数量、2 耐久、3 坚韧",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "number|boolean value 属性值，容器或格子无效返回 false"
+    ],
+    "notes": [
+      "支持储物箱、熔炉与箱子，格子序号按各自规则换算"
+    ]
+  },
+  "Trigger.World:GetContainerStorageItem": {
+    "desc": "读取容器格子里的道具ID",
+    "params": {
+      "pos": "容器方块坐标",
+      "gridid": "格子序号，从 1 开始",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "number|string|nil itemid 道具ID，自定义道具为资源ID；空格或容器无效返回 nil"
+    ]
+  },
+  "Trigger.World:GetCoord": {
+    "desc": "读取坐标表中某一轴的分量",
+    "params": {
+      "pos": "坐标表 {x,y,z}",
+      "v": "轴名，x、y、z 之一"
+    },
+    "returns": [
+      "any value 该轴坐标值，pos 不是 table 时返回 nil"
+    ]
+  },
+  "Trigger.World:GetDirRayDetection": {
+    "desc": "从起点沿方向做射线检测并返回命中对象ID",
+    "params": {
+      "posbegin": "起点坐标",
+      "dir": "方向：FaceDir 枚举或方向向量 {x,y,z}",
+      "maxlen": "最大检测距离（米）",
+      "itype": "检测类型枚举 RayDetectType：1 方块、2 玩家、3 生物、4 生物类型、5 液体方块",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "number|string|nil result 命中的方块ID或对象ID，自定义资源返回字符串；未命中返回 nil"
+    ],
+    "notes": [
+      "检测生物类型时返回配置ID",
+      "需要命中位置请改用 GetRayDetectionPos"
+    ]
+  },
+  "Trigger.World:GetLightByPos": {
+    "desc": "获取指定方块位置的光照强度",
+    "params": {
+      "pos": "位置坐标",
+      "worldId": "星球ID，默认当前主机所在星球"
+    },
+    "returns": [
+      "number lv 光照强度（0~15），取不到返回 -1"
+    ]
+  },
+  "Trigger.World:GetRayBlock": {
+    "desc": "沿指定面方向检测射线命中的方块",
+    "params": {
+      "pos": "起点坐标",
+      "face": "面方向枚举 FaceDir",
+      "distance": "最大检测距离（米）"
+    },
+    "returns": [
+      "number|string|nil result 方块ID，自定义方块返回资源ID字符串；未命中返回 nil"
+    ]
+  },
+  "Trigger.World:GetRayDetectionPos": {
+    "desc": "从起点沿方向做射线检测并返回命中位置",
+    "params": {
+      "posbegin": "起点坐标",
+      "dir": "方向：FaceDir 枚举或方向向量 {x,y,z}",
+      "maxlen": "最大检测距离（米）",
+      "itype": "检测类型枚举 RayDetectType：1 方块、2 玩家、3 生物、4 生物类型、5 液体方块",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "table|nil pos 命中点坐标（米），未命中返回 nil"
+    ]
+  },
+  "Trigger.World:GetRayLength": {
+    "desc": "计算两点间射线遇到方块前的长度",
+    "params": {
+      "pos1": "起点坐标",
+      "pos2": "方向参考点坐标",
+      "distance": "最大检测距离（米）"
+    },
+    "returns": [
+      "number|nil len 射线长度（米），失败返回 nil"
+    ]
+  },
+  "Trigger.World:GetSpawnPoint": {
+    "desc": "获取当前地图的默认出生点坐标",
+    "params": {
+      "worldid": "星球ID，默认当前星球"
+    },
+    "returns": [
+      "table pos 出生点坐标 {x,y,z}，世界未就绪时为 (0,-1,0)"
+    ]
+  },
+  "Trigger.World:IsChunkLoaded": {
+    "desc": "判断指定位置所在的区块是否已加载",
+    "params": {
+      "pos": "位置坐标，只用 x 与 z",
+      "worldId": "星球ID，默认当前主机所在星球"
+    },
+    "returns": [
+      "boolean result 是否已加载"
+    ]
+  },
+  "Trigger.World:OffsetPos": {
+    "desc": "就地偏移坐标并返回同一个坐标表",
+    "params": {
+      "pos": "待偏移的坐标表",
+      "x": "X轴偏移量，默认 0",
+      "y": "Y轴偏移量，默认 0",
+      "z": "Z轴偏移量，默认 0"
+    },
+    "returns": [
+      "table pos 偏移后的坐标表"
+    ],
+    "notes": [
+      "会直接修改传入的坐标表"
+    ]
+  },
+  "Trigger.World:OffsetPosVal": {
+    "desc": "偏移坐标并返回一张新的坐标表",
+    "params": {
+      "pos": "原始坐标表",
+      "x": "X轴偏移量，默认 0",
+      "y": "Y轴偏移量，默认 0",
+      "z": "Z轴偏移量，默认 0"
+    },
+    "returns": [
+      "table pos 新的坐标表，入参非法时原样返回 pos"
+    ],
+    "notes": [
+      "不修改传入的坐标表"
+    ]
+  },
+  "Trigger.World:PaseOrResumeSoundEffectOnPos": {
+    "desc": "在暂停与恢复之间切换指定位置的音效",
+    "params": {
+      "pos": "位置坐标",
+      "musicId": "音效ID，-1 表示该位置所有音效",
+      "worldId": "星球ID，默认当前主机所在星球"
+    },
+    "returns": [
+      "boolean result 是否切换成功"
+    ],
+    "notes": [
+      "按方块坐标取整后记录每个位置每个音效的暂停状态，首次调用为暂停"
+    ]
+  },
+  "Trigger.World:PauseSoundEffectOnPos": {
+    "desc": "暂停指定位置的音效",
+    "params": {
+      "pos": "位置坐标",
+      "musicId": "音效ID，-1 表示该位置所有音效",
+      "worldId": "星球ID，默认当前主机所在星球"
+    },
+    "returns": [
+      "boolean result 是否暂停成功"
+    ],
+    "notes": [
+      "坐标会向下取整到方块"
+    ]
+  },
+  "Trigger.World:PlayParticle": {
+    "desc": "在指定位置播放一个或多个粒子特效",
+    "params": {
+      "pos": "位置坐标，会被对齐到方块中心",
+      "particleIds": "粒子ID或粒子ID数组",
+      "ptime": "特效时长（秒），小于等于 0 时使用默认时长",
+      "offset": "偏移量，按方块数计算，默认 0",
+      "rot": "旋转，默认 0",
+      "scale": "缩放，默认 1",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "boolean result 是否播放成功"
+    ],
+    "notes": [
+      "最后创建的粒子ID会被记录，供特效结束事件使用"
+    ]
+  },
+  "Trigger.World:PlayParticleEffect": {
+    "desc": "在指定位置播放单个粒子特效",
+    "params": {
+      "pos": "位置坐标，会向下取整到方块",
+      "particleId": "粒子ID",
+      "scale": "缩放倍数，默认 1",
+      "ptime": "特效时长（秒）"
+    },
+    "returns": [
+      "boolean result 是否播放成功"
+    ],
+    "notes": [
+      "粒子定义不存在时返回 false",
+      "播放成功后记录最后创建的粒子ID"
+    ]
+  },
+  "Trigger.World:ResumeSoundEffectOnPos": {
+    "desc": "恢复指定位置被暂停的音效",
+    "params": {
+      "pos": "位置坐标",
+      "musicId": "音效ID，-1 表示该位置所有音效",
+      "worldId": "星球ID，默认当前主机所在星球"
+    },
+    "returns": [
+      "boolean result 是否恢复成功"
+    ]
+  },
+  "Trigger.World:SetContainerGridAttr": {
+    "desc": "设置容器格子的属性值",
+    "params": {
+      "pos": "容器方块坐标",
+      "gridid": "格子序号，从 1 开始",
+      "attr": "属性枚举 GridAttr：1 数量、2 耐久、3 坚韧",
+      "value": "属性值，数量小于等于 0 时清空格子"
+    },
+    "returns": [
+      "boolean|number result 是否设置成功，清空格子时返回 0"
+    ],
+    "notes": [
+      "数量与耐久会被限制在道具上限内，低于 0 按 0 处理",
+      "目标方块必须是容器，否则返回 false"
+    ]
+  },
+  "Trigger.World:SetLightByPos": {
+    "desc": "设置指定方块位置的光照强度",
+    "params": {
+      "pos": "位置坐标",
+      "value": "光照强度 0~15，超出范围会被截断",
+      "worldId": "星球ID，默认当前主机所在星球"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ]
+  },
+  "Trigger.World:SetParticleEffectScale": {
+    "desc": "设置指定位置粒子特效的缩放",
+    "params": {
+      "pos": "位置坐标",
+      "particleId": "粒子ID",
+      "sclae": "缩放倍数（引擎原拼写）"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ]
+  },
+  "Trigger.World:SetParticleTransform": {
+    "desc": "调整已存在粒子特效的偏移、旋转与缩放",
+    "params": {
+      "pos": "位置坐标，会被对齐到方块中心",
+      "particleIds": "粒子ID或粒子ID数组",
+      "offset": "偏移量，按方块数计算，默认 0",
+      "rot": "旋转，默认 0",
+      "scale": "缩放，默认 1",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "boolean result 是否处理成功"
+    ],
+    "notes": [
+      "只对该位置同路径已播放的特效生效"
+    ]
+  },
+  "Trigger.World:SetSkyBoxColorAnim": {
+    "desc": "以动画方式修改玩家天空盒颜色",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "itype": "颜色属性枚举 SkyboxColor（1~12，如 1 顶部、8 云、9 雾）",
+      "color": "颜色值：0xRRGGBB 数值或 {r,g,b} 表",
+      "animId": "缓动枚举 Easing",
+      "animTime": "动画时长",
+      "worldid": "星球ID"
+    },
+    "returns": [
+      "boolean result 是否全部设置成功"
+    ],
+    "notes": [
+      "itype 超出 1~12 或颜色无法解析时返回 false"
+    ]
+  },
+  "Trigger.World:SetSkyBoxFilter": {
+    "desc": "修改玩家天空盒的滤镜参数",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "itype": "滤镜参数枚举 SkyboxFilter（1 对比度、2 饱和度、3 泛光、4 曝光、8 颜色、9 LUT 等）",
+      "value": "参数值：数值型滤镜传 0~100，颜色滤镜传 16 进制颜色值",
+      "worldid": "星球ID"
+    },
+    "returns": [
+      "boolean result 是否全部设置成功"
+    ],
+    "notes": [
+      "itype 超出滤镜枚举范围时返回 false"
+    ]
+  },
+  "Trigger.World:SetSkyBoxFilterColor": {
+    "desc": "修改玩家天空盒的滤镜颜色",
+    "params": {
+      "playerid": "玩家ID",
+      "value": "颜色值：16 进制颜色或 {r,g,b} 表",
+      "worldid": "星球ID"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "等价于 itype 为 Color（8）的 SetSkyBoxFilter"
+    ]
+  },
+  "Trigger.World:SetSkyBoxFilterColorAnim": {
+    "desc": "以动画方式修改玩家天空盒的滤镜颜色",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "value": "颜色值：16 进制颜色或 {r,g,b} 表",
+      "animId": "缓动枚举 Easing",
+      "animTime": "动画时长",
+      "worldid": "星球ID"
+    },
+    "returns": [
+      "boolean result 是否全部设置成功"
+    ]
+  },
+  "Trigger.World:SetSkyBoxFilterLUT": {
+    "desc": "设置玩家天空盒的滤镜查找表（LUT）",
+    "params": {
+      "playerid": "玩家ID",
+      "value": "LUT 资源路径或ID",
+      "worldid": "星球ID"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "等价于 itype 为 Lut（9）的 SetSkyBoxFilter"
+    ]
+  },
+  "Trigger.World:SetSkyBoxFilterTemplate": {
+    "desc": "设置玩家天空盒的滤镜模板",
+    "params": {
+      "playerid": "玩家ID",
+      "value": "模板参数",
+      "worldid": "星球ID"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "等价于 itype 为 Template（10）的 SetSkyBoxFilter"
+    ]
+  },
+  "Trigger.World:SetSkyBoxMapsAnim": {
+    "desc": "以动画方式替换玩家天空盒的贴图",
+    "params": {
+      "data": "玩家ID或玩家ID数组",
+      "itype": "贴图类型枚举 SkyboxMap：1 天空、2 太阳、3 月亮",
+      "url": "贴图资源路径或资源ID",
+      "animId": "缓动枚举 Easing",
+      "animTime": "动画时长",
+      "worldid": "星球ID"
+    },
+    "returns": [
+      "boolean result 是否全部设置成功"
+    ],
+    "notes": [
+      "itype 超出 1~3、url 为空字符串或类型非法时返回 false"
+    ]
+  },
+  "Trigger.World:SetSpawnPoint": {
+    "desc": "设置当前地图的默认出生点",
+    "params": {
+      "obiid": "对象ID，当前引擎实现未使用",
+      "pos": "出生点坐标"
+    },
+    "returns": [
+      "boolean? result 是否设置成功，pos 为空时返回 nil"
+    ]
+  },
+  "Trigger.World:SetStorageItem": {
+    "desc": "往储物箱的指定格子写入道具",
+    "params": {
+      "pos": "储物箱方块坐标",
+      "offset": "格子序号，从 1 开始；大箱子超过 30 属于副箱",
+      "itemid": "道具ID，支持资源ID字符串",
+      "num": "写入数量",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "boolean? result 是否写入成功，pos 为空时返回 nil"
+    ],
+    "notes": [
+      "目标方块必须是储物箱，否则返回 false",
+      "大箱子前 30 格属于主箱体，其余属于副箱"
+    ]
+  },
+  "Trigger.World:SpawnProjectileOnPos": {
+    "desc": "在指定位置生成一个抛射物并飞向目标点",
+    "params": {
+      "pos": "生成位置坐标",
+      "itemid": "道具ID，必须是可脚本使用的抛射物道具",
+      "dst": "目标位置坐标，用于计算飞行方向",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "number|nil objid 抛射物对象ID，失败返回 nil"
+    ],
+    "notes": [
+      "pos 或 dst 为空时不执行"
+    ]
+  },
+  "Trigger.World:SpawnShooterProjectile": {
+    "desc": "以指定对象为射手生成抛射物",
+    "params": {
+      "objid": "射手对象ID",
+      "dir": "发射方向：FaceDir 枚举或方向向量",
+      "itemid": "道具ID，必须是可脚本使用的抛射物道具"
+    },
+    "returns": [
+      "number|boolean|nil objid 抛射物对象ID，失败返回 false 或 nil"
+    ],
+    "notes": [
+      "起点取对象位置加眼睛高度，并按包围盒向前修正",
+      "dir 为空或对象不存在时不生成"
+    ]
+  },
+  "Trigger.World:SpawnShooterProjectileByPos": {
+    "desc": "在指定位置以指定对象为射手生成抛射物",
+    "params": {
+      "pos": "生成位置坐标",
+      "objid": "射手对象ID",
+      "itemid": "道具ID，必须是可脚本使用的抛射物道具",
+      "dst": "目标位置坐标"
+    },
+    "returns": [
+      "number|nil objid 抛射物对象ID，失败返回 nil"
+    ],
+    "notes": [
+      "星球ID取自射手对象所在地"
+    ]
+  },
+  "Trigger.World:StopParticleEffectOnPos": {
+    "desc": "停止指定位置上的粒子特效",
+    "params": {
+      "pos": "位置坐标",
+      "particleIds": "粒子ID或粒子ID数组"
+    },
+    "returns": [
+      "boolean result 是否处理成功"
+    ],
+    "notes": [
+      "按粒子定义对应的特效路径停止"
+    ]
+  },
+  "Trigger.World:StopParticleOnPos": {
+    "desc": "停止指定位置的粒子特效，支持直接传资源路径",
+    "params": {
+      "pos": "位置坐标",
+      "particleIds": "粒子ID、资源路径，或其数组",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "boolean result 是否处理成功"
+    ],
+    "notes": [
+      "字符串按特效路径直接停止，数字先查粒子定义"
+    ]
+  },
+  "Trigger.World:XyzToPos": {
+    "desc": "把三个坐标分量组装成坐标表",
+    "params": {
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标"
+    },
+    "returns": [
+      "table pos 坐标表 {x,y,z}"
+    ]
+  }
+}

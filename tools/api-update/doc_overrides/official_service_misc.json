@@ -1,0 +1,1400 @@
+{
+  "Backpack:ActCreateEquip": {
+    "desc": "为玩家创建指定装备并直接放入对应装备栏",
+    "params": {
+      "playerid": "玩家ID",
+      "itemid": "道具ID（数字配置ID或资源ID字符串）"
+    },
+    "returns": ["boolean result 是否创建成功"],
+    "notes": [
+      "玩家已装备同类道具时改为向背包添加一件，背包放不下则在玩家位置生成掉落物",
+      "目标装备格已有道具时先移入快捷栏或背包栏，无空位则直接丢弃"
+    ]
+  },
+  "Backpack:AutoMoveGridItem": {
+    "desc": "把格子内的道具自动移动到指定类型的背包栏",
+    "params": {
+      "playerid": "玩家ID",
+      "gridid": "格子ID",
+      "gridtype": "目标栏类型（1 快捷栏，2 背包栏，3 装备栏，4 扩展背包）"
+    },
+    "returns": ["boolean result 是否成功"]
+  },
+  "Backpack:EnoughGridForItemMaxNum": {
+    "desc": "计算指定道具最多还能放入多少个，且不超过给定数量",
+    "params": {
+      "playerid": "玩家ID",
+      "itemid": "道具ID（数字配置ID或资源ID字符串）",
+      "num": "希望放入的数量，传 0 时返回可用空间总量"
+    },
+    "returns": ["number? maxnum 实际可放入的数量上限，参数非法或背包对象不存在时为 nil"],
+    "notes": ["结果受剩余空格与道具堆叠上限共同限制"]
+  },
+  "Backpack:GetBackpackBarEmptyGridList": {
+    "desc": "获取指定背包栏中空格子的列表",
+    "params": {
+      "playerid": "玩家ID",
+      "bartype": "栏类型（1 快捷栏，2 背包栏，3 装备栏，4 扩展背包）"
+    },
+    "returns": ["number? num 空格数量", "table? arr 空格列表，元素为 {gridid = 格子ID}"],
+    "notes": ["查询失败或背包对象不存在时返回 nil"]
+  },
+  "Backpack:GetBackpackBarIDRange": {
+    "desc": "获取指定背包栏的起始与结束格子ID",
+    "params": {
+      "bartype": "栏类型（1 快捷栏，2 背包栏，3 装备栏，4 扩展背包）",
+      "objid": "玩家ID，栏位范围按该玩家背包计算"
+    },
+    "returns": ["number? begid 起始格子ID", "integer? endid 结束格子ID"],
+    "notes": [
+      "快捷栏固定 8 格（1000 起）；背包栏从 0 开始按背包格子数计算",
+      "装备栏从 8000 到披风槽，扩展背包从 58000 开始",
+      "未知栏类型或玩家未解锁扩展背包时两个返回值均为 nil"
+    ]
+  },
+  "Backpack:GetBackpackBarItemList": {
+    "desc": "获取指定背包栏内的道具ID列表并去重",
+    "params": {
+      "playerid": "玩家ID",
+      "bartype": "栏类型（1 快捷栏，2 背包栏，3 装备栏，4 扩展背包）"
+    },
+    "returns": ["number? num 道具种类数", "table? arr 道具ID数组"],
+    "notes": ["查询失败或背包对象不存在时返回 nil"]
+  },
+  "Backpack:GetBackpackBarSize": {
+    "desc": "获取指定背包栏的格子总数",
+    "params": {
+      "bartype": "栏类型（1 快捷栏，2 背包栏，3 装备栏，4 扩展背包）",
+      "objid": "玩家ID，栏位范围按该玩家背包计算"
+    },
+    "returns": ["number? size 格子数量"],
+    "notes": ["由起始与结束格子ID推算，未知栏类型时为 nil"]
+  },
+  "Backpack:GetBackpackBarValidList": {
+    "desc": "获取指定背包栏中非空格子的ID列表",
+    "params": {
+      "playerid": "玩家ID",
+      "bartype": "栏类型（1 快捷栏，2 背包栏，3 装备栏，4 扩展背包）"
+    },
+    "returns": ["number? num 非空格数量", "table? arr 格子ID数组"],
+    "notes": ["查询失败或背包对象不存在时返回 nil"]
+  },
+  "Backpack:GetBackpackBarValidListExtend": {
+    "desc": "获取指定背包栏非空格子的格子ID、道具与数量",
+    "params": {
+      "playerid": "玩家ID",
+      "bartype": "栏类型（1 快捷栏，2 背包栏，3 装备栏，4 扩展背包）"
+    },
+    "returns": ["number? num 条目数", "table? arr 列表，元素为 {gridid, itemid, itemnum}"],
+    "notes": ["bartype 为装备栏时额外包含 3 个自定义装备槽", "全部为空或背包对象不存在时返回 nil"]
+  },
+  "Backpack:GetBackpackNum": {
+    "desc": "获取玩家背包栏的格子数量",
+    "params": {
+      "playerid": "玩家ID"
+    },
+    "returns": ["number? num 背包栏格子数"],
+    "notes": ["参数非法或背包对象不存在时为 nil"]
+  },
+  "Backpack:GetGridDurability": {
+    "desc": "获取格子的当前与最大耐久度",
+    "params": {
+      "playerid": "玩家ID",
+      "gridid": "格子ID"
+    },
+    "returns": ["number? cur 当前耐久", "number? max 最大耐久"],
+    "notes": ["格子被锁定、参数非法或取值失败时两个返回值均为 nil"]
+  },
+  "Backpack:GetGridEnchantList": {
+    "desc": "获取格子内道具的附魔ID列表",
+    "params": {
+      "playerid": "玩家ID",
+      "gridid": "格子ID"
+    },
+    "returns": ["number? num 附魔数量", "table? arr 附魔ID数组"],
+    "notes": ["查询失败或背包对象不存在时返回 nil"]
+  },
+  "Backpack:GetGridInfoByIndex": {
+    "desc": "按格子ID读取格子的完整信息",
+    "params": {
+      "playerid": "玩家ID",
+      "gridid": "格子ID"
+    },
+    "returns": ["table? info 格子信息表，由引擎JSON解析得到"],
+    "notes": ["格子被锁定、无道具或JSON解析失败时返回 nil"]
+  },
+  "Backpack:GetGridInfoByItemidAndNum": {
+    "desc": "按道具ID与数量构造格子信息模板",
+    "params": {
+      "itemid": "道具ID（数字配置ID或资源ID字符串）",
+      "num": "数量"
+    },
+    "returns": ["table? iteminfo 格子信息表，字段含 itemid、num、durable、toughness、sid、userdata_s 等"],
+    "notes": ["仅构造模板，不写入背包，可直接传给 SetGridInfoByIndex", "资源ID无法解析时为 nil"]
+  },
+  "Backpack:GetGridNum": {
+    "desc": "获取格子内道具的堆叠数量",
+    "params": {
+      "playerid": "玩家ID",
+      "gridid": "格子ID"
+    },
+    "returns": ["number? num 道具数量"],
+    "notes": ["查询失败或背包对象不存在时为 nil"]
+  },
+  "Backpack:GetGridStack": {
+    "desc": "获取格子的当前数量与最大堆叠数",
+    "params": {
+      "playerid": "玩家ID",
+      "gridid": "格子ID"
+    },
+    "returns": ["number? num 当前数量", "number? maxstack 最大堆叠数"],
+    "notes": ["格子被锁定或参数非法时两个返回值均为 nil"]
+  },
+  "Backpack:GetGridToolType": {
+    "desc": "获取格子内道具的工具类型",
+    "params": {
+      "playerid": "玩家ID",
+      "gridid": "格子ID"
+    },
+    "returns": ["number? toolType 工具类型ID"],
+    "notes": ["格子为空、被锁定或查询失败时为 nil"]
+  },
+  "Backpack:GetItemCountInNormalPack": {
+    "desc": "统计普通背包中指定道具的总数量",
+    "params": {
+      "playerid": "玩家ID",
+      "itemId": "道具ID（支持资源ID字符串）"
+    },
+    "returns": ["number? count 道具总数量"],
+    "notes": ["资源ID无法解析时按 0 处理", "背包对象不存在时为 nil"]
+  },
+  "Backpack:GetItemUsrerExp": {
+    "desc": "读取道具自定义数据中的经验值",
+    "params": {
+      "iteminfo": "道具信息表，需含 userdata_s 字段"
+    },
+    "returns": ["number exp 经验值，缺失或解析失败时为 0"],
+    "notes": ["字段名沿用引擎拼写 ModeItemExp"]
+  },
+  "Backpack:GetItemUsrerinfo": {
+    "desc": "读取道具自定义数据中的名称、描述与经验",
+    "params": {
+      "iteminfo": "道具信息表，需含 userdata_s 字段"
+    },
+    "returns": ["string? name 自定义名称", "string? desc 自定义描述", "number? exp 经验值"],
+    "notes": ["userdata_s 解析失败时三个返回值均为 nil"]
+  },
+  "Backpack:GetMouseAttchedGridId": {
+    "desc": "获取鼠标当前拖拽吸附的格子ID",
+    "params": {},
+    "returns": ["number? gridid 格子ID，未拖拽时为 nil"],
+    "notes": ["仅在客户端存在拖拽交互时有值"]
+  },
+  "Backpack:GetNotRodResIdGridId": {
+    "desc": "获取指定背包栏内非杆类格子的格子与道具信息",
+    "params": {
+      "playerid": "玩家ID",
+      "bartype": "栏类型（1 快捷栏，2 背包栏，3 装备栏，4 扩展背包）"
+    },
+    "returns": ["table? list 列表，元素为 {gridId, itemId, itemNum}"],
+    "notes": ["工具类型为 31 的杆类格子会被排除", "列表为空或栏位范围无效时为 nil"]
+  },
+  "Backpack:GetRodResIdList": {
+    "desc": "获取指定背包栏内杆类格子的资源ID与自定义数据",
+    "params": {
+      "playerid": "玩家ID",
+      "bartype": "栏类型（1 快捷栏，2 背包栏，3 装备栏，4 扩展背包）"
+    },
+    "returns": ["table? list 列表，元素为 {resId, gridId, userData}"],
+    "notes": [
+      "只收集工具类型为 31（杆类）且有资源ID的格子",
+      "userData 由格子 userdata 字符串JSON解析得到",
+      "列表为空或栏位范围无效时为 nil"
+    ]
+  },
+  "Backpack:GetUserDataByGridId": {
+    "desc": "按格子ID读取格子自定义数据",
+    "params": {
+      "playerid": "玩家ID",
+      "gridId": "格子ID"
+    },
+    "returns": ["table? data 自定义数据表"],
+    "notes": ["数据以JSON字符串形式存储于格子，无数据或解析失败时为 nil"]
+  },
+  "Backpack:GridInfoToString": {
+    "desc": "把格子信息表编码为JSON字符串",
+    "params": {
+      "gridinfo": "格子信息表"
+    },
+    "returns": ["string result JSON字符串，编码失败时为空串"]
+  },
+  "Backpack:SetGridInfoByIndex": {
+    "desc": "按格子ID写入格子的完整信息",
+    "params": {
+      "playerid": "玩家ID",
+      "gridid": "格子ID",
+      "gridinfo": "格子信息表"
+    },
+    "returns": ["boolean result 引擎是否写入成功"],
+    "notes": ["格子被锁定或 gridinfo 不是表时返回 false"]
+  },
+  "Backpack:SetItemUsrerinfo": {
+    "desc": "把自定义名称、描述与经验写入道具数据字符串",
+    "params": {
+      "iteminfo": "道具信息表",
+      "name": "自定义名称，可省略",
+      "desc": "自定义描述，可省略",
+      "exp": "经验值，可省略"
+    },
+    "notes": [
+      "结果写入 iteminfo.userdata_s，键名为 ModItemName、ModItemDesc、ModeItemExp",
+      "全部省略时写入空对象 {}"
+    ]
+  },
+  "Backpack:SetUserDataByGridId": {
+    "desc": "把表数据序列化后写入格子自定义数据",
+    "params": {
+      "playerid": "玩家ID",
+      "gridId": "格子ID",
+      "userData": "自定义数据表"
+    },
+    "returns": ["boolean result 是否写入成功"],
+    "notes": ["写入后会触发背包格子变更回调", "userData 为空或格子不存在时返回 false"]
+  },
+  "Backpack:SortPack": {
+    "desc": "从指定格子开始整理背包",
+    "params": {
+      "playerid": "玩家ID",
+      "gridid": "起始格子ID"
+    },
+    "returns": ["boolean result 是否成功"],
+    "notes": ["实际排序由引擎完成，接口只检查背包对象是否存在"]
+  },
+  "Backpack:StringToGridInfo": {
+    "desc": "把JSON字符串解析为格子信息表",
+    "params": {
+      "str": "待解析字符串"
+    },
+    "returns": ["table? info 解析结果，失败时为 nil"]
+  },
+  "CloudSever:AutomaticByKey": {
+    "desc": "按键对云端数据表执行自动写入",
+    "params": {
+      "libvarid": "库变量ID或变量名",
+      "key": "键名",
+      "value": "值"
+    },
+    "returns": ["boolean result 是否成功"],
+    "notes": ["变量ID会先经 CheckVarable 解析为变量名", "自动写入的具体规则由引擎 SSMgrValueList 决定"]
+  },
+  "CloudSever:CheckVarable": {
+    "desc": "把云端库变量ID解析为变量名并缓存",
+    "params": {
+      "libvarid": "库变量ID"
+    },
+    "returns": ["string? varname 变量名，无法解析时为 nil"],
+    "notes": ["解析结果同时以变量ID与变量名作为键缓存"]
+  },
+  "CloudSever:ClearDataList": {
+    "desc": "清空指定云端数据列表",
+    "params": {
+      "libvarid": "库变量ID"
+    },
+    "returns": ["boolean result 是否成功"],
+    "notes": ["等价于 ClearList"]
+  },
+  "CloudSever:ClearList": {
+    "desc": "清空指定云端变量对应的列表",
+    "params": {
+      "libvarid": "库变量ID"
+    },
+    "returns": ["boolean result 是否成功"]
+  },
+  "CloudSever:ClearOrderData": {
+    "desc": "清空指定云端变量中的有序数据",
+    "params": {
+      "libvarid": "库变量ID"
+    },
+    "returns": ["boolean result 是否成功"],
+    "notes": ["等价于 ClearList"]
+  },
+  "CloudSever:CloseCurRoom": {
+    "desc": "关闭当前房间，可带倒计时与提示",
+    "params": {
+      "countdown": "倒计时秒数，默认 0",
+      "msg": "关闭提示文本，默认空串"
+    },
+    "returns": ["boolean result 是否成功"],
+    "notes": ["仅在房间服务 zmqMgr_ 可用时生效"]
+  },
+  "CloudSever:GetAnyValueByIndex": {
+    "desc": "按索引异步读取云端变量值并派发事件",
+    "params": {
+      "libvar": "库变量ID或变量名",
+      "index": "索引",
+      "eventname": "结果事件名",
+      "globaldata": "写入事件参数 params.def 的默认值"
+    },
+    "returns": ["boolean? value 请求是否发出，失败时为 nil"],
+    "notes": ["读取结果通过触发事件 eventname 回调", "失败路径不返回 false，只返回 nil"]
+  },
+  "CloudSever:GetAnyValueByKey": {
+    "desc": "按键异步读取云端变量值并派发事件",
+    "params": {
+      "libvarid": "库变量ID或变量名",
+      "key": "键名",
+      "eventname": "结果事件名",
+      "globaldata": "写入事件参数 params.def 的默认值"
+    },
+    "returns": ["boolean value 请求是否发出"],
+    "notes": ["读取结果通过触发事件 eventname 回调"]
+  },
+  "CloudSever:GetOrderDataByKey": {
+    "desc": "按键异步读取有序数据并回调",
+    "params": {
+      "libvarid": "库变量ID或变量名",
+      "key": "键名",
+      "callback": "读取结果回调"
+    },
+    "returns": ["boolean value 是否成功发起请求"],
+    "notes": ["内部先注册一次性任务，再向数据表发起读取"]
+  },
+  "CloudSever:GetOrderDataIndexArea": {
+    "desc": "按索引区间异步读取有序数据并回调",
+    "params": {
+      "libvarid": "库变量ID或变量名",
+      "icount": "读取条数，内部向下取整",
+      "callback": "读取结果回调"
+    },
+    "returns": ["boolean result 是否成功发起请求", "table? cache 命中时返回的缓存数据"],
+    "notes": ["libvarid 为空或 icount 非数字时直接返回 false"]
+  },
+  "CloudSever:GetOrderDataIndexValue": {
+    "desc": "按索引异步读取有序数据的单个值并回调",
+    "params": {
+      "libvarid": "库变量ID或变量名",
+      "index": "索引",
+      "callback": "读取结果回调"
+    },
+    "returns": ["boolean value 是否成功发起请求"],
+    "notes": ["libvarid 为空或空串时返回 false"]
+  },
+  "CloudSever:GetOrderDataValueArea": {
+    "desc": "按数值区间异步读取有序数据并回调",
+    "params": {
+      "libvarid": "库变量ID或变量名",
+      "icount": "读取条数",
+      "minvalue": "区间下限",
+      "maxvalue": "区间上限",
+      "callback": "读取结果回调"
+    },
+    "returns": ["boolean result 是否成功发起请求", "table? cache 命中时返回的缓存数据"],
+    "notes": ["上下限会向下取整，且顺序颠倒时自动交换"]
+  },
+  "CloudSever:NotifyPlayerTransmitMsg": {
+    "desc": "向指定玩家列表发送传送提示",
+    "params": {
+      "players": "玩家ID数组",
+      "msg": "提示文本"
+    },
+    "returns": ["boolean result 是否成功"],
+    "notes": ["players 不是表或 msg 为空时返回 false"]
+  },
+  "CloudSever:RemoveDataListByKey": {
+    "desc": "按键移除云端数据列表中的条目",
+    "params": {
+      "libvarid": "库变量ID或变量名",
+      "key": "键名"
+    },
+    "returns": ["boolean result 由底层写入接口返回"],
+    "notes": ["内部转调 RemoveDataListValue"]
+  },
+  "CloudSever:RemoveDataListValue": {
+    "desc": "按键移除云端数据列表中的条目",
+    "params": {
+      "libvarid": "库变量ID或变量名",
+      "key": "键名"
+    },
+    "returns": ["boolean result 由底层写入接口返回"],
+    "notes": ["实现调用 setValueByKey 时未传 value，删除效果依赖引擎对缺省参数的处理"]
+  },
+  "CloudSever:RemoveOrderDataByKey": {
+    "desc": "按键移除云端有序数据",
+    "params": {
+      "libvarid": "库变量ID或变量名",
+      "key": "键名"
+    },
+    "returns": ["boolean result 由底层写入接口返回"],
+    "notes": ["内部转调 RemoveDataListValue，同样未显式传 value"]
+  },
+  "CloudSever:SendSeverMsg": {
+    "desc": "向同地图房间广播自定义消息",
+    "params": {
+      "msg": "消息ID或消息名，需为非空字符串",
+      "customdata": "自定义数据表，序列化为JSON发送",
+      "roomids": "目标房间ID（字符串或字符串数组），省略则广播全部"
+    },
+    "returns": ["boolean result 是否成功"],
+    "notes": [
+      "仅白名单用户可用",
+      "租用房间模式下走 zmqMgr_ 跨房间广播，否则只触发本地云端消息事件"
+    ]
+  },
+  "CloudSever:SetForbidJoin": {
+    "desc": "在一段时间内禁止其他玩家加入当前房间",
+    "params": {
+      "seconds": "禁入秒数，默认 0"
+    },
+    "returns": ["boolean result 是否成功"],
+    "notes": ["仅在 zmqMgr_ 可用时生效"]
+  },
+  "CloudSever:SetOrderDataBykey": {
+    "desc": "按键写入云端有序数据",
+    "params": {
+      "libvarid": "库变量ID或变量名",
+      "Key": "键名（注意大写 K）",
+      "value": "值"
+    },
+    "returns": ["boolean result 是否成功"],
+    "notes": ["内部转调 SetDataListValue"]
+  },
+  "CloudSever:TransmitOtherRoom": {
+    "desc": "把玩家传送到其他房间，房间标识固定为 other",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组",
+      "msg": "传送提示文本",
+      "notFollow": "是否不跟随队友"
+    },
+    "notes": ["内部转调 TransmitToRoom，不返回传送结果"]
+  },
+  "CloudSever:TransmitToMap": {
+    "desc": "把玩家传送到指定地图",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组，0 会被忽略",
+      "mapid": "目标地图ID",
+      "msg": "传送提示文本",
+      "reportData": "上报数据",
+      "noConfirm": "是否跳过确认弹窗",
+      "notFollow": "是否不跟随队友"
+    },
+    "returns": ["boolean result 是否成功发起传送"],
+    "notes": ["同一玩家 15 秒内只能传送一次，超频会收到提示", "数组模式下只对未冷却的玩家发起传送"]
+  },
+  "CloudSever:TransmitToRoom": {
+    "desc": "把玩家传送到指定房间",
+    "params": {
+      "playerid": "玩家ID或玩家ID数组，0 会被忽略",
+      "roomid": "目标房间ID，需为非空字符串",
+      "msg": "传送提示文本",
+      "notFollow": "是否不跟随队友"
+    },
+    "returns": ["boolean result 是否成功发起传送"],
+    "notes": ["同一玩家 15 秒内只能传送一次", "roomid 不是非空字符串时直接返回 false"]
+  },
+  "CloudSever:UpdateDataListByKey": {
+    "desc": "注册按键的数据更新监听",
+    "params": {
+      "libvarid": "库变量ID或变量名",
+      "key": "键名",
+      "callback": "更新回调"
+    },
+    "returns": ["boolean result 是否注册成功"],
+    "notes": ["监听任务名由 libvarid 与 key 拼接，已存在同名任务时注册失败"]
+  },
+  "CloudSever:__GetMapInfo": {
+    "desc": "异步查询目标地图的房间信息并通知线程池",
+    "params": {
+      "mapid": "地图ID"
+    },
+    "notes": [
+      "结果通过 threadpool 通知 task 名 \"transmap\"..mapid，字段含 cantransm、msg、room_user_count、target_author_uin",
+      "供 TransmitToCategoryRoom 内部使用，一般不直接调用"
+    ]
+  },
+  "Status:AddBuff": {
+    "desc": "给对象添加指定状态",
+    "params": {
+      "objid": "对象ID",
+      "buffid": "状态配置ID或资源ID字符串",
+      "bufflv": "状态等级，默认 1",
+      "customticks": "自定义持续时间（秒），省略或 -1 表示使用状态定义时长"
+    },
+    "returns": ["boolean result 是否成功"],
+    "notes": ["持续时间内部乘以 20 换算为 tick"]
+  },
+  "Status:ClearAllBadBuff": {
+    "desc": "清除对象身上的全部负面状态",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": ["boolean result 是否成功"]
+  },
+  "Status:ClearAllBuff": {
+    "desc": "清除对象身上的全部状态",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": ["boolean result 是否成功"]
+  },
+  "Status:GetBuffCfg": {
+    "desc": "把状态参数规范化为引擎状态配置ID",
+    "params": {
+      "buff": "状态ID（数字编码 buffid*1000+等级、{id, lvl} 表或资源ID字符串）"
+    },
+    "returns": ["boolean result 是否解析成功", "number? cfgid 规范化后的状态配置ID"],
+    "notes": ["自定义状态直接返回状态ID，普通状态返回 buffid*1000+等级"]
+  },
+  "Status:GetBuffData": {
+    "desc": "把状态参数拆分为状态ID与等级",
+    "params": {
+      "buff": "状态ID（数字编码 buffid*1000+等级、{id, lvl} 表或资源ID字符串）"
+    },
+    "returns": ["boolean result 是否解析成功", "number? buffid 状态ID", "number? bufflv 状态等级"],
+    "notes": ["数字按除以 1000 取整与取余拆分，表读取 id 与 lvl 字段"]
+  },
+  "Status:GetBuffDefDesc": {
+    "desc": "获取状态定义中的描述文本",
+    "params": {
+      "buffid": "状态ID（编码值或资源ID字符串）"
+    },
+    "returns": ["string? desc 状态描述，查询失败时为 nil"],
+    "notes": ["内部先经 GetBuffCfg 规范化"]
+  },
+  "Status:GetBuffDefLevel": {
+    "desc": "获取状态定义中的默认等级",
+    "params": {
+      "buffid": "状态配置ID（直接传给引擎，不做编码拆分）"
+    },
+    "returns": ["number? level 默认等级"],
+    "notes": ["与 GetBuffDefName 不同，此处不做 buffid*1000+等级 的拆分"]
+  },
+  "Status:GetBuffDefName": {
+    "desc": "获取状态定义中的名称",
+    "params": {
+      "buffid": "状态ID（编码值或资源ID字符串）"
+    },
+    "returns": ["string? name 状态名称"],
+    "notes": ["内部先经 GetBuffCfg 规范化"]
+  },
+  "Status:GetBuffDefTicks": {
+    "desc": "获取状态定义中的默认持续时间",
+    "params": {
+      "buffid": "状态配置ID（直接传给引擎，不做编码拆分）"
+    },
+    "returns": ["number? ticks 持续时间（tick）"],
+    "notes": ["与 GetBuffDefName 不同，此处不做 buffid*1000+等级 的拆分"]
+  },
+  "Status:GetBuffIndex": {
+    "desc": "获取状态在对象状态列表中的索引",
+    "params": {
+      "objid": "对象ID",
+      "buffid": "状态配置ID或资源ID字符串"
+    },
+    "returns": ["number? index 状态索引"]
+  },
+  "Status:GetBuffLeftTime": {
+    "desc": "获取状态的剩余持续时间",
+    "params": {
+      "objid": "对象ID",
+      "buffid": "状态配置ID或资源ID字符串"
+    },
+    "returns": ["number? seconds 剩余秒数"],
+    "notes": ["引擎返回 tick，接口按 20 tick/秒 换算"]
+  },
+  "Status:GetBuffList": {
+    "desc": "获取对象身上的状态列表",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": ["number? num 状态数量", "table? arr 状态ID数组"],
+    "notes": ["查询失败时无返回值"]
+  },
+  "Status:GetBuffName": {
+    "desc": "获取对象身上指定状态的名称",
+    "params": {
+      "objid": "对象ID",
+      "buffid": "状态配置ID或资源ID字符串"
+    },
+    "returns": ["string? name 状态名称"]
+  },
+  "Status:GetBuffNumByBuffid": {
+    "desc": "统计对象身上指定状态的层数",
+    "params": {
+      "objid": "对象ID",
+      "buffid": "状态配置ID或资源ID字符串"
+    },
+    "returns": ["number? num 状态层数"]
+  },
+  "Status:HasBuff": {
+    "desc": "判断对象是否拥有指定等级的状态",
+    "params": {
+      "objid": "对象ID",
+      "buffid": "状态配置ID或资源ID字符串",
+      "bufflv": "状态等级，默认 1"
+    },
+    "returns": ["boolean result 是否拥有"]
+  },
+  "Status:RefreshAllBuffTick": {
+    "desc": "刷新对象身上全部状态的持续时间计时",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": ["boolean result 是否成功"]
+  },
+  "Status:RemoveBuff": {
+    "desc": "移除对象身上的指定状态",
+    "params": {
+      "objid": "对象ID",
+      "buffid": "状态配置ID或资源ID字符串"
+    },
+    "returns": ["boolean result 是否成功"]
+  },
+  "Status:ReplaceBuff": {
+    "desc": "按层数把对象的源状态替换为目标状态",
+    "params": {
+      "objid": "对象ID",
+      "buffsrc": "源状态ID",
+      "buffsrclv": "源状态等级",
+      "buffdst": "目标状态ID",
+      "buffdstlv": "目标状态等级",
+      "customticks": "新状态持续时间（秒），默认 -1 表示使用定义时长"
+    },
+    "returns": ["boolean result 是否全部替换成功"],
+    "notes": [
+      "源与目标完全相同时直接返回 true",
+      "先移除源状态，再按原有层数逐层添加目标状态，任一层失败即返回 false",
+      "源状态不存在时返回 false"
+    ]
+  },
+  "Status:SetForbidAddBuff": {
+    "desc": "设置对象是否免疫新状态",
+    "params": {
+      "objid": "对象ID",
+      "isForbid": "true 表示禁止添加状态"
+    },
+    "returns": ["boolean result 是否成功"],
+    "notes": ["内部通过添加或移除 -1 号免疫状态实现"]
+  },
+  "Team:AddTeamDieTimes": {
+    "desc": "给队伍累计一次死亡次数",
+    "params": {
+      "teamid": "队伍ID"
+    },
+    "returns": ["boolean result 是否成功"],
+    "notes": ["teamid 需在 0 到最大队伍数之间"]
+  },
+  "Team:AddTeamScore": {
+    "desc": "给队伍增加分数",
+    "params": {
+      "teamid": "队伍ID",
+      "score": "增加量，可为负数"
+    },
+    "returns": ["boolean result 是否成功"],
+    "notes": ["分数写入由房间游戏管理器完成"]
+  },
+  "Team:ChangePlayerTeam": {
+    "desc": "把玩家切换到指定队伍",
+    "params": {
+      "playerid": "玩家ID，需为正数",
+      "teamid": "目标队伍ID（0 到最大队伍数-1，或 999 表示特殊队伍）",
+      "resetAttr": "是否重置角色属性，默认 true"
+    },
+    "returns": ["boolean result 是否成功"]
+  },
+  "Team:GetNumTeam": {
+    "desc": "获取当前游戏的队伍数量",
+    "params": {},
+    "returns": ["number? num 队伍数量"],
+    "notes": ["客户端游戏对象不可用时为 nil"]
+  },
+  "Team:GetRelativeActor": {
+    "desc": "按敌对关系搜索角色",
+    "params": {
+      "uin": "玩家Uin",
+      "relativing": "关系类型（1 友好，2 敌对，3 中立，999 任意）",
+      "actortype": "角色类型（ObjType.Player、Mob 或 Role，Role 表示玩家与生物）"
+    },
+    "returns": ["number? num 数量", "table? arr 对象ID数组"],
+    "notes": ["参数类型不合法时无返回值"]
+  },
+  "Team:GetTeamCreatures": {
+    "desc": "获取队伍内全部生物的对象ID列表",
+    "params": {
+      "teamid": "队伍ID"
+    },
+    "returns": ["table? list 生物对象ID数组"],
+    "notes": ["队伍没有生物时无返回值"]
+  },
+  "Team:GetTeamDieTimes": {
+    "desc": "获取队伍的死亡次数",
+    "params": {
+      "teamid": "队伍ID"
+    },
+    "returns": ["number? times 死亡次数"]
+  },
+  "Team:GetTeamMobs": {
+    "desc": "获取队伍生物的对象ID列表",
+    "params": {
+      "teamid": "队伍ID"
+    },
+    "returns": ["number? num 数量", "table? arr 对象ID数组"],
+    "notes": ["依赖触发器全局数据管理器，只接受数字队伍ID"]
+  },
+  "Team:GetTeamPlayerNum": {
+    "desc": "获取队伍内符合条件的玩家数量",
+    "params": {
+      "teamid": "队伍ID",
+      "alive": "玩家状态（1 存活，0 阵亡，-1 全部，默认 -1）"
+    },
+    "returns": ["number? num 玩家数量"],
+    "notes": ["teamid 越界时返回 nil"]
+  },
+  "Team:GetTeamPlayers": {
+    "desc": "获取队伍内符合条件的玩家Uin列表",
+    "params": {
+      "teamid": "队伍ID",
+      "alive": "玩家状态（1 存活，0 阵亡，-1 全部，默认 -1）"
+    },
+    "returns": ["number? num 玩家数量", "table? arr 玩家Uin数组"],
+    "notes": ["teamid 越界时返回 nil"]
+  },
+  "Team:GetTeamResults": {
+    "desc": "获取队伍的结算结果",
+    "params": {
+      "teamid": "队伍ID"
+    },
+    "returns": ["number? result 结算结果值"]
+  },
+  "Team:GetTeamScore": {
+    "desc": "获取队伍当前分数",
+    "params": {
+      "teamid": "队伍ID"
+    },
+    "returns": ["number? score 分数"]
+  },
+  "Team:InitTriggerGlobalData": {
+    "desc": "初始化触发器全局数据管理器引用",
+    "params": {},
+    "notes": ["内部使用，已初始化时不会重复赋值"]
+  },
+  "Team:RandomTeamPlayer": {
+    "desc": "随机获取队伍内符合条件的玩家Uin",
+    "params": {
+      "teamid": "队伍ID",
+      "alive": "玩家状态（1 存活，0 阵亡，-1 全部，默认 -1）"
+    },
+    "returns": ["number? uin 玩家Uin，队伍无人时为 nil"]
+  },
+  "Team:SetTeamDieTimes": {
+    "desc": "设置队伍的死亡次数",
+    "params": {
+      "teamid": "队伍ID",
+      "times": "死亡次数"
+    },
+    "returns": ["boolean result 是否成功"]
+  },
+  "Team:SetTeamResults": {
+    "desc": "设置队伍结算结果并下发给客户端",
+    "params": {
+      "teamid": "队伍ID",
+      "result": "结果值，默认 0"
+    },
+    "returns": ["boolean ret 是否下发成功"],
+    "notes": ["通过任务系统向全房间广播 TEAM_RESULTS 任务"]
+  },
+  "Team:SetTeamScore": {
+    "desc": "直接设置队伍分数",
+    "params": {
+      "teamid": "队伍ID",
+      "score": "目标分数"
+    },
+    "returns": ["boolean result 是否成功"]
+  },
+  "CustomUI:AddLoaderModelAvatarPart": {
+    "desc": "为界面模型元件添加角色部件",
+    "params": {
+      "playerid": "玩家ID",
+      "uiid": "界面ID",
+      "elementid": "元件ID",
+      "idModel": "角色模型ID",
+      "ePart": "部件类型"
+    },
+    "returns": ["boolean result 是否成功"],
+    "notes": ["元件ID为空或参数类型错误时返回 false"]
+  },
+  "CustomUI:AlterLoaderModelAvatarPartColor": {
+    "desc": "修改界面模型元件角色部件的颜色",
+    "params": {
+      "playerid": "玩家ID",
+      "uiid": "界面ID",
+      "elementid": "元件ID",
+      "idModel": "角色模型ID",
+      "ePart": "部件类型",
+      "aMaskToColors": "遮罩到颜色的映射表"
+    },
+    "returns": ["boolean result 是否成功"],
+    "notes": ["元件ID为空或 aMaskToColors 不是表时返回 false"]
+  },
+  "CustomUI:ChangeAvatorModel": {
+    "desc": "把角色模型ID转换为引擎可用的模型数据",
+    "params": {
+      "avatorval": "角色模型ID"
+    },
+    "returns": ["string? modeldata 模型JSON数据，未找到时为 nil"],
+    "notes": ["首次调用会缓存 ChangeModelManager 中的全部角色模型数据"]
+  },
+  "CustomUI:EnableSetGunMagazine": {
+    "desc": "开启或关闭设置枪械弹匣的能力",
+    "params": {
+      "playerid": "玩家ID",
+      "b": "true 表示允许"
+    },
+    "returns": ["boolean result 固定为 true"],
+    "notes": ["直接调用引擎全局 EnableSetGunMagazine，不校验玩家"]
+  },
+  "CustomUI:GetAvatarPartColors": {
+    "desc": "获取角色模型各部件颜色配置",
+    "params": {
+      "ePart": "模型ID（引擎按该模型查询部件RGBA配置）"
+    },
+    "returns": ["table? colors 部件颜色表，未配置时为 nil"],
+    "notes": ["参数名沿用 ePart，实际引擎按模型ID查询 StoreAvatarData"]
+  },
+  "CustomUI:GetHorsePreviewIcon": {
+    "desc": "获取坐骑预览图标的资源名",
+    "params": {
+      "horseid": "坐骑ID"
+    },
+    "returns": ["string value 图标资源名，参数非数字时为空串"]
+  },
+  "CustomUI:GetPlayerByUin": {
+    "desc": "按Uin查找玩家对象",
+    "params": {
+      "objid": "玩家Uin"
+    },
+    "returns": ["userdata? player 玩家对象，未找到时为 nil"]
+  },
+  "CustomUI:GetSkinDefIcon": {
+    "desc": "获取皮肤默认图标的资源名",
+    "params": {
+      "skinid": "皮肤ID"
+    },
+    "returns": ["string value 图标资源名，参数非数字时为空串"]
+  },
+  "CustomUI:GetSkinPreviewIcon": {
+    "desc": "获取皮肤预览图标的资源名",
+    "params": {
+      "skinid": "皮肤ID"
+    },
+    "returns": ["string value 图标资源名，参数非数字时为空串"]
+  },
+  "CustomUI:GlobalToLocal": {
+    "desc": "把全局屏幕坐标换算为界面元件局部坐标",
+    "params": {
+      "reportid": "同步报告ID，换算结果回传给主机",
+      "playerid": "玩家ID",
+      "uiid": "界面ID",
+      "elementid": "元件ID",
+      "x": "全局X坐标",
+      "y": "全局Y坐标"
+    },
+    "returns": ["boolean result 是否已发起换算"],
+    "notes": ["换算结果通过 DataSycMgr 上报 {x, y}，失败时上报空表", "参数非法或元件ID为空时返回 false"]
+  },
+  "CustomUI:IsValidTarget": {
+    "desc": "判断对象能否作为界面3D绑定目标",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": ["boolean result 是否可作为绑定目标"]
+  },
+  "CustomUI:SetBounceback": {
+    "desc": "设置元件是否开启回弹效果",
+    "params": {
+      "playerid": "玩家ID",
+      "uiid": "界面ID",
+      "elementid": "元件ID",
+      "bOpen": "是否开启"
+    },
+    "returns": ["boolean result 是否成功"]
+  },
+  "CustomUI:SetFloatDamageTxtEx": {
+    "desc": "在屏幕坐标处播放飘字伤害文本",
+    "params": {
+      "playerid": "玩家ID",
+      "elementid": "元件ID",
+      "x": "屏幕X坐标",
+      "y": "屏幕Y坐标",
+      "text": "显示文本",
+      "offsetx": "起始X偏移，默认 0",
+      "offsety": "起始Y偏移，默认 0",
+      "movex": "第一段X位移，默认 0",
+      "movey": "第一段Y位移，默认 0",
+      "showtime": "第一段时长（秒），默认 0.2",
+      "movex2": "第二段X位移，默认 0",
+      "movey2": "第二段Y位移，默认 0",
+      "showtime2": "第二段时长（秒），默认 0.5"
+    },
+    "returns": ["boolean result 是否已开始播放"],
+    "notes": ["坐标按 UIFrameMgr 屏幕缩放换算", "在子线程中分两段播放并淡出，调用后立即返回", "UIEditorDef 不可用时返回 false"]
+  },
+  "CustomUI:SetSpineTouch": {
+    "desc": "设置Spine元件是否响应点击",
+    "params": {
+      "playerid": "玩家ID",
+      "uiid": "界面ID",
+      "elementid": "元件ID",
+      "bOpen": "是否响应"
+    },
+    "returns": ["boolean result 是否成功"]
+  },
+  "CustomUI:SyncPicCheckStatus": {
+    "desc": "同步玩家照片的审核状态",
+    "params": {
+      "playerid": "玩家ID",
+      "uin": "玩家Uin（字符串）",
+      "photoInfos": "照片信息表：进入游戏时为 {isClientEnterGame=true, photos={{resId, openSvr}}}，否则为 {resId, openSvr}"
+    },
+    "returns": ["boolean? result 是否已处理，数据缺失时为 nil"],
+    "notes": ["依赖 FlowerSeaMapPhotoData 实例，未初始化时直接返回 nil"]
+  },
+  "CustomUI:TurnSliderToIndex": {
+    "desc": "把滑动条切换到指定索引",
+    "params": {
+      "playerid": "玩家ID",
+      "uiid": "界面ID",
+      "elementid": "元件ID",
+      "index": "目标索引，需大于等于 0"
+    },
+    "returns": ["boolean result 固定为 false，实际切换已直接作用到界面"],
+    "notes": ["引擎调用完成后仍返回 false，不能以返回值判断是否生效"]
+  },
+  "Task:AddPlayerInitTaskChain": {
+    "desc": "注册玩家初始化时自动开始的taskchain",
+    "params": {
+      "name": "任务链名称"
+    },
+    "returns": ["boolean result 是否注册成功"],
+    "notes": ["任务链配置需先通过 SetTaskChainCfg 注册"]
+  },
+  "Task:CloseNativePlayerGuide": {
+    "desc": "关闭原生新手引导",
+    "params": {},
+    "returns": ["boolean result 是否成功"]
+  },
+  "Task:GetIsHasSingPlayerGuide": {
+    "desc": "判断是否已配置单人新手引导",
+    "params": {},
+    "returns": ["boolean value 是否存在引导"]
+  },
+  "Task:GetIsInSingPlayerGuide": {
+    "desc": "判断当前是否处于单人新手引导中",
+    "params": {},
+    "returns": ["boolean value 是否处于引导中"]
+  },
+  "Task:NextTask": {
+    "desc": "推进玩家任务链中的下一个task",
+    "params": {
+      "playerId": "玩家ID",
+      "name": "任务链名称",
+      "isFinish": "是否把当前task标记为完成"
+    },
+    "notes": ["玩家不存在或没有 Task 组件时静默忽略"]
+  },
+  "Task:OpenMainTaskForTaskID": {
+    "desc": "打开主线任务追踪面板",
+    "params": {
+      "taskID": "任务ID（当前实现未使用）"
+    },
+    "notes": ["固定调用 AdventureMode_OperCtrlPanel 打开任务追踪"]
+  },
+  "Task:PassSingPlayerGuide": {
+    "desc": "跳过单人新手引导",
+    "params": {},
+    "returns": ["boolean result 是否成功"]
+  },
+  "Task:PassTaskChain": {
+    "desc": "让玩家直接通过整个taskchain",
+    "params": {
+      "playerId": "玩家ID",
+      "name": "任务链名称"
+    },
+    "notes": ["玩家不存在或没有 Task 组件时静默忽略"]
+  },
+  "Task:SetSingPlayerGuide": {
+    "desc": "配置单人新手引导",
+    "params": {
+      "name": "引导名称",
+      "cfg": "引导配置表"
+    },
+    "returns": ["boolean result 是否成功"],
+    "notes": ["只检查任务管理器是否存在，不校验参数"]
+  },
+  "Task:SetTaskCfg": {
+    "desc": "注册task配置",
+    "params": {
+      "name": "任务名称",
+      "cfg": "任务配置表"
+    },
+    "returns": ["boolean result 是否注册成功"],
+    "notes": ["name 或 cfg 为空时返回 false"]
+  },
+  "Task:SetTaskChainCfg": {
+    "desc": "注册taskchain配置",
+    "params": {
+      "name": "任务链名称",
+      "cfg": "任务链配置表"
+    },
+    "returns": ["boolean result 是否注册成功"],
+    "notes": ["name 或 cfg 为空时返回 false"]
+  },
+  "Task:ShowPassGuideMessageBox": {
+    "desc": "弹出跳过引导的确认框",
+    "params": {
+      "tips": "提示文本，默认空串",
+      "okFn": "左侧按钮回调",
+      "cancellFn": "右侧按钮回调"
+    },
+    "notes": ["使用 MessageBox(5) 弹窗，回调通过 pcall 调用，异常不会抛给调用方"]
+  },
+  "Task:StartTaskChain": {
+    "desc": "为玩家开始指定taskchain",
+    "params": {
+      "playerId": "玩家ID",
+      "name": "任务链名称"
+    },
+    "notes": ["玩家没有 Task 组件时会自动添加"]
+  },
+  "Task:StopTaskChain": {
+    "desc": "停止玩家正在进行的taskchain",
+    "params": {
+      "playerId": "玩家ID",
+      "name": "任务链名称"
+    },
+    "notes": ["玩家不存在或没有 Task 组件时静默忽略"]
+  },
+  "OfficeUtils:CheckSummerActActivate": {
+    "desc": "检查夏日活动是否已激活",
+    "params": {
+      "callback": "回调函数（当前实现未使用）",
+      "actid": "活动ID"
+    },
+    "returns": ["boolean result 固定为 false"],
+    "notes": ["当前版本为空实现"]
+  },
+  "OfficeUtils:DecodeBase64": {
+    "desc": "对Base64字符串进行解码",
+    "params": {
+      "str_": "待解码字符串"
+    },
+    "returns": ["string result 解码后的字符串"],
+    "notes": ["直接调用引擎 ns_http 的 base64_decode"]
+  },
+  "OfficeUtils:FishReq": {
+    "desc": "向FishServer查询信息",
+    "params": {
+      "querytype": "查询类型",
+      "param": "查询参数",
+      "callfun": "结果回调"
+    },
+    "notes": ["FishServer 实例不存在时不执行任何操作"]
+  },
+  "OfficeUtils:GeneralTaskReported": {
+    "desc": "上报通用任务进度",
+    "params": {
+      "uin": "玩家Uin",
+      "t": "任务类型（21 到 35）",
+      "id1": "目标ID，字符串时会按任务类型映射为搜索类型ID",
+      "id2": "进度参数",
+      "id3": "附加参数"
+    },
+    "returns": ["boolean result 是否上报成功"],
+    "notes": ["字符串 id1 未匹配到配置时以 -1 上报并返回 false", "数字 id1 直接透传"]
+  },
+  "OfficeUtils:GetGlobalTaskCfg": {
+    "desc": "请求全局任务配置",
+    "params": {
+      "callback": "配置回调"
+    },
+    "notes": ["通过 VisualCfgMgr 请求 mod_global_task 表"]
+  },
+  "OfficeUtils:MunReq": {
+    "desc": "向MunServer查询信息",
+    "params": {
+      "querytype": "查询类型",
+      "params": "查询参数",
+      "callfun": "结果回调"
+    },
+    "notes": ["MunServer 实例不存在时不执行任何操作"]
+  },
+  "OfficeUtils:ReportActivateData": {
+    "desc": "上报活动激活数据",
+    "params": {
+      "actid": "活动ID"
+    },
+    "notes": ["当前版本为空实现，可变参数不会被使用"]
+  },
+  "OfficeUtils:ReportEvent": {
+    "desc": "上报自定义埋点事件",
+    "params": {
+      "sID": "事件一级ID",
+      "cID": "事件二级ID",
+      "oID": "事件三级ID",
+      "event": "事件名",
+      "eventTb": "事件参数表",
+      "uin": "玩家Uin，默认当前账号"
+    },
+    "returns": ["boolean result 是否上报成功"],
+    "notes": [
+      "服务器构建下直接返回 true",
+      "会向 eventTb 补充 cid、standby3 到 standby6、standby10 等房间与位置信息",
+      "standReportEvent 不存在时返回 false"
+    ]
+  },
+  "OfficeUtils:SetActivateData": {
+    "desc": "设置活动激活数据",
+    "params": {
+      "actid": "活动ID"
+    },
+    "notes": ["当前版本为空实现，可变参数不会被使用"]
+  },
+  "OfficeUtils:ZombieKill": {
+    "desc": "记录僵尸击杀",
+    "params": {
+      "uin": "玩家Uin"
+    },
+    "notes": ["当前版本为空实现"]
+  },
+  "OfficeUtils:ZombieReportData": {
+    "desc": "上报僵尸玩法数据",
+    "params": {
+      "uin": "玩家Uin"
+    },
+    "notes": ["当前版本为空实现"]
+  },
+  "Listen:GetVarRunDataForInnerUI": {
+    "desc": "获取变量的运行数据供内置界面使用",
+    "params": {
+      "varid": "变量ID",
+      "playerid": "玩家ID，该玩家无数据时回退到 0 号数据"
+    },
+    "returns": ["table? data 运行数据；表类型变量会把列索引映射为列ID"],
+    "notes": ["变量未被监听时返回 nil"]
+  },
+  "Listen:GetVarTabColID": {
+    "desc": "获取表变量指定列的列ID",
+    "params": {
+      "varid": "变量ID",
+      "index": "列序号"
+    },
+    "returns": ["number colid 列ID"],
+    "notes": ["变量未监听时取到 nil 索引会直接报错"]
+  },
+  "Listen:InsertVarLinsten": {
+    "desc": "注册变量监听并回放缓存消息",
+    "params": {
+      "varid": "变量ID",
+      "callback": "变更回调，参数为 code、value、row、col",
+      "colids": "需要监听的列ID数组，省略表示监听整个变量",
+      "sync": "是否同步到客户端",
+      "filtertxtcolids": "需要过滤敏感词的列ID数组"
+    },
+    "returns": ["boolean result 是否注册成功"],
+    "notes": [
+      "同一回调重复注册不会重复添加",
+      "注册时会先回放该变量在缓存池中的消息",
+      "code：0 删除，1 新增，2 修改，3 全量"
+    ]
+  },
+  "Listen:IsListen": {
+    "desc": "判断变量是否已被监听",
+    "params": {
+      "varid": "变量ID"
+    },
+    "returns": ["boolean? result 是否已监听，未监听时无返回值", "table? colids 已监听的列信息"],
+    "notes": ["监听整表时只返回 true，不返回列信息"]
+  },
+  "Listen:OnGraphicsParamParamChange": {
+    "desc": "响应图形参数变更并刷新界面",
+    "params": {
+      "objid": "对象ID",
+      "data": "变更数据，data[1] 为字符串时更新文本，为数字时更新进度"
+    },
+    "notes": ["由图形监听回调内部调用"]
+  },
+  "Listen:RemoveVarLinsten": {
+    "desc": "注销变量监听",
+    "params": {
+      "varid": "变量ID"
+    },
+    "returns": ["boolean result 是否存在并移除成功"]
+  },
+  "Listen:SnycGraphicsInfo2Client": {
+    "desc": "把图形信息同步给客户端",
+    "params": {},
+    "notes": ["直接转调 Service.Graphics 的同名方法"]
+  },
+  "Listen:VarRunDataRecord": {
+    "desc": "记录并分发变量运行数据变更",
+    "params": {
+      "playerId": "玩家ID，默认 0 表示公共数据",
+      "varid": "变量ID",
+      "code": "变更类型：0 删除，1 新增，2 修改，3 全量",
+      "value": "变更值",
+      "index1": "行索引",
+      "index2": "列索引"
+    },
+    "notes": [
+      "变量尚未监听时消息先进入缓存池，注册监听后回放",
+      "列级监听会对 filtertxtcolids 中的列做敏感词过滤"
+    ]
+  },
+  "Mod:GetAssetIdByCfg": {
+    "desc": "按对象类型与配置ID获取资源ID",
+    "params": {
+      "objType": "对象类型（ObjType）",
+      "cfgId": "配置ID"
+    },
+    "returns": ["string? assetId 资源ID，未分配时为 nil"],
+    "notes": ["道具实际为方块时会自动按方块类型查询", "cfgId 非数字或 ModPackMgr 不存在时返回 nil"]
+  },
+  "Mod:GetAssetIdByObjId": {
+    "desc": "按对象ID获取资源ID",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": ["string? assetId 资源ID，未分配时为 nil"],
+    "notes": ["引擎返回空串时转为 nil"]
+  },
+  "Mod:GetAvatarHeadInfo": {
+    "desc": "生成并缓存角色头像信息",
+    "params": {
+      "avatarInfo": "角色外观信息",
+      "cacheId": "缓存ID",
+      "filename": "输出文件名，相对 data/ugc/local/avatar/"
+    },
+    "returns": ["any? result 引擎返回的头像数据，无法查询时为 nil"],
+    "notes": ["首次调用会自动创建 data/ugc/local/avatar/ 目录", "UIActorBodyManager 或 avatarInfo 缺失时返回 nil"]
+  },
+  "Mod:GetCustomAssetId": {
+    "desc": "获取自定义模组资源的资源ID",
+    "params": {
+      "objType": "对象类型（ObjType）",
+      "cfgId": "配置ID，需大于 0"
+    },
+    "returns": ["string? assetId 资源ID，非自定义资源时为 nil"],
+    "notes": ["道具实际为方块时会按方块类型查询", "仅当引擎判定为 Lua 可用的自定义资源时返回"]
+  },
+  "Mod:GetCustomAssetIdByObjId": {
+    "desc": "按对象ID获取自定义资源ID",
+    "params": {
+      "objid": "对象ID",
+      "objType": "对象类型（ObjType）"
+    },
+    "returns": ["string|number? assetId 自定义资源ID，非自定义资源时回退为配置ID"],
+    "notes": ["Projectile 与 DropItem 会先取道具ID并按 Item 类型处理", "对象不存在时返回 nil"]
+  },
+  "Mod:GetDefIdByCfg": {
+    "desc": "把资源ID或数字转换为配置ID",
+    "params": {
+      "inputId": "配置ID（数字或数字字符串）或资源ID字符串"
+    },
+    "returns": ["number? cfgId 配置ID，无法转换时为 nil"],
+    "notes": ["数字字符串按 tonumber 解析，其余按资源ID查询已分配ID"]
+  },
+  "Mod:SetWeatherType": {
+    "desc": "设置当前天气类型",
+    "params": {
+      "wtype": "天气类型"
+    },
+    "returns": ["boolean result 是否设置成功"],
+    "notes": ["ModPackMgr 不存在时直接返回 true"]
+  },
+  "Log:GetAllMessage": {
+    "desc": "把多个参数拼接为一条日志文本",
+    "params": {},
+    "returns": ["string result 以逗号拼接的文本"],
+    "notes": ["表会递归序列化，userdata 会尝试转换为数组", "表最多展开 100 项"]
+  },
+  "Log:Print": {
+    "desc": "按当前日志级别输出日志",
+    "params": {},
+    "notes": ["仅在日志级别大于等于 5 时输出", "移动端走 MiniLogError，PC 端走 MiniLog"]
+  },
+  "Log:PrintTable": {
+    "desc": "输出表内容",
+    "params": {},
+    "notes": ["当前版本为空实现，不输出任何内容"]
+  },
+  "Log:RefreshOpenLog": {
+    "desc": "开关开发者日志输出",
+    "params": {
+      "isOpen": "是否开启"
+    }
+  },
+  "Log:ReportError": {
+    "desc": "上报脚本错误",
+    "params": {
+      "modId": "模组ID",
+      "msg": "错误信息"
+    },
+    "notes": ["当前版本为空实现"]
+  },
+  "Log:TableToString": {
+    "desc": "把表递归格式化为可读字符串",
+    "params": {
+      "value": "待格式化的表",
+      "maxItems": "最多展开的项数，默认 100",
+      "indent": "初始缩进层级，默认 0"
+    },
+    "returns": ["string result 格式化文本"],
+    "notes": ["字符串用 %q 加引号，嵌套表按四空格缩进"]
+  },
+  "ClientPositive:DealAutoTestCmd": {
+    "desc": "执行客户端自动化测试指令",
+    "params": {
+      "reportid": "同步报告ID",
+      "uin": "玩家Uin，作为首个参数传给被测函数",
+      "cmpName": "组件名",
+      "fnName": "组件方法名"
+    },
+    "notes": [
+      "仅在 IsCanOpenAutoTest 为真时执行",
+      "世界对象上不存在该组件时会自动添加",
+      "结果通过 DataSycMgr 回传主机，表结果会再包一层"
+    ]
+  },
+  "ClientPositive:ExportReportV2": {
+    "desc": "导出自动化测试报告",
+    "params": {
+      "uin": "玩家Uin",
+      "runResults": "运行结果",
+      "logs": "日志"
+    },
+    "notes": ["由 AutoTestLogMgr 负责导出"]
+  },
+  "ClientPositive:OnDispathTriggerNomalEvent": {
+    "desc": "派发普通触发事件",
+    "params": {
+      "content": "事件内容，eventmsg 字段为事件名"
+    },
+    "returns": ["boolean? result 是否已派发"],
+    "notes": ["事件名不在客户端可派发列表时返回 false", "解析 observer 事件失败时无返回值"]
+  },
+  "ClientPositive:OnSyncInscriptionTableUnlockSpellList": {
+    "desc": "同步铭文台解锁的法术列表",
+    "params": {
+      "uin": "玩家Uin",
+      "unlockSpellList": "已解锁法术列表"
+    },
+    "returns": ["boolean result 是否处理成功"],
+    "notes": ["uin 非当前账号或参数不是表时返回 false", "铭文台界面未打开时直接返回 true"]
+  },
+  "ClientPositive:OnSyncServerTime": {
+    "desc": "同步服务器时间到客户端",
+    "params": {
+      "uin": "玩家Uin",
+      "data": "服务器时间数据"
+    }
+  }
+}

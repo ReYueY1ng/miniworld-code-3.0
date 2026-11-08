@@ -1,0 +1,2652 @@
+{
+  "Player:ActorHurt": {
+    "desc": "让一个角色对目标角色造成指定类型的伤害",
+    "params": {
+      "objid": "攻击方角色对象ID",
+      "targetid": "受击方角色对象ID",
+      "damage": "伤害值，需大于 0",
+      "attacktype": "攻击类型枚举，默认 ATTACK_FIXED",
+      "ignoreResist": "是否忽略抗性，默认 false",
+      "ignoreTriggerEvent": "是否忽略触发事件"
+    },
+    "returns": [
+      "boolean result 是否成功造成伤害"
+    ],
+    "notes": [
+      "目标需为可受击的角色；常规受击组件失败后会再尝试基础受击组件"
+    ]
+  },
+  "Player:ActorHurtArea": {
+    "desc": "对指定区域内的对象造成范围伤害",
+    "params": {
+      "objid": "施法角色对象ID",
+      "areaid": "区域ID",
+      "damage": "伤害值",
+      "attacktype": "攻击类型",
+      "ignoreList": "忽略对象列表",
+      "ignoreResist": "是否忽略抗性",
+      "ignoreTriggerEvent": "是否忽略触发事件"
+    },
+    "notes": [
+      "当前版本实现为空，调用不会产生任何效果"
+    ]
+  },
+  "Player:AddHp": {
+    "desc": "为角色增加或扣除血量",
+    "params": {
+      "objid": "角色对象ID",
+      "hp": "血量变化值，负数为扣血"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:AddModAttrib": {
+    "desc": "按模组属性类型为角色叠加属性值",
+    "params": {
+      "objid": "角色对象ID",
+      "attrtype": "模组属性类型",
+      "value": "要叠加的属性值"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:AddTags": {
+    "desc": "为对象添加标签并增加引用计数",
+    "params": {
+      "objid": "对象ID",
+      "tags": "标签名或标签数组",
+      "icount": "引用计数增量，默认 1"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "对象没有标签组件时会自动添加"
+    ]
+  },
+  "Player:AppendSpeed": {
+    "desc": "为乘坐中的玩家追加速度",
+    "params": {
+      "objid": "玩家Uin",
+      "x": "X 方向速度",
+      "y": "Y 方向速度",
+      "z": "Z 方向速度"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:BanUseStrength": {
+    "desc": "禁止玩家使用体力",
+    "params": {
+      "objid": "玩家Uin"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "会同时关闭体力食物条显示与兼容体力开关"
+    ]
+  },
+  "Player:CapturePlayer": {
+    "desc": "将目标对象捕获到指定坐标",
+    "params": {
+      "playerid": "玩家Uin",
+      "targetId": "被捕获对象ID",
+      "x": "目标X坐标",
+      "y": "目标Y坐标",
+      "z": "目标Z坐标"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:ChangActorMoveType": {
+    "desc": "切换角色或玩家的移动方式",
+    "params": {
+      "objid": "对象ID",
+      "moveMode": "移动模式枚举：Walking/Swimming 转为站立，Flying 转为飞行"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "玩家ID会转调玩家移动类型接口，其余角色走 AI 移动模式管理器"
+    ]
+  },
+  "Player:ChangeCustomModel": {
+    "desc": "将对象模型换为指定自定义模型",
+    "params": {
+      "objid": "对象ID",
+      "modleName": "模型标识，如 itemprefab_<id>、blockprefab_<id>、mobprefab_<id>、entityprefab_<id>、templateprefab_<id>、ModelCompObj_<objid>、ItemInstance_<id>、playerskin_<uin>，或普通模型路径"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "空字符串返回 false；playerskin 前缀仅当对应玩家存在时才按旧流程处理"
+    ]
+  },
+  "Player:ChangeSkinTextureForMod": {
+    "desc": "为模组异步替换玩家部件皮肤贴图",
+    "params": {
+      "playerid": "玩家Uin",
+      "skinPath": "皮肤贴图资源路径",
+      "partModelName": "部件模型名，字符串或用字符串数组表示多个部件",
+      "hideFace": "是否隐藏脸部，必须为 boolean",
+      "isAvatar": "是否按 Avatar 模型处理"
+    },
+    "returns": [
+      "boolean? result 是否成功，参数类型非法时不返回"
+    ]
+  },
+  "Player:ChangeViewModeSurvive": {
+    "desc": "切换主玩家生存模式下的视角模式",
+    "params": {
+      "objid": "玩家Uin，必须是当前主玩家",
+      "viewmode": "视角模式",
+      "islock": "是否锁定视角"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "仅对当前主玩家生效"
+    ]
+  },
+  "Player:CheckCustomOrderID": {
+    "desc": "向服务器查询自定义订单ID是否已使用",
+    "params": {
+      "call_back": "回调函数，参数为返回数据 table",
+      "uin": "玩家Uin",
+      "orderids": "订单ID，字符串或字符串数组"
+    },
+    "notes": [
+      "异步请求；参数不合法时不回调"
+    ]
+  },
+  "Player:CheckGunType": {
+    "desc": "判断角色手持枪械的枪械类型",
+    "params": {
+      "objid": "角色对象ID",
+      "gunType": "要匹配的枪械类型，0 表示任意枪械"
+    },
+    "returns": [
+      "boolean result 检查结果"
+    ],
+    "notes": [
+      "当前手持道具不是自定义枪械时返回 false"
+    ]
+  },
+  "Player:CheckMapShopOrder": {
+    "desc": "向服务器校验地图商店订单",
+    "params": {
+      "call_back": "回调函数，参数为 code、orderid、data",
+      "uin": "玩家Uin",
+      "orderid": "订单ID"
+    },
+    "returns": [
+      "boolean result 是否成功发起请求"
+    ]
+  },
+  "Player:CheckRealOwnerIsDeveloper": {
+    "desc": "判断真实房主是否为开发者",
+    "returns": [
+      "boolean result 检查结果"
+    ],
+    "notes": [
+      "结果会缓存；独立服务器直接视为开发者；模组包地图取模组作者 Uin；首次异步查询未完成时返回 false"
+    ]
+  },
+  "Player:CheckSyncAction": {
+    "desc": "检查并同步脚本控制角色的动作",
+    "params": {
+      "actor": "角色对象"
+    },
+    "notes": [
+      "仅对由脚本控制且存在 transform 的角色生效"
+    ]
+  },
+  "Player:ClearActorWithId": {
+    "desc": "按配置ID清除场景中的全部角色",
+    "params": {
+      "actorid": "角色配置ID，也可传资源ID字符串",
+      "bkill": "是否击杀，默认 false，传非 boolean 时按 true 处理",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:ClearTags": {
+    "desc": "清空对象的全部标签",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:ClearTaskDirtyState": {
+    "desc": "清除任务子系统的脏状态标记",
+    "returns": [
+      "boolean result 固定返回 true"
+    ]
+  },
+  "Player:CloseGunUpgradeFrame": {
+    "desc": "关闭玩家的枪械升级界面",
+    "params": {
+      "uin": "玩家Uin"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:CloseRoleAttrFrame": {
+    "desc": "关闭角色属性界面",
+    "params": {
+      "uin": "玩家Uin"
+    },
+    "returns": [
+      "boolean result 固定返回 true"
+    ]
+  },
+  "Player:CompareMainModel": {
+    "desc": "判断两个外观是否指向同一主模型",
+    "params": {
+      "facade1": "外观标识1",
+      "facade2": "外观标识2"
+    },
+    "returns": [
+      "boolean result 是否相同"
+    ]
+  },
+  "Player:DelMapShopBackOrder": {
+    "desc": "删除地图商店未完成订单并退还道具",
+    "params": {
+      "uin": "玩家Uin",
+      "scene": "场景标识"
+    },
+    "notes": [
+      "异步；仅处理本人、状态为1且房间类型匹配的订单；背包放不下的部分掉落在玩家位置"
+    ]
+  },
+  "Player:DisMountActor": {
+    "desc": "让骑乘中的角色下坐骑",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:DropActor": {
+    "desc": "让角色被丢出或抛出",
+    "params": {
+      "objid": "角色对象ID",
+      "dir": "抛出方向",
+      "isThrow": "是否投掷",
+      "speed": "抛出速度",
+      "hasInertance": "是否带惯性"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "仅对存活角色生效；投掷时会播放抛出动作"
+    ]
+  },
+  "Player:EmitByShooter": {
+    "desc": "由发射者发射指定发射物",
+    "params": {
+      "objid": "发射者对象ID",
+      "emitid": "发射物ID，可传配置ID字符串"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:EmitByShooterTarget": {
+    "desc": "由发射者朝目标对象发射发射物",
+    "params": {
+      "objidA": "发射者对象ID",
+      "emitid": "发射物ID",
+      "objidB": "目标对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "目标无效或与发射者相同时退化为普通发射"
+    ]
+  },
+  "Player:EmitByShooterTargetPos": {
+    "desc": "由发射者朝指定位置发射发射物",
+    "params": {
+      "objid": "发射者对象ID",
+      "emitid": "发射物ID",
+      "targetPos": "目标位置"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:EnableUpdateRun": {
+    "desc": "开启或关闭主玩家的跑动状态更新",
+    "params": {
+      "uin": "玩家Uin",
+      "enable": "是否启用"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "仅对当前主玩家生效"
+    ]
+  },
+  "Player:EscapePickup": {
+    "desc": "让角色挣脱被拾取或被抓取状态",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:FindLevelNearestBlock": {
+    "desc": "查找角色同层最近的指定方块",
+    "params": {
+      "objid": "角色对象ID",
+      "blockid": "方块ID，可传资源ID字符串",
+      "blockRange": "搜索范围"
+    },
+    "returns": [
+      "number? x 方块X坐标",
+      "number? y 方块Y坐标",
+      "number? z 方块Z坐标"
+    ],
+    "notes": [
+      "未找到时返回 nil"
+    ]
+  },
+  "Player:FindLevelRandomsortBlock": {
+    "desc": "在同层随机顺序查找指定范围内的方块",
+    "params": {
+      "objid": "角色对象ID",
+      "blockid": "方块ID，可传资源ID字符串",
+      "blockRange": "搜索范围"
+    },
+    "returns": [
+      "number? x 方块X坐标",
+      "number? y 方块Y坐标",
+      "number? z 方块Z坐标"
+    ],
+    "notes": [
+      "未找到时返回 nil"
+    ]
+  },
+  "Player:FindNearestBlock": {
+    "desc": "查找角色附近最近的指定方块",
+    "params": {
+      "objid": "角色对象ID",
+      "blockid": "方块ID，可传资源ID字符串",
+      "blockRange": "搜索范围"
+    },
+    "returns": [
+      "number? x 方块X坐标",
+      "number? y 方块Y坐标",
+      "number? z 方块Z坐标"
+    ],
+    "notes": [
+      "未找到时返回 nil"
+    ]
+  },
+  "Player:FinishMapShopOrder": {
+    "desc": "将地图商店订单标记为已完成",
+    "params": {
+      "ishost": "是否为房主，房主端会同步到服务器",
+      "uin": "玩家Uin",
+      "orderid": "订单ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "房主且非独立服务器时通过数据同步包下发"
+    ]
+  },
+  "Player:GainItems": {
+    "desc": "让玩家获得指定道具",
+    "params": {
+      "objid": "玩家Uin",
+      "itemid": "道具ID，可传资源ID字符串",
+      "num": "数量",
+      "prioritytype": "优先存放位置：1 快捷栏，2 背包栏"
+    },
+    "returns": [
+      "number? num 实际获得的数量"
+    ],
+    "notes": [
+      "背包已满时实际数量可能少于请求数量；失败时不返回值"
+    ]
+  },
+  "Player:GenMapShopBaseInfo": {
+    "desc": "构造地图商店下单信息",
+    "params": {
+      "uin": "玩家Uin",
+      "scene": "场景标识",
+      "payment": "支付货币：MiniBean/MiniPoint/MiniCoin",
+      "paynum": "支付数量",
+      "itemids": "道具ID或道具ID数组",
+      "itemnums": "道具数量或数量数组",
+      "extends": "扩展信息，会写入订单并附加 scene 与 roomtype",
+      "call_back": "回调函数"
+    },
+    "returns": [
+      "table|boolean info 订单信息，参数非法时为 false"
+    ],
+    "notes": [
+      "返回 table 含 payid、paynum、uin、goods(Base64 JSON)、goods_md5、orderid"
+    ]
+  },
+  "Player:GetActionAttrState": {
+    "desc": "查询角色某个动作属性开关状态",
+    "params": {
+      "objid": "角色对象ID",
+      "actionattr": "动作属性"
+    },
+    "returns": [
+      "boolean? value 开关状态"
+    ],
+    "notes": [
+      "对象不存在时返回 nil"
+    ]
+  },
+  "Player:GetActorDir": {
+    "desc": "获取角色的朝向角",
+    "params": {
+      "objid": "角色对象ID",
+      "itype": "朝向类型：FaceType.Yaw 取偏航角，FaceType.Pitch 取俯仰角"
+    },
+    "returns": [
+      "number? value 角度值"
+    ],
+    "notes": [
+      "类型非法时返回 nil"
+    ]
+  },
+  "Player:GetActorFacade": {
+    "desc": "获取角色的外观标识",
+    "params": {
+      "objid": "对象ID",
+      "bhasequip": "是否包含装备外观，仅对玩家有效"
+    },
+    "returns": [
+      "string? facade 外观标识"
+    ],
+    "notes": [
+      "自定义模型返回 ModelComp_ 前缀数据；玩家优先取商城模型；失败返回 nil"
+    ]
+  },
+  "Player:GetActorMovementMode": {
+    "desc": "获取角色的移动模式",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number mode 移动模式"
+    ],
+    "notes": [
+      "角色不存在时返回 nil"
+    ]
+  },
+  "Player:GetActorPermissions": {
+    "desc": "获取角色某项能力权限的开关状态",
+    "params": {
+      "objid": "角色对象ID",
+      "ability": "能力枚举"
+    },
+    "returns": [
+      "boolean value 是否拥有该权限"
+    ]
+  },
+  "Player:GetAttr": {
+    "desc": "获取玩家某项属性值",
+    "params": {
+      "objid": "玩家Uin",
+      "attrtype": "属性类型"
+    },
+    "returns": [
+      "number? value 属性值"
+    ],
+    "notes": [
+      "读取失败时不返回值"
+    ]
+  },
+  "Player:GetBodySize": {
+    "desc": "获取角色的碰撞体宽高",
+    "params": {
+      "objid": "角色对象ID",
+      "bodySizeType": "身体尺寸类型，默认 0"
+    },
+    "returns": [
+      "number? w 宽度，单位米",
+      "number? h 高度，单位米"
+    ],
+    "notes": [
+      "角色不存在时返回 nil"
+    ]
+  },
+  "Player:GetBoundSzie": {
+    "desc": "获取角色包围盒尺寸",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "table? size 含 x、y、z 的包围盒尺寸"
+    ],
+    "notes": [
+      "角色不存在时返回 nil"
+    ]
+  },
+  "Player:GetBtreeVarValue": {
+    "desc": "读取角色行为树黑板变量",
+    "params": {
+      "objid": "角色对象ID",
+      "varid": "行为树变量ID"
+    },
+    "returns": [
+      "any value 变量值"
+    ],
+    "notes": [
+      "黑板 ID 无效、变量不存在或为数组时返回 nil"
+    ]
+  },
+  "Player:GetBuyItemRecoder": {
+    "desc": "查询玩家购买开发者商店道具的记录",
+    "params": {
+      "call_back": "回调函数，参数为 道具ID/资源ID 到数量的映射 table",
+      "uin": "玩家Uin",
+      "itemids": "道具ID、资源ID，或其数组"
+    },
+    "returns": [
+      "boolean? result 是否发起查询，失败返回 false"
+    ],
+    "notes": [
+      "异步；失败时先以空 table 回调；资源ID会转换为道具ID查询"
+    ]
+  },
+  "Player:GetCameraRot": {
+    "desc": "获取当前相机旋转四元数",
+    "params": {
+      "playerid": "玩家ID，当前实现未使用"
+    },
+    "returns": [
+      "userdata rot 相机旋转四元数"
+    ]
+  },
+  "Player:GetChargingMaxNum": {
+    "desc": "获取技能槽的蓄力最大数量",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位，从 1 开始"
+    },
+    "returns": [
+      "number? num 蓄力最大数量"
+    ],
+    "notes": [
+      "对象或槽位非法时返回 nil"
+    ]
+  },
+  "Player:GetChargingMaxTime": {
+    "desc": "获取技能槽的蓄力最大时间",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位，从 1 开始"
+    },
+    "returns": [
+      "number? time 蓄力最大时间"
+    ],
+    "notes": [
+      "对象或槽位非法时返回 nil"
+    ]
+  },
+  "Player:GetChargingNum": {
+    "desc": "获取技能槽当前的蓄力数量",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位，从 1 开始"
+    },
+    "returns": [
+      "number? num 当前蓄力数量"
+    ],
+    "notes": [
+      "对象或槽位非法时返回 nil"
+    ]
+  },
+  "Player:GetChargingTime": {
+    "desc": "获取技能槽当前的蓄力时间",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位，从 1 开始"
+    },
+    "returns": [
+      "number? time 当前蓄力时间"
+    ],
+    "notes": [
+      "对象或槽位非法时返回 nil"
+    ]
+  },
+  "Player:GetCmpBaseState": {
+    "desc": "获取角色某项能力开关状态",
+    "params": {
+      "objid": "角色对象ID",
+      "actionattr": "能力枚举（CmpEnvEnum.Ability）"
+    },
+    "returns": [
+      "boolean value 是否开启"
+    ],
+    "notes": [
+      "EnableBeattacked/EnableBekilled/EnableDeathdropitem 映射为对应玩家属性；EnableSwitchShortcut/EnableRotatingCamera/EnableInputRotate 取操作禁用取反；大于等于 1000 时按能力组查询"
+    ]
+  },
+  "Player:GetCurMapId": {
+    "desc": "获取对象当前所在地图ID",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "number mapid 地图ID"
+    ],
+    "notes": [
+      "对象不存在时返回 -1"
+    ]
+  },
+  "Player:GetCurrMapId": {
+    "desc": "获取对象当前所在地图ID",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "number mapid 地图ID"
+    ],
+    "notes": [
+      "对象不存在时返回 -1"
+    ]
+  },
+  "Player:GetDefID": {
+    "desc": "获取生物角色的配置ID",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "any id 配置ID"
+    ],
+    "notes": [
+      "优先取模组自定义资源ID，其次取角色 defID；失败返回 nil"
+    ]
+  },
+  "Player:GetDirtyObjectiveTaskInfo": {
+    "desc": "读取玩家的目标任务脏数据",
+    "params": {
+      "uin": "玩家Uin"
+    },
+    "returns": [
+      "any info 任务信息"
+    ],
+    "notes": [
+      "由任务子系统返回，可能为 nil"
+    ]
+  },
+  "Player:GetDirtyObjectiveTaskUins": {
+    "desc": "获取存在目标任务脏数据的玩家 Uin 列表",
+    "returns": [
+      "table uins 玩家Uin数组"
+    ]
+  },
+  "Player:GetDirtyTaskInfo": {
+    "desc": "读取玩家的任务脏数据",
+    "params": {
+      "uin": "玩家Uin"
+    },
+    "returns": [
+      "any info 任务信息"
+    ],
+    "notes": [
+      "由任务子系统返回，可能为 nil"
+    ]
+  },
+  "Player:GetDirtyTaskUins": {
+    "desc": "获取存在任务脏数据的玩家 Uin 列表",
+    "returns": [
+      "table uins 玩家Uin数组"
+    ]
+  },
+  "Player:GetDropItemInstanceId": {
+    "desc": "获取掉落物道具的实例ID",
+    "params": {
+      "objid": "掉落物对象ID"
+    },
+    "returns": [
+      "string? instanceid 道具实例ID"
+    ],
+    "notes": [
+      "没有实例ID时返回 nil"
+    ]
+  },
+  "Player:GetDropItemNum": {
+    "desc": "获取掉落物包含的道具数量",
+    "params": {
+      "objid": "掉落物对象ID"
+    },
+    "returns": [
+      "number? num 道具数量"
+    ],
+    "notes": [
+      "对象不存在时不返回值"
+    ]
+  },
+  "Player:GetEntityFacade": {
+    "desc": "把预制体名转换为实体外观标识",
+    "params": {
+      "prefab": "预制体资源名"
+    },
+    "returns": [
+      "string? facade templateprefab_ 或 entityprefab_ 前缀的外观标识"
+    ],
+    "notes": [
+      "名称为空时返回 nil；已注册到 ResPrefab 表的转为 templateprefab_"
+    ]
+  },
+  "Player:GetEyeHeight": {
+    "desc": "获取角色眼睛高度",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number? height 视点高度，单位米"
+    ],
+    "notes": [
+      "角色不存在时返回 nil"
+    ]
+  },
+  "Player:GetFaceDirection": {
+    "desc": "获取角色的朝向向量",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "table? dir 含 x、y、z 的朝向向量"
+    ],
+    "notes": [
+      "角色不存在时返回 nil"
+    ]
+  },
+  "Player:GetFacePitch": {
+    "desc": "获取玩家的俯仰角",
+    "params": {
+      "objid": "玩家Uin"
+    },
+    "returns": [
+      "number? pitch 俯仰角"
+    ],
+    "notes": [
+      "玩家不存在时返回 nil"
+    ]
+  },
+  "Player:GetFaceYaw": {
+    "desc": "获取玩家的偏航角",
+    "params": {
+      "objid": "玩家Uin"
+    },
+    "returns": [
+      "number? yaw 偏航角"
+    ],
+    "notes": [
+      "玩家不存在时返回 nil"
+    ]
+  },
+  "Player:GetFoodLevel": {
+    "desc": "获取玩家的食物等级",
+    "params": {
+      "objid": "玩家Uin"
+    },
+    "returns": [
+      "number? level 食物等级"
+    ],
+    "notes": [
+      "读取失败时不返回值"
+    ]
+  },
+  "Player:GetGameResults": {
+    "desc": "获取玩家的游戏结算数据",
+    "params": {
+      "objid": "玩家Uin"
+    },
+    "returns": [
+      "any results 结算数据"
+    ],
+    "notes": [
+      "玩家不存在时不返回值"
+    ]
+  },
+  "Player:GetGameScore": {
+    "desc": "获取玩家的游戏分数",
+    "params": {
+      "objid": "玩家Uin"
+    },
+    "returns": [
+      "number? score 游戏分数"
+    ],
+    "notes": [
+      "玩家不存在时不返回值"
+    ]
+  },
+  "Player:GetGunDamageType": {
+    "desc": "获取玩家当前枪械的伤害类型",
+    "params": {
+      "objid": "玩家Uin"
+    },
+    "returns": [
+      "number damagetype 伤害类型"
+    ],
+    "notes": [
+      "玩家不存在或不是自定义枪械时返回 -1"
+    ]
+  },
+  "Player:GetGunInfo": {
+    "desc": "获取枪械的品质、等级和特性数量",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number? quality 枪械品质",
+      "number? level 枪械等级",
+      "number? featurecount 特性数量"
+    ],
+    "notes": [
+      "获取失败时返回 nil"
+    ]
+  },
+  "Player:GetItemId": {
+    "desc": "获取掉落物对应的道具ID",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "any itemid 道具ID"
+    ],
+    "notes": [
+      "优先取模组自定义资源ID，其次取掉落物道具ID；失败返回 nil"
+    ]
+  },
+  "Player:GetLastFallSpeed": {
+    "desc": "获取角色最近一次下落速度",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number speed 下落速度"
+    ],
+    "notes": [
+      "无法获取时返回 0"
+    ]
+  },
+  "Player:GetLevelMode": {
+    "desc": "获取当前世界是否为星球等级模式",
+    "returns": [
+      "any mode 等级模式值"
+    ],
+    "notes": [
+      "结果会缓存；WorldMgr 或配置未就绪时返回 nil"
+    ]
+  },
+  "Player:GetMainModel": {
+    "desc": "从外观标识中解析主模型名",
+    "params": {
+      "facade": "外观标识"
+    },
+    "returns": [
+      "string? model 主模型名"
+    ],
+    "notes": [
+      "ModelCompObj_<objid> 会解析为该对象的模型；其余原样返回；参数非字符串时返回 nil"
+    ]
+  },
+  "Player:GetMainPlayerUin": {
+    "desc": "获取当前主玩家的 Uin",
+    "returns": [
+      "number? uin 主玩家Uin"
+    ],
+    "notes": [
+      "获取失败时不返回值"
+    ]
+  },
+  "Player:GetMallModel": {
+    "desc": "同步玩家商城外观模型给房主",
+    "params": {
+      "reportid": "同步报告ID",
+      "objid": "玩家Uin"
+    },
+    "returns": [
+      "boolean result 是否取到有效外观数据"
+    ],
+    "notes": [
+      "通过 DataSycMgr 上报，形式为 skin_/avator_/skinandpart_ 前缀的模型字符串；无有效数据时上报 skin_259 并返回 false"
+    ]
+  },
+  "Player:GetMapShopAllNoFinishOrder": {
+    "desc": "查询地图商店全部未完成订单",
+    "params": {
+      "uin": "玩家Uin",
+      "call_back": "回调函数，参数为按场景分组的订单 table"
+    },
+    "returns": [
+      "boolean result 是否成功发起请求"
+    ],
+    "notes": [
+      "异步 HTTP 请求，失败时回调空 table"
+    ]
+  },
+  "Player:GetMaxHP": {
+    "desc": "获取角色最大血量",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number? hp 最大血量"
+    ],
+    "notes": [
+      "角色不存在时返回 nil"
+    ]
+  },
+  "Player:GetMotion": {
+    "desc": "获取角色当前移动速度",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number? x X方向速度",
+      "number? y Y方向速度",
+      "number? z Z方向速度"
+    ],
+    "notes": [
+      "角色或运动组件不存在时不返回值"
+    ]
+  },
+  "Player:GetNickName": {
+    "desc": "获取角色的显示名称",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "string? name 昵称或生物显示名"
+    ],
+    "notes": [
+      "玩家取昵称、生物取显示名；其他类型或失败返回 nil"
+    ]
+  },
+  "Player:GetObjType": {
+    "desc": "获取对象类型",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "number objtype 对象类型枚举"
+    ]
+  },
+  "Player:GetObjWorldId": {
+    "desc": "获取对象所在星球ID",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "number worldid 星球ID"
+    ],
+    "notes": [
+      "对象不存在时返回 -1"
+    ]
+  },
+  "Player:GetOrientation": {
+    "desc": "获取对象本地旋转欧拉角",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "number? x X轴角度",
+      "number? y Y轴角度",
+      "number? z Z轴角度"
+    ],
+    "notes": [
+      "对象不存在时不返回值"
+    ]
+  },
+  "Player:GetOverlayGravity": {
+    "desc": "获取对象的重力覆盖倍率",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "number|boolean gravity 重力倍率，参数非法时为 false"
+    ],
+    "notes": [
+      "未设置过时返回 1；参数非法时返回 false"
+    ]
+  },
+  "Player:GetPickupObjID": {
+    "desc": "获取角色背负或抱起的对象ID",
+    "params": {
+      "objid": "角色对象ID",
+      "roleType": "拾取类型：RolePickupType.Carried 取被抱者，Carrying 取抱起者"
+    },
+    "returns": [
+      "number objid 关联对象ID"
+    ],
+    "notes": [
+      "无对应关系时返回 0"
+    ]
+  },
+  "Player:GetPosition": {
+    "desc": "获取对象世界坐标",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "number? x X坐标，单位米",
+      "number? y Y坐标，单位米",
+      "number? z Z坐标，单位米"
+    ],
+    "notes": [
+      "对象不存在时返回 nil"
+    ]
+  },
+  "Player:GetRidingActorObjId": {
+    "desc": "获取角色正在骑乘的对象ID",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number objid 被骑乘对象ID"
+    ],
+    "notes": [
+      "未骑乘或失败时返回 0"
+    ]
+  },
+  "Player:GetSettingAbility": {
+    "desc": "获取世界设置中某项玩法开关",
+    "params": {
+      "playerid": "玩家Uin，必须为本机玩家",
+      "itype": "设置项类型"
+    },
+    "returns": [
+      "boolean value 是否开启"
+    ],
+    "notes": [
+      "仅本机玩家可查询；未设置过的项默认返回 true"
+    ]
+  },
+  "Player:GetSkillCD": {
+    "desc": "获取玩家指定道具技能的冷却时间",
+    "params": {
+      "objid": "玩家Uin",
+      "itemid": "道具ID，可传资源ID字符串"
+    },
+    "returns": [
+      "number? cd 冷却时间"
+    ],
+    "notes": [
+      "玩家不存在或接口不可用时返回 nil"
+    ]
+  },
+  "Player:GetSkillCurCD": {
+    "desc": "获取玩家指定道具技能的当前冷却",
+    "params": {
+      "objid": "玩家Uin",
+      "itemid": "道具ID，可传资源ID字符串",
+      "spellID": "技能ID，默认 0"
+    },
+    "returns": [
+      "number cd 当前冷却剩余"
+    ],
+    "notes": [
+      "返回值取自 getSkillCDNew 的 cd 项"
+    ]
+  },
+  "Player:GetSkillMaxCD": {
+    "desc": "获取技能槽的最大冷却时间",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位，从 1 开始"
+    },
+    "returns": [
+      "number? cd 最大冷却时间"
+    ],
+    "notes": [
+      "对象或槽位非法时返回 nil"
+    ]
+  },
+  "Player:GetSkinIDByHorseID": {
+    "desc": "按马匹皮肤效果ID查询所属角色皮肤ID",
+    "params": {
+      "horseid": "马匹皮肤效果ID"
+    },
+    "returns": [
+      "number skinid 角色皮肤ID"
+    ],
+    "notes": [
+      "未匹配到返回 0；首次调用会遍历全部角色皮肤并缓存"
+    ]
+  },
+  "Player:GetSkinModelId": {
+    "desc": "获取玩家当前角色皮肤的模型ID",
+    "params": {
+      "uin": "玩家Uin"
+    },
+    "returns": [
+      "number? modelid 皮肤模型ID"
+    ],
+    "notes": [
+      "未穿戴皮肤或查询失败时不返回值"
+    ]
+  },
+  "Player:GetTags": {
+    "desc": "获取对象当前的全部标签",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "table? tags 标签字符串数组"
+    ],
+    "notes": [
+      "没有标签或对象不存在时返回 nil"
+    ]
+  },
+  "Player:GetTeam": {
+    "desc": "获取玩家所在队伍ID",
+    "params": {
+      "objid": "玩家Uin"
+    },
+    "returns": [
+      "number? teamid 队伍ID"
+    ],
+    "notes": [
+      "玩家不存在时不返回值"
+    ]
+  },
+  "Player:GetTriggerOperateDisable": {
+    "desc": "查询玩家某项操作是否被触发器禁用",
+    "params": {
+      "uin": "玩家Uin",
+      "attr": "操作类型：1 切换快捷栏，2 旋转视角，7 输入旋转"
+    },
+    "returns": [
+      "boolean disabled 是否被禁用"
+    ]
+  },
+  "Player:GetWorldMapId": {
+    "desc": "获取玩家当前所在地图ID",
+    "params": {
+      "uin": "玩家Uin"
+    },
+    "returns": [
+      "number mapid 地图ID"
+    ],
+    "notes": [
+      "玩家不存在时返回 0"
+    ]
+  },
+  "Player:GunEnableAds": {
+    "desc": "开启或关闭玩家枪械的机瞄",
+    "params": {
+      "uin": "玩家Uin",
+      "b": "是否启用"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:GunEnableHittedShake": {
+    "desc": "开启或关闭玩家枪械的命中抖动",
+    "params": {
+      "uin": "玩家Uin",
+      "b": "是否启用"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:HasActor": {
+    "desc": "判断对象是否存在且存活",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "boolean result 是否存活"
+    ]
+  },
+  "Player:HasTags": {
+    "desc": "判断对象是否拥有指定标签",
+    "params": {
+      "objid": "对象ID",
+      "tags": "标签名或标签数组",
+      "mathcmode": "匹配模式：CmpEnvEnum.MatchMode.Any 任一命中，其余为全部命中",
+      "bexactmatch": "true 精确匹配，false 模糊匹配"
+    },
+    "returns": [
+      "boolean result 是否满足条件"
+    ]
+  },
+  "Player:IncreasesAttr": {
+    "desc": "在角色属性当前值上增加数值",
+    "params": {
+      "objid": "对象ID",
+      "atttype": "属性类型：RoleAttr.MaxHp 加上限血量，RoleAttr.MaxHunger 加最大饥饿值，其余走通用属性读写",
+      "val": "变化值，负数为减少"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "属性值会被钳制为不小于 0；val 为 0 时直接返回 true；nan 或无穷大返回 false"
+    ]
+  },
+  "Player:InitTriggerGlobalData": {
+    "desc": "初始化触发器全局数据管理器"
+  },
+  "Player:IsExist": {
+    "desc": "判断对象是否存在且存活",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "boolean result 是否存在"
+    ]
+  },
+  "Player:IsHaveSkill": {
+    "desc": "判断角色技能槽是否已装配技能",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位，从 1 开始"
+    },
+    "returns": [
+      "boolean? result 是否拥有技能"
+    ],
+    "notes": [
+      "参数非法时返回 nil，角色不存在时返回 false"
+    ]
+  },
+  "Player:IsMainPlayer": {
+    "desc": "判断玩家是否为主玩家",
+    "params": {
+      "objid": "玩家Uin"
+    },
+    "returns": [
+      "boolean result 是否主玩家"
+    ]
+  },
+  "Player:IsMob": {
+    "desc": "判断对象ID是否为生物",
+    "params": {
+      "objid": "对象ID"
+    },
+    "returns": [
+      "boolean result 是否生物"
+    ],
+    "notes": [
+      "仅当 ID 大于 4294967296 且能在生物管理器中找到时返回 true"
+    ]
+  },
+  "Player:IsPlayer": {
+    "desc": "判断对象ID是否为玩家",
+    "params": {
+      "objid": "玩家Uin"
+    },
+    "returns": [
+      "boolean result 是否玩家"
+    ],
+    "notes": [
+      "仅当 ID 小于 4294967296 且能查到玩家时返回 true"
+    ]
+  },
+  "Player:Jump": {
+    "desc": "让角色跳跃一次并同步",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:KillSelf": {
+    "desc": "直接杀死角色",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:LoadObjectiveTaskInfoByCloudVar": {
+    "desc": "用云端变量 JSON 加载目标任务信息",
+    "params": {
+      "uin": "玩家Uin",
+      "jsonstr": "任务数据 JSON 字符串"
+    },
+    "returns": [
+      "any result 加载结果"
+    ]
+  },
+  "Player:LoadTaskInfoByCloudVar": {
+    "desc": "用云端变量 JSON 加载任务信息",
+    "params": {
+      "uin": "玩家Uin",
+      "jsonstr": "任务数据 JSON 字符串"
+    },
+    "returns": [
+      "any result 加载结果"
+    ]
+  },
+  "Player:NotifySystemMsg2Self": {
+    "desc": "向指定玩家发送系统消息",
+    "params": {
+      "objid": "玩家Uin",
+      "info": "消息内容"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:OnCurToolUsed": {
+    "desc": "通知引擎玩家当前手持道具被使用",
+    "params": {
+      "objid": "玩家Uin",
+      "num": "使用次数"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:OpenEquipFrame": {
+    "desc": "打开装备工厂界面",
+    "params": {
+      "uin": "玩家Uin",
+      "openType": "装备类型",
+      "level": "等级",
+      "mcoin": "迷你币数量",
+      "extraItemOdds": "额外道具概率",
+      "consumeOdds": "消耗概率"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:OpenGunUpgradeFrame": {
+    "desc": "打开枪械升级界面",
+    "params": {
+      "uin": "玩家Uin"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:OpenInnerItemTips": {
+    "desc": "打开内置道具提示框，或关闭现有提示框",
+    "params": {
+      "objid": "对象ID",
+      "content": "提示内容：table 会转为 JSON，字符串按资源ID解析；省略时关闭提示框"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:OpenShopMiniCoinView": {
+    "desc": "打开迷你币充值商店界面",
+    "params": {
+      "uin": "玩家Uin"
+    },
+    "returns": [
+      "boolean result 固定返回 true"
+    ],
+    "notes": [
+      "海外环境与国内环境打开的界面不同"
+    ]
+  },
+  "Player:OpenSummerActView": {
+    "desc": "打开夏日活动界面",
+    "returns": [
+      "boolean result 固定返回 true"
+    ],
+    "notes": [
+      "当前版本实现为空，仅返回 true"
+    ]
+  },
+  "Player:OpenTaskMainUI": {
+    "desc": "打开任务主界面",
+    "params": {
+      "uin": "玩家Uin"
+    },
+    "notes": [
+      "实际打开的是角色属性界面第 3 页"
+    ]
+  },
+  "Player:OpenTaskTraceUI": {
+    "desc": "展开或收起任务追踪面板",
+    "params": {
+      "uin": "玩家Uin"
+    },
+    "notes": [
+      "调用任务追踪按钮点击逻辑"
+    ]
+  },
+  "Player:OrganizeFacadeList": {
+    "desc": "重新整理可用的生物、方块与道具外观列表",
+    "notes": [
+      "结果缓存在 self.facadeList，条目形如 mob_<id>、block_<id>、item_<id>"
+    ]
+  },
+  "Player:PauseSoundEffectById": {
+    "desc": "按音效ID暂停或恢复音效",
+    "params": {
+      "objid": "对象ID",
+      "soundId": "音效ID，-1 表示该对象全部音效",
+      "pause": "true 暂停，false 恢复"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "模组自定义音效与内置音效走不同的暂停通道"
+    ]
+  },
+  "Player:PayMapShopOrder": {
+    "desc": "支付地图商店订单",
+    "params": {
+      "ishost": "是否为房主",
+      "uin": "玩家Uin",
+      "scene": "场景标识",
+      "payment": "支付货币",
+      "paynum": "支付数量",
+      "itemids": "道具ID或道具ID数组",
+      "itemnums": "道具数量或数量数组",
+      "extends": "扩展信息",
+      "call_back": "回调函数，参数为 code 和 orderid"
+    },
+    "returns": [
+      "string|boolean? orderid 房主端返回订单ID，失败或客户端调用时不返回"
+    ],
+    "notes": [
+      "房主端要求多人大厅且非快速体验房间；客户端仅能支付自己的订单；客户端支付结果通过 PayMapShopOrder 触发事件下发"
+    ]
+  },
+  "Player:PickupActor": {
+    "desc": "让角色抱起另一个角色",
+    "params": {
+      "objidA": "抱起方角色对象ID",
+      "objidB": "被抱起角色对象ID",
+      "actionA": "抱起方动作ID，默认 100502",
+      "actionB": "被抱起方动作ID，默认 100113",
+      "offest": "挂点偏移（方块单位），默认 (0,0.2,0)",
+      "rotate": "相对旋转",
+      "playemode": "播放模式：0 一次，1 循环，-1 默认",
+      "playspeed": "播放速度，默认 1",
+      "anchorId": "人体挂点，默认 Head"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:PickupItem": {
+    "desc": "让角色拾取指定掉落物",
+    "params": {
+      "objid": "角色对象ID",
+      "itemobjid": "掉落物对象ID",
+      "bforcepickup": "是否强制拾取，默认 false"
+    },
+    "returns": [
+      "number result 拾取结果数值"
+    ],
+    "notes": [
+      "参数类型非法时返回 0"
+    ]
+  },
+  "Player:PlayAct": {
+    "desc": "让对象播放触发器动作",
+    "params": {
+      "objid": "对象ID",
+      "actid": "触发器动作ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "动作配置不存在时返回 false；玩家通过任务系统下发播放"
+    ]
+  },
+  "Player:PlayActInHand": {
+    "desc": "让玩家手部播放指定动画",
+    "params": {
+      "playerid": "玩家Uin",
+      "animid": "动画ID",
+      "playmode": "播放模式"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:PlayAdvertisingCallback": {
+    "desc": "播放广告并注册播放完成回调",
+    "params": {
+      "objid": "玩家Uin",
+      "adname": "广告名称",
+      "callback": "播放结束回调"
+    },
+    "returns": [
+      "boolean|number result 是否成功，任务创建失败时返回错误码"
+    ],
+    "notes": [
+      "会创建一次性任务并注册回调，广告名可被多语言翻译"
+    ]
+  },
+  "Player:PlayAdvertising_OnClient": {
+    "desc": "在客户端拉起广告播放",
+    "params": {
+      "reportid": "同步报告ID",
+      "objid": "玩家Uin",
+      "adname": "广告名称"
+    },
+    "returns": [
+      "boolean result 是否成功拉起"
+    ],
+    "notes": [
+      "播放结果会通过 DataSycMgr 回报给房主"
+    ]
+  },
+  "Player:PlayAnim": {
+    "desc": "让角色按动画名播放动画",
+    "params": {
+      "objid": "角色对象ID",
+      "animid": "动画ID，会转为字符串序列名",
+      "speed": "播放速度",
+      "loop": "true/1 循环，false/0 播放一次，数字为动画模式"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "旧版模型会按兼容规则修正循环模式；播放成功会触发 Actor.PlayAnim 事件"
+    ]
+  },
+  "Player:PlayAnimById": {
+    "desc": "让玩家播放指定动画ID",
+    "params": {
+      "playerid": "玩家Uin",
+      "id": "动画ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:PlayAnimByObj": {
+    "desc": "让一个对象播放另一个对象的动画",
+    "params": {
+      "objidA": "播放方对象ID",
+      "objidB": "动画来源对象ID",
+      "breplay": "是否重新播放"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "两个对象相同或类型非法时返回 false"
+    ]
+  },
+  "Player:PlayBodyEffect": {
+    "desc": "播放角色身体特效",
+    "params": {
+      "objid": "角色对象ID",
+      "itype": "特效类型"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "当前实现类型判断条件恒为真，任何调用都会直接返回 false，不会播放特效"
+    ]
+  },
+  "Player:PlayBodyEffectByFile": {
+    "desc": "按特效文件名播放角色身体特效",
+    "params": {
+      "objid": "角色对象ID",
+      "filename": "特效文件名",
+      "sync": "是否同步给其他客户端，默认 true"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:PlayBodyEffectById": {
+    "desc": "按粒子ID播放角色身体特效",
+    "params": {
+      "objid": "角色对象ID",
+      "particleId": "粒子ID，或粒子ID数组",
+      "scale": "缩放，默认 1",
+      "ptme": "播放时长，留空时取配置值"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "播放成功会记录最近创建的粒子ID；PlayMode 为 2 时默认取配置播放时长，否则默认 -1 常驻"
+    ]
+  },
+  "Player:PlayBodyParticleById": {
+    "desc": "按粒子ID在角色身上播放粒子",
+    "params": {
+      "objid": "角色对象ID",
+      "particleId": "粒子ID或粒子文件名，也支持数组",
+      "ptme": "播放时长，非正数按 -1 常驻",
+      "offset": "相对偏移（方块单位）",
+      "rot": "相对旋转",
+      "scale": "缩放，默认 (1,1,1)"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "offset、rot、scale 类型非法时返回 false；PlayMode 为 2 且未指定时长时使用 1.5 秒"
+    ]
+  },
+  "Player:PlayHandAnim": {
+    "desc": "播放主玩家手部动画",
+    "params": {
+      "uin": "玩家Uin，必须是当前主玩家",
+      "animid": "动画ID",
+      "speed": "播放速度，默认 1",
+      "playmode": "播放模式，默认 1",
+      "crassfade": "过渡时间，默认 0.2"
+    },
+    "returns": [
+      "boolean? result 是否成功"
+    ],
+    "notes": [
+      "仅对当前主玩家生效；缺少参数时不返回"
+    ]
+  },
+  "Player:PlayHandToolAnim": {
+    "desc": "播放主玩家手持工具动画",
+    "params": {
+      "uin": "玩家Uin，必须是当前主玩家",
+      "animid": "动画ID",
+      "speed": "播放速度，默认 1",
+      "playmode": "播放模式，默认 1",
+      "crassfade": "过渡时间，默认 0.2"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "仅对当前主玩家生效"
+    ]
+  },
+  "Player:PlaySkill": {
+    "desc": "触发角色指定技能槽的技能",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位，从 1 开始"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:PlaySoundByName": {
+    "desc": "按音效名播放角色音效",
+    "params": {
+      "objid": "角色对象ID",
+      "name": "音效名",
+      "volume": "音量，默认 1",
+      "pitch": "音高，默认 1",
+      "flag": "播放标志，默认 3"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:PlaySoundEffectById": {
+    "desc": "按音效ID播放音效",
+    "params": {
+      "objid": "角色对象ID",
+      "soundId": "音效ID",
+      "volume": "音量，取值会乘以 0.01",
+      "pitch": "音高，默认 1",
+      "isLoop": "是否循环，默认 false"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "模组自定义音效与内置音效走不同的播放通道"
+    ]
+  },
+  "Player:PlayerHurt": {
+    "desc": "让玩家对目标造成伤害",
+    "params": {
+      "objid": "攻击方对象ID",
+      "targetid": "受击方对象ID",
+      "damage": "伤害值",
+      "attacktype": "攻击类型",
+      "ignoreResist": "是否忽略抗性",
+      "ignoreTriggerEvent": "是否忽略触发事件"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "内部直接转调 ActorHurt，行为与其一致"
+    ]
+  },
+  "Player:RandomFacadeID": {
+    "desc": "随机取一个可用外观ID",
+    "returns": [
+      "string? facadeid 外观ID，形如 mob_/block_/item_ 前缀"
+    ],
+    "notes": [
+      "外观列表为空时会先重新整理；列表仍为空时不返回值"
+    ]
+  },
+  "Player:RecoverinitialModel": {
+    "desc": "把对象外观恢复为初始模型",
+    "params": {
+      "ishost": "是否为房主",
+      "objid": "对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "房主端按对象类型恢复玩家预制体、生物外观、道具外观或默认模型；客户端仅能恢复自己的商城外观"
+    ]
+  },
+  "Player:RefreshItemTips": {
+    "desc": "刷新已打开的道具提示框内容",
+    "params": {
+      "uin": "玩家Uin",
+      "itemData": "道具数据"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "提示框未打开或控件不支持更新时返回 false"
+    ]
+  },
+  "Player:RemoveBackpackItem": {
+    "desc": "从玩家背包移除指定道具",
+    "params": {
+      "objid": "玩家Uin",
+      "itemid": "道具ID，可传资源ID字符串",
+      "num": "移除数量"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:RemoveTags": {
+    "desc": "移除对象标签并减少引用计数",
+    "params": {
+      "objid": "对象ID",
+      "tags": "标签名或标签数组",
+      "icount": "引用计数减量，默认 0"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "多个标签时返回最后一个标签的删除结果"
+    ]
+  },
+  "Player:RequestCostCoin": {
+    "desc": "请求扣除玩家的开发者子币",
+    "params": {
+      "reportid": "同步报告ID",
+      "uin": "玩家Uin",
+      "conid": "子币配置ID",
+      "num": "扣除数量",
+      "orderid": "订单ID"
+    },
+    "notes": [
+      "子币配置不存在、地图ID或数量无效时直接失败；结果会通知玩家并回报给房主"
+    ]
+  },
+  "Player:RequestExchangeCoins": {
+    "desc": "请求打开子币兑换界面",
+    "params": {
+      "uin": "玩家Uin",
+      "conid": "子币配置ID",
+      "num": "兑换数量",
+      "index": "兑换页签索引，默认 1"
+    },
+    "notes": [
+      "仅在开发者商店配置中存在该子币时打开界面"
+    ]
+  },
+  "Player:ResetTriggerGlobalData": {
+    "desc": "恢复被触发器修改过的世界设置开关",
+    "notes": [
+      "会按保存的旧值逐个还原并清空缓存"
+    ]
+  },
+  "Player:RotateFaceToActor": {
+    "desc": "让角色转向另一个角色",
+    "params": {
+      "objid": "角色对象ID",
+      "targetid": "目标对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetAblePick": {
+    "desc": "设置掉落物是否可被拾取",
+    "params": {
+      "objid": "掉落物对象ID",
+      "able": "是否可拾取"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetActionAttrState": {
+    "desc": "设置玩家某个动作属性开关",
+    "params": {
+      "objid": "玩家Uin",
+      "actionattr": "动作属性",
+      "switch": "开关值"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetActorControl": {
+    "desc": "设置角色是否由脚本控制",
+    "params": {
+      "objid": "角色对象ID",
+      "b": "是否由脚本控制"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetActorDir": {
+    "desc": "设置角色的朝向角",
+    "params": {
+      "objid": "角色对象ID",
+      "itype": "朝向类型：FaceType.Yaw 设偏航角，FaceType.Pitch 设俯仰角",
+      "value": "角度值"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetActorPermissions": {
+    "desc": "设置角色某项能力权限",
+    "params": {
+      "objid": "角色对象ID",
+      "ability": "能力枚举",
+      "switch": "开关值"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "内部直接转调 SetCmpBaseState"
+    ]
+  },
+  "Player:SetAttr": {
+    "desc": "设置玩家某项属性值",
+    "params": {
+      "objid": "玩家Uin",
+      "attrtype": "属性类型",
+      "val": "属性值"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetBeHurtTarget": {
+    "desc": "设置角色受击时的伤害归属目标",
+    "params": {
+      "objid": "角色对象ID",
+      "targetid": "伤害归属对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetBehitDisable": {
+    "desc": "设置角色是否免疫受击",
+    "params": {
+      "objid": "角色对象ID",
+      "value": "是否禁用受击"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "值与当前状态相同时不重复设置并返回 false"
+    ]
+  },
+  "Player:SetBodyEffectScale": {
+    "desc": "按粒子ID设置身体特效缩放",
+    "params": {
+      "objid": "角色对象ID",
+      "particleId": "粒子ID",
+      "scale": "缩放倍数"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetBodyEffectScaleByFile": {
+    "desc": "按特效文件名设置身体特效缩放",
+    "params": {
+      "objid": "角色对象ID",
+      "filename": "特效文件名",
+      "scale": "缩放倍数，超出范围会被钳制到 1 至 5"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetBodyParticleTransform": {
+    "desc": "设置角色身体粒子的偏移、旋转与缩放",
+    "params": {
+      "objid": "角色对象ID",
+      "particleId": "粒子ID或粒子文件名，也支持数组",
+      "offset": "相对偏移（方块单位）",
+      "rot": "相对旋转",
+      "scale": "缩放，默认 (1,1,1)"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "offset、rot、scale 类型非法时返回 false"
+    ]
+  },
+  "Player:SetBtreeVarValue": {
+    "desc": "写入角色行为树黑板变量",
+    "params": {
+      "objid": "角色对象ID",
+      "varid": "行为树变量ID",
+      "val": "变量值"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetCameraLerpSpeed": {
+    "desc": "设置玩家相机的插值速度",
+    "params": {
+      "playerid": "玩家Uin",
+      "lerpspeed": "插值速度"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetCanCollide": {
+    "desc": "设置角色是否可与其他对象碰撞",
+    "params": {
+      "objid": "角色对象ID",
+      "value": "是否允许碰撞"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "相同时不重复设置并返回 false；有碰撞值组件时会同步到其他客户端"
+    ]
+  },
+  "Player:SetCanThrow": {
+    "desc": "设置玩家是否允许投掷",
+    "params": {
+      "ishost": "是否为房主",
+      "playerid": "玩家Uin",
+      "bThrow": "是否允许投掷"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "房主端会同步给其他客户端；客户端仅作用于主玩家"
+    ]
+  },
+  "Player:SetCharging": {
+    "desc": "设置技能槽是否处于蓄力状态",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位，从 1 开始",
+      "ischarging": "是否蓄力中"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetChargingValue": {
+    "desc": "设置技能槽的蓄力值",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位，从 1 开始",
+      "value": "蓄力值"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetCharginginfo": {
+    "desc": "设置技能槽的蓄力信息",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位，从 1 开始",
+      "max": "蓄力最大值",
+      "num": "当前蓄力数量",
+      "maxnum": "蓄力最大数量",
+      "isauto": "是否自动蓄力"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetCmpBaseState": {
+    "desc": "设置角色某项能力开关",
+    "params": {
+      "objid": "角色对象ID",
+      "actionattr": "能力枚举（CmpEnvEnum.Ability）",
+      "switch": "开关值"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "EnableBeattacked/EnableBekilled/EnableDeathdropitem 映射为对应玩家属性；快捷栏、旋转视角、输入旋转会转为操作禁用取反设置"
+    ]
+  },
+  "Player:SetCustomRevieInfo": {
+    "desc": "设置死亡界面的自定义回顾信息",
+    "params": {
+      "uin": "玩家Uin",
+      "curnum": "回顾序号，必须为数字",
+      "url": "资源地址",
+      "name": "名称",
+      "rsetdesc": "回顾描述"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetDeathFrameVisible": {
+    "desc": "显示或隐藏死亡界面",
+    "params": {
+      "uin": "玩家Uin",
+      "visible": "是否显示"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "界面未加载时返回 false"
+    ]
+  },
+  "Player:SetFaceDirection": {
+    "desc": "设置角色朝向向量",
+    "params": {
+      "objid": "角色对象ID",
+      "x": "X 分量",
+      "y": "Y 分量",
+      "z": "Z 分量"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetFacePitch": {
+    "desc": "设置角色俯仰角",
+    "params": {
+      "objid": "角色对象ID",
+      "pitch": "俯仰角"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetFaceYaw": {
+    "desc": "设置角色偏航角",
+    "params": {
+      "objid": "角色对象ID",
+      "yaw": "偏航角"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "设置后会同步给其他客户端"
+    ]
+  },
+  "Player:SetFirstSearch": {
+    "desc": "设置角色是否优先搜索",
+    "params": {
+      "objid": "角色对象ID",
+      "firstsearch": "是否首次搜索"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetFishLineEndPoint": {
+    "desc": "设置玩家钓鱼线的终点坐标",
+    "params": {
+      "uin": "玩家Uin",
+      "x": "终点X坐标",
+      "y": "终点Y坐标",
+      "z": "终点Z坐标"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetFoodLevel": {
+    "desc": "设置玩家的食物等级",
+    "params": {
+      "objid": "玩家Uin",
+      "foodLevel": "食物等级"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetGameScore": {
+    "desc": "设置玩家的游戏分数",
+    "params": {
+      "objid": "玩家Uin",
+      "score": "分数"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetHandOrToolAnimSpeed": {
+    "desc": "设置主玩家手部或手持工具动画的播放速度",
+    "params": {
+      "uin": "玩家Uin，必须是当前主玩家",
+      "animtype": "动画通道：hand 手部，handtool 手持工具",
+      "animid": "动画ID",
+      "speed": "播放速度"
+    },
+    "returns": [
+      "boolean? result 是否成功"
+    ],
+    "notes": [
+      "animtype 不是 hand 或 handtool 时不返回"
+    ]
+  },
+  "Player:SetImmuneType": {
+    "desc": "添加或移除角色的免疫类型",
+    "params": {
+      "objid": "角色对象ID",
+      "immunetype": "免疫类型，-1 表示无敌",
+      "isadd": "true 添加该免疫类型，false 移除"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "isadd 缺失或类型错误时返回 false"
+    ]
+  },
+  "Player:SetModAttrib": {
+    "desc": "设置角色的模组属性值",
+    "params": {
+      "objid": "角色对象ID",
+      "attrtype": "模组属性类型",
+      "value": "属性值"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetMotionChange": {
+    "desc": "设置对象的移动速度变化",
+    "params": {
+      "objid": "对象ID",
+      "x": "X 方向速度",
+      "y": "Y 方向速度",
+      "z": "Z 方向速度"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "玩家走 trySetMotionChange，其他角色直接 setMotionChange"
+    ]
+  },
+  "Player:SetMountActorAttr": {
+    "desc": "设置骑乘组件的骑乘属性",
+    "params": {
+      "objid": "对象ID",
+      "isRote": "坐骑是否跟随骑手朝向",
+      "isPlayerContrl": "是否由玩家控制",
+      "isCloseAI": "是否关闭 AI"
+    },
+    "returns": [
+      "any gameobj 设置的对象"
+    ],
+    "notes": [
+      "没有 Ride 组件时也会返回该对象；对象不存在时不返回"
+    ]
+  },
+  "Player:SetNickName": {
+    "desc": "设置角色昵称",
+    "params": {
+      "objid": "对象ID",
+      "nickname": "昵称"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "命中敏感词过滤时昵称会被替换为 ****"
+    ]
+  },
+  "Player:SetNoClip": {
+    "desc": "设置玩家是否穿墙",
+    "params": {
+      "ishost": "是否为房主",
+      "uin": "玩家Uin",
+      "flag": "是否开启穿墙"
+    },
+    "returns": [
+      "boolean? result 是否成功"
+    ],
+    "notes": [
+      "房主端会同步给其他客户端；房主给自身设置时返回 false；参数缺失时不返回"
+    ]
+  },
+  "Player:SetOrientation": {
+    "desc": "设置对象朝向",
+    "params": {
+      "objid": "对象ID",
+      "x": "X轴角度",
+      "y": "Y轴角度",
+      "z": "Z轴角度"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "普通对象设置本地欧拉角，角色只使用 Y 轴角度设置偏航"
+    ]
+  },
+  "Player:SetOverlayGravity": {
+    "desc": "设置对象的重力覆盖倍率",
+    "params": {
+      "objid": "对象ID",
+      "val": "重力倍率，超出 -1 至 10 会被钳制"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "内部按倍率乘以 -8 后写入触发器扩展值"
+    ]
+  },
+  "Player:SetPolaroidViewVisible": {
+    "desc": "显示或隐藏拍立得相机界面",
+    "params": {
+      "playerid": "玩家Uin",
+      "bvisible": "是否显示",
+      "hidepto": "是否隐藏拍照按钮"
+    },
+    "notes": [
+      "显示时会切换到拍照视角；关闭时直接关闭拍立得界面"
+    ]
+  },
+  "Player:SetPosition": {
+    "desc": "设置对象世界坐标",
+    "params": {
+      "objid": "对象ID",
+      "x": "X坐标，单位米",
+      "y": "Y坐标，单位米",
+      "z": "Z坐标，单位米"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "玩家走传送接口，实体设置世界坐标后同步动作，其他角色直接设置位置"
+    ]
+  },
+  "Player:SetRidePosition": {
+    "desc": "设置骑乘组件的骑乘位置",
+    "params": {
+      "objid": "对象ID",
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标"
+    },
+    "notes": [
+      "没有 Ride 组件时不生效"
+    ]
+  },
+  "Player:SetScale": {
+    "desc": "设置对象缩放",
+    "params": {
+      "objid": "对象ID",
+      "x": "X 缩放",
+      "y": "Y 缩放",
+      "z": "Z 缩放"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "普通对象使用三轴缩放，角色只使用 Y 值"
+    ]
+  },
+  "Player:SetSkillCDInfo": {
+    "desc": "设置技能槽的冷却信息",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位，从 1 开始",
+      "maxcd": "最大冷却时间",
+      "isauto": "是否自动冷却"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetTaskTraceVisible": {
+    "desc": "显示或隐藏任务追踪面板",
+    "params": {
+      "uin": "玩家Uin",
+      "bOpen": "是否显示"
+    },
+    "returns": [
+      "boolean? result 是否成功"
+    ],
+    "notes": [
+      "界面管理器不存在时不返回"
+    ]
+  },
+  "Player:SetTeam": {
+    "desc": "设置玩家所在队伍",
+    "params": {
+      "objid": "玩家Uin",
+      "teamid": "队伍ID",
+      "resetAttr": "是否重置队伍属性，默认 true"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:SetTriggerOperateDisable": {
+    "desc": "设置玩家某项操作是否被触发器禁用",
+    "params": {
+      "ishost": "是否为房主",
+      "uin": "玩家Uin",
+      "attr": "操作类型：1 切换快捷栏，2 旋转视角，4 快捷栏显示，7 输入旋转",
+      "disable": "是否禁用"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "房主端会同步给其他客户端；客户端设置 attr 为 4 时会同时切换快捷栏显示"
+    ]
+  },
+  "Player:ShowFishLine": {
+    "desc": "显示或隐藏玩家钓鱼线",
+    "params": {
+      "uin": "玩家Uin",
+      "bShow": "是否显示，默认 true"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:ShowNickName": {
+    "desc": "显示或隐藏角色昵称",
+    "params": {
+      "objid": "对象ID",
+      "bshow": "是否显示，默认 false"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "不传 bshow 时默认隐藏昵称"
+    ]
+  },
+  "Player:SkillIsCharging": {
+    "desc": "判断技能槽是否正在蓄力",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位，从 1 开始"
+    },
+    "returns": [
+      "boolean? result 是否正在蓄力"
+    ],
+    "notes": [
+      "参数非法时返回 nil，角色不存在时返回 false"
+    ]
+  },
+  "Player:StopAllAnim": {
+    "desc": "停止角色全部动画",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:StopAnimById": {
+    "desc": "让玩家停止指定动画",
+    "params": {
+      "playerid": "玩家Uin",
+      "id": "动画ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:StopBodyEffect": {
+    "desc": "停止角色身体特效",
+    "params": {
+      "objid": "角色对象ID",
+      "itype": "特效类型"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "当前实现类型判断条件恒为真，任何调用都会直接返回 false，不会停止特效"
+    ]
+  },
+  "Player:StopBodyEffectById": {
+    "desc": "按粒子ID停止角色身体特效",
+    "params": {
+      "objid": "角色对象ID",
+      "particleId": "粒子ID、特效文件名，或它们的数组"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "粒子ID不存在时会跳过；对象不存在时仍返回 true"
+    ]
+  },
+  "Player:StopHandAnim": {
+    "desc": "停止主玩家手部动画",
+    "params": {
+      "uin": "玩家Uin，必须是当前主玩家",
+      "animid": "动画ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:StopHandToolAnim": {
+    "desc": "停止主玩家手持工具动画",
+    "params": {
+      "uin": "玩家Uin，必须是当前主玩家",
+      "animid": "动画ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:StopSoundEffectById": {
+    "desc": "按音效ID停止音效",
+    "params": {
+      "objid": "对象ID",
+      "soundId": "音效ID，-1 表示该对象全部音效"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "模组自定义音效与内置音效走不同的停止通道"
+    ]
+  },
+  "Player:SyncTriggerData": {
+    "desc": "同步触发器的界面事件过滤数据",
+    "params": {
+      "ishost": "是否为房主",
+      "playerid": "玩家Uin",
+      "customuievent": "触发事件启用信息，客户端侧为数据字符串"
+    },
+    "notes": [
+      "房主读取触发器事件启用信息后同步给指定玩家；客户端解码后写入事件名过滤表"
+    ]
+  },
+  "Player:TeleportHome": {
+    "desc": "让玩家传送回出生点",
+    "params": {
+      "objid": "玩家Uin"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:TriggerAttrChangeEvent": {
+    "desc": "手动触发属性变化事件",
+    "params": {
+      "objid": "对象ID",
+      "atttype": "属性类型",
+      "val": "属性值"
+    },
+    "returns": [
+      "boolean? result 失败时返回 false"
+    ],
+    "notes": [
+      "玩家对象触发 Player.ChangeAttr，其他对象触发 Actor.ChangeAttr"
+    ]
+  },
+  "Player:TriggerSkillCall": {
+    "desc": "按技能名触发角色技能并临时应用成长补丁",
+    "params": {
+      "objid": "角色对象ID",
+      "skillName": "技能名",
+      "growPatchName": "成长补丁名，默认空表示不应用补丁"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "会临时应用技能补丁和时间轴补丁，触发后自动移除；补丁应用失败则直接返回 false"
+    ]
+  },
+  "Player:TryMoveToActor": {
+    "desc": "让角色尝试移动到目标角色身边",
+    "params": {
+      "objid": "角色对象ID",
+      "targetObjid": "目标对象ID",
+      "speed": "移动速度"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:TryMoveToNoSearch": {
+    "desc": "让角色不寻路直接尝试移动到坐标",
+    "params": {
+      "objid": "角色对象ID",
+      "x": "X坐标",
+      "y": "Y坐标",
+      "z": "Z坐标"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Player:TryMoveToPos": {
+    "desc": "让角色尝试移动到指定坐标",
+    "params": {
+      "objid": "对象ID",
+      "x": "X坐标，单位米",
+      "y": "Y坐标，单位米",
+      "z": "Z坐标，单位米",
+      "cancontrol": "是否允许玩家中途控制，默认 true",
+      "bshowtip": "是否显示提示，默认 false"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "玩家寻路会额外加半格偏移，其他角色直接换算为厘米"
+    ]
+  },
+  "Player:TryPickupActorForward": {
+    "desc": "让角色尝试抱起前方的角色",
+    "params": {
+      "objid": "角色对象ID",
+      "distance": "尝试距离，需大于 0"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "抱起失败时会播放 100502 动作"
+    ]
+  },
+  "Player:UpdateMainTaskForMod": {
+    "desc": "更新玩家模组主线任务的进度",
+    "params": {
+      "uin": "玩家Uin",
+      "_type": "任务更新类型，仅小于 0 时生效",
+      "target1": "目标参数1",
+      "target2": "目标参数2",
+      "goalnum": "目标数量"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "玩家不存在或类型不小于 0 时返回 false"
+    ]
+  },
+  "Player:WhitList_StopSkill": {
+    "desc": "让角色停止指定技能",
+    "params": {
+      "objid": "角色对象ID",
+      "skillid": "技能ID"
+    },
+    "returns": [
+      "any result 停止结果"
+    ],
+    "notes": [
+      "对象不存在时返回 nil"
+    ]
+  }
+}

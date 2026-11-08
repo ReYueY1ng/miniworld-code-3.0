@@ -1,0 +1,1921 @@
+{
+  "Monster:ActorHurt": {
+    "desc": "使一个角色对另一个角色造成固定伤害",
+    "params": {
+      "objid": "角色对象ID",
+      "targetid": "目标角色对象ID",
+      "damage": "伤害值，必须大于 0",
+      "attacktype": "攻击类型（CmpEnvEnum.AttackType），默认 ATTACK_FIXED",
+      "ignoreResist": "是否忽略护甲等抗性，默认 false",
+      "ignoreTriggerEvent": "是否不触发受击相关脚本事件"
+    },
+    "returns": [
+      "boolean result 是否成功施加伤害"
+    ],
+    "notes": [
+      "伤害值必须大于 0，否则直接失败",
+      "依次尝试 attackedFromType 与 attackedFromType_Base，任一成功即视为成功"
+    ]
+  },
+  "Monster:ActorHurtArea": {
+    "desc": "按区域对范围内角色造成伤害（引擎中为空实现，调用无任何效果）",
+    "params": {
+      "objid": "角色对象ID",
+      "areaid": "区域对象的对象ID",
+      "damage": "伤害值，必须大于 0",
+      "attacktype": "攻击类型（CmpEnvEnum.AttackType），默认 ATTACK_FIXED",
+      "ignoreList": "不参与本次伤害的角色ID列表",
+      "ignoreResist": "是否忽略护甲等抗性，默认 false",
+      "ignoreTriggerEvent": "是否不触发受击相关脚本事件"
+    },
+    "notes": [
+      "函数体只有一个 return，既不造成伤害也不返回任何值"
+    ]
+  },
+  "Monster:AddHp": {
+    "desc": "修改角色当前血量，传负值即为扣血",
+    "params": {
+      "objid": "角色对象ID",
+      "hp": "血量变化值，可为负数（扣血）"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:AddModAttrib": {
+    "desc": "在角色属性上叠加一个模组属性值",
+    "params": {
+      "objid": "角色对象ID",
+      "attrtype": "生物属性类型",
+      "value": "属性值"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "与 SetModAttrib 的覆写相对，这里是累加"
+    ]
+  },
+  "Monster:AddTags": {
+    "desc": "给角色添加标签并增加引用计数",
+    "params": {
+      "objid": "角色对象ID",
+      "tags": "标签，字符串或字符串数组",
+      "icount": "标签引用计数，默认 1"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "角色没有 Tag 组件时会自动创建"
+    ]
+  },
+  "Monster:AppendSpeed": {
+    "desc": "在角色当前速度上追加一个速度分量",
+    "params": {
+      "objid": "角色对象ID",
+      "vx": "X 方向速度（方块/秒）",
+      "vy": "Y 方向速度（方块/秒）",
+      "vz": "Z 方向速度（方块/秒）"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "内部乘以 100 转换为引擎单位，并以叠加模式调用 setMotionChange"
+    ]
+  },
+  "Monster:AquaticMobAISet": {
+    "desc": "把生物配置成水生 AI：可游泳、避水并随机游动",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "仅对生物生效",
+      "会关闭避水、开启游泳，并添加随机游泳、怕玩家、鱼群三种 AI 任务"
+    ]
+  },
+  "Monster:ChangActorMoveType": {
+    "desc": "切换角色的移动方式（行走、游泳、飞行）",
+    "params": {
+      "objid": "角色对象ID",
+      "moveMode": "移动模式（CmpEnvEnum.MoveType）"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "玩家由 changPlayerMoveType 切换，行走与游泳都映射为 IDLE，飞行映射为 FLY",
+      "其他角色走 AIFunctionMgr:SetMovementModeOrAuto"
+    ]
+  },
+  "Monster:ChangeCustomModel": {
+    "desc": "把角色模型替换为指定的自定义模型",
+    "params": {
+      "objid": "角色对象ID",
+      "modleName": "模型标识，格式如 mobprefab_xxx、itemprefab_xxx、templateprefab_xxx、ModelCompObj_<objid>、ItemInstance_<实例ID>、playerskin_<uin>"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "支持 mobprefab/itemprefab/blockprefab/entityprefab/templateprefab/ModelCompObj/ItemInstance/playerskin 前缀",
+      "前缀无法识别时退回 SetModel，仍失败则走 ChangeCustomModelOld"
+    ]
+  },
+  "Monster:ChangeTree": {
+    "desc": "切换生物当前使用的行为树",
+    "params": {
+      "objid": "角色对象ID",
+      "treeid": "行为树ID（UUID 字符串）"
+    },
+    "returns": [
+      "any result 引擎透传的切换结果"
+    ],
+    "notes": [
+      "直接把参数透传给底层行为树接口，不做参数校验"
+    ]
+  },
+  "Monster:CheckSyncAction": {
+    "desc": "脚本控制的角色移动后触发一次动作同步检查",
+    "params": {
+      "actor": "角色对象（不是对象ID）"
+    },
+    "notes": [
+      "仅当角色由脚本控制时才触发",
+      "由 SetPosition 内部对 Entity 类对象调用"
+    ]
+  },
+  "Monster:ClearActorWithId": {
+    "desc": "清空指定星球上所有该配置ID的角色",
+    "params": {
+      "actorid": "生物配置ID，也可传资源ID字符串",
+      "bkill": "是否击杀，默认 false；传非布尔值按 true 处理",
+      "worldId": "星球ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "角色ID可传资源ID字符串",
+      "bkill 传非布尔值时会按 true 处理"
+    ]
+  },
+  "Monster:ClearTags": {
+    "desc": "清空角色身上的全部标签",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "通过 TagComponent:Clear 实现，没有标签组件时返回 false"
+    ]
+  },
+  "Monster:CompareMainModel": {
+    "desc": "比较两个外观标识的主模型是否相同",
+    "params": {
+      "facade1": "外观标识字符串",
+      "facade2": "外观标识字符串"
+    },
+    "returns": [
+      "boolean result 主模型是否相同"
+    ],
+    "notes": [
+      "两个字符串相同时直接返回 true，否则先用 GetMainModel 解析出真实模型再比较"
+    ]
+  },
+  "Monster:DisMountActor": {
+    "desc": "让角色结束骑乘状态",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "优先走坐骑 Ride 组件的 DisMount，失败时回退到 RiddenComponent 解除"
+    ]
+  },
+  "Monster:DropActor": {
+    "desc": "放下或抛出当前被拾取的角色",
+    "params": {
+      "objid": "角色对象ID",
+      "dir": "方向向量表 {x, y, z}",
+      "isThrow": "是否抛掷，抛掷时会播放 600186 动作",
+      "speed": "速度",
+      "hasInertance": "是否保留惯性"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "isThrow 为 true 时先播放 600186 动作",
+      "方向必须是含 x、y、z 的表"
+    ]
+  },
+  "Monster:EmitByShooter": {
+    "desc": "让角色的发射器按自身朝向发射一次",
+    "params": {
+      "objid": "角色对象ID",
+      "emitid": "发射器ID，也可传资源ID字符串"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "emitid 可传资源ID字符串，内部会转成配置ID"
+    ]
+  },
+  "Monster:EmitByShooterTarget": {
+    "desc": "让角色的发射器朝目标角色发射",
+    "params": {
+      "objidA": "角色A的对象ID",
+      "emitid": "发射器ID，也可传资源ID字符串",
+      "objidB": "角色B的对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "目标无效或与发射者相同时退化为普通 EmitByShooter"
+    ]
+  },
+  "Monster:EmitByShooterTargetPos": {
+    "desc": "让角色的发射器朝指定坐标发射",
+    "params": {
+      "objid": "角色对象ID",
+      "emitid": "发射器ID，也可传资源ID字符串",
+      "targetPos": "目标位置表 {x, y, z}，单位为方块"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "targetPos 使用方块坐标，内部按方块尺寸换算成世界坐标"
+    ]
+  },
+  "Monster:EscapePickup": {
+    "desc": "让被拾取的角色挣脱当前拾取状态",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:FindLevelNearestBlock": {
+    "desc": "在角色所在高度层寻找最近的指定方块",
+    "params": {
+      "objid": "角色对象ID",
+      "blockid": "方块ID，也可传资源ID字符串",
+      "blockRange": "搜索范围半径"
+    },
+    "returns": [
+      "number? x 方块X坐标",
+      "number? y 方块Y坐标",
+      "number? z 方块Z坐标"
+    ],
+    "notes": [
+      "未找到方块时不返回任何值"
+    ]
+  },
+  "Monster:FindLevelRandomsortBlock": {
+    "desc": "在角色所在高度层随机寻找一个指定方块",
+    "params": {
+      "objid": "角色对象ID",
+      "blockid": "方块ID，也可传资源ID字符串",
+      "blockRange": "搜索范围半径"
+    },
+    "returns": [
+      "number? x 方块X坐标",
+      "number? y 方块Y坐标",
+      "number? z 方块Z坐标"
+    ],
+    "notes": [
+      "随机排序后取第一个，未找到时不返回任何值"
+    ]
+  },
+  "Monster:FindNearestBlock": {
+    "desc": "寻找距离角色最近的指定方块",
+    "params": {
+      "objid": "角色对象ID",
+      "blockid": "方块ID，也可传资源ID字符串",
+      "blockRange": "搜索范围半径"
+    },
+    "returns": [
+      "number? x 方块X坐标",
+      "number? y 方块Y坐标",
+      "number? z 方块Z坐标"
+    ],
+    "notes": [
+      "未找到方块时不返回任何值"
+    ]
+  },
+  "Monster:GetActionAttrState": {
+    "desc": "查询角色某个动作属性的开关状态",
+    "params": {
+      "objid": "角色对象ID",
+      "actionattr": "动作属性或能力枚举（CmpEnvEnum.Ability / PlayerAttr）"
+    },
+    "returns": [
+      "boolean? result 开关状态，参数非法或角色不存在时为 nil"
+    ],
+    "notes": [
+      "读取 ActionAttrStateComponent:checkActionAttrState"
+    ]
+  },
+  "Monster:GetActorDir": {
+    "desc": "按方向类型获取角色的朝向角",
+    "params": {
+      "objid": "角色对象ID",
+      "itype": "方向类型（CmpEnvEnum.FaceType.Yaw 偏航 / Pitch 俯仰）"
+    },
+    "returns": [
+      "number? value 朝向角，类型不支持或角色不存在时为 nil"
+    ],
+    "notes": [
+      "只支持 Yaw（偏航）与 Pitch（俯仰）两种类型"
+    ]
+  },
+  "Monster:GetActorFacade": {
+    "desc": "获取角色当前的外观标识字符串",
+    "params": {
+      "objid": "角色对象ID",
+      "bhasequip": "是否包含装备外观，仅对玩家生效"
+    },
+    "returns": [
+      "string? value 外观标识，如 ModelComp_xxx，取不到时为 nil"
+    ],
+    "notes": [
+      "自定义模型返回 ModelComp_ 前缀的标识",
+      "玩家传入 bhasequip 为 true 时包含装备外观"
+    ]
+  },
+  "Monster:GetActorMovementMode": {
+    "desc": "获取角色当前的移动模式",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number? mode 移动模式（CmpEnvEnum.MoveType），取不到时为 nil"
+    ]
+  },
+  "Monster:GetActorPermissions": {
+    "desc": "查询角色的某个能力权限是否开启",
+    "params": {
+      "objid": "角色对象ID",
+      "ability": "能力枚举（CmpEnvEnum.Ability）"
+    },
+    "returns": [
+      "boolean result 权限是否开启"
+    ],
+    "notes": [
+      "等价于 GetCmpBaseState"
+    ]
+  },
+  "Monster:GetAttr": {
+    "desc": "读取生物属性值",
+    "params": {
+      "objid": "角色对象ID",
+      "atttype": "属性类型"
+    },
+    "returns": [
+      "number? value 属性值，属性不支持或角色不存在时为 nil"
+    ],
+    "notes": [
+      "该实现覆盖了 Actor 版本，只调用 monsterApi:getAtt，不支持玩家属性分支"
+    ]
+  },
+  "Monster:GetBodySize": {
+    "desc": "获取角色身体碰撞尺寸（宽、高）",
+    "params": {
+      "objid": "角色对象ID",
+      "bodySizeType": "身体尺寸类型，默认 0"
+    },
+    "returns": [
+      "number w 宽度（方块）",
+      "number h 高度（方块）"
+    ],
+    "notes": [
+      "内部按 0.01 换算为方块单位",
+      "角色不存在时不返回任何值"
+    ]
+  },
+  "Monster:GetBoundSzie": {
+    "desc": "获取角色包围盒尺寸",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "table? size 尺寸表 {x, y, z}，角色不存在时为 nil"
+    ],
+    "notes": [
+      "取自 GetAABBInfo，未做单位换算",
+      "函数名沿用引擎的 Szie 拼写"
+    ]
+  },
+  "Monster:GetBtreeVarValue": {
+    "desc": "读取生物行为树黑板变量的值",
+    "params": {
+      "objid": "角色对象ID",
+      "varid": "行为树黑板变量ID"
+    },
+    "returns": [
+      "any value 变量值，取不到时为 nil"
+    ],
+    "notes": [
+      "值是 table 时只返回其中一个值；数组形式的 table 一律返回 nil"
+    ]
+  },
+  "Monster:GetChargingMaxNum": {
+    "desc": "获取技能槽位的最大蓄力数量",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位序号，从 1 开始"
+    },
+    "returns": [
+      "number? num 最大蓄力数量，参数非法时为 nil"
+    ]
+  },
+  "Monster:GetChargingMaxTime": {
+    "desc": "获取技能槽位的最大蓄力时间",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位序号，从 1 开始"
+    },
+    "returns": [
+      "number? time 最大蓄力时间（秒），参数非法时为 nil"
+    ]
+  },
+  "Monster:GetChargingNum": {
+    "desc": "获取技能槽位当前的蓄力数量",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位序号，从 1 开始"
+    },
+    "returns": [
+      "number? num 当前蓄力数量，参数非法时为 nil"
+    ]
+  },
+  "Monster:GetChargingTime": {
+    "desc": "获取技能槽位已经蓄力的时间",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位序号，从 1 开始"
+    },
+    "returns": [
+      "number? time 已蓄力时间（秒），参数非法时为 nil"
+    ]
+  },
+  "Monster:GetCmpBaseState": {
+    "desc": "查询角色能力状态是否开启",
+    "params": {
+      "objid": "角色对象ID",
+      "actionattr": "动作属性或能力枚举（CmpEnvEnum.Ability / PlayerAttr）"
+    },
+    "returns": [
+      "boolean value 该能力是否开启"
+    ],
+    "notes": [
+      "部分能力枚举会被映射为玩家操作禁用，或转到 BaseState 组件",
+      "actionattr 大于等于 1000 时按能力组（减去 1000）查询"
+    ]
+  },
+  "Monster:GetCurMapId": {
+    "desc": "获取角色所在的星球（地图）ID",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number mapid 星球ID，角色不存在时为 -1"
+    ],
+    "notes": [
+      "等价于 GetObjWorldId"
+    ]
+  },
+  "Monster:GetCurrMapId": {
+    "desc": "获取角色所在的星球（地图）ID",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number mapid 星球ID，角色不存在时为 -1"
+    ],
+    "notes": [
+      "与 GetCurMapId 相同，是同一接口的别名"
+    ]
+  },
+  "Monster:GetDefID": {
+    "desc": "获取角色对应的生物配置ID",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "string|number? id 自定义生物返回资源ID字符串，原生生物返回配置ID"
+    ],
+    "notes": [
+      "自定义生物优先通过 GetCustomAssetIdByObjId 取资源ID"
+    ]
+  },
+  "Monster:GetDropItemInstanceId": {
+    "desc": "获取掉落物实例的唯一ID字符串",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "string? instanceid 道具实例ID，没有实例数据时为 nil"
+    ]
+  },
+  "Monster:GetDropItemNum": {
+    "desc": "获取掉落物当前的数量",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number? num 数量，角色不存在时为 nil"
+    ]
+  },
+  "Monster:GetEntityFacade": {
+    "desc": "由预制体名拼出实体外观标识",
+    "params": {
+      "prefab": "预制体资源名"
+    },
+    "returns": [
+      "string? value 外观标识，prefab 为空时为 nil"
+    ],
+    "notes": [
+      "预制体已内置时返回 templateprefab_ 前缀，否则返回 entityprefab_ 前缀"
+    ]
+  },
+  "Monster:GetEyeHeight": {
+    "desc": "获取角色眼睛（视点）高度",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number? height 视点高度（方块）"
+    ],
+    "notes": [
+      "内部按 0.01 换算为方块单位"
+    ]
+  },
+  "Monster:GetFaceDirection": {
+    "desc": "获取角色当前的朝向向量",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "table? dir 方向表 {x, y, z}，角色不存在时为 nil"
+    ]
+  },
+  "Monster:GetFacePitch": {
+    "desc": "获取角色朝向的俯仰角",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number? pitch 俯仰角，参数非法时为 nil"
+    ]
+  },
+  "Monster:GetFaceYaw": {
+    "desc": "获取角色朝向的偏航角",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number? yaw 偏航角，参数非法时为 nil"
+    ]
+  },
+  "Monster:GetGunInfo": {
+    "desc": "获取角色手持枪械的品质、等级与词条数量",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number quality 枪械品质",
+      "number level 枪械等级",
+      "number featureCount 词条数量"
+    ],
+    "notes": [
+      "角色没有枪械时不返回任何值"
+    ]
+  },
+  "Monster:GetItemId": {
+    "desc": "获取掉落物对应的道具ID",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "string|number? itemid 道具ID，自定义道具为资源ID字符串"
+    ],
+    "notes": [
+      "先按自定义资源查询，再回退到角色自身的 GetItemId"
+    ]
+  },
+  "Monster:GetLastFallSpeed": {
+    "desc": "获取角色最近一次下落的速度",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number speed 下落速度，取不到时为 0"
+    ]
+  },
+  "Monster:GetLevelMode": {
+    "desc": "获取当前关卡的等级模式",
+    "returns": [
+      "number? mode 等级模式值，未开启星级等级时为 nil"
+    ],
+    "notes": [
+      "首次调用后结果会缓存在服务实例上"
+    ]
+  },
+  "Monster:GetMainModel": {
+    "desc": "把外观标识解析成真正的主模型名",
+    "params": {
+      "facade": "外观标识字符串，如 ModelCompObj_<objid>"
+    },
+    "returns": [
+      "string? model 主模型名，facade 不是字符串时为 nil"
+    ],
+    "notes": [
+      "ModelCompObj_<objid> 会去查对象的 Model 组件，其它标识原样返回"
+    ]
+  },
+  "Monster:GetMaxHP": {
+    "desc": "获取角色当前的最大血量",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number? hp 最大血量，角色不存在时为 nil"
+    ]
+  },
+  "Monster:GetMonsterDefDesc": {
+    "desc": "获取生物配置里的描述文本",
+    "params": {
+      "actorid": "生物配置ID，也可传资源ID字符串"
+    },
+    "returns": [
+      "string? desc 生物描述，配置不存在时为 nil"
+    ]
+  },
+  "Monster:GetMonsterIcon": {
+    "desc": "获取生物配置里的图标资源标识",
+    "params": {
+      "monsterid": "生物配置ID，也可传资源ID字符串"
+    },
+    "returns": [
+      "string? icon 图标标识，配置不存在时为 nil"
+    ]
+  },
+  "Monster:GetMonsterMass": {
+    "desc": "获取生物配置里的质量",
+    "params": {
+      "actorid": "生物配置ID，也可传资源ID字符串"
+    },
+    "returns": [
+      "number? mass 质量值，配置不存在时为 nil"
+    ]
+  },
+  "Monster:GetMonsterType": {
+    "desc": "获取生物配置里的生物类型",
+    "params": {
+      "monsterid": "生物配置ID，也可传资源ID字符串"
+    },
+    "returns": [
+      "number? itype 生物类型枚举值，配置不存在时为 nil"
+    ]
+  },
+  "Monster:GetMotion": {
+    "desc": "获取角色当前的运动速度分量",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number x X 方向速度",
+      "number y Y 方向速度",
+      "number z Z 方向速度"
+    ],
+    "notes": [
+      "直接取 LocoMotion:GetMotion，未做单位换算",
+      "角色不存在时不返回任何值"
+    ]
+  },
+  "Monster:GetNickName": {
+    "desc": "获取玩家昵称或生物显示名",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "string? name 昵称，玩家与生物之外的类型为 nil"
+    ]
+  },
+  "Monster:GetObjType": {
+    "desc": "获取对象类型枚举",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number? objtype 对象类型（ObjType），对象不存在时为 nil"
+    ]
+  },
+  "Monster:GetObjWorldId": {
+    "desc": "获取对象所在的星球（地图）ID",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number worldid 星球ID，对象不存在时为 -1"
+    ]
+  },
+  "Monster:GetOrientation": {
+    "desc": "获取角色的欧拉角朝向",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number x X 轴角度",
+      "number y Y 轴角度",
+      "number z Z 轴角度"
+    ],
+    "notes": [
+      "角色不存在时不返回任何值"
+    ]
+  },
+  "Monster:GetOverlayGravity": {
+    "desc": "获取角色当前的覆盖重力倍率",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number|boolean value 重力倍率，默认 1；objid 无效时为 false"
+    ]
+  },
+  "Monster:GetPickupObjID": {
+    "desc": "获取角色拾取关系中另一方的对象ID",
+    "params": {
+      "objid": "角色对象ID",
+      "roleType": "拾取类型（CmpEnvEnum.RolePickupType.Carried 被抱 / Carrying 抱着）"
+    },
+    "returns": [
+      "number objid 对方对象ID，没有拾取关系时为 0"
+    ],
+    "notes": [
+      "Carried 取抱起自己的角色，Carrying 取自己抱着的角色"
+    ]
+  },
+  "Monster:GetPosition": {
+    "desc": "获取角色当前的世界坐标",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number x X 坐标（方块）",
+      "number y Y 坐标（方块）",
+      "number z Z 坐标（方块）"
+    ],
+    "notes": [
+      "内部按 0.01 换算为方块单位",
+      "角色不存在时不返回任何值"
+    ]
+  },
+  "Monster:GetRidingActorObjId": {
+    "desc": "获取当前骑乘的坐骑对象ID",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number objid 坐骑对象ID，未骑乘时为 0"
+    ]
+  },
+  "Monster:GetSkillCD": {
+    "desc": "获取技能槽位的剩余冷却时间",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位序号，从 1 开始"
+    },
+    "returns": [
+      "number? cd 冷却时间（秒），参数非法时为 nil"
+    ]
+  },
+  "Monster:GetSkillMaxCD": {
+    "desc": "获取技能槽位的最大冷却时间",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位序号，从 1 开始"
+    },
+    "returns": [
+      "number? cd 最大冷却时间（秒），参数非法时为 nil"
+    ]
+  },
+  "Monster:GetTeam": {
+    "desc": "获取角色所属的队伍",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "number? teamid 队伍ID，角色不存在时为 nil"
+    ]
+  },
+  "Monster:GetTickForever": {
+    "desc": "查询角色是否永久 tick（空实现，恒返回 true）",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "boolean value 恒为 true"
+    ],
+    "notes": [
+      "函数体没有任何查询逻辑，仅返回 true"
+    ]
+  },
+  "Monster:HasActor": {
+    "desc": "判断对象是否存在且存活",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "boolean result 是否存在且存活"
+    ],
+    "notes": [
+      "等价于 IsExist"
+    ]
+  },
+  "Monster:HasTags": {
+    "desc": "判断角色身上的标签是否满足条件",
+    "params": {
+      "objid": "角色对象ID",
+      "tags": "标签，字符串或字符串数组",
+      "mathcmode": "匹配模式（CmpEnvEnum.MatchMode.Any 任一 / All 全部）",
+      "bexactmatch": "是否精确匹配，false 为模糊匹配"
+    },
+    "returns": [
+      "boolean result 是否命中"
+    ],
+    "notes": [
+      "bexactmatch 为 true 走精确匹配，否则模糊匹配",
+      "mathcmode 为 Any 时任一标签命中即可"
+    ]
+  },
+  "Monster:IncreasesAttr": {
+    "desc": "在角色当前属性值上增加一个增量",
+    "params": {
+      "objid": "角色对象ID",
+      "atttype": "属性类型",
+      "val": "属性值"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "增量为 0 时直接返回 true",
+      "最大血量与最大饥饿值有专门处理，其余属性走 GetAttr/SetAttr"
+    ]
+  },
+  "Monster:InitTriggerGlobalData": {
+    "desc": "初始化触发器全局数据管理器",
+    "notes": [
+      "依赖全局数据的接口会在需要时自动调用，一般无需手动调用"
+    ]
+  },
+  "Monster:IsExist": {
+    "desc": "判断对象是否存在且存活",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "boolean result 是否存在且存活"
+    ]
+  },
+  "Monster:IsHaveSkill": {
+    "desc": "判断角色技能槽位上是否装配了技能",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位序号，从 1 开始"
+    },
+    "returns": [
+      "boolean? result 是否有技能，参数非法时为 nil"
+    ]
+  },
+  "Monster:IsMob": {
+    "desc": "判断对象ID是否是生物",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "boolean result 是否是生物"
+    ],
+    "notes": [
+      "生物对象ID大于 4294967296，通过 WorldMgr:findMobByWID 判定"
+    ]
+  },
+  "Monster:IsPlayer": {
+    "desc": "判断对象ID是否是玩家",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "boolean result 是否是玩家"
+    ],
+    "notes": [
+      "玩家对象ID小于 4294967296，通过 WorldMgr:GetPlayerByUin 判定"
+    ]
+  },
+  "Monster:Jump": {
+    "desc": "让角色跳跃一次并同步给客户端",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:KillSelf": {
+    "desc": "直接击杀指定角色",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:MountActor": {
+    "desc": "让角色骑乘到目标坐骑身上",
+    "params": {
+      "objid": "角色对象ID",
+      "rideobjid": "坐骑角色的对象ID",
+      "isContrl": "是否由玩家操控",
+      "isCloseAI": "是否关闭 AI"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "两个对象ID相同或缺失时直接失败",
+      "坐骑没有 Ride 组件时会自动添加",
+      "isCloseAI 为 true 表示关闭坐骑自身的 AI"
+    ]
+  },
+  "Monster:OrganizeFacadeList": {
+    "desc": "扫描生物与道具配置，整理可随机使用的外观列表",
+    "notes": [
+      "结果缓存在 facadeList 上供 RandomFacadeID 使用",
+      "会过滤副本、不可脚本使用以及特定 TriggerType 的配置"
+    ]
+  },
+  "Monster:PauseSoundEffectById": {
+    "desc": "暂停或恢复角色身上指定ID的音效",
+    "params": {
+      "objid": "角色对象ID",
+      "soundId": "音效ID，-1 表示该角色身上的全部音效",
+      "pause": "是否暂停，false 表示恢复播放"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "soundId 传 -1 表示该角色身上的全部音效"
+    ]
+  },
+  "Monster:PickupActor": {
+    "desc": "让角色抱起（抓住）另一个角色",
+    "params": {
+      "objidA": "角色A的对象ID",
+      "objidB": "角色B的对象ID",
+      "actionA": "拾取者动作ID，默认 100502",
+      "actionB": "被拾取者动作ID，默认 100113",
+      "offest": "锚点偏移表 {x, y, z}，单位为方块，默认 (0, 0.2, 0)",
+      "rotate": "旋转表 {x, y, z}，单位为角度",
+      "playemode": "播放模式（CmpEnvEnum.AnimMode），默认 -1",
+      "playspeed": "播放速度，默认 1",
+      "anchorId": "挂点ID（CmpEnvEnum.HumanBodyAnchorId），默认 Head"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "两个动作ID默认 100502 与 100113",
+      "锚点默认挂在头部",
+      "偏移量按方块单位换算"
+    ]
+  },
+  "Monster:PickupItem": {
+    "desc": "让角色拾取指定的掉落物",
+    "params": {
+      "objid": "角色对象ID",
+      "itemobjid": "掉落物对象的对象ID",
+      "bforcepickup": "是否强制拾取，默认 false"
+    },
+    "returns": [
+      "number result 底层拾取接口 PickUpDropitem 的返回值"
+    ],
+    "notes": [
+      "实际拾取由触发器全局数据管理器执行",
+      "两个参数必须是数字，否则直接返回 0"
+    ]
+  },
+  "Monster:PlayAct": {
+    "desc": "让角色播放指定的动作",
+    "params": {
+      "objid": "角色对象ID",
+      "actid": "动作ID（TriggerAct 配置）"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "actid 必须是 TriggerAct 配置表中存在的动作",
+      "玩家通过任务下发，生物直接调用 playActForTrigger"
+    ]
+  },
+  "Monster:PlayAnim": {
+    "desc": "让角色播放指定动画",
+    "params": {
+      "objid": "角色对象ID",
+      "animid": "动画ID或动画名",
+      "speed": "速度",
+      "loop": "循环模式，boolean 或 CmpEnvEnum.AnimMode 数值，必填"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "loop 必须传入，boolean 或 AnimMode 数值",
+      "播放成功后会派发 Actor.PlayAnim 脚本事件",
+      "旧模型会按模型配置修正循环模式"
+    ]
+  },
+  "Monster:PlayAnimById": {
+    "desc": "按动画ID播放角色动画，可指定播放层与过渡",
+    "params": {
+      "objid": "角色对象ID",
+      "animid": "动画ID或动画名",
+      "inputloopmode": "循环模式（CmpEnvEnum.AnimMode）",
+      "playLayer": "播放层",
+      "crossfade": "过渡时间（秒）"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:PlayAnimByObj": {
+    "desc": "让角色同步播放另一个角色当前的动画",
+    "params": {
+      "objidA": "角色A的对象ID",
+      "objidB": "角色B的对象ID",
+      "breplay": "是否重新播放"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "两个ID相同或不是数字时直接失败",
+      "环境表标注为 BoardCast，调用会广播到各客户端"
+    ]
+  },
+  "Monster:PlayBodyEffect": {
+    "desc": "播放角色身体特效（引擎条件写反，实际恒返回 false）",
+    "params": {
+      "objid": "角色对象ID",
+      "itype": "特效类型（该实现中未生效）"
+    },
+    "returns": [
+      "boolean result 恒为 false"
+    ],
+    "notes": [
+      "源码条件是 type(itype) ~= string or type(itype) ~= number，永远成立，特效不会播放",
+      "需要播放特效请改用 PlayBodyEffectByFile 或 PlayBodyEffectById"
+    ]
+  },
+  "Monster:PlayBodyEffectByFile": {
+    "desc": "按特效文件名在角色身上播放身体特效",
+    "params": {
+      "objid": "角色对象ID",
+      "filename": "特效文件名",
+      "sync": "是否同步到客户端，默认 true"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "sync 默认 true，传 false 时只在本地播放"
+    ]
+  },
+  "Monster:PlayBodyEffectById": {
+    "desc": "按粒子ID在角色身上播放特效",
+    "params": {
+      "objid": "角色对象ID",
+      "particleId": "粒子ID，也可传特效资源名或ID数组",
+      "scale": "缩放倍数",
+      "ptme": "特效持续时间（秒），小于等于 0 表示跟随配置"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "particleId 支持单个ID或ID数组",
+      "scale 默认 1",
+      "PlayMode 为 2 的粒子会自动取配置的播放时长"
+    ]
+  },
+  "Monster:PlayBodyParticleById": {
+    "desc": "按粒子ID在角色身上播放粒子并设置偏移、旋转与缩放",
+    "params": {
+      "objid": "角色对象ID",
+      "particleId": "粒子ID，也可传特效资源名或ID数组",
+      "ptme": "特效持续时间（秒），小于等于 0 表示跟随配置",
+      "offset": "偏移表 {x, y, z}，单位为方块",
+      "rot": "旋转表 {x, y, z}，单位为角度",
+      "scale": "缩放倍数"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "offset 单位为方块，rot 为角度，scale 为倍数",
+      "ptme 小于等于 0 时按配置时长播放，PlayMode 为 2 的粒子默认 1.5 秒",
+      "particleId 支持ID、资源名或数组"
+    ]
+  },
+  "Monster:PlayHandAnim": {
+    "desc": "让角色播放手部动画",
+    "params": {
+      "objid": "角色对象ID",
+      "animid": "动画ID或动画名",
+      "speed": "速度",
+      "loop": "循环模式，boolean 或 CmpEnvEnum.AnimMode 数值，必填"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "loop 必须传入，boolean 或 AnimMode 数值",
+      "不会派发 Actor.PlayAnim 事件"
+    ]
+  },
+  "Monster:PlaySkill": {
+    "desc": "按下角色技能槽位对应的技能",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位序号，从 1 开始"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "槽位从 1 开始，内部转换为 0 基索引"
+    ]
+  },
+  "Monster:PlaySoundByName": {
+    "desc": "按音效名在角色身上播放音效",
+    "params": {
+      "objid": "角色对象ID",
+      "name": "音效名称",
+      "volume": "音量",
+      "pitch": "音调倍率",
+      "flag": "播放标记，默认 3"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "volume 默认 1，pitch 默认 1，flag 默认 3"
+    ]
+  },
+  "Monster:PlaySoundEffectById": {
+    "desc": "按音效ID在角色身上播放音效",
+    "params": {
+      "objid": "角色对象ID",
+      "soundId": "音效ID，-1 表示该角色身上的全部音效",
+      "volume": "音量百分比（0-100）",
+      "pitch": "音调倍率",
+      "isLoop": "是否循环播放，默认 false"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "volume 按百分比传入（0-100），内部乘以 0.01",
+      "isLoop 默认 false",
+      "自定义资源音效走 playCustomSoundByTrigger，内置音效走 playSoundByTrigger"
+    ]
+  },
+  "Monster:PlayerHurt": {
+    "desc": "让角色对目标造成伤害，与 ActorHurt 等价",
+    "params": {
+      "objid": "角色对象ID",
+      "targetid": "目标角色对象ID",
+      "damage": "伤害值，必须大于 0",
+      "attacktype": "攻击类型（CmpEnvEnum.AttackType），默认 ATTACK_FIXED",
+      "ignoreResist": "是否忽略护甲等抗性，默认 false",
+      "ignoreTriggerEvent": "是否不触发受击相关脚本事件"
+    },
+    "returns": [
+      "boolean result 是否成功施加伤害"
+    ],
+    "notes": [
+      "直接转发给 ActorHurt"
+    ]
+  },
+  "Monster:RandomFacadeID": {
+    "desc": "从外观列表中随机取一个外观标识",
+    "returns": [
+      "string? facade 外观标识，如 mob_xxx、item_xxx、block_xxx，列表为空时为 nil"
+    ],
+    "notes": [
+      "列表未构建时会先调用 OrganizeFacadeList"
+    ]
+  },
+  "Monster:RandomName": {
+    "desc": "随机取一个野人名称",
+    "returns": [
+      "any name 随机取到的野人名称"
+    ]
+  },
+  "Monster:RecoverinitialModel": {
+    "desc": "把角色模型恢复成初始（默认）模型",
+    "params": {
+      "ishost": "是否房主端，true 为房主、false 为客机",
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "房主端按对象类型分别恢复玩家、生物、道具的默认外观",
+      "客机端只能对本地玩家生效，会按商城与皮肤数据重建外观",
+      "环境表标注为 HostAndClient"
+    ]
+  },
+  "Monster:RemoveTags": {
+    "desc": "移除角色身上的标签并减少引用计数",
+    "params": {
+      "objid": "角色对象ID",
+      "tags": "标签，字符串或字符串数组",
+      "icount": "引用计数，默认 0 表示忽略计数直接删除"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "icount 默认 0，表示忽略引用计数直接删除",
+      "多个标签时返回最后一次删除的结果"
+    ]
+  },
+  "Monster:RotateFaceToActor": {
+    "desc": "让生物立即转向目标角色",
+    "params": {
+      "objid": "角色对象ID",
+      "targetid": "目标角色对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:SetAblePick": {
+    "desc": "设置掉落物是否允许被拾取",
+    "params": {
+      "objid": "角色对象ID",
+      "able": "是否允许被拾取"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "仅对道具掉落物（ClientItem）生效"
+    ]
+  },
+  "Monster:SetActionAttrState": {
+    "desc": "设置角色动作属性的开关状态",
+    "params": {
+      "objid": "角色对象ID",
+      "actionattr": "动作属性或能力枚举（CmpEnvEnum.Ability / PlayerAttr）",
+      "switch": "开关，true 为开启"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "通过脚本任务 TRIGGERSTATEATTR 下发执行"
+    ]
+  },
+  "Monster:SetActorControl": {
+    "desc": "设置角色是否由脚本接管控制",
+    "params": {
+      "objid": "角色对象ID",
+      "b": "是否由脚本接管控制"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:SetActorDir": {
+    "desc": "按方向类型设置角色朝向角",
+    "params": {
+      "objid": "角色对象ID",
+      "itype": "方向类型（CmpEnvEnum.FaceType.Yaw 偏航 / Pitch 俯仰）",
+      "value": "朝向角"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "只支持 Yaw（偏航）与 Pitch（俯仰）两种类型"
+    ]
+  },
+  "Monster:SetActorPermissions": {
+    "desc": "设置角色的能力权限开关",
+    "params": {
+      "objid": "角色对象ID",
+      "ability": "能力枚举（CmpEnvEnum.Ability）",
+      "switch": "开关，true 为开启"
+    },
+    "returns": [
+      "boolean result 是否设置成功"
+    ],
+    "notes": [
+      "等价于 SetCmpBaseState"
+    ]
+  },
+  "Monster:SetAttr": {
+    "desc": "设置生物属性值",
+    "params": {
+      "objid": "角色对象ID",
+      "atttype": "属性类型",
+      "val": "属性值"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "该实现覆盖了 Actor 版本，只调用 monsterApi:setAtt，不支持玩家属性分支",
+      "底层参数顺序为 (objid, val, atttype)"
+    ]
+  },
+  "Monster:SetBeHurtTarget": {
+    "desc": "设置生物的受击（仇恨）目标",
+    "params": {
+      "objid": "角色对象ID",
+      "targetid": "目标角色对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:SetBehitDisable": {
+    "desc": "设置角色是否禁用受击",
+    "params": {
+      "objid": "角色对象ID",
+      "value": "属性值"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "只有状态真正发生变化时才返回 true"
+    ]
+  },
+  "Monster:SetBodyEffectScale": {
+    "desc": "设置角色身上某个特效的缩放",
+    "params": {
+      "objid": "角色对象ID",
+      "particleId": "粒子ID，也可传特效资源名或ID数组",
+      "scale": "缩放倍数"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:SetBodyEffectScaleByFile": {
+    "desc": "按特效文件名设置身体特效缩放",
+    "params": {
+      "objid": "角色对象ID",
+      "filename": "特效文件名",
+      "scale": "缩放倍数"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "scale 限制在 (0, 5] 区间，小于等于 0 时按 1 处理"
+    ]
+  },
+  "Monster:SetBodyParticleTransform": {
+    "desc": "设置角色身上粒子的偏移、旋转与缩放",
+    "params": {
+      "objid": "角色对象ID",
+      "particleId": "粒子ID，也可传特效资源名或ID数组",
+      "offset": "偏移表 {x, y, z}，单位为方块",
+      "rot": "旋转表 {x, y, z}，单位为角度",
+      "scale": "缩放倍数"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "offset 单位为方块，rot 为角度，scale 为倍数",
+      "particleId 支持ID、资源名或数组"
+    ]
+  },
+  "Monster:SetBtreeVarValue": {
+    "desc": "写入生物行为树黑板变量的值",
+    "params": {
+      "objid": "角色对象ID",
+      "varid": "行为树黑板变量ID",
+      "val": "属性值"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:SetCanCollide": {
+    "desc": "设置角色是否参与碰撞",
+    "params": {
+      "objid": "角色对象ID",
+      "value": "属性值"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "状态未变化时直接返回 false",
+      "有碰撞值组件时会同步给客户端"
+    ]
+  },
+  "Monster:SetCharging": {
+    "desc": "设置技能槽位的蓄力状态",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位序号，从 1 开始",
+      "ischarging": "是否处于蓄力中"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:SetChargingValue": {
+    "desc": "设置技能槽位当前的蓄力值",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位序号，从 1 开始",
+      "value": "属性值"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:SetCharginginfo": {
+    "desc": "一次性设置技能槽位的蓄力时间与数量信息",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位序号，从 1 开始",
+      "max": "最大蓄力时间（秒）",
+      "num": "当前蓄力数量",
+      "maxnum": "最大蓄力数量",
+      "isauto": "是否自动冷却"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "max、num、maxnum 依次对应最大蓄力时间、当前蓄力数量、最大蓄力数量"
+    ]
+  },
+  "Monster:SetCmpBaseState": {
+    "desc": "设置角色能力状态的开关",
+    "params": {
+      "objid": "角色对象ID",
+      "actionattr": "动作属性或能力枚举（CmpEnvEnum.Ability / PlayerAttr）",
+      "switch": "开关，true 为开启"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "部分能力枚举会转换成玩家操作禁用（切换快捷栏、旋转视角、输入旋转）",
+      "actionattr 大于等于 1000 时按能力组（减去 1000）设置"
+    ]
+  },
+  "Monster:SetFaceDirection": {
+    "desc": "设置角色朝向向量",
+    "params": {
+      "objid": "角色对象ID",
+      "x": "朝向向量 X 分量",
+      "y": "朝向向量 Y 分量",
+      "z": "朝向向量 Z 分量"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:SetFacePitch": {
+    "desc": "设置角色朝向的俯仰角",
+    "params": {
+      "objid": "角色对象ID",
+      "pitch": "音调倍率"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:SetFaceYaw": {
+    "desc": "设置角色朝向的偏航角并立即同步",
+    "params": {
+      "objid": "角色对象ID",
+      "yaw": "偏航角"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "底层 setFaceYaw(yaw, true) 会带同步标记"
+    ]
+  },
+  "Monster:SetFirstSearch": {
+    "desc": "设置生物的首次搜索标记",
+    "params": {
+      "objid": "角色对象ID",
+      "firstsearch": "是否首次搜索"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:SetImmuneType": {
+    "desc": "添加或移除角色的伤害免疫类型",
+    "params": {
+      "objid": "角色对象ID",
+      "immunetype": "免疫类型，-1 表示直接设为无敌",
+      "isadd": "是否添加，false 表示移除"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "immunetype 传 -1 表示直接设置无敌状态"
+    ]
+  },
+  "Monster:SetModAttrib": {
+    "desc": "覆写角色的模组属性值",
+    "params": {
+      "objid": "角色对象ID",
+      "attrtype": "生物属性类型",
+      "value": "属性值"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "与 AddModAttrib 的累加相对，这里是覆写"
+    ]
+  },
+  "Monster:SetMotionChange": {
+    "desc": "直接设置角色的运动速度",
+    "params": {
+      "objid": "角色对象ID",
+      "x": "X 方向速度",
+      "y": "Y 方向速度",
+      "z": "Z 方向速度"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "玩家走 trySetMotionChange，其它角色构造向量后 setMotionChange",
+      "与 AppendSpeed 的叠加不同，这里是覆盖"
+    ]
+  },
+  "Monster:SetMountActorAttr": {
+    "desc": "设置坐骑的旋转、操控与 AI 开关",
+    "params": {
+      "objid": "角色对象ID",
+      "isRote": "是否允许旋转",
+      "isPlayerContrl": "是否由玩家操控",
+      "isCloseAI": "是否关闭 AI"
+    },
+    "returns": [
+      "userdata? obj 被设置的坐骑对象，对象或 Ride 组件不存在时为 nil"
+    ]
+  },
+  "Monster:SetNickName": {
+    "desc": "设置角色昵称",
+    "params": {
+      "objid": "角色对象ID",
+      "nickname": "昵称字符串"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "昵称命中过滤词时会被替换成 ****"
+    ]
+  },
+  "Monster:SetOrientation": {
+    "desc": "设置角色的欧拉角朝向",
+    "params": {
+      "objid": "角色对象ID",
+      "x": "X 轴旋转角度",
+      "y": "Y 轴旋转角度",
+      "z": "Z 轴旋转角度"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "对象类角色设置三轴旋转，普通角色只取 y 作为偏航角"
+    ]
+  },
+  "Monster:SetOverlayGravity": {
+    "desc": "设置角色的覆盖重力倍率",
+    "params": {
+      "objid": "角色对象ID",
+      "val": "重力倍率，限制在 -1 到 10 之间"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "内部乘以 -8 后写入触发器扩展值 5"
+    ]
+  },
+  "Monster:SetPosition": {
+    "desc": "把角色传送到指定世界坐标",
+    "params": {
+      "objid": "角色对象ID",
+      "x": "X 坐标（方块）",
+      "y": "Y 坐标（方块）",
+      "z": "Z 坐标（方块）"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "内部乘以 100 转换为引擎单位",
+      "玩家走 gotoPosEx，Entity 类对象还会触发动作同步检查"
+    ]
+  },
+  "Monster:SetRidePosition": {
+    "desc": "设置角色在坐骑上的骑乘位置",
+    "params": {
+      "objid": "角色对象ID",
+      "x": "X 偏移",
+      "y": "Y 偏移",
+      "z": "Z 偏移"
+    },
+    "notes": [
+      "直接写入 Ride 组件的位移，不校验参数"
+    ]
+  },
+  "Monster:SetScale": {
+    "desc": "设置角色缩放",
+    "params": {
+      "objid": "角色对象ID",
+      "x": "X 轴缩放倍数",
+      "y": "Y 轴缩放倍数",
+      "z": "Z 轴缩放倍数"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "对象类角色按三轴缩放，普通角色只取 y"
+    ]
+  },
+  "Monster:SetSkillCD": {
+    "desc": "设置技能槽位的冷却时间",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位序号，从 1 开始",
+      "cd": "冷却时间（秒）"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:SetSkillCDInfo": {
+    "desc": "设置技能槽位的最大冷却与自动冷却标记",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位序号，从 1 开始",
+      "maxcd": "最大冷却时间（秒）",
+      "isauto": "是否自动冷却"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:SetTeam": {
+    "desc": "设置角色所属队伍",
+    "params": {
+      "objid": "角色对象ID",
+      "teamid": "队伍ID，取值范围 0-1000",
+      "bResetAttr": "是否同时重置属性，默认 false"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "队伍ID取值 0-1000，非法时直接失败",
+      "bResetAttr 为 true 时会同时重置属性"
+    ]
+  },
+  "Monster:SetTickForever": {
+    "desc": "设置角色永久 tick（空实现，恒返回 true）",
+    "params": {
+      "objid": "角色对象ID",
+      "tickForever": "是否永久 tick（该实现未使用此参数）"
+    },
+    "returns": [
+      "boolean result 恒为 true"
+    ],
+    "notes": [
+      "函数体没有任何逻辑，参数不会被使用"
+    ]
+  },
+  "Monster:ShowNickName": {
+    "desc": "设置是否显示角色昵称",
+    "params": {
+      "objid": "角色对象ID",
+      "bshow": "是否显示，默认 false"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "bshow 默认 false",
+      "环境表标注为 BoardCast，调用会广播到各客户端"
+    ]
+  },
+  "Monster:SkillIsCharging": {
+    "desc": "查询技能槽位是否正在蓄力",
+    "params": {
+      "objid": "角色对象ID",
+      "slot": "技能槽位序号，从 1 开始"
+    },
+    "returns": [
+      "boolean? result 是否蓄力中，参数非法时为 nil"
+    ]
+  },
+  "Monster:StopAllAnim": {
+    "desc": "停止角色身上正在播放的全部动画",
+    "params": {
+      "objid": "角色对象ID"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:StopBodyEffect": {
+    "desc": "停止角色身体特效（引擎条件写反，实际恒返回 false）",
+    "params": {
+      "objid": "角色对象ID",
+      "itype": "特效类型（该实现中未生效）"
+    },
+    "returns": [
+      "boolean result 恒为 false"
+    ],
+    "notes": [
+      "源码条件写反导致永远提前返回 false，特效不会停止",
+      "停止特效请改用 StopBodyEffectById"
+    ]
+  },
+  "Monster:StopBodyEffectById": {
+    "desc": "按粒子ID停止角色身上的特效",
+    "params": {
+      "objid": "角色对象ID",
+      "particleId": "粒子ID，也可传特效资源名或ID数组"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "粒子ID不存在时也会返回 true"
+    ]
+  },
+  "Monster:StopSoundEffectById": {
+    "desc": "停止角色身上指定ID的音效",
+    "params": {
+      "objid": "角色对象ID",
+      "soundId": "音效ID，-1 表示该角色身上的全部音效"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "soundId 传 -1 表示停止全部音效",
+      "音效ID无效时返回 false"
+    ]
+  },
+  "Monster:TriggerAttrChangeEvent": {
+    "desc": "手动派发一次角色属性变更脚本事件",
+    "params": {
+      "objid": "角色对象ID",
+      "atttype": "属性类型",
+      "val": "属性值"
+    },
+    "returns": [
+      "boolean? result 对象不存在时为 false，派发后无返回值"
+    ],
+    "notes": [
+      "玩家派发 Player.ChangeAttr，其它角色派发 Actor.ChangeAttr",
+      "SetAttr 在数值真正变化时会自动调用"
+    ]
+  },
+  "Monster:TriggerSkillCall": {
+    "desc": "按技能名触发角色技能，可临时挂载成长补丁",
+    "params": {
+      "objid": "角色对象ID",
+      "skillName": "技能名称",
+      "growPatchName": "成长补丁名称，空字符串表示不应用补丁"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "growPatchName 传空字符串表示不应用补丁",
+      "技能与时间轴补丁在触发后会自动移除",
+      "角色没有 SkillComponent 时会尝试创建"
+    ]
+  },
+  "Monster:TryMoveToActor": {
+    "desc": "让角色向目标角色移动",
+    "params": {
+      "objid": "角色对象ID",
+      "targetObjid": "目标角色的对象ID",
+      "speed": "速度"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:TryMoveToNoSearch": {
+    "desc": "让角色不寻路直接朝坐标移动",
+    "params": {
+      "objid": "角色对象ID",
+      "x": "X 坐标",
+      "y": "Y 坐标",
+      "z": "Z 坐标"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ]
+  },
+  "Monster:TryMoveToPos": {
+    "desc": "让角色尝试移动到指定坐标",
+    "params": {
+      "objid": "角色对象ID",
+      "x": "X 坐标（方块）",
+      "y": "Y 坐标（方块）",
+      "z": "Z 坐标（方块）",
+      "cancontrol": "是否允许玩家控制，默认 true",
+      "bshowtip": "是否显示提示，默认 false"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "玩家坐标会自动加 0.5 方块偏移对齐格子中心",
+      "cancontrol 默认 true，bshowtip 默认 false",
+      "对玩家之外的角色 cancontrol 与 bshowtip 不起作用"
+    ]
+  },
+  "Monster:TryPickupActorForward": {
+    "desc": "让角色尝试拾取身前一定距离内的角色",
+    "params": {
+      "objid": "角色对象ID",
+      "distance": "拾取距离，必须大于 0"
+    },
+    "returns": [
+      "boolean result 是否成功"
+    ],
+    "notes": [
+      "拾取失败时会播放 100502 动作作为空抓表现"
+    ]
+  },
+  "Monster:WhitList_StopSkill": {
+    "desc": "让 AI 停止释放指定技能",
+    "params": {
+      "objid": "角色对象ID",
+      "skillid": "技能ID"
+    },
+    "returns": [
+      "boolean? result 是否停止成功，角色不存在时为 nil"
+    ]
+  },
+  "Monster:_GenVarids": {
+    "desc": "收集需要随替换角色迁移的变量ID",
+    "params": {
+      "varmgr": "变量管理器（VarMgr）"
+    },
+    "notes": [
+      "把生物、生物组、含生物字段的表变量记录到 m_replacevarinfo，供 ReplaceActor 使用",
+      "下划线前缀的内部实现，不建议外部调用"
+    ]
+  }
+}

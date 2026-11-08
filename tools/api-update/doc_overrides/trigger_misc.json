@@ -1,0 +1,704 @@
+{
+  "Trigger.Block:CheckBlockDir": {
+    "desc": "检查方块朝向是否等于或异于指定方向",
+    "params": {
+      "pos": "方块坐标表，需含 x/y/z",
+      "dir": "用于比较的方向值（FaceDir 枚举）",
+      "val": "比较方式：true 判断等于 dir，false 判断不等于 dir",
+      "worldId": "星球ID，不填或传 -1 表示当前所在星球"
+    },
+    "returns": ["boolean result 是否满足比较条件，坐标为非表或方向/比较值为空时返回 false"],
+    "notes": ["取不到位置上的方块朝向时一律返回 false"]
+  },
+  "Trigger.Block:CompareBlockID": {
+    "desc": "比较指定位置的方块类型是否与给定ID一致",
+    "params": {
+      "pos": "方块坐标表，需含 x/y/z",
+      "flag": "true 判断相等，false 判断不相等",
+      "blockid": "方块类型ID，自定义方块可传资源ID字符串",
+      "worldId": "星球ID，不填或传 -1 表示当前所在星球"
+    },
+    "returns": ["boolean result 比较结果，坐标非法或取不到方块类型时返回 false"],
+    "notes": ["先读取位置上的方块类型再按 flag 比较，读取失败直接返回 false"]
+  },
+  "Trigger.Block:CreateBlock": {
+    "desc": "在指定位置放置一个方块",
+    "params": {
+      "pos": "目标坐标表，需含 x/y/z",
+      "blockid": "方块类型ID，自定义方块可传资源ID字符串",
+      "face": "方块朝向或方块数据值，默认 0",
+      "worldId": "星球ID，不填或传 -1 表示当前所在星球"
+    },
+    "returns": ["boolean result 是否放置成功"],
+    "notes": ["成功后记录最近创建的方块ID，供触发器事件读取", "方块类型为 4095（空气）时直接失败"]
+  },
+  "Trigger.Block:CreateSpcBlock": {
+    "desc": "放置带颜色和开关状态的特殊方块",
+    "params": {
+      "pos": "目标坐标表，需含 x/y/z",
+      "blockid": "方块类型ID，自定义方块可传资源ID字符串",
+      "face": "方块朝向或方块数据值，默认 0",
+      "color": "颜色值（0xRRGGBB），仅颜色方块生效",
+      "switch": "功能方块开关状态（布尔值）",
+      "worldId": "星球ID，不填或传 -1 表示当前所在星球"
+    },
+    "returns": ["boolean result 方块是否放置成功"],
+    "notes": ["开关状态在方块放置成功后单独设置，设置结果不影响返回值", "颜色与开关只对颜色方块、功能方块有效"]
+  },
+  "Trigger.Block:DestroyBlock": {
+    "desc": "销毁指定位置的方块且不产生掉落物",
+    "params": {
+      "pos": "目标坐标表，需含 x/y/z",
+      "worldId": "星球ID，不填或传 -1 表示当前所在星球"
+    },
+    "returns": ["boolean result 是否销毁成功"],
+    "notes": ["默认触发方块破坏相关事件", "坐标缺失或星球不存在时返回 false"]
+  },
+  "Trigger.Block:DestroyBlockDrop": {
+    "desc": "销毁指定位置的方块并产生掉落物",
+    "params": {
+      "pos": "目标坐标表，需含 x/y/z",
+      "worldId": "星球ID，不填或传 -1 表示当前所在星球"
+    },
+    "returns": ["boolean result 是否销毁成功"],
+    "notes": ["与 DestroyBlock 相同，但销毁后按方块掉落表生成掉落物", "坐标缺失或星球不存在时返回 false"]
+  },
+  "Trigger.Block:GetBlockID": {
+    "desc": "读取指定位置方块的类型ID",
+    "params": {
+      "pos": "方块坐标表，需含 x/y/z",
+      "worldId": "星球ID，不填或传 -1 表示当前所在星球"
+    },
+    "returns": ["number|string|boolean? id 方块类型ID，自定义方块返回资源ID字符串；坐标为非表返回 false，星球不存在返回 nil"],
+    "notes": ["坐标为小数时向下取整"]
+  },
+  "Trigger.Block:GetBlockSwitchStatus": {
+    "desc": "检查功能方块开关状态是否等于给定值",
+    "params": {
+      "pos": "方块坐标表，需含 x/y/z",
+      "flag": "期望的开关状态（布尔值）",
+      "worldId": "星球ID，不填或传 -1 表示当前所在星球"
+    },
+    "returns": ["boolean result 开关状态是否与 flag 一致"],
+    "notes": ["非功能方块读到的状态为 false，此时传 flag=false 会返回 true", "坐标为非表时直接返回 false"]
+  },
+  "Trigger.Block:GetFacade": {
+    "desc": "获取方块类型对应的外观资源名",
+    "params": {
+      "blockid": "方块类型ID或方块预制资源ID"
+    },
+    "returns": ["string? result 外观名，形如 blockprefab_<资源ID> 或 block_<类型ID>，无法解析时为 nil"],
+    "notes": ["字符串参数不做校验，直接拼成 blockprefab_<参数>", "数字参数优先返回自定义资源ID，其次返回 block_<类型ID>，都取不到时为 nil"]
+  },
+  "Trigger.Block:ReplaceBluePrint": {
+    "desc": "在指定位置按蓝图覆盖放置整套方块",
+    "params": {
+      "pos": "蓝图起始坐标表，需含 x/y/z",
+      "blueprint": "蓝图资源ID，形如 类型,蓝图键[,mod路径]",
+      "angle": "放置旋转角度",
+      "mirror": "是否镜像放置",
+      "placeMode": "是否先清空蓝图覆盖区域再放置",
+      "worldId": "星球ID，默认取 pos.worldId 或 pos.mapId"
+    },
+    "returns": ["boolean result 是否放置成功"],
+    "notes": ["目标星球不存在时会提示并返回 false", "坐标为非表或蓝图字符串非法时返回 false"]
+  },
+  "Trigger.Block:SetBlockColor": {
+    "desc": "修改颜色方块的显示颜色",
+    "params": {
+      "pos": "方块坐标表，需含 x/y/z",
+      "color": "颜色值（0xRRGGBB），支持数字或 0x 前缀字符串",
+      "worldId": "星球ID，不填或传 -1 表示当前所在星球"
+    },
+    "returns": ["boolean result 是否修改成功"],
+    "notes": ["仅颜色方块生效，其他方块返回 false", "颜色会映射到最接近的可用颜色方块"]
+  },
+  "Trigger.Block:SetBlockDir": {
+    "desc": "设置方块朝向并触发方块变向事件",
+    "params": {
+      "pos": "方块坐标表，需含 x/y/z",
+      "dir": "方向值（FaceDir 枚举）",
+      "worldId": "星球ID，不填或传 -1 表示当前所在星球"
+    },
+    "returns": ["boolean result 是否设置成功"],
+    "notes": ["方块已处于目标朝向时直接返回 true", "成功后会派发 BlockChangeDir 事件"]
+  },
+  "Trigger.Block:SetBlockSwichState": {
+    "desc": "设置功能方块的开关状态",
+    "params": {
+      "pos": "方块坐标表，需含 x/y/z",
+      "switch": "开关状态（布尔值）",
+      "worldId": "星球ID，不填或传 -1 表示当前所在星球"
+    },
+    "returns": ["boolean result 是否设置成功"],
+    "notes": ["开关值不是布尔值或星球不存在时返回 false", "只对功能方块有意义"]
+  },
+  "Trigger.Area:BlockInArea": {
+    "desc": "判断区域内是否存在指定类型的方块",
+    "params": {
+      "blockid": "方块类型ID，自定义方块可传资源ID字符串",
+      "areaid": "区域唯一ID"
+    },
+    "returns": ["boolean? bool 是否存在，参数类型非法或区域不存在时为 nil"],
+    "notes": ["区域内任意一个该类型方块即返回 true"]
+  },
+  "Trigger.Area:ClearAllBlock": {
+    "desc": "清空区域内指定类型的方块且不触发事件",
+    "params": {
+      "areaid": "区域唯一ID",
+      "blockids": "方块类型ID或其数组，传 0 表示所有类型"
+    },
+    "returns": ["boolean bool 是否至少有一个清除操作成功"],
+    "notes": ["内部按最大数量 0（不限制）清除，且不触发方块事件", "传入数组时逐个类型清除，任一成功即返回 true"]
+  },
+  "Trigger.Area:CloneArea": {
+    "desc": "把区域内的方块整体复制到目标位置",
+    "params": {
+      "itype": "复制方式，默认 1",
+      "areaid": "区域ID，或 {posbeg=起点, posend=终点} 范围表",
+      "deststartpos": "目标起始坐标表，需含 x/y/z"
+    },
+    "returns": ["boolean bool 是否复制成功"],
+    "notes": ["复制方式取值由引擎 CopyAllBlockAreaRangeToArea 解释，常用 1", "传范围表时使用当前所在星球，不解析星球ID"]
+  },
+  "Trigger.Area:DestroyAllBlock": {
+    "desc": "破坏区域内的方块并掉落物品",
+    "params": {
+      "areaid": "区域唯一ID",
+      "blockids": "方块类型ID或其数组，传 0 表示所有类型"
+    },
+    "returns": ["boolean bool 是否至少有一个破坏操作成功"],
+    "notes": ["内部固定按数量 0（全部）、允许掉落、触发事件处理", "传入数组时逐个类型破坏，任一成功即返回 true"]
+  },
+  "Trigger.Area:FillBlock": {
+    "desc": "用指定方块填充整个区域",
+    "params": {
+      "blockid": "填充用的方块类型ID，自定义方块可传资源ID字符串",
+      "areaid": "区域唯一ID",
+      "itype": "填充类型（AreaFillType：1 删除，2 破坏），默认 1",
+      "face": "新方块朝向，默认 0",
+      "color": "颜色值，仅颜色方块生效",
+      "switch": "开关状态，当前实现未使用"
+    },
+    "returns": ["boolean bool 是否提交填充成功"],
+    "notes": ["填充分帧执行，当前帧内可能还查不到新方块", "开关参数不会写入方块，需要另行调用 Trigger.Block:SetBlockSwichState"]
+  },
+  "Trigger.Area:GetCenterFloatPos": {
+    "desc": "获取区域包围盒中心点坐标",
+    "params": {
+      "areaid": "区域ID，或 {posbeg=起点, posend=终点} 范围表"
+    },
+    "returns": ["table? value 中心点坐标 {x,y,z}，区域不存在时为 nil"],
+    "notes": ["与 GetCenterPos 实现完全相同", "返回值保留对角坐标相加后除以 2 的小数部分"]
+  },
+  "Trigger.Area:GetCenterPos": {
+    "desc": "获取区域包围盒中心点坐标",
+    "params": {
+      "areaid": "区域ID，或 {posbeg=起点, posend=终点} 范围表"
+    },
+    "returns": ["table? value 中心点坐标 {x,y,z}，区域不存在时为 nil"],
+    "notes": ["与 GetCenterFloatPos 实现完全相同", "坐标并未取整，可能带小数"]
+  },
+  "Trigger.Area:GetRandomFloatPos": {
+    "desc": "在区域内随机取一个坐标点",
+    "params": {
+      "areaid": "区域ID，或 {posbeg=起点, posend=终点} 范围表"
+    },
+    "returns": ["table? value 随机坐标 {x,y,z}，区域不存在时为 nil"],
+    "notes": ["实现与 GetRandomPos 完全相同，按对角坐标取整后随机", "每次调用都会用 os.time 重新设置全局随机种子"]
+  },
+  "Trigger.Area:GetRandomPos": {
+    "desc": "在区域内随机取一个整数坐标",
+    "params": {
+      "areaid": "区域ID，或 {posbeg=起点, posend=终点} 范围表"
+    },
+    "returns": ["table? value 随机坐标 {x,y,z}，区域不存在时为 nil"],
+    "notes": ["对角坐标向下取整后分别在三个轴向上取随机整数", "每次调用都会用 os.time 重新设置全局随机种子"]
+  },
+  "Trigger.Area:ObjInArea": {
+    "desc": "判断对象当前是否位于区域内",
+    "params": {
+      "objid": "对象ID",
+      "areaid": "区域唯一ID"
+    },
+    "returns": ["boolean? bool 是否在区域内，参数类型非法或区域不存在时为 nil"]
+  },
+  "Trigger.Area:PosInArea": {
+    "desc": "判断坐标点是否位于区域内",
+    "params": {
+      "pos": "待判断坐标表，需含 x/y/z",
+      "areaid": "区域唯一ID"
+    },
+    "returns": ["boolean? bool 是否在区域内，参数类型非法或区域不存在时为 nil"],
+    "notes": ["星球由区域自身决定，无需传 worldId"]
+  },
+  "Trigger.Area:ReplaceAreaBlock": {
+    "desc": "把区域内某种方块批量替换为另一种方块",
+    "params": {
+      "destblockid": "替换后的方块类型ID",
+      "areaid": "区域唯一ID",
+      "srcblockid": "区域内的待替换方块类型ID，传 0 表示所有类型",
+      "face": "新方块朝向，默认 0",
+      "color": "颜色值，仅颜色方块生效",
+      "switch": "开关状态，当前实现未使用"
+    },
+    "returns": ["boolean bool 是否提交替换成功"],
+    "notes": ["引擎固定按包括空气方块处理，区域内空气位置也会被填充为目标方块", "目标方块为 4095（空气）时返回 false"]
+  },
+  "Trigger.Graphics:CreateGraphicsByActor": {
+    "desc": "按对象批量创建图文并返回实例ID列表",
+    "params": {
+      "data": "目标对象ID或其数组",
+      "info": "图文配置表，Type 决定图文种类（文字/悬浮文字/进度条/箭头/线/面/图片/寻路引导线）",
+      "dir": "朝向：数字按对象朝向换算为方向向量，也可直接传方向向量表",
+      "offest": "相对对象的位置偏移高度"
+    },
+    "returns": ["table|boolean? result 创建成功的图文实例ID数组；info 非表返回 false，data 或 dir 为空返回 nil"],
+    "notes": ["多个对象共用第一次换算出的方向向量", "不支持的 Type 会被跳过，数组可能为空"]
+  },
+  "Trigger.Graphics:CreateGraphicsByActor2": {
+    "desc": "按对象批量创建带屏幕偏移的图文",
+    "params": {
+      "data": "目标对象ID或其数组",
+      "info": "图文配置表，Type 决定图文种类",
+      "x": "屏幕横向偏移",
+      "y": "屏幕纵向偏移"
+    },
+    "returns": ["table|boolean? result 创建成功的图文实例ID数组；info 非表返回 false，data 为空返回 nil"],
+    "notes": ["固定使用 {x=1, y=1, z=1} 的方向与 0 位置偏移", "只处理文字、悬浮文字、进度条与图片类型"]
+  },
+  "Trigger.Graphics:CreateGraphicsByPos": {
+    "desc": "在世界坐标创建单个图文",
+    "params": {
+      "pos": "图文所在坐标表，需含 x/y/z",
+      "GraphicInfo": "图文配置表，Type 决定图文种类",
+      "worldId": "星球ID，不填表示当前星球"
+    },
+    "returns": ["number|boolean? result 图文实例ID；配置非表或不支持的 Type 返回 false"],
+    "notes": ["箭头/线/面配置里带 objid 时指向对象，带 pos 时指向坐标", "坐标非法或星球不存在时返回 nil"]
+  },
+  "Trigger.Graphics:CreateGraphicsByPos2": {
+    "desc": "在世界坐标创建带屏幕偏移的单个图文",
+    "params": {
+      "pos": "图文所在坐标表，需含 x/y/z",
+      "GraphicInfo": "图文配置表，Type 决定图文种类",
+      "x": "屏幕横向偏移",
+      "y": "屏幕纵向偏移",
+      "worldId": "星球ID，不填表示当前星球"
+    },
+    "returns": ["number|boolean? result 图文实例ID；配置非表或不支持的 Type 返回 false"],
+    "notes": ["只支持进度条、悬浮文字、文字与图片类型", "坐标非法或星球不存在时返回 nil"]
+  },
+  "Trigger.Graphics:GetInnerGraphicsOffset": {
+    "desc": "查询玩家昵称或称号在角色头顶的偏移高度",
+    "params": {
+      "tuin": "玩家Uin",
+      "itype": "查询类型（PlayerNameType：1 昵称，2 称号，3 特效）"
+    },
+    "returns": ["number? result 偏移高度，取不到客户端玩家数据时为 nil"],
+    "notes": ["仅在客户端环境有数据，主机上通常返回 nil", "原始偏移大于 0 时会减去 100 的基准高度"]
+  },
+  "Trigger.Graphics:MakeGraphicsArrowToPos": {
+    "desc": "构造指向世界坐标的箭头图文配置",
+    "params": {
+      "pos": "箭头指向的坐标表，需含 x/y/z",
+      "size": "缩放值，默认 1",
+      "color": "颜色值（0xFFFFFF），支持数字或 0x 前缀字符串",
+      "itype": "箭头样式ID",
+      "worldId": "星球ID，构造阶段不使用"
+    },
+    "returns": ["table? result 图文配置表，缺少坐标或颜色时为 nil"],
+    "notes": ["生成结果可直接作为 GraphicInfo 传给 CreateGraphicsByPos", "颜色无法解析时按白色处理，完全不传颜色则返回 nil"]
+  },
+  "Trigger.Graphics:MakeGraphicsLineToPos": {
+    "desc": "构造指向世界坐标的连线图文配置",
+    "params": {
+      "pos": "连线指向的坐标表，需含 x/y/z",
+      "size": "缩放值，默认 1",
+      "color": "颜色值（0xFFFFFF），支持数字或 0x 前缀字符串",
+      "itype": "线条样式ID",
+      "worldId": "星球ID，构造阶段不使用"
+    },
+    "returns": ["table? result 图文配置表，缺少坐标或颜色时为 nil"],
+    "notes": ["生成结果可直接作为 GraphicInfo 传给 CreateGraphicsByPos"]
+  },
+  "Trigger.Graphics:MakeGraphicsNavPathToPos": {
+    "desc": "构造指向世界坐标的寻路引导线图文配置",
+    "params": {
+      "pos": "引导线指向的坐标表，需含 x/y/z",
+      "itype": "引导线样式ID",
+      "canSeePlayersArr": "可见玩家ID或其数组，不填表示所有玩家"
+    },
+    "returns": ["table? result 图文配置表，坐标为 nil 时为 nil"],
+    "notes": ["类型固定为 NavPathPos，不需要颜色与缩放", "数组会被展开成普通 Lua 表后写入配置"]
+  },
+  "Trigger.Graphics:MakeGraphicsSurfaceToPos": {
+    "desc": "构造指向世界坐标的平面图文配置",
+    "params": {
+      "pos": "平面指向的坐标表，需含 x/y/z",
+      "size": "缩放值，默认 1",
+      "color": "颜色值（0xFFFFFF），支持数字或 0x 前缀字符串",
+      "itype": "平面样式ID",
+      "worldId": "星球ID，构造阶段不使用"
+    },
+    "returns": ["table? result 图文配置表，缺少坐标或颜色时为 nil"],
+    "notes": ["生成结果可直接作为 GraphicInfo 传给 CreateGraphicsByPos"]
+  },
+  "Trigger.Graphics:RemoveGraphicsByObjID": {
+    "desc": "删除对象上指定类型与样式的图文",
+    "params": {
+      "objids": "对象ID或其数组",
+      "itype": "图文ID，即创建配置里的 itype",
+      "graphType": "图文类型（GraphicsType 枚举）"
+    },
+    "returns": ["boolean result 是否至少删除成功一个"],
+    "notes": ["数组会逐个对象删除，任一成功即返回 true", "引擎不可用时返回 false"]
+  },
+  "Trigger.Graphics:RemoveGraphicsByPos": {
+    "desc": "删除指定坐标上指定类型与样式的图文",
+    "params": {
+      "pos": "图文所在坐标表，需含 x/y/z",
+      "itype": "图文ID，即创建配置里的 itype",
+      "graphType": "图文类型（GraphicsType 枚举）",
+      "worldId": "星球ID，不填表示当前星球"
+    },
+    "returns": ["boolean result 是否删除成功"],
+    "notes": ["坐标为 nil 或星球不存在时返回 false"]
+  },
+  "Trigger.Buff:AddBuff": {
+    "desc": "为对象添加指定状态",
+    "params": {
+      "data": "目标对象ID或其数组",
+      "buffid": "状态ID，末 3 位表示等级",
+      "bforever": "是否永久，为 true 时忽略 ctime",
+      "ctime": "持续秒数"
+    },
+    "returns": ["boolean result 是否全部添加成功"],
+    "notes": ["内部按 20 tick/秒换算持续时间", "多个对象时任一失败即返回 false"]
+  },
+  "Trigger.Buff:CompareBuff": {
+    "desc": "比较两个状态ID是否相同",
+    "params": {
+      "buff1": "状态ID或状态资源ID",
+      "buff2": "另一个状态ID或资源ID"
+    },
+    "returns": ["boolean result 是否相同"],
+    "notes": ["直接比较原值，数字与字符串形式不同即视为不同"]
+  },
+  "Trigger.Buff:GetBuffLeftTime": {
+    "desc": "获取对象身上指定状态的剩余时间",
+    "params": {
+      "objid": "对象ID",
+      "buffid": "状态ID，末 3 位表示等级"
+    },
+    "returns": ["number? num 剩余秒数，状态不存在或参数非法时为 nil"],
+    "notes": ["返回 0 通常表示永久状态"]
+  },
+  "Trigger.Buff:HasBuff": {
+    "desc": "判断对象是否带有指定状态",
+    "params": {
+      "data": "目标对象ID或其数组",
+      "buffid": "状态ID，末 3 位表示等级"
+    },
+    "returns": ["boolean result 是否全部带有该状态"],
+    "notes": ["多个对象时任一对象缺失即返回 false"]
+  },
+  "Trigger.Buff:RemoveBuff": {
+    "desc": "移除对象身上的状态",
+    "params": {
+      "data": "目标对象ID或其数组",
+      "buffid": "状态ID；数字 1/2/3 分别表示清除全部、增益、减益状态"
+    },
+    "returns": ["boolean result 是否全部移除成功"],
+    "notes": ["传数字 1 清除全部状态，2 清除增益状态，3 清除减益状态", "传 userdata 状态数组时逐个移除"]
+  },
+  "Trigger.Buff:ReplaceBuff": {
+    "desc": "把对象身上的源状态全部替换为目标状态",
+    "params": {
+      "data": "目标对象ID或其数组",
+      "buffer1": "源状态ID",
+      "buffer2": "目标状态ID",
+      "bforever": "是否永久，为 true 时忽略 ctime",
+      "ctime": "目标状态的持续秒数"
+    },
+    "returns": ["boolean result 是否全部替换成功"],
+    "notes": ["按源状态的层数逐个添加目标状态，保持数量一致", "源状态不存在时返回 false"]
+  },
+  "Trigger.GameObject:CreatePrefabInst": {
+    "desc": "在指定坐标批量创建预制体对象",
+    "params": {
+      "objectType": "对象类型（ObjType 枚举）",
+      "prefabId": "预制体ID，可为配置ID或资源ID",
+      "num": "创建数量",
+      "pos": "生成坐标表，需含 x/y/z",
+      "worldId": "星球ID，不填表示当前星球"
+    },
+    "returns": ["boolean result 是否创建成功"],
+    "notes": ["生物与掉落物会记录最近创建的ID，供触发器读取", "生物和掉落物要求 y 坐标大于 0"]
+  },
+  "Trigger.GameObject:CreatePrefabInstEx": {
+    "desc": "批量创建预制体对象，扩展参数当前不生效",
+    "params": {
+      "objectType": "对象类型（ObjType 枚举）",
+      "var": "预留参数，当前未使用",
+      "prefabId": "预制体ID，可为配置ID或资源ID",
+      "num": "创建数量",
+      "pos": "生成坐标表，需含 x/y/z",
+      "face": "预留朝向，当前未使用",
+      "scale": "预留缩放，当前未使用"
+    },
+    "returns": ["boolean result 是否创建成功"],
+    "notes": ["实现只透传对象类型、预制体、数量、坐标，var/face/scale 不参与创建", "创建固定发生在当前星球"]
+  },
+  "Trigger.GameObject:CreateSinglePrefabInst": {
+    "desc": "在指定坐标创建单个预制体并返回对象ID",
+    "params": {
+      "objectType": "对象类型（ObjType 枚举）",
+      "prefabId": "预制体ID，可为配置ID或资源ID",
+      "pos": "生成坐标表，需含 x/y/z",
+      "worldId": "星球ID，不填表示当前星球"
+    },
+    "returns": ["number? objid 新对象的对象ID，创建失败时为 nil"]
+  },
+  "Trigger.GameObject:GetObjectPrefab": {
+    "desc": "获取对象的预制ID，类型不匹配时返回 nil",
+    "params": {
+      "itype": "期望的对象类型（ObjType 枚举）",
+      "objId": "对象ID"
+    },
+    "returns": ["string|number? id 预制资源ID或配置ID，类型不符或对象不存在时为 nil"],
+    "notes": ["只有传入类型与实际对象类型一致时才返回结果"]
+  },
+  "Trigger.GameObject:GetPrefabDes": {
+    "desc": "获取预制体的描述文本",
+    "params": {
+      "info": "预制体信息表 {id=预制ID, type=对象类型}"
+    },
+    "returns": ["string? desc 描述文本，对象或配置不存在时为 nil"],
+    "notes": ["生物、掉落物、投掷物分别查对应配置表", "其他对象类型返回空字符串"]
+  },
+  "Trigger.GameObject:GetPrefabName": {
+    "desc": "获取预制体的名称",
+    "params": {
+      "info": "预制体信息表 {id=预制ID, type=对象类型}"
+    },
+    "returns": ["string? name 名称，对象或配置不存在时为 nil"],
+    "notes": ["字符串ID直接返回资源文件名", "其他对象类型返回空字符串"]
+  },
+  "Trigger.Item:ClearStorageBox": {
+    "desc": "清空指定位置存储框内的全部道具",
+    "params": {
+      "pos": "存储框坐标表，需含 x/y/z",
+      "worldId": "星球ID，不填表示当前星球"
+    },
+    "returns": ["boolean result 是否清空成功"],
+    "notes": ["目标位置没有容器或星球不存在时返回 false"]
+  },
+  "Trigger.Item:CompareItemid": {
+    "desc": "比较两个道具ID是否相同",
+    "params": {
+      "itemid": "道具ID",
+      "itemid2": "另一个道具ID"
+    },
+    "returns": ["boolean result 是否相同"],
+    "notes": ["直接比较原值，任一为 nil 时返回 false"]
+  },
+  "Trigger.Item:CreateItemToStorageBox": {
+    "desc": "向指定位置的存储框放入道具",
+    "params": {
+      "itemid": "道具ID，可为配置ID或资源ID字符串",
+      "num": "放入数量",
+      "pos": "存储框坐标表，需含 x/y/z",
+      "worldId": "星球ID，不填表示当前星球"
+    },
+    "returns": ["boolean? result 坐标为表即返回 true，否则为 nil"],
+    "notes": ["只要 pos 是表就返回 true，容器不存在或放入失败同样返回该值", "调用后会记录最近创建的道具ID"]
+  },
+  "Trigger.Item:DespawnItemFromStorageBox": {
+    "desc": "从指定位置存储框移除指定道具",
+    "params": {
+      "itemid": "道具ID，可为配置ID或资源ID字符串",
+      "num": "移除数量，不填表示全部",
+      "pos": "存储框坐标表，需含 x/y/z",
+      "worldId": "星球ID，不填表示当前星球"
+    },
+    "returns": ["boolean? result 是否移除成功，pos 不是表时为 nil"],
+    "notes": ["数量不填时内部按 999999 处理", "容器不存在时返回 false"]
+  },
+  "Trigger.Item:GetFacade": {
+    "desc": "获取道具类型对应的外观资源名",
+    "params": {
+      "itemid": "道具类型ID或道具预制资源ID"
+    },
+    "returns": ["string? name 外观名，形如 itemprefab_<资源ID> 或 item_<类型ID>，无法解析时为 nil"],
+    "notes": ["字符串参数不做校验，直接拼成 itemprefab_<参数>", "数字参数先查自定义资源ID，再回退为 item_<类型ID>"]
+  },
+  "Trigger.Item:ToItemID": {
+    "desc": "原样返回传入的道具ID",
+    "params": {
+      "itemid": "道具ID，数字或资源ID字符串"
+    },
+    "returns": ["number|string id 传入的ID原值"],
+    "notes": ["占位接口，不做任何转换"]
+  },
+  "Trigger.KvMap:GetDataListBykey": {
+    "desc": "读取键值变量中指定键的值",
+    "params": {
+      "varid": "键值变量ID",
+      "playerid": "玩家ID，0 表示公共数据",
+      "key": "键名，只允许字母数字与英文符号，长度不超过 50",
+      "itype": "期望的值类型（VarType），数组类型会转成临时数组对象"
+    },
+    "returns": ["number code 错误码（0 成功，4 无此键，5 值类型不匹配，1001 失败）", "any value 键对应的值，失败时为 nil"],
+    "notes": ["值类型与 itype 不符时返回 KV_OP_INVALID_VAL 并把值置空", "字符串值会先按存档格式解码再返回"]
+  },
+  "Trigger.KvMap:GetOrderDataBykey": {
+    "desc": "按键或名次读取排序数据中的值",
+    "params": {
+      "varid": "排序键值变量ID",
+      "playerid": "玩家ID，0 表示公共数据",
+      "ktype": "查询方式：1 数字键，2 字符串键，3 升序名次，4 降序名次",
+      "key": "键名或名次，名次需大于 0"
+    },
+    "returns": ["number code 错误码（0 成功，4 无对应数据，1001 失败）", "any value 读取到的数值，失败时为 nil", "table? map 扩展信息临时表，无扩展信息时为 nil"],
+    "notes": ["ktype 为 1/2 时按 key 精确查找，3/4 时 key 表示名次", "扩展信息会解码成临时键值表对象返回"]
+  },
+  "Trigger.KvMap:RemoveDataListBykey": {
+    "desc": "删除键值变量中指定键的数据",
+    "params": {
+      "varid": "键值变量ID",
+      "playerid": "玩家ID，0 表示公共数据",
+      "key": "键名，只允许字母数字与英文符号"
+    },
+    "returns": ["number code 操作错误码（0 成功，1001 失败）"],
+    "notes": ["键名非法或变量不存在时返回 1001"]
+  },
+  "Trigger.KvMap:RemoveOrderDataByKey": {
+    "desc": "按排序数据的键删除指定记录",
+    "params": {
+      "varid": "排序键值变量ID",
+      "playerid": "玩家ID，0 表示公共数据",
+      "ktype": "键类型：1 数字键，2 字符串键",
+      "key": "键名，需与 ktype 类型一致"
+    },
+    "returns": ["number code 操作错误码（0 成功，1001 失败）"],
+    "notes": ["只支持 ktype 为 1/2 的按键删除，其他取值直接返回失败码"]
+  },
+  "Trigger.KvMap:SetDataListBykey": {
+    "desc": "向键值变量写入指定键的值",
+    "params": {
+      "varid": "键值变量ID",
+      "playerid": "玩家ID，0 表示公共数据",
+      "key": "键名，只允许字母数字与英文符号，长度不超过 50",
+      "value": "写入值，支持数字、字符串、布尔与数组变量对象"
+    },
+    "returns": ["number code 操作错误码（0 成功，1001 失败）"],
+    "notes": ["数组变量会先编码成存档字符串再写入", "键名非法或值为 nil 时返回 1001"]
+  },
+  "Trigger.KvMap:SetOrderDataBykey": {
+    "desc": "写入或增减排序数据中的数值",
+    "params": {
+      "varid": "排序键值变量ID",
+      "playerid": "玩家ID，0 表示公共数据",
+      "ktype": "键类型：1 数字键，2 字符串键",
+      "key": "键名，需与 ktype 类型一致",
+      "opcode": "操作类型：1 增加，2 减少，3 覆盖设置",
+      "value": "要设置或增减的数值",
+      "extendinfo": "扩展信息，可传临时键值表对象或已编码字符串"
+    },
+    "returns": ["number? code 操作错误码（0 成功，1001 失败），opcode 非法时为 nil"],
+    "notes": ["ktype 为 2 时 key 必须是字符串，为 1 时必须是数字", "只有 ktype 与 key 类型匹配才会真正写入"]
+  },
+  "Trigger.Timeline:GetDisplayName": {
+    "desc": "获取 Timeline 资源在编辑器中的显示名称",
+    "params": {
+      "filename": "Timeline 资源ID或文件路径"
+    },
+    "returns": ["string name 显示名称，找不到资源时返回传入的 ID"],
+    "notes": ["filename 为空时返回空字符串", "当前地图资源未加载时同样返回传入的 ID"]
+  },
+  "Trigger.Timeline:Pause": {
+    "desc": "暂停玩家正在播放的 Timeline",
+    "params": {
+      "data": "玩家ID或其数组",
+      "filename": "Timeline 资源ID或文件名"
+    },
+    "returns": ["boolean result 参数齐全即返回 true"],
+    "notes": ["data 或 filename 为空时返回 false", "不校验该 Timeline 是否正在播放"]
+  },
+  "Trigger.Timeline:PlayForPlayer": {
+    "desc": "为玩家播放 Timeline",
+    "params": {
+      "data": "玩家ID或其数组",
+      "filename": "Timeline 资源ID或文件名",
+      "playRef": "播放参考：0 默认，1 参考世界坐标，2 参考玩家",
+      "a": "playRef 为 1 时是参考坐标表（方块坐标），为 2 时是参考玩家ID",
+      "b": "playRef 为 1 时的参考朝向 yaw"
+    },
+    "returns": ["boolean result 是否开始播放"],
+    "notes": ["playRef 缺省按 0 处理", "Timeline 参考系与 playRef 不匹配时提示并返回 false", "按玩家参考制作时只能用 0 或 2，按世界坐标制作时只能用 0 或 1"]
+  },
+  "Trigger.Timeline:Resume": {
+    "desc": "恢复玩家被暂停的 Timeline",
+    "params": {
+      "data": "玩家ID或其数组",
+      "filename": "Timeline 资源ID或文件名"
+    },
+    "returns": ["boolean result 参数齐全即返回 true"],
+    "notes": ["data 或 filename 为空时返回 false"]
+  },
+  "Trigger.Timeline:SkipForPlayer": {
+    "desc": "跳过玩家当前播放的 Timeline",
+    "params": {
+      "data": "玩家ID或其数组"
+    },
+    "returns": ["boolean result data 不为空即返回 true"],
+    "notes": ["不需要指定 Timeline，会跳过该玩家所有正在播放的 Timeline", "data 为空时返回 false"]
+  },
+  "Trigger.DisplayBoard:IsVisible": {
+    "desc": "查询显示板在指定玩家视角下是否可见",
+    "params": {
+      "objid": "显示板对象ID",
+      "player": "玩家ID"
+    },
+    "returns": ["boolean? result 是否可见，显示板对象不存在时为 nil"],
+    "notes": ["通过客户端数据回报结果（ClientData），主机环境可能取不到值"]
+  },
+  "Trigger.DisplayBoard:ReplaceByCfg": {
+    "desc": "用新配置替换显示板内容并对所有玩家生效",
+    "params": {
+      "cfg": "显示板配置表",
+      "objid": "显示板对象ID"
+    },
+    "returns": ["boolean result 是否替换成功"],
+    "notes": ["配置中的 prefab 字段会被忽略", "对象上没有 UIBillboard 组件时返回 false"]
+  },
+  "Trigger.DisplayBoard:ReplaceByCfgForPlayer": {
+    "desc": "用新配置替换指定玩家看到的显示板内容",
+    "params": {
+      "player": "玩家ID，0 表示所有玩家",
+      "cfg": "显示板配置表",
+      "objid": "显示板对象ID"
+    },
+    "returns": ["boolean result 是否替换成功"],
+    "notes": ["配置中的 prefab 字段会被忽略", "对象上没有 UIBillboard 组件时返回 false"]
+  },
+  "Trigger.DisplayBoard:SetVisible": {
+    "desc": "设置指定玩家是否能看到显示板",
+    "params": {
+      "player": "玩家ID",
+      "visible": "可见性：1 显示，0 隐藏，也可直接传布尔值",
+      "objid": "显示板对象ID"
+    },
+    "returns": ["boolean result 是否设置成功"],
+    "notes": ["显示板对象不存在时返回 false"]
+  },
+  "Trigger.Monster:GetMonsterFacade": {
+    "desc": "获取生物类型对应的外观资源名",
+    "params": {
+      "monsterid": "生物ID或生物预制资源ID"
+    },
+    "returns": ["string? result 外观名，形如 mobprefab_<资源ID> 或 mob_<类型ID>，无法解析时为 nil"],
+    "notes": ["字符串参数直接拼成 mobprefab_<参数>", "数字参数先查自定义资源ID，再回退为 mob_<类型ID>"]
+  }
+}
