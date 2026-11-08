@@ -11,6 +11,7 @@
 ---@param z any
 ---@param playerid any
 ---@param itype any
+---@return boolean
 function Graphics:FindGraphics(x, y, z, playerid, itype) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -21,4 +22,5 @@ function Graphics:FindGraphics(x, y, z, playerid, itype) end
 function Graphics:GetInnerGraphicsOffset_OnClient(reportid, objid, tuin, itype) end
 
 ---官方环境独有接口（未收录于开发环境）
+---@return boolean
 function Graphics:SnycGraphicsInfo2Client() end

@@ -9,7 +9,7 @@
 function GameObject:CreateEditEmptyActor() end
 
 ---官方环境独有接口（未收录于开发环境）
----@param id any
+---@param id number
 function GameObject:FindBlockObjectForInternal(id) end
 
 ---官方环境独有接口（未收录于开发环境）

@@ -18,13 +18,15 @@ function Listen:GetVarTabColID(varid, index) end
 ---官方环境独有接口（未收录于开发环境）
 ---@param varid any
 ---@param callback any
----@param colids any
+---@param colids table
 ---@param sync any
----@param filtertxtcolids any
+---@param filtertxtcolids table
+---@return boolean
 function Listen:InsertVarLinsten(varid, callback, colids, sync, filtertxtcolids) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param varid any
+---@return boolean
 function Listen:IsListen(varid) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -34,16 +36,17 @@ function Listen:OnGraphicsParamParamChange(objid, data) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param varid any
+---@return boolean
 function Listen:RemoveVarLinsten(varid) end
 
 ---官方环境独有接口（未收录于开发环境）
 function Listen:SnycGraphicsInfo2Client() end
 
 ---官方环境独有接口（未收录于开发环境）
----@param playerId any
+---@param playerId? number
 ---@param varid any
 ---@param code any
----@param value any
+---@param value table
 ---@param index1 any
 ---@param index2 any
 function Listen:VarRunDataRecord(playerId, varid, code, value, index1, index2) end

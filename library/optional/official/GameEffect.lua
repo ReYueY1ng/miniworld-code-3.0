@@ -8,21 +8,25 @@
 GameEffect = {}
 
 ---官方环境独有接口（未收录于开发环境）
----@param content any
+---@param content? any
+---@return boolean
 function GameEffect:ApplyPsychedelicVisionClient(content) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param uin any
 ---@param token any
+---@return boolean
 function GameEffect:ClosePsychedelicVision(uin, token) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param uin any
+---@return boolean
 function GameEffect:CloseScreenEffect(uin) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param uin any
----@param content any
+---@param content? table
+---@return boolean
 function GameEffect:ShowPsychedelicVision(uin, content) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -30,4 +34,5 @@ function GameEffect:ShowPsychedelicVision(uin, content) end
 ---@param ctype any
 ---@param isloop any
 ---@param incspeed any
+---@return boolean
 function GameEffect:ShowScreenEffect(uin, ctype, isloop, incspeed) end

@@ -9,27 +9,30 @@
 ---@param x any
 ---@param y any
 ---@param z any
----@param blockid any
+---@param blockid? string
+---@return boolean
 function WorldContainer:AddFurnace(x, y, z, blockid) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param x any
 ---@param y any
 ---@param z any
----@param blockid any
+---@param blockid? string
+---@return boolean
 function WorldContainer:AddStorageBox(x, y, z, blockid) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param x any
 ---@param y any
 ---@param z any
+---@return boolean
 function WorldContainer:CheckFurnace(x, y, z) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param x any
 ---@param y any
 ---@param z any
----@param lev any
+---@param lev? number
 function WorldContainer:GetFurnaceHeatPercent(x, y, z, lev) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -46,21 +49,23 @@ function WorldContainer:Is2Sizeblock(blockid) end
 ---@param x any
 ---@param y any
 ---@param z any
+---@return boolean
 function WorldContainer:RemoveFurnace(x, y, z) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param x any
 ---@param y any
 ---@param z any
+---@return boolean
 function WorldContainer:RemoveStorageBox(x, y, z) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param x any
----@param y any
----@param z any
----@param gridid any
----@param attr any
----@param value any
+---@param x number
+---@param y number
+---@param z number
+---@param gridid number
+---@param attr number
+---@param value number
 ---@param worldId any
 function WorldContainer:SetGridAttr(x, y, z, gridid, attr, value, worldId) end
 
@@ -71,6 +76,7 @@ function WorldContainer:SetGridAttr(x, y, z, gridid, attr, value, worldId) end
 ---@param changeCD any
 ---@param CD any
 ---@param CDType any
+---@return number
 function WorldContainer:SetSummoner(x, y, z, changeCD, CD, CDType) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -78,4 +84,5 @@ function WorldContainer:SetSummoner(x, y, z, changeCD, CD, CDType) end
 ---@param y any
 ---@param z any
 ---@param level any
+---@return number
 function WorldContainer:SetSummonerLevel(x, y, z, level) end

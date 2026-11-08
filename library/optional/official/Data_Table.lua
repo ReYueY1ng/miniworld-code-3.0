@@ -6,7 +6,7 @@
 ---[官方 Wiki](https://dev-wiki.mini1.cn/ugc-wiki/)
 
 ---官方环境独有接口（未收录于开发环境）
----@param varId any
+---@param varId? any
 ---@param playerId any
 ---@param col any
 function Data.Table:GetColItemType(varId, playerId, col) end

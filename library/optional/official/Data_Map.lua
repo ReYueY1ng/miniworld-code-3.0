@@ -16,7 +16,7 @@ function Data.Map:CreateTmpMap(varType, data) end
 function Data.Map:GetAllValue(varId, playerId) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param varId any
+---@param varId? any
 ---@param playerId any
 ---@param key any
 function Data.Map:GetMapValue(varId, playerId, key) end
@@ -35,13 +35,13 @@ function Data.Map:GetUserDataValue(key) end
 function Data.Map:GetUserDataValueInMap(key) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param varId any
+---@param varId? any
 ---@param playerId any
 ---@param key any
 function Data.Map:RemoveMapValue(varId, playerId, key) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param varId any
+---@param varId? any
 ---@param playerId any
 ---@param key any
 ---@param value any

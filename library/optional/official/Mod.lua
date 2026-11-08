@@ -7,7 +7,7 @@
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param objType any
----@param cfgId any
+---@param cfgId number
 function Mod:GetAssetIdByCfg(objType, cfgId) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -22,7 +22,7 @@ function Mod:GetAvatarHeadInfo(avatarInfo, cacheId, filename) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param objType any
----@param cfgId any
+---@param cfgId number
 function Mod:GetCustomAssetId(objType, cfgId) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -36,4 +36,5 @@ function Mod:GetDefIdByCfg(inputId) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param wtype any
+---@return boolean
 function Mod:SetWeatherType(wtype) end

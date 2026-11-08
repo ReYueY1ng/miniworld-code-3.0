@@ -6,20 +6,22 @@
 ---[官方 Wiki](https://dev-wiki.mini1.cn/ugc-wiki/)
 
 ---官方环境独有接口（未收录于开发环境）
----@param playerid any
----@param itemid any
+---@param playerid number
+---@param itemid number | string
+---@return boolean
 function Backpack:ActCreateEquip(playerid, itemid) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param playerid any
----@param gridid any
----@param gridtype any
+---@param gridid number
+---@param gridtype number
+---@return boolean
 function Backpack:AutoMoveGridItem(playerid, gridid, gridtype) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param playerid any
----@param itemid any
----@param num any
+---@param playerid number
+---@param itemid? number | string
+---@param num number
 function Backpack:EnoughGridForItemMaxNum(playerid, itemid, num) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -48,17 +50,17 @@ function Backpack:GetBackpackBarSize(bartype, objid) end
 function Backpack:GetBackpackBarValidList(playerid, bartype) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param playerid any
----@param bartype any
+---@param playerid number
+---@param bartype number
 function Backpack:GetBackpackBarValidListExtend(playerid, bartype) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param playerid any
+---@param playerid number
 function Backpack:GetBackpackNum(playerid) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param playerid any
----@param gridid any
+---@param playerid number
+---@param gridid number
 function Backpack:GetGridDurability(playerid, gridid) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -72,7 +74,7 @@ function Backpack:GetGridEnchantList(playerid, gridid) end
 function Backpack:GetGridInfoByIndex(playerid, gridid) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param itemid any
+---@param itemid? string
 ---@param num any
 function Backpack:GetGridInfoByItemidAndNum(itemid, num) end
 
@@ -82,8 +84,8 @@ function Backpack:GetGridInfoByItemidAndNum(itemid, num) end
 function Backpack:GetGridNum(playerid, gridid) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param playerid any
----@param gridid any
+---@param playerid number
+---@param gridid number
 function Backpack:GetGridStack(playerid, gridid) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -93,11 +95,12 @@ function Backpack:GetGridToolType(playerid, gridid) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param playerid any
----@param itemId any
+---@param itemId string
 function Backpack:GetItemCountInNormalPack(playerid, itemId) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param iteminfo any
+---@return number
 function Backpack:GetItemUsrerExp(iteminfo) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -119,17 +122,19 @@ function Backpack:GetRodResIdList(playerid, bartype) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param playerid any
----@param gridId any
+---@param gridId? any
 function Backpack:GetUserDataByGridId(playerid, gridId) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param gridinfo any
+---@param gridinfo table
+---@return string
 function Backpack:GridInfoToString(gridinfo) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param playerid any
 ---@param gridid any
----@param gridinfo any
+---@param gridinfo table
+---@return boolean
 function Backpack:SetGridInfoByIndex(playerid, gridid, gridinfo) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -141,13 +146,15 @@ function Backpack:SetItemUsrerinfo(iteminfo, name, desc, exp) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param playerid any
----@param gridId any
+---@param gridId? any
 ---@param userData any
+---@return boolean
 function Backpack:SetUserDataByGridId(playerid, gridId, userData) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param playerid any
----@param gridid any
+---@param playerid number
+---@param gridid number
+---@return boolean
 function Backpack:SortPack(playerid, gridid) end
 
 ---官方环境独有接口（未收录于开发环境）

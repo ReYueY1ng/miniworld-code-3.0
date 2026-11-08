@@ -10,14 +10,17 @@ Biome = {}
 ---官方环境独有接口（未收录于开发环境）
 ---@param uin any
 ---@param range any
+---@return boolean
 function Biome:FindNearCity(uin, range) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param uin any
+---@return boolean
 function Biome:GenCityPrecious(uin) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param x any
 ---@param z any
 ---@param worldId any
+---@return number
 function Biome:GetBiomeId(x, z, worldId) end

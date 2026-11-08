@@ -6,7 +6,7 @@
 ---[官方 Wiki](https://dev-wiki.mini1.cn/ugc-wiki/)
 
 ---官方环境独有接口（未收录于开发环境）
----@param buffid any
+---@param buffid number | string
 function Buff:GetBuffCfgId(buffid) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -18,7 +18,7 @@ function Buff:GetBuffDefTicks(buffid) end
 function Buff:GetBuffIdAndLv(buffid) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param objid any
+---@param objid number
 ---@param buffid any
 function Buff:GetBuffName(objid, buffid) end
 
@@ -28,4 +28,5 @@ function Buff:GetToCBuffId(buffid) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param objid any
+---@return boolean
 function Buff:RefreshAllBuffTick(objid) end

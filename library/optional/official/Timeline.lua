@@ -9,4 +9,5 @@
 ---@param uin any
 ---@param timelineId any
 ---@param pause any
+---@return boolean
 function Timeline:PauseForPlayer(uin, timelineId, pause) end

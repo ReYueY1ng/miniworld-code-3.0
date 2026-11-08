@@ -7,8 +7,10 @@
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param id any
+---@return boolean
 function Timer:IsPause(id) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param id any
+---@return boolean
 function Timer:IsPlaying(id) end

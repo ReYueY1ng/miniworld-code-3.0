@@ -15,7 +15,8 @@ function DisplayBoard:GetBillboard(objId) end
 function DisplayBoard:GetElementID(objId, property) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param objId any
----@param snapshot any
+---@param objId number
+---@param snapshot table
 ---@param version any
+---@return boolean
 function DisplayBoard:RefreshComponent(objId, snapshot, version) end

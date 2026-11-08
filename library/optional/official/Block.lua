@@ -6,36 +6,37 @@
 ---[官方 Wiki](https://dev-wiki.mini1.cn/ugc-wiki/)
 
 ---官方环境独有接口（未收录于开发环境）
----@param blockid any
+---@param blockid? string
 ---@param data any
 ---@param dir any
 function Block:ConvertBlockDirToData(blockid, data, dir) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param pos any
----@param dim any
----@param name any
----@param worldId any
+---@param pos Mini.Vec3
+---@param dim Mini.Vec3
+---@param name string
+---@param worldId? any
+---@return boolean
 function Block:CreateNormalBluePrintByName(pos, dim, name, worldId) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param x any
----@param y any
----@param z any
+---@param x number
+---@param y number
+---@param z number
 ---@param worldId any
 function Block:GetBlockCfgID(x, y, z, worldId) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param blockid any
+---@param blockid? string
 ---@param dir any
 function Block:GetBlockDataByDir(blockid, dir) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param blockid any
+---@param blockid? string
 function Block:GetBlockDefType(blockid) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param blockid any
+---@param blockid? string
 function Block:GetBlockToolType(blockid) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -48,15 +49,17 @@ function Block:GetBluePrintManager(uin) end
 ---@param z any
 ---@param animid any
 ---@param playmode any
+---@return boolean
 function Block:PlayAct(x, y, z, animid, playmode) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param x any
----@param y any
----@param z any
+---@param x number
+---@param y number
+---@param z number
 ---@param particleId any
----@param scale any
----@param ptime any
+---@param scale? number
+---@param ptime number
+---@return boolean
 function Block:PlayParticleEffect(x, y, z, particleId, scale, ptime) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -64,15 +67,17 @@ function Block:PlayParticleEffect(x, y, z, particleId, scale, ptime) end
 ---@param y any
 ---@param z any
 ---@param particleId any
----@param scale any
----@param ptime any
+---@param scale? number
+---@param ptime? any
+---@return boolean
 function Block:PlayParticleEffectWorld(x, y, z, particleId, scale, ptime) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param x any
----@param y any
----@param z any
+---@param x number
+---@param y number
+---@param z number
 ---@param particleId any
+---@return boolean
 function Block:StopParticleEffectOnPos(x, y, z, particleId) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -80,4 +85,5 @@ function Block:StopParticleEffectOnPos(x, y, z, particleId) end
 ---@param y any
 ---@param z any
 ---@param particleId any
+---@return boolean
 function Block:StopParticleEffectWorld(x, y, z, particleId) end

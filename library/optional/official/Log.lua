@@ -29,7 +29,7 @@ function Log:RefreshOpenLog(isOpen) end
 function Log:ReportError(modId, msg) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param value any
----@param maxItems any
----@param indent any
+---@param value table
+---@param maxItems? number
+---@param indent? number
 function Log:TableToString(value, maxItems, indent) end

@@ -23,11 +23,13 @@ function ClientPositive:ExportReportV2(uin, runResults, logs) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param content any
+---@return boolean
 function ClientPositive:OnDispathTriggerNomalEvent(content) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param uin any
----@param unlockSpellList any
+---@param unlockSpellList table
+---@return boolean
 function ClientPositive:OnSyncInscriptionTableUnlockSpellList(uin, unlockSpellList) end
 
 ---官方环境独有接口（未收录于开发环境）

@@ -20,7 +20,7 @@ function Data.Array:ConvertNomalArray(array) end
 function Data.Array:DealArrayData(data, itemType) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param tags any
+---@param tags? number | string | table
 ---@param isToC any
 ---@param varType any
 ---@param outval any

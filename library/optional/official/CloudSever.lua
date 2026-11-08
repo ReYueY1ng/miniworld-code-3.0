@@ -9,6 +9,7 @@
 ---@param libvarid any
 ---@param key any
 ---@param value any
+---@return boolean
 function CloudSever:AutomaticByKey(libvarid, key, value) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -21,6 +22,7 @@ function CloudSever:ClearDataList(libvarid) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param libvarid any
+---@return boolean
 function CloudSever:ClearList(libvarid) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -28,8 +30,9 @@ function CloudSever:ClearList(libvarid) end
 function CloudSever:ClearOrderData(libvarid) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param countdown any
----@param msg any
+---@param countdown? number
+---@param msg? string
+---@return boolean
 function CloudSever:CloseCurRoom(countdown, msg) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -37,6 +40,7 @@ function CloudSever:CloseCurRoom(countdown, msg) end
 ---@param index any
 ---@param eventname any
 ---@param globaldata any
+---@return boolean
 function CloudSever:GetAnyValueByIndex(libvar, index, eventname, globaldata) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -44,37 +48,43 @@ function CloudSever:GetAnyValueByIndex(libvar, index, eventname, globaldata) end
 ---@param key any
 ---@param eventname any
 ---@param globaldata any
+---@return boolean
 function CloudSever:GetAnyValueByKey(libvarid, key, eventname, globaldata) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param libvarid any
 ---@param key any
 ---@param callback any
+---@return boolean
 function CloudSever:GetOrderDataByKey(libvarid, key, callback) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param libvarid any
----@param icount any
+---@param libvarid? any
+---@param icount number
 ---@param callback any
+---@return boolean
 function CloudSever:GetOrderDataIndexArea(libvarid, icount, callback) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param libvarid any
+---@param libvarid? any
 ---@param index any
 ---@param callback any
+---@return boolean
 function CloudSever:GetOrderDataIndexValue(libvarid, index, callback) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param libvarid any
----@param icount any
----@param minvalue any
----@param maxvalue any
+---@param libvarid? any
+---@param icount number
+---@param minvalue number
+---@param maxvalue number
 ---@param callback any
+---@return boolean
 function CloudSever:GetOrderDataValueArea(libvarid, icount, minvalue, maxvalue, callback) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param players any
+---@param players table
 ---@param msg any
+---@return boolean
 function CloudSever:NotifyPlayerTransmitMsg(players, msg) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -85,6 +95,7 @@ function CloudSever:RemoveDataListByKey(libvarid, key) end
 ---官方环境独有接口（未收录于开发环境）
 ---@param libvarid any
 ---@param key any
+---@return boolean
 function CloudSever:RemoveDataListValue(libvarid, key) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -94,13 +105,15 @@ function CloudSever:RemoveOrderDataByKey(libvarid, key) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---**调用限制**: 仅白名单用户可用
----@param msg any
----@param customdata any
----@param roomids any
+---@param msg string
+---@param customdata? table
+---@param roomids string | table
+---@return boolean
 function CloudSever:SendSeverMsg(msg, customdata, roomids) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param seconds any
+---@param seconds? number
+---@return boolean
 function CloudSever:SetForbidJoin(seconds) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -116,25 +129,28 @@ function CloudSever:SetOrderDataBykey(libvarid, Key, value) end
 function CloudSever:TransmitOtherRoom(playerid, msg, notFollow) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param playerid any
+---@param playerid number | table
 ---@param mapid any
 ---@param msg any
 ---@param reportData any
 ---@param noConfirm any
 ---@param notFollow any
+---@return boolean
 function CloudSever:TransmitToMap(playerid, mapid, msg, reportData, noConfirm, notFollow) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param playerid any
----@param roomid any
+---@param playerid number | table
+---@param roomid string
 ---@param msg any
 ---@param notFollow any
+---@return boolean
 function CloudSever:TransmitToRoom(playerid, roomid, msg, notFollow) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param libvarid any
+---@param libvarid? any
 ---@param key any
 ---@param callback any
+---@return boolean
 function CloudSever:UpdateDataListByKey(libvarid, key, callback) end
 
 ---官方环境独有接口（未收录于开发环境）

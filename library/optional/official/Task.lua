@@ -7,15 +7,19 @@
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param name any
+---@return boolean
 function Task:AddPlayerInitTaskChain(name) end
 
 ---官方环境独有接口（未收录于开发环境）
+---@return boolean
 function Task:CloseNativePlayerGuide() end
 
 ---官方环境独有接口（未收录于开发环境）
+---@return boolean
 function Task:GetIsHasSingPlayerGuide() end
 
 ---官方环境独有接口（未收录于开发环境）
+---@return boolean
 function Task:GetIsInSingPlayerGuide() end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -29,6 +33,7 @@ function Task:NextTask(playerId, name, isFinish) end
 function Task:OpenMainTaskForTaskID(taskID) end
 
 ---官方环境独有接口（未收录于开发环境）
+---@return boolean
 function Task:PassSingPlayerGuide() end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -39,16 +44,19 @@ function Task:PassTaskChain(playerId, name) end
 ---官方环境独有接口（未收录于开发环境）
 ---@param name any
 ---@param cfg any
+---@return boolean
 function Task:SetSingPlayerGuide(name, cfg) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param name any
 ---@param cfg any
+---@return boolean
 function Task:SetTaskCfg(name, cfg) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param name any
 ---@param cfg any
+---@return boolean
 function Task:SetTaskChainCfg(name, cfg) end
 
 ---官方环境独有接口（未收录于开发环境）

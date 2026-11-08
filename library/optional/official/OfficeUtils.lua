@@ -8,6 +8,7 @@
 ---官方环境独有接口（未收录于开发环境）
 ---@param callback any
 ---@param actid any
+---@return boolean
 function OfficeUtils:CheckSummerActActivate(callback, actid) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -23,9 +24,10 @@ function OfficeUtils:FishReq(querytype, param, callfun) end
 ---官方环境独有接口（未收录于开发环境）
 ---@param uin any
 ---@param t any
----@param id1 any
+---@param id1 string
 ---@param id2 any
 ---@param id3 any
+---@return boolean
 function OfficeUtils:GeneralTaskReported(uin, t, id1, id2, id3) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -48,8 +50,9 @@ function OfficeUtils:ReportActivateData(actid, ...) end
 ---@param cID any
 ---@param oID any
 ---@param event any
----@param eventTb any
----@param uin any
+---@param eventTb? table
+---@param uin? any
+---@return boolean
 function OfficeUtils:ReportEvent(sID, cID, oID, event, eventTb, uin) end
 
 ---官方环境独有接口（未收录于开发环境）

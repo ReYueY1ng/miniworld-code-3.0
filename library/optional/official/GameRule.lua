@@ -17,7 +17,8 @@ function GameRule:GetCountDown() end
 function GameRule:GetDisplayScore() end
 
 ---官方环境独有接口（未收录于开发环境）
----@param ruleId any
+---@param ruleId number
+---@return number
 function GameRule:GetGameRuleValue(ruleId) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -30,6 +31,7 @@ function GameRule:GetLifeNum() end
 function GameRule:GetMobGen() end
 
 ---官方环境独有接口（未收录于开发环境）
+---@return boolean
 function GameRule:IsDevBuild() end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -48,8 +50,9 @@ function GameRule:SetCountDown(val) end
 function GameRule:SetDisplayScore(set) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param ruleId any
+---@param ruleId number
 ---@param val any
+---@return boolean
 function GameRule:SetGameRuleValue(ruleId, val) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -77,4 +80,5 @@ function GameRule:SetPlayerGamePermits(uin, mode, val) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param url any
+---@return boolean
 function GameRule:SetReviveCostBtnIcon(url) end

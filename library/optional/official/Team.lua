@@ -9,26 +9,29 @@ Team = {}
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param teamid any
+---@return boolean
 function Team:AddTeamDieTimes(teamid) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param teamid any
----@param score any
+---@param score? any
+---@return boolean
 function Team:AddTeamScore(teamid, score) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param playerid any
 ---@param teamid any
----@param resetAttr any
+---@param resetAttr? boolean
+---@return boolean
 function Team:ChangePlayerTeam(playerid, teamid, resetAttr) end
 
 ---官方环境独有接口（未收录于开发环境）
 function Team:GetNumTeam() end
 
 ---官方环境独有接口（未收录于开发环境）
----@param uin any
----@param relativing any
----@param actortype any
+---@param uin number
+---@param relativing number
+---@param actortype number
 function Team:GetRelativeActor(uin, relativing, actortype) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -40,7 +43,7 @@ function Team:GetTeamCreatures(teamid) end
 function Team:GetTeamDieTimes(teamid) end
 
 ---官方环境独有接口（未收录于开发环境）
----@param teamid any
+---@param teamid number
 function Team:GetTeamMobs(teamid) end
 
 ---官方环境独有接口（未收录于开发环境）
@@ -71,15 +74,18 @@ function Team:RandomTeamPlayer(teamid, alive) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param teamid any
----@param times any
+---@param times? any
+---@return boolean
 function Team:SetTeamDieTimes(teamid, times) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param teamid any
----@param result any
+---@param result? number
+---@return boolean
 function Team:SetTeamResults(teamid, result) end
 
 ---官方环境独有接口（未收录于开发环境）
 ---@param teamid any
----@param score any
+---@param score? any
+---@return boolean
 function Team:SetTeamScore(teamid, score) end
