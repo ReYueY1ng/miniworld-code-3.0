@@ -173,7 +173,7 @@ API 来源优先级 (从高到低):
 
 ```bash
 # 反编译文件位置
-/run/media/yuey1ng/F25A9F0C5A9ECD2B/mini/dump/script_decompiled/luascript/ugc/framework
+/run/media/yuey1ng/F25A9F0C5A9ECD2B/mini/dump/decompiled/luascript/ugc/framework
 
 # 文档
 新版: https://dev-wiki.mini1.cn/ugc-wiki/
