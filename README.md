@@ -161,7 +161,7 @@ git clone https://github.com/ReYueY1ng/miniworld-code-3.0.git
 - 默认值：`officialApi=disable`、`triggerApi=disable`、`builtinComponents=enable`；省略 `pluginArgs` 时即为此默认。
 - 开关由 `plugin.lua` 在加载库文件时生效，修改后需重启语言服务器。
 - 关闭的车道会连同补全、类型检查一起隐藏；如果手动配置 `workspace.library` 而没有加载插件，则所有车道都会加载。
-- 环境表更新后重新生成：`python3 tools/gen_env_lanes.py`；白名单限制校验：`python3 tools/api-update/annotate_whitelist.py --check`。
+- 环境表更新后重新生成：`python3 tools/decompiled_types.py --dump-cache tools/api-update/decompiled-types.json`（有反编译源码时刷新类型缓存）→ `python3 tools/gen_env_lanes.py`；白名单限制校验：`python3 tools/api-update/annotate_whitelist.py --check`。
 
 ## 项目结构
 
