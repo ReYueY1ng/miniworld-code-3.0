@@ -16,6 +16,11 @@
       "string.buffer": "disable",
       "table.new": "disable",
       "table.clear": "disable"
-    }
+    },
+    "Lua.runtime.pluginArgs": [
+      "officialApi=disable",
+      "triggerApi=disable",
+      "builtinComponents=enable"
+    ]
   }
 }

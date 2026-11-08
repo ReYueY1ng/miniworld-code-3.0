@@ -6,6 +6,57 @@
 --   .luarc.json: "Lua.runtime.plugin": "plugin.lua"
 -- See: https://github.com/LuaLS/lua-language-server/issues/2511
 
+-- ---------------------------------------------------------------------------
+-- Optional API lanes, configured through Lua.runtime.pluginArgs:
+--   officialApi=disable|enable         官方环境独有接口（默认 disable）
+--   triggerApi=disable|enable          触发器 Trigger 命名空间（默认 disable）
+--   builtinComponents=disable|enable   游戏内置组件接口（默认 enable）
+--
+-- Disabled lanes live under the matching library directory; this plugin blanks
+-- the text of their files, so the definitions disappear from completion and
+-- type checking. LuaLS dispatches OnSetText for library files too.
+-- Changing the switches requires restarting the language server.
+-- ---------------------------------------------------------------------------
+local _, _miniworldUri, _miniworldArgs = ...
+
+local optionalLanes = {
+    { key = "officialApi", dir = "/library/optional/official/", default = "disable" },
+    { key = "triggerApi", dir = "/library/optional/trigger/", default = "disable" },
+    { key = "builtinComponents", dir = "/library/components/", default = "enable" },
+}
+
+local laneOptions = {}
+for _, lane in ipairs(optionalLanes) do
+    laneOptions[lane.key] = lane.default
+end
+
+if type(_miniworldArgs) == "table" then
+    for _, arg in ipairs(_miniworldArgs) do
+        if type(arg) == "string" then
+            local key, value = arg:match("^([%w_]+)%s*=%s*(%w+)$")
+            if key and laneOptions[key] then
+                laneOptions[key] = value:lower()
+            end
+        end
+    end
+end
+
+---屏蔽未启用的可选 API 车道
+---@param uri string 文件 URI
+---@param text string 文件内容
+---@return string text 处理后的文件内容
+function OnSetText(uri, text)
+    for _, lane in ipairs(optionalLanes) do
+        if uri:find(lane.dir, 1, true) then
+            if laneOptions[lane.key] ~= "enable" then
+                return ("-- miniworld: %s disabled by Lua.runtime.pluginArgs\n"):format(lane.key)
+            end
+            return text
+        end
+    end
+    return text
+end
+
 ---@alias DiagnosticSeverity
 ---| "Error"
 ---| "Warning"
@@ -17,6 +68,13 @@
 ---| "Opened"
 ---| "None"
 
+---类型定义库文件不参与组件编写校验，避免库内的 ---@class X: Component 被当成用户组件
+---@param uri string
+---@return boolean
+local function isTypeDefinitionUri(uri)
+    return uri:find("/library/", 1, true) ~= nil
+end
+
 ---Register a custom diagnostic with LuaLS internals.
 ---Uses the hack from https://github.com/LuaLS/lua-language-server/issues/2511.
 ---Requires --develop=true to expose proto.diagnostic and proto.define.
@@ -27,6 +85,13 @@
 ---@param func fun(uri: string, callback: fun(data: {start: number, finish: number, message: string, severity?: DiagnosticSeverity})) Diagnostic implementation
 ---@return boolean ok Whether the diagnostic was registered successfully
 local function defineDiagnostic(name, group, severity, fileStatus, func)
+    local guarded = function(uri, callback)
+        if isTypeDefinitionUri(uri) then
+            return
+        end
+        return func(uri, callback)
+    end
+
     local ok1, protoDiagnostic = pcall(require, "proto.diagnostic")
     if not ok1 then
         return false
@@ -46,7 +111,7 @@ local function defineDiagnostic(name, group, severity, fileStatus, func)
         protoDiagnostic._diagAndErrNames[name] = true
         protoDefine.DiagnosticDefaultSeverity[name] = severity
         protoDefine.DiagnosticDefaultNeededFileStatus[name] = fileStatus
-        package.loaded["core.diagnostics." .. name] = func
+        package.loaded["core.diagnostics." .. name] = guarded
     end)
 
     if not ok3 then
