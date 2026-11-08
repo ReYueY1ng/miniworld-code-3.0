@@ -646,6 +646,26 @@ def tokenize(method: str) -> list[str]:
     return [word for word in merged if word not in NOISE]
 
 
+_SEGMENT_CACHE: dict[str, list[str] | None] = {}
+
+
+def _segment(word: str) -> list[str] | None:
+    if not word:
+        return []
+    if word in _SEGMENT_CACHE:
+        return _SEGMENT_CACHE[word]
+    result = None
+    for size in range(len(word), 1, -1):
+        head = word[:size]
+        if head in VERBS or head in NOUNS or head in MATH_WORDS:
+            rest = _segment(word[size:])
+            if rest is not None:
+                result = [head] + rest
+                break
+    _SEGMENT_CACHE[word] = result
+    return result
+
+
 def _translate(word: str) -> str:
     if word in VERBS:
         return VERBS[word]
@@ -653,6 +673,10 @@ def _translate(word: str) -> str:
         return NOUNS[word]
     if word in MATH_WORDS:
         return MATH_WORDS[word]
+    if len(word) >= 4:
+        parts = _segment(word)
+        if parts and len(parts) > 1:
+            return "".join(_translate(part) for part in parts)
     if re.fullmatch(r"[a-z]+\d+", word):
         return _translate(re.sub(r"\d+$", "", word))
     if word.endswith("es") and word[:-2] in NOUNS:
@@ -911,3 +935,9 @@ NOUNS.update({
     "snapshort": "截图",
 })
 VERBS.update({"pass": "通过"})
+
+
+VERBS.update({"swap": "交换", "click": "点击", "hover": "悬停"})
+
+
+NOUNS.update({"visibility": "可见", "static": "静态", "restype": "资源类型", "groupview": "分组", "mesh": "网格"})

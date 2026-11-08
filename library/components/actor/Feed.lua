@@ -1,0 +1,23 @@
+---@meta
+
+---Feed（内置组件 Feed · 角色组件）<br>
+---为生物添加喂养能力，可配置可喂食物、成长和喂养效果。
+---@class Feed: Component
+---@field enabled boolean
+---@field hpEnabled boolean
+---@field strengthEnabled boolean
+---@field favorEnabled boolean
+---@field succMotion Mini.ModelAction 喂食成功动作
+---@field succEffect number | string 喂食成功特效
+---@field succSound number | string 喂食成功音效
+---@field succBubbleEnter Mini.GroupView 喂食成功头顶气泡
+---@field succBubbleType number 气泡类型
+---@field succBubbleContent string ID
+---@field refuseEnable boolean 拒绝开关
+---@field refuseMotion Mini.ModelAction
+---@field refuseSound number | string
+---@field refuseBubbleEnter Mini.GroupView
+---@field refuseBubbleType number 气泡类型
+---@field refuseBubbleContent string ID
+---@field feedItems table[]
+Feed = {}

@@ -1,0 +1,26 @@
+---@meta
+
+---致盲视觉（内置组件 BlindnessVisionStatus · 效果组件）<br>
+---定义致盲视觉效果，可通过道具使用或状态BUFF触发屏幕视觉变化（视野变窄变黑）。
+---@class BlindnessVisionStatus: Component
+---@field duration number 持续时间（0=跟随Buff生命周期）
+---@field visionStatus number | string 关联致盲状态
+---@field useScreenEffect boolean 屏幕特效
+---@field screenEffectType number 屏幕特效类型
+---@field screenEffectSpeed number 屏幕闪烁速度
+---@field usePostProcess boolean 后处理
+---@field gainR number 红色增益
+---@field gainG number 绿色增益
+---@field gainB number 蓝色增益
+---@field contrast number 对比度
+---@field saturation number 饱和度
+---@field bloomIntensity number 泛光强度
+---@field exposureIntensity number 曝光强度
+---@field vignetteIntensity number 暗角强度（越大视野越窄）
+---@field fadeSteps number 淡出步数（越大越平滑）
+---@field fadeOutDuration number 淡出时长（秒）
+---@field holdDuration number 维持时间（秒后开始淡出）
+---@field blinkCount number 眨眼次数（淡出结束时眨眼）
+---@field blinkStartT number 眨眼开始时间（秒，从效果触发算起）
+---@field blinkInterval number 眨眼间隔（秒）
+BlindnessVisionStatus = {}

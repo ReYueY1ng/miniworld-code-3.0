@@ -56,9 +56,9 @@ SPACE_RE = re.compile(r"[ \t\r\f\v]+")
 REPO = Path(__file__).resolve().parent.parent
 
 
-def fetch_page(page, cache_dir, offline):
+def fetch_page(page, cache_dir, offline, force=False):
     cache_path = cache_dir / page.replace("/", "_")
-    if cache_path.is_file() and cache_path.stat().st_size > 0:
+    if not force and cache_path.is_file() and cache_path.stat().st_size > 0:
         return cache_path.read_text(encoding="utf-8")
     if offline:
         raise SystemExit(f"offline mode: missing cache entry {cache_path}")
@@ -204,11 +204,13 @@ def load_known_types():
 
 def resolve_type(type_name, known, *, optional_suffix=False):
     note = ""
+    if type_name in COMPONENT_TYPES:
+        type_name = COMPONENT_TYPES[type_name]
     resolved = type_name
     if type_name in ("", "未声明"):
         resolved = "any"
         note = "（wiki 未声明类型，此处用 any）"
-    elif type_name not in known:
+    elif type_name not in known and " | " not in type_name:
         note = f"（wiki 类型 {type_name} 不在类型库中，此处用 any）"
         resolved = "any"
     if optional_suffix:
@@ -231,7 +233,8 @@ def is_optional_param(description):
     return "省略" in description or re.search(r"(?<!无)默认", description) is not None
 
 
-def build_method(component, method_name, description, params, returns, note, known):
+def build_method(component, method_name, description, params, returns, note, known,
+                 fallback_types=None):
     warnings = []
     lines = [f"---{description}" if description else f"---{method_name}"]
     if note:
@@ -247,9 +250,12 @@ def build_method(component, method_name, description, params, returns, note, kno
         signature = "x, y, z"
     else:
         signature_names = []
-        for param in params:
+        for index, param in enumerate(params):
             optional = is_optional_param(param["desc"])
-            resolved, type_note = resolve_type(param["type"], known)
+            declared = param["type"]
+            if declared in ("", "未声明") and fallback_types and index < len(fallback_types):
+                declared = fallback_types[index] or declared
+            resolved, type_note = resolve_type(declared, known)
             if type_note and type_note not in warnings:
                 warnings.append(type_note)
             marker = "?" if optional else ""
@@ -276,56 +282,486 @@ def build_method(component, method_name, description, params, returns, note, kno
     return lines, warnings
 
 
-def build_component_file(component, page, page_html, known):
-    region = doc_region(page_html)
-    heading = re.search(r"<h1[^>]*>(.*?)</h1>", region, re.S)
-    heading_code = re.search(r"<h1[^>]*>[^<]*<code>([^<]+)</code>", region)
-    if not heading or not heading_code:
-        raise SystemExit(f"{page}: component id <code> not found in <h1>")
-    wiki_id = heading_code.group(1).strip()
-    if wiki_id != component:
-        raise SystemExit(f"{page}: expected component {component}, page declares {wiki_id}")
-    title = strip_markup(re.sub(r"<code>.*?</code>", "", heading.group(1), flags=re.S)).strip()
-    summary = parse_summary(region)
-    sections = split_sections(region)
-    by_name = {}
-    order = []
-    for name, core in sections:
-        by_name[name] = core
-        order.append(name)
-    descriptions = dict(summary)
-    if summary:
-        order = [name for name, _ in summary if name in by_name] + [n for n in order if n not in descriptions]
+def first_clause(text):
+    if not text:
+        return ""
+    return re.split(r"[；。]", text, maxsplit=1)[0].strip()
+
+
+# ---------------------------------------------------------------------------
+# Decompiled component metadata
+#
+# The framework tree is the authority for what a component exposes to scripts:
+#   ComponentClass("Name")   class id
+#   Name.displayName         literal label (localised ids are ignored)
+#   Name._cmpTips            component description
+#   Name.propertys           script-visible attributes (Get/Set, type, default)
+#   Name.openFnArgs          script-callable functions; table entries carry
+#                            tips/params/paramsTips/returnType/returnTips,
+#                            scalars only declare "exposed, no metadata"
+#
+# Components are emitted into one directory per engine category.
+# ---------------------------------------------------------------------------
+
+COMPONENT_ROOT_CANDIDATES = (
+    Path("/run/media/yuey1ng/F25A9F0C5A9ECD2B/mini/dump/decompiled/luascript/ugc/framework/components"),
+    Path("/home/yuey1ng/mini/dump/decompiled/luascript/ugc/framework/components"),
+    Path("/home/yuey1ng/Downloads/迷你世界AI助手/pkg_output/script/luascript/ugc/framework/components"),
+)
+
+CATEGORY_LABELS = {
+    "base": "基础组件",
+    "actor": "角色组件",
+    "block": "方块组件",
+    "world": "世界组件",
+    "ui": "界面组件",
+    "effect": "效果组件",
+    "grid": "网格组件",
+    "ai": "AI 组件",
+    "skill": "技能组件",
+    "motions": "运动组件",
+    "projectiles": "投掷物组件",
+    "pos": "位置组件",
+    "player": "玩家组件",
+    "area": "区域组件",
+    "core": "通用组件",
+    "demo": "示例组件",
+}
+
+SKIPPED_CATEGORIES = {"demo"}
+
+COMPONENT_TYPES = {
+    "Mini.Number": "number",
+    "Mini.Bool": "boolean",
+    "Mini.String": "string",
+    "Mini.Vec2": "Mini.Vec2",
+    "Mini.Vec3": "Mini.Vec3",
+    "Mini.Scale": "Mini.Scale",
+    "Mini.Rotation": "Mini.Rotation",
+    "Mini.Color": "number",
+    "Mini.Tag": "string",
+    "Mini.Picture": "string",
+    "Mini.Model": "string",
+    "Mini.MobType": "number",
+    "Mini.Block": "number | string",
+    "Mini.Item": "number | string",
+    "Mini.Effect": "number | string",
+    "Mini.Buff": "number | string",
+    "Mini.Sound": "number | string",
+    "Mini.Player": "integer",
+    "Mini.Array": "table",
+    "Mini.CustomData": "table",
+    "Mini.GroupView": "Mini.GroupView",
+    "Mini.ModelAction": "Mini.ModelAction",
+    "Mini.SkyBox": "Mini.SkyBox",
+    "Mini.SkeletonPoint": "Mini.SkeletonPoint",
+    "Mini.Material": "Mini.Material",
+    "Mini.CustomMsg": "Mini.CustomMsg",
+}
+
+PARAM_NAMES = {
+    "Mini.Player": "playerid",
+    "Mini.Item": "itemid",
+    "Mini.Block": "blockid",
+    "Mini.Buff": "buffid",
+    "Mini.Effect": "effectid",
+    "Mini.Sound": "soundid",
+    "Mini.Model": "model",
+    "Mini.Mob": "mobid",
+    "Mini.MobType": "mobtype",
+    "Mini.Tag": "tag",
+    "Mini.Vec3": "pos",
+    "Mini.Scale": "scale",
+    "Mini.Rotation": "rot",
+    "Mini.Array": "list",
+    "Mini.Color": "color",
+    "Mini.String": "text",
+    "Mini.Bool": "flag",
+    "Mini.Number": "num",
+}
+
+CLASS_RE = re.compile(r'ComponentClass\(\s*"([^"]+)"\s*\)')
+DISPLAY_RE = re.compile(r'(?m)^\w+\.displayName\s*=\s*"((?:[^"\\]|\\.)*)"')
+TIPS_RE = re.compile(r'(?m)^\w+\._cmpTips\s*=\s*"((?:[^"\\]|\\.)*)"')
+
+
+def find_component_root(path=None):
+    if path:
+        return Path(path)
+    for candidate in COMPONENT_ROOT_CANDIDATES:
+        if candidate.is_dir():
+            return candidate
+    return None
+
+
+def decode_lua_string(raw):
+    body = raw.strip().rstrip(",")
+    if len(body) >= 2 and body[0] in "\"'" and body[-1] == body[0]:
+        body = body[1:-1]
+    return (body.replace("\\n", " ")
+                .replace('\\"', '"')
+                .replace("\\'", "'")
+                .replace("\\\\", "\\"))
+
+
+def lua_block(text, key):
+    match = re.search(r"(?m)^\s*(?:[\w.]+\.)?" + re.escape(key) + r"\s*=\s*\{", text)
+    if not match:
+        return None
+    start = text.index("{", match.end() - 1)
+    depth = 0
+    index = start
+    while index < len(text):
+        char = text[index]
+        if char == "-" and text.startswith("--", index):
+            newline = text.find("\n", index)
+            index = len(text) if newline < 0 else newline
+            continue
+        if char in "\"'":
+            quote = char
+            index += 1
+            while index < len(text):
+                if text[index] == "\\":
+                    index += 2
+                    continue
+                if text[index] == quote:
+                    index += 1
+                    break
+                index += 1
+            continue
+        if char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+            if depth == 0:
+                return text[start + 1:index]
+        index += 1
+    return None
+
+
+def lua_entries(block):
+    entries = []
+    lines = block.split("\n")
+    index = 0
+    while index < len(lines):
+        match = re.match(r"^\t([A-Za-z_]\w*)\s*=\s*(.*)$", lines[index])
+        if not match:
+            index += 1
+            continue
+        name, rest = match.group(1), match.group(2).strip()
+        if not rest.startswith("{"):
+            entries.append((name, None))
+            index += 1
+            continue
+        depth = rest.count("{") - rest.count("}")
+        body = []
+        index += 1
+        while index < len(lines):
+            line = lines[index]
+            body.append(line)
+            depth += line.count("{") - line.count("}")
+            index += 1
+            if depth <= 0:
+                break
+        entries.append((name, "\n".join(body)))
+    return entries
+
+
+def lua_fields(body):
+    fields = {}
+    lines = body.split("\n")
+    index = 0
+    while index < len(lines):
+        match = re.match(r"^\t\t(\w+)\s*=\s*(.*)$", lines[index])
+        if not match:
+            index += 1
+            continue
+        key, rest = match.group(1), match.group(2).strip()
+        if rest.startswith("{"):
+            depth = rest.count("{") - rest.count("}")
+            children = []
+            index += 1
+            while index < len(lines):
+                line = lines[index]
+                depth += line.count("{") - line.count("}")
+                index += 1
+                if depth <= 0:
+                    break
+                children.append(line.strip().rstrip(","))
+            fields[key] = ("table", [child for child in children if child])
+            continue
+        if rest.startswith(("\"", "'")):
+            fields[key] = ("str", decode_lua_string(rest))
+        else:
+            fields[key] = ("raw", rest.rstrip(","))
+        index += 1
+    return fields
+
+
+def raw_value(fields, key):
+    kind, value = fields.get(key, ("", ""))
+    return value if kind in ("str", "raw") else ""
+
+
+def resolve_component_type(type_name, item_type="", known=None):
+    known = known or set()
+    if not type_name:
+        return "any", "（引擎未声明类型）"
+    if type_name == "Mini.Array":
+        if item_type:
+            base, _ = resolve_component_type(item_type)
+            if base != "any":
+                wrapped = f"({base})[]" if " | " in base else f"{base}[]"
+                return wrapped, ""
+        return "table", ""
+    if type_name in COMPONENT_TYPES:
+        return COMPONENT_TYPES[type_name], ""
+    if type_name in known:
+        return type_name, ""
+    if type_name.startswith("Mini."):
+        return "any", f"（组件类型 {type_name} 未映射，此处用 any）"
+    return "number", ""
+
+
+def param_name_for(type_name, index, used):
+    base = PARAM_NAMES.get(type_name) or f"arg{index + 1}"
+    name = base
+    suffix = 2
+    while name in used:
+        name = f"{base}{suffix}"
+        suffix += 1
+    used.add(name)
+    return name
+
+
+def clean_label(value):
+    if not value:
+        return ""
+    if re.match(r"^[A-Za-z_][\w.]*\(.*\)$", value.strip()):
+        return ""
+    return value.strip()
+
+
+def parse_component_file(path, root, known=None):
+    text = path.read_text(encoding="utf-8", errors="replace").lstrip("\ufeff")
+    class_match = CLASS_RE.search(text)
+    if not class_match:
+        return None
+    name = class_match.group(1)
+    relative = path.relative_to(root)
+    category = relative.parts[0] if len(relative.parts) > 1 else "core"
+    if category.endswith(".lua"):
+        category = "core"
+
+    display_match = DISPLAY_RE.search(text)
+    tips_match = TIPS_RE.search(text)
+
+    properties = []
+    props_block = lua_block(text, "propertys")
+    if props_block:
+        for prop_name, body in lua_entries(props_block):
+            if body is None:
+                continue
+            fields = lua_fields(body)
+            type_value = raw_value(fields, "type")
+            item_value = raw_value(fields, "itemType")
+            resolved, _ = resolve_component_type(type_value, item_value, known)
+            label = clean_label(raw_value(fields, "displayName")) or clean_label(raw_value(fields, "tips"))
+            properties.append({
+                "name": prop_name,
+                "type": resolved,
+                "desc": label,
+                "readonly": raw_value(fields, "Set") == "" and raw_value(fields, "Get") != "",
+                "default": raw_value(fields, "default"),
+            })
+
+    methods = []
+    fn_block = lua_block(text, "openFnArgs")
+    if fn_block:
+        for fn_name, body in lua_entries(fn_block):
+            if body is None:
+                methods.append({"name": fn_name, "kind": "scalar", "params": [],
+                                "returns": [], "desc": "", "tips": "",
+                                "param_tips": [], "return_type": ""})
+                continue
+            fields = lua_fields(body)
+            param_types = fields.get("params", ("table", []))[1]
+            param_tips = fields.get("paramsTips", ("table", []))[1]
+            return_type = raw_value(fields, "returnType")
+            methods.append({
+                "name": fn_name,
+                "kind": "table",
+                "params": [decode_lua_string(item) for item in param_types],
+                "param_tips": [decode_lua_string(item) for item in param_tips],
+                "return_type": return_type,
+                "tips": raw_value(fields, "tips"),
+                "return_tips": raw_value(fields, "returnTips"),
+                "desc": raw_value(fields, "displayName"),
+            })
+
+    return {
+        "name": name,
+        "category": category,
+        "file": str(relative),
+        "display": clean_label(decode_lua_string(display_match.group(1))) if display_match else "",
+        "tips": clean_label(decode_lua_string(tips_match.group(1))) if tips_match else "",
+        "properties": properties,
+        "methods": methods,
+    }
+
+
+def collect_components(root, known=None):
+    components = {}
+    duplicates = []
+    for path in sorted(root.rglob("*.lua")):
+        meta = parse_component_file(path, root, known)
+        if meta is None:
+            continue
+        if meta["category"] in SKIPPED_CATEGORIES:
+            continue
+        existing = components.get(meta["name"])
+        if existing is not None:
+            duplicates.append(f"{meta['name']}: {existing['file']} / {meta['file']}")
+            if len(meta["methods"]) + len(meta["properties"]) <= len(existing["methods"]) + len(existing["properties"]):
+                continue
+        components[meta["name"]] = meta
+    if duplicates and not components:
+        raise SystemExit("duplicate components: " + ", ".join(duplicates))
+    return sorted(components.values(), key=lambda item: (item["category"], item["name"])), duplicates
+
+
+def wiki_cache_file(cache_dir, component):
+    candidates = [
+        cache_dir / f"cmpapis_{component.lower()}.html",
+        cache_dir / f"cmpapis_{component}.html",
+    ]
+    for candidate in candidates:
+        if candidate.is_file() and candidate.stat().st_size > 0:
+            return candidate
+    return None
+
+
+def build_decompiled_method(component, method, used_names, known=None):
+    type_name = method.get("return_type", "")
+    param_types = method["params"]
+    param_tips = method["param_tips"] + [""] * max(0, len(param_types) - len(method["param_tips"]))
+    lines = []
+    desc = method.get("tips") or method.get("desc") or purpose(method["name"])
+    lines.append(f"---{desc}")
+    if method["kind"] == "scalar":
+        lines.append("---@vararg any")
+        lines.append(f"function {component}:{method['name']}(...) end")
+        return lines, []
+    signature = []
+    for index, declared in enumerate(param_types):
+        name = param_name_for(declared, index, used_names)
+        resolved, note = resolve_component_type(declared, known=known)
+        tip = param_tips[index].strip()
+        text = f"{tip}{note}".strip() or param_desc(name)
+        lines.append(f"---@param {name} {resolved}{(' ' + text) if text else ''}")
+        signature.append(name)
+    if type_name:
+        resolved, note = resolve_component_type(type_name, known=known)
+        result_name, fallback = return_info(resolved, method["name"], signature)
+        text = (method.get("return_tips") or fallback) + note
+        lines.append(f"---@return {resolved} {result_name} {text.strip()}")
+    lines.append(f"function {component}:{method['name']}({', '.join(signature)}) end")
+    return lines, []
+
+
+def render_component(meta, component=None, page=None, page_html=None, known=None):
+    known = known or set()
+    if component is None and meta is not None:
+        component = meta["name"]
     methods = []
     warnings = []
-    for name in order:
-        core = by_name.get(name)
-        if core is None:
-            raise SystemExit(f"{page}: summary lists {name} but no section found")
-        params, returns, note = parse_method_body(core)
-        description = descriptions.get(name, "")
-        if not description or description == name:
-            desc_source = note if note and not note.startswith("返回值类型未在 wiki 声明") else ""
-            description = first_clause(desc_source) or purpose(name)
-        lines, method_warnings = build_method(component, name, description, params, returns, note, known)
-        warnings.extend(f"{component}:{name}: {w}" for w in method_warnings)
-        methods.append(
-            {
-                "name": name,
-                "params": params,
-                "returns": returns,
+    summary = []
+    order = []
+    title = ""
+    wiki_names = set()
+    meta_methods = {method["name"]: method for method in meta["methods"]} if meta is not None else {}
+
+    if page_html:
+        region = doc_region(page_html)
+        heading = re.search(r"<h1[^>]*>(.*?)</h1>", region, re.S)
+        heading_code = re.search(r"<h1[^>]*>[^<]*<code>([^<]+)</code>", region)
+        if not heading or not heading_code:
+            raise SystemExit(f"{page}: component id <code> not found in <h1>")
+        wiki_id = heading_code.group(1).strip()
+        if wiki_id != component:
+            raise SystemExit(f"{page}: expected component {component}, page declares {wiki_id}")
+        title = strip_markup(re.sub(r"<code>.*?</code>", "", heading.group(1), flags=re.S)).strip()
+        summary = parse_summary(region)
+        sections = split_sections(region)
+        by_name = {name: core for name, core in sections}
+        order = [name for name, _ in sections]
+        descriptions = dict(summary)
+        if summary:
+            order = [name for name, _ in summary if name in by_name] + [n for n in order if n not in descriptions]
+        for name in order:
+            core = by_name.get(name)
+            if core is None:
+                raise SystemExit(f"{page}: summary lists {name} but no section found")
+            params, returns, note = parse_method_body(core)
+            description = descriptions.get(name, "")
+            if not description or description == name:
+                desc_source = note if note and not note.startswith("返回值类型未在 wiki 声明") else ""
+                description = first_clause(desc_source) or purpose(name)
+            fallback = None
+            candidate = meta_methods.get(name)
+            if candidate and len(candidate["params"]) == len(params):
+                fallback = candidate["params"]
+            lines, method_warnings = build_method(component, name, description, params, returns, note, known,
+                                                  fallback_types=fallback)
+            warnings.extend(f"{component}:{name}: {w}" for w in method_warnings)
+            methods.append({"name": name, "params": params, "returns": returns, "lines": lines})
+            wiki_names.add(name)
+
+    if meta is not None:
+        decompiled_by_name = {method["name"]: method for method in meta["methods"]}
+        for method in meta["methods"]:
+            if method["name"] in wiki_names:
+                continue
+            lines, method_warnings = build_decompiled_method(component, method, set(wiki_names), known)
+            warnings.extend(f"{component}:{method['name']}: {w}" for w in method_warnings)
+            methods.append({
+                "name": method["name"],
+                "params": [{"name": "", "type": t, "desc": ""} for t in method["params"]],
+                "returns": [{"name": "", "type": method["return_type"], "desc": ""}] if method["return_type"] else [],
                 "lines": lines,
-            }
-        )
-    header = [
-        "---@meta",
-        "",
-        f"---{title}（内置组件 {component}）<br>",
-        f"---[查看文档]({BASE_URL}{page})",
-        f"---@class {component}: Component",
-        f"{component} = {{}}",
-        "",
-    ]
+            })
+
+    label = CATEGORY_LABELS.get(meta["category"], "组件") if meta else "内置组件"
+    if page_html:
+        label_suffix = f" · {label}" if meta is not None else ""
+        header = [
+            "---@meta",
+            "",
+            f"---{title}（内置组件 {component}{label_suffix}）<br>",
+            f"---[查看文档]({BASE_URL}{page})",
+        ]
+    else:
+        heading_text = meta["display"] or component if meta else component
+        header = [
+            "---@meta",
+            "",
+            f"---{heading_text}（内置组件 {component} · {label}）<br>",
+        ]
+        if meta and meta["tips"]:
+            header.append(f"---{meta['tips']}")
+    header.append(f"---@class {component}: Component")
+    if meta is not None:
+        for prop in meta["properties"]:
+            desc = prop["desc"]
+            if not desc:
+                phrase = purpose(prop["name"])
+                desc = "" if re.search(r"[A-Za-z]", phrase) else phrase
+            if prop["readonly"]:
+                desc = f"{desc}（只读）" if desc else "只读"
+            header.append(f"---@field {prop['name']} {prop['type']} {desc}".rstrip())
+    header.append(f"{component} = {{}}")
+    header.append("")
+
     body = []
     for method in methods:
         body.extend(method["lines"])
@@ -336,18 +772,21 @@ def build_component_file(component, page, page_html, known):
     return content, methods, warnings, summary, order
 
 
-def first_clause(text):
-    if not text:
-        return ""
-    return re.split(r"[；。]", text, maxsplit=1)[0].strip()
+def build_component_file(component, page, page_html, known):
+    return render_component(None, component, page, page_html, known)
 
 
-def manifest_entry(component, page, rel_file, methods):
+def component_entry(meta, rel_file, methods, warnings):
     return {
-        "component": component,
-        "page": BASE_URL + page,
+        "component": meta["name"],
+        "category": meta["category"],
+        "category_label": CATEGORY_LABELS.get(meta["category"], ""),
+        "source": meta["file"],
         "file": rel_file,
+        "property_count": len(meta["properties"]),
         "method_count": len(methods),
+        "warnings": warnings,
+        "properties": [f"{prop['name']}: {prop['type']}" for prop in meta["properties"]],
         "methods": [
             {
                 "name": method["name"],
@@ -359,85 +798,116 @@ def manifest_entry(component, page, rel_file, methods):
     }
 
 
-def render_manifest(entries):
+def build_all_decompiled(root, cache_dir, known, use_wiki=True):
+    components, duplicates = collect_components(root, known)
+    results = []
+    for meta in components:
+        page = None
+        page_html = None
+        if use_wiki:
+            cache_file = wiki_cache_file(cache_dir, meta["name"])
+            if cache_file is not None:
+                page_html = cache_file.read_text(encoding="utf-8")
+                page = "cmpapis/" + meta["name"].lower() + ".html"
+        content, methods, warnings, summary, order = render_component(
+            meta, page=page, page_html=page_html, known=known)
+        rel_file = f"library/components/{meta['category']}/{meta['name']}.lua"
+        results.append({
+            "component": meta["name"],
+            "category": meta["category"],
+            "page": page,
+            "content": content,
+            "methods": methods,
+            "warnings": warnings,
+            "meta": meta,
+            "file": rel_file,
+            "summary": summary,
+            "order": order,
+        })
+    return results, duplicates
+
+
+def render_component_manifest(results):
+    entries = [
+        component_entry(result["meta"], result["file"], result["methods"], result["warnings"])
+        for result in results
+    ]
     payload = {
         "generator": "tools/gen_builtin_components.py",
-        "source": BASE_URL + "hashmap.json",
+        "source": "decompiled framework components + wiki cmpapis pages",
+        "categories": [
+            {
+                "key": key,
+                "label": label,
+                "components": sorted(r["component"] for r in results if r["category"] == key),
+            }
+            for key, label in CATEGORY_LABELS.items()
+            if any(r["category"] == key for r in results)
+        ],
         "components": entries,
     }
     return json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=False) + "\n"
 
 
-def sha256(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+def report_components(results, output_dir):
+    by_category = {}
+    for result in results:
+        by_category.setdefault(result["category"], []).append(result)
+    print(f"{'category':14} {'components':>10} {'properties':>10} {'methods':>8}")
+    for key in sorted(by_category, key=lambda k: list(CATEGORY_LABELS).index(k) if k in CATEGORY_LABELS else 99):
+        group = by_category[key]
+        properties = sum(len(r["meta"]["properties"]) for r in group)
+        methods = sum(len(r["methods"]) for r in group)
+        print(f"{key:14} {len(group):>10} {properties:>10} {methods:>8}  {CATEGORY_LABELS.get(key, '')}")
+    total_props = sum(len(r["meta"]["properties"]) for r in results)
+    total_methods = sum(len(r["methods"]) for r in results)
+    print(f"total components={len(results)} properties={total_props} methods={total_methods}")
 
-
-def build_all(cache_dir, offline):
-    known = load_known_types()
-    results = []
-    for component, page in PAGES:
-        page_html = fetch_page(page, cache_dir, offline)
-        content, methods, warnings, summary, order = build_component_file(component, page, page_html, known)
-        results.append(
-            {
-                "component": component,
-                "page": page,
-                "content": content,
-                "methods": methods,
-                "warnings": warnings,
-                "summary": summary,
-                "order": order,
-            }
-        )
-    return results
-
-
-def render_report(results, output_dir):
-    print(f"{'component':26} {'summary':>7} {'parsed':>6} {'file':>5}  status")
     problems = 0
     for result in results:
-        component = result["component"]
-        summary_names = [name for name, _ in result["summary"]]
-        parsed_names = [m["name"] for m in result["methods"]]
-        status = "ok"
-        if summary_names and summary_names != parsed_names:
-            missing = [n for n in summary_names if n not in parsed_names]
-            extra = [n for n in parsed_names if n not in summary_names]
-            status = f"mismatch missing={missing} extra={extra}"
+        target = output_dir / result["category"] / (result["component"] + ".lua")
+        if not target.is_file() or target.read_text(encoding="utf-8") != result["content"]:
             problems += 1
-        target = output_dir / f"{component}.lua"
-        drift = "changed" if not target.is_file() or target.read_text(encoding="utf-8") != result["content"] else "same"
-        if drift == "changed":
-            problems += 1
-        print(
-            f"{component:26} {len(summary_names):>7} {len(parsed_names):>6} {drift:>5}  {status}"
-        )
+            print(f"  drift: {target.relative_to(output_dir.parent.parent)}")
+    for result in results:
         for warning in result["warnings"]:
             print(f"  warning: {warning}")
-    total = sum(len(r["methods"]) for r in results)
-    print(f"total components={len(results)} methods={total} problems={problems}")
     return problems
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Generate Mini World built-in component type definitions.")
-    parser.add_argument("--check", action="store_true", help="report method counts and file drift without writing")
-    parser.add_argument("--offline", action="store_true", help="use only the local HTML cache")
+    parser.add_argument("--check", action="store_true", help="report counts and file drift without writing")
+    parser.add_argument("--offline", action="store_true", help="ignore the wiki cache, use decompiled metadata only")
+    parser.add_argument("--refresh-wiki", action="store_true", help="re-download the cmpapis pages before building")
+    parser.add_argument("--decompiled", default=None, help="path to the decompiled components directory")
     parser.add_argument("--cache-dir", default=str(REPO / "tmp" / "wiki-cmpapis-cache"))
     parser.add_argument("--output-dir", default=str(REPO / "library" / "components"))
     parser.add_argument("--manifest", default=str(REPO / ".omo" / "evidence" / "api-lanes" / "components-manifest.json"))
     args = parser.parse_args(argv)
 
+    root = find_component_root(args.decompiled)
+    if root is None:
+        raise SystemExit("decompiled components directory not found (set --decompiled)")
     cache_dir = Path(args.cache_dir)
     output_dir = Path(args.output_dir)
     manifest_path = Path(args.manifest)
-    results = build_all(cache_dir, args.offline)
+
+    if args.refresh_wiki:
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        for _component, page in PAGES:
+            try:
+                fetch_page(page, cache_dir, False, force=True)
+            except SystemExit as error:
+                print(f"warning: {error}")
+
+    results, duplicates = build_all_decompiled(root, cache_dir, load_known_types(), not args.offline)
+    for duplicate in duplicates:
+        print(f"duplicate component id: {duplicate}")
+    expected_manifest = render_component_manifest(results)
 
     if args.check:
-        problems = render_report(results, output_dir)
-        expected_manifest = render_manifest(
-            [manifest_entry(r["component"], r["page"], f"library/components/{r['component']}.lua", r["methods"]) for r in results]
-        )
+        problems = report_components(results, output_dir)
         manifest_state = "same"
         if not manifest_path.is_file() or manifest_path.read_text(encoding="utf-8") != expected_manifest:
             manifest_state = "changed"
@@ -445,19 +915,15 @@ def main(argv=None):
         print(f"manifest: {manifest_state}")
         return 1 if problems else 0
 
-    output_dir.mkdir(parents=True, exist_ok=True)
+    for stale in output_dir.rglob("*.lua"):
+        stale.unlink()
     for result in results:
-        (output_dir / f"{result['component']}.lua").write_text(result["content"], encoding="utf-8")
+        target = output_dir / result["category"] / (result["component"] + ".lua")
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(result["content"], encoding="utf-8")
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
-    manifest_path.write_text(
-        render_manifest(
-            [manifest_entry(r["component"], r["page"], f"library/components/{r['component']}.lua", r["methods"]) for r in results]
-        ),
-        encoding="utf-8",
-    )
-    for result in results:
-        print(f"{result['component']:26} methods={len(result['methods']):>3} sha256={sha256(output_dir / (result['component'] + '.lua'))}")
-    print(f"total components={len(results)} methods={sum(len(r['methods']) for r in results)}")
+    manifest_path.write_text(expected_manifest, encoding="utf-8")
+    report_components(results, output_dir)
     return 0
 
 

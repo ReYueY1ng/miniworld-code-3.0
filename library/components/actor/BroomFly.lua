@@ -1,0 +1,30 @@
+---@meta
+
+---扫帚飞行组件（内置组件 BroomFly · 角色组件）<br>
+---为生物添加扫帚飞行能力，可配置飞行速度、动画和控制表现。
+---@class BroomFly: Component
+---@field tailEffect number | string 拖尾特效
+---@field moveSpeed number 默认移动速度
+---@field acceSpeed number 加速速度
+---@field accelDuration number 加速时间
+---@field jumpTickCD number 跳跃CD
+---@field jumpPitch number 跳跃俯仰角度
+---@field modelRotationActiveDuration number 模型旋转有效时间
+---@field bounceMotionY number 跳跃Y轴弹性运动
+---@field gravityCompensationScale number 反重力补偿缩放
+---@field pcYawFollowSharpness number PCYaw跟随速度
+---@field mobileYawFollowSharpness number MobileYaw跟随速度
+---@field modelRotationTransitionDuration number 模型旋转过渡时间
+---@field modelRotationTransitionEasePower number 模型旋转过渡力度
+---@field enableHelicopterMode boolean 悬停
+---@field helicopterSpeed number 上升速度
+---@field enableStrength boolean 体力消耗
+---@field strengthUnitTime number 单位时间(秒)
+---@field strengthPerUnit number 单位消耗量
+---@field gAnimationTitle Mini.GroupView 动画表现
+---@field playerRideAnim Mini.ModelAction 玩家骑乘
+---@field rideIdleAirAnim Mini.ModelAction 坐骑悬停
+---@field rideFlyAnim Mini.ModelAction 坐骑飞行
+---@field rideGlideAnim Mini.ModelAction 坐骑滑翔
+---@field checkDriverFallBottom boolean 下落检测驾驶者底部碰撞
+BroomFly = {}

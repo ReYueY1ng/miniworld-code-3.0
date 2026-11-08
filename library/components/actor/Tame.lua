@@ -1,0 +1,26 @@
+---@meta
+
+---Tame（内置组件 Tame · 角色组件）<br>
+---为生物添加驯服能力，可配置驯服条件、消耗和成功表现。
+---@class Tame: Component
+---@field TameType number 驯服条件
+---@field TameItems table[]
+---@field TameFavor number 好感度
+---@field TameSuccType number
+---@field tameToNewmob number
+---@field mutationProb number
+---@field needChangetAI boolean
+---@field BTreeArray table[]
+---@field succEffect number | string
+---@field succSound number | string
+---@field succMotion Mini.ModelAction
+---@field failEffect number | string
+---@field failSound number | string
+---@field showTamedModel boolean
+---@field subTamedModelName string
+---@field canChangeAttr boolean 判断能否变更属性
+---@field attrCurrHp number 属性当前血量
+---@field attrMaxHp number 属性最大血量
+---@field attrAttack number 属性攻击
+---@field attrRecover number
+Tame = {}

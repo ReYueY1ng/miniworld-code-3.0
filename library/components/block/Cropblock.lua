@@ -1,0 +1,41 @@
+---@meta
+
+---农作物组件（内置组件 Cropblock · 方块组件）<br>
+---为方块添加农作物能力，可配置生长、成熟和收获规则。
+---@class Cropblock: Component
+---@field type number 作物类型
+---@field downBlock (number | string)[] 放置目标方块
+---@field maxSpread number 最大蔓延次数
+---@field harvestType number 收获类型
+---@field openCycleNum boolean 是否限制收获次数
+---@field cycleMaxNum number 最大收获次数
+---@field cycleInterval number 收获间隔
+---@field cycleHarvestEffect table 循环收获特效
+---@field cycleDropsArray table[] 循环阶段掉落物
+---@field climbHarvestType number 收获类型
+---@field openCycleNumClimb boolean 是否限制收获次数
+---@field cycleMaxNumClimb number 最大收获次数
+---@field cycleIntervalClimb number 收获间隔
+---@field cycleHarvestEffectClimb table 循环收获特效
+---@field cycleDropsArrayClimb table[] 循环阶段掉落物
+---@field growStageByOne table[] 生长阶段配置
+---@field matureStageByOne table 成熟阶段
+---@field growStageByCycle table[] 生长阶段配置
+---@field matureStageByCycle table 成熟阶段
+---@field growStageByClimbOne table[] 生长阶段配置
+---@field matureStageByClimbOne table 成熟阶段
+---@field growStageByClimbCycle table[] 生长阶段配置组
+---@field matureStageByClimbCycle table 成熟阶段
+---@field tempAffect boolean 是否受温度影响
+---@field bonusTemp table 适宜温度范围
+---@field growTemp table 接受温度范围
+---@field brightAffect boolean 是否受光照影响
+---@field wetAffect number 湿度影响类型
+---@field mutate boolean 变异
+---@field mutateProb number 变异概率（0-100）
+---@field mutateToBlock number | string 变异目标方块
+---@field mutateEffect table 变异特效
+---@field growSpeed table 生长速度
+---@field abundantProb table 丰硕概率
+---@field cropData table
+Cropblock = {}

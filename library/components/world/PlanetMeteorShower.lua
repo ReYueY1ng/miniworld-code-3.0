@@ -1,0 +1,28 @@
+---@meta
+
+---流星雨（内置组件 PlanetMeteorShower · 世界组件）<br>
+---为星球添加流星雨天气调度和流星投掷物生成。
+---@class PlanetMeteorShower: Component
+---@field enableMeteorShower boolean 启用流星雨
+---@field naturalBiomeGroupId number 自然流星雨地形组ID
+---@field naturalBiomeId number 兼容地形ID
+---@field spawnChance number 波次生成概率
+---@field minSpawnCount number 最少流星数
+---@field maxSpawnCount number 最多流星数
+---@field maxFailCount number 失败保底次数
+---@field spawnHeightMin number 最低发射高度
+---@field spawnHeightMax number 最高发射高度
+---@field spawnRangeMin number 最小发射距离
+---@field spawnRangeMax number 最大发射距离
+---@field meteorDirectionMode number 流星来向模式
+---@field meteorDirectionYaw number 固定来向角度
+---@field fixedWorldLaunchRadius number 固定方向发射半径
+---@field spawnAngleOffset number 水平偏移角
+---@field checkInterval number 生成检查tick
+---@field minSpawnInterval number 波次最小间隔tick
+---@field maxSpawnInterval number 波次最大间隔tick
+---@field maxConcurrentMeteors number 最大飞行流星数
+---@field launchPointMinDistance number 发射点最小间距
+---@field projectileMaxLifeTick number 投掷物最大飞行tick
+---@field meteorProjectile number | string 流星投掷物
+PlanetMeteorShower = {}

@@ -1,0 +1,56 @@
+---@meta
+
+---DropItem（内置组件 DropItem · 角色组件）<br>
+---为生物添加掉落道具能力，可配置掉落条件、产出和冷却规则。
+---@class DropItem: Component
+---@field dropBagItem boolean
+---@field levelExp number 等级经验
+---@field dropExp number 掉落经验
+---@field dropExpOdds number
+---@field dropExpBallMin number
+---@field dropExpBallMax number
+---@field dropItems table[] 掉落道具
+---@field timedDropItems boolean 定时掉落
+---@field timedDropMinCD number 掉落最小间隔
+---@field timedDropMaxCD number 掉落最大间隔
+---@field timedDropCondition number 定时掉落条件
+---@field timedDropNeedMinStrengthPer number 最小体力百分比
+---@field timedDropGroup table[] 掉落组
+---@field timedDropAnimId Mini.ModelAction 掉落动作
+---@field timedDropEffectCfg Mini.GroupView 掉落特效
+---@field timedDropSound number | string 掉落音效
+---@field timedDropEffect number | string 掉落特效
+---@field timedDropEffectPosition Mini.Vec3 特效偏移
+---@field timedDropEffectScale number 特效缩放
+---@field timedDropEffectDuration number 特效时长
+---@field interactionDropItems boolean 交互产出
+---@field interactionItems table[] 交互道具
+---@field interactionDropType number 产出类型
+---@field interactionRecoverType number 恢复时间类型
+---@field interactionRecoverCD number 产出冷却
+---@field interactionRecoverTime number 恢复时间
+---@field interactionRecoverCondition number 产出恢复条件
+---@field interactionRecoverStrength number 最小体力值百分比
+---@field interactionRecoverCount number 产出恢复次数
+---@field interactionTime number 交互产出时间
+---@field interactionDropGroup table[] 奖励组
+---@field interactionChangeItemGrop table[] 奖励组
+---@field interactionDropPlayerAnimId Mini.ModelAction 交互角色动作
+---@field interactionPlayerAnimFPSId Mini.ModelAction 交互角色第一人称动作
+---@field interactionDropMobAnimId Mini.ModelAction 交互生物动作
+---@field interactionDropIcon string 交互图标
+---@field interactionDropEffectCfg Mini.GroupView 交互特效
+---@field interactionDropSound number | string 交互音效
+---@field interactionDropEffect number | string 交互特效
+---@field interactionDropEffectPosition Mini.Vec3 特效偏移
+---@field interactionDropEffectScale number 特效缩放
+---@field interactionDropEffectDuration number 特效时长
+---@field interactionDropSubModel boolean 产出子模型
+---@field interactionDropSubModelNameForYes string 有产出子模型
+---@field interactionBubbleType number 有产出气泡类型
+---@field interactionBubbleId string ID
+---@field interactionBubbleGroupId string 组ID
+---@field noInteractionBubbleType number 无产出气泡类型
+---@field noInteractionBubbleId string ID
+---@field noInteractionBubbleGroupId string 组ID
+DropItem = {}

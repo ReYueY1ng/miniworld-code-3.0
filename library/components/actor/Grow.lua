@@ -1,0 +1,24 @@
+---@meta
+
+---Grow（内置组件 Grow · 角色组件）<br>
+---为生物添加成长能力，可配置成长阶段、时间和成长结果。
+---@class Grow: Component
+---@field useItemEnabled boolean
+---@field growthItemId number | string
+---@field growthItemCount number
+---@field growthSeconds number
+---@field targetAdultId number
+---@field mutationProb number
+---@field growingEffect number | string 成长中特效
+---@field growthEffectEnter Mini.GroupView
+---@field growthEffect number | string
+---@field growthEffectOffset Mini.Vec3
+---@field growthEffectScale number
+---@field growthEffectTime number
+---@field refuseEnable boolean 拒绝开关
+---@field refuseFeedMotion Mini.ModelAction 成长中拒绝动作
+---@field refuseFeedSound number | string 成长中拒绝音效
+---@field refuseBubbleEnter Mini.GroupView 成长中拒绝头顶气泡
+---@field refuseBubbleType number 气泡类型
+---@field refuseBubbleContent string ID
+Grow = {}

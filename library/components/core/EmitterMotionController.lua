@@ -1,0 +1,28 @@
+---@meta
+
+---发射器轨迹中转（内置组件 EmitterMotionController · 通用组件）<br>
+---为发射器提供轨迹中转能力，用于控制投掷物或特效的运动轨迹。
+---@class EmitterMotionController: Component
+---@field trajectoryType number
+---@field motionId string
+---@field lifeTime number 生命时间
+---@field initSpeed number 初始化速度
+---@field speedDecayPerSecond number
+---@field gravity number 重力
+---@field orbitRadius number
+---@field ownerObjId number
+---@field centerPos Mini.Vec3 中心位置
+---@field targetObjId number
+---@field targetPosition Mini.Vec3 目标位置
+---@field turnSpeed number 转换速度
+---@field maxAngularSpeed number
+---@field followDelay number 跟随延迟
+---@field beginFollowStrength number 开始跟随强度
+---@field midFollowStrength number 中间跟随强度
+---@field finalSpeedUp number
+---@field lateralDistance number
+---@field longitudinalDistance number
+---@field targetLostAction number
+---@field targetScaleMultiplier number
+---@field direction Mini.Vec3 方向
+EmitterMotionController = {}

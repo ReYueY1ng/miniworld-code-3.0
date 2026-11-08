@@ -1,0 +1,33 @@
+---@meta
+
+---Projectile（内置组件 Projectile · 投掷物组件）<br>
+---为投掷物添加飞行与命中能力，可配置速度、重力、碰撞和命中效果。
+---@class Projectile: Component
+---@field flyTitle Mini.GroupView
+---@field hitTitle Mini.GroupView
+---@field lifeTitle Mini.GroupView
+---@field hitTarget Mini.GroupView
+---@field initSpeed number 初始化速度
+---@field trailType number
+---@field gravity number 重力
+---@field speedReduction number
+---@field hitType number
+---@field hitActotProcess number
+---@field hitBlockProcess number
+---@field allowPickup boolean 允许拾取
+---@field pickUpItem number 拾取开启道具
+---@field hitEntityProcess number
+---@field passDamping boolean
+---@field passDampingAttributes Mini.GroupView
+---@field passPercent number 通过百分比
+---@field dampingStart number
+---@field dampingDistance number
+---@field dampingMin number
+---@field passLiquidDamping number
+---@field passHurtDamping boolean
+---@field lifeElapse boolean
+---@field lifeTime number 生命时间
+---@field hitObjGroup table[]
+---@field hitEffect number
+---@field hitSound number
+Projectile = {}

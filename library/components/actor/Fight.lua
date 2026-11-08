@@ -1,0 +1,32 @@
+---@meta
+
+---Fight（内置组件 Fight · 角色组件）<br>
+---为生物添加战斗能力，可配置攻击、防御、受击和战斗目标规则。
+---@class Fight: Component
+---@field team number 队伍
+---@field viewDistance number 界面距离
+---@field animationName Mini.ModelAction 动画名称
+---@field hurtAnimation Mini.ModelAction 造成伤害动画
+---@field deathAnimation Mini.ModelAction 死亡动画
+---@field attack number 攻击
+---@field attackElem number
+---@field defPhysical number
+---@field defElem number
+---@field attackFire number
+---@field attackPoison number
+---@field attackIce number
+---@field armorFire number
+---@field armorPoison number
+---@field armorIce number
+---@field attackDistance number 攻击距离
+---@field hurtSound number | string 造成伤害音效
+---@field deathSound number | string 死亡音效
+---@field attackSound number | string 攻击音效
+---@field canRepelled boolean
+---@field repelResist number
+---@field colliderShapeEnter Mini.GroupView
+---@field colliderShape number
+---@field width number
+---@field height number 高度
+---@field boxCenter Mini.Vec3 框中心
+Fight = {}

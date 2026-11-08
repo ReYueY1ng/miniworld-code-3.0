@@ -1,0 +1,31 @@
+---@meta
+
+---RandOutfit（内置组件 RandOutfit · 角色组件）<br>
+---为生物添加随机装扮能力，可按规则生成或切换外观。
+---@class RandOutfit: Component
+---@field headGroupView Mini.GroupView 头饰
+---@field headGrop table[] 头饰组
+---@field faceGroupView Mini.GroupView 表情
+---@field faceGrop table[] 表情组
+---@field faceOrnamentGroupView Mini.GroupView 面饰
+---@field faceOrnamentGrop table[] 面饰组
+---@field jacketGroupView Mini.GroupView 上衣
+---@field jacketGrop table[] 上衣组
+---@field trousersGroupView Mini.GroupView 裤子
+---@field trousersGrop table[] 裤子组
+---@field shoesGroupView Mini.GroupView 鞋子
+---@field shoesGrop table[] 鞋子组
+---@field headData number 头部数据
+---@field faceData number 朝向数据
+---@field faceOrnamentData number
+---@field jacketData number
+---@field trousersData number
+---@field shoesData number
+---@field headWeight number
+---@field faceWeight number
+---@field faceOrnamentWeight number
+---@field jacketWeight number
+---@field trousersWeight number
+---@field shoesWeight number
+---@field inited boolean
+RandOutfit = {}

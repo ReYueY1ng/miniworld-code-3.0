@@ -1,0 +1,21 @@
+---@meta
+
+---迷幻视觉（内置组件 PsychedelicVisionStatus · 效果组件）<br>
+---定义迷幻视觉效果，可通过道具使用或状态BUFF触发屏幕视觉变化。
+---@class PsychedelicVisionStatus: Component
+---@field visionStatus number | string 迷幻视觉状态
+---@field duration number 持续时间
+---@field useScreenEffect boolean 屏幕特效
+---@field screenEffectType number 屏幕特效类型
+---@field screenEffectSpeed number 屏幕闪烁速度
+---@field usePostProcess boolean 后处理
+---@field gainR number 红色增益
+---@field gainG number 绿色增益
+---@field gainB number 蓝色增益
+---@field contrast number 对比度
+---@field saturation number 饱和度
+---@field bloomIntensity number 泛光强度
+---@field exposureIntensity number 曝光强度
+---@field vignetteIntensity number 暗角强度
+---@field waveIntensity number 波动强度（0=关闭，100=最强）
+PsychedelicVisionStatus = {}

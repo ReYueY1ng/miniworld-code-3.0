@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
 from pathlib import Path
 
@@ -80,11 +81,112 @@ def test_vector_triple_and_unknown_type():
 
 def test_undeclared_and_default_params():
     content, _, _, _, _ = render()
-    assert "---@param count? Mini.Number 数量，默认1。" in content
+    assert "---@param count? number 数量，默认1。" in content
     assert "返回值类型未在 wiki 声明。" in content
     assert "---保留原有拼写" in content
     bad_block = content.split("function Demo:SetPos(x, y, z) end", 1)[1].split("function Demo:Bad")[0]
     assert "---@return" not in bad_block
+
+
+COMPONENT_FIXTURE = """
+local Demo = ComponentClass("Demo")
+
+Demo.displayName = "演示"
+Demo._cmpTips = "演示组件说明。"
+Demo.propertys = {
+	position = {
+		sort = 1,
+		type = Mini.Vec3,
+		default = Mini.Vec3(0, 0, 0),
+		displayName = "位置"
+	},
+	speed = {
+		sort = 2,
+		type = Mini.Number,
+		displayName = UGCTools.GetS(1001)
+	},
+	items = {
+		sort = 3,
+		type = Mini.Array,
+		itemType = Mini.Item,
+		tips = "道具列表"
+	}
+}
+Demo.openFnArgs = {
+	SetSpeed = {
+		tips = "设置速度。",
+		displayName = "设置速度",
+		params = {
+			Mini.Number
+		},
+		paramsTips = {
+			"目标速度。"
+		},
+		returnType = Mini.Bool,
+		returnTips = "是否设置成功。"
+	},
+	Refresh = true
+}
+
+function Demo:OnDestroy()
+end
+
+return Demo
+"""
+
+
+def _decompiled(tmp_path):
+    root = tmp_path / "components"
+    (root / "actor").mkdir(parents=True)
+    (root / "actor" / "demo.lua").write_text(COMPONENT_FIXTURE, encoding="utf-8")
+    return root
+
+
+def test_decompiled_meta_parser(tmp_path):
+    root = _decompiled(tmp_path)
+    meta = gen.parse_component_file(root / "actor" / "demo.lua", root, set())
+    assert meta["name"] == "Demo"
+    assert meta["category"] == "actor"
+    assert meta["display"] == "演示"
+    assert meta["tips"] == "演示组件说明。"
+    fields = {prop["name"]: (prop["type"], prop["desc"]) for prop in meta["properties"]}
+    assert fields == {
+        "position": ("Mini.Vec3", "位置"),
+        "speed": ("number", ""),
+        "items": ("(number | string)[]", "道具列表"),
+    }
+    methods = {method["name"]: method for method in meta["methods"]}
+    assert methods["SetSpeed"]["params"] == ["Mini.Number"]
+    assert methods["SetSpeed"]["param_tips"] == ["目标速度。"]
+    assert methods["SetSpeed"]["return_type"] == "Mini.Bool"
+    assert methods["Refresh"]["kind"] == "scalar"
+
+
+def test_decompiled_render_uses_fields_and_methods(tmp_path):
+    root = _decompiled(tmp_path)
+    meta = gen.parse_component_file(root / "actor" / "demo.lua", root, set())
+    content, methods, warnings, _, _ = gen.render_component(meta)
+    assert warnings == []
+    assert "---演示（内置组件 Demo · 角色组件）<br>" in content
+    assert "---演示组件说明。" in content
+    assert "---@field position Mini.Vec3 位置" in content
+    assert "---@field speed number 速度" in content
+    assert "---@field items (number | string)[] 道具列表" in content
+    assert "---@param num number 目标速度。" in content
+    assert "---@return boolean result 是否设置成功。" in content
+    assert "function Demo:SetSpeed(num) end" in content
+    assert "---@vararg any\nfunction Demo:Refresh(...) end" in content
+    assert [method["name"] for method in methods] == ["SetSpeed", "Refresh"]
+
+
+def test_component_manifest_groups_by_category(tmp_path):
+    root = _decompiled(tmp_path)
+    results, duplicates = gen.build_all_decompiled(root, tmp_path / "cache", set(), use_wiki=False)
+    assert duplicates == []
+    manifest = json.loads(gen.render_component_manifest(results))
+    assert manifest["categories"] == [{"key": "actor", "label": "角色组件", "components": ["Demo"]}]
+    assert manifest["components"][0]["file"] == "library/components/actor/Demo.lua"
+    assert manifest["components"][0]["property_count"] == 3
 
 
 def test_render_is_deterministic():

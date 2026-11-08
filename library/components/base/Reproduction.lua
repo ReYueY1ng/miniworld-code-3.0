@@ -1,0 +1,48 @@
+---@meta
+
+---繁殖组件（内置组件 Reproduction · 基础组件）<br>
+---为生物添加繁殖能力，可配置繁殖条件、冷却和后代生成规则。
+---@class Reproduction: Component
+---@field switch boolean 开关
+---@field reproductionType number 繁殖类型
+---@field reproductionItemArray table[] 繁殖道具组
+---@field viviparousRepBlock number | string 繁殖方块
+---@field oviparousRepBlock number | string 繁殖方块
+---@field readyEffectCfg Mini.GroupView 待繁殖特效
+---@field readyEffect number | string 待繁殖特效
+---@field readyEffectPosition Mini.Vec3 特效偏移
+---@field readyEffectScale number 特效缩放
+---@field reproductionAnimId Mini.ModelAction 繁殖动画
+---@field reproductionEffectCfg Mini.GroupView 繁殖特效
+---@field reproductionEffect number | string 繁殖特效
+---@field reproductionEffectPosition Mini.Vec3 特效偏移
+---@field reproductionEffectScale number 特效缩放
+---@field reproductionTime number 繁殖持续时间
+---@field reproductionSuccEffectCfg Mini.GroupView 繁殖成功特效
+---@field reproductionSuccEffect number | string 繁殖成功特效
+---@field reproductionSuccEffectPosition Mini.Vec3 特效偏移
+---@field reproductionSuccEffectScale number 特效缩放
+---@field reproductionLivingId number 幼年生物类型
+---@field reproductionLivingMinNum number 幼崽最小数量
+---@field reproductionLivingNum number 幼崽最大数量
+---@field reproductionEggModelId string 蛋模型
+---@field reproductionEggItemId number | string 蛋对应道具
+---@field reproductionEggMinNum number 下蛋最小数量
+---@field reproductionEggNum number 下蛋最大数量
+---@field variationProb number 变异概率
+---@field reproductionCdTime number 繁殖冷却时间
+---@field incubationTime number 孵化时间
+---@field incubationLivingId number 孵化生物类型
+---@field layingEggIntervalMin number 下蛋最小间隔
+---@field layingEggIntervalMax number 下蛋最大间隔
+---@field layingEggProb number 下蛋概率
+---@field layingEggCfgArray table[] 下蛋道具组
+---@field layingEggNeedMinStrengthPer number 最小体力百分比
+---@field layingEggAnimId Mini.ModelAction 下蛋动画
+---@field refuseEnable boolean 拒绝开关
+---@field reproductionCdRefuseAnimId Mini.ModelAction 拒绝道具动画
+---@field reproductionCdRefuseSoundId number | string 拒绝繁殖音效
+---@field refuseBubbleType number 拒绝头顶气泡类型
+---@field refuseBubbleId string ID
+---@field refuseBubbleGroupId string 组ID
+Reproduction = {}

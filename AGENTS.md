@@ -13,9 +13,13 @@ Lua type definition library for Mini World (迷你世界) UGC 3.0 game engine. P
 ## Structure
 
 ```
-library/           # 25 Lua files with type definitions using ---@meta annotations
-config.json        # LLS-Addons addon configuration schema
-test.lua           # Manual test file (not automated tests)
+library/                # generated and hand-written ---@meta definitions
+library/optional/       # official + trigger lanes (default off, see plugin.lua)
+library/components/     # built-in component definitions, one directory per category
+config.json             # LLS-Addons addon configuration schema
+plugin.lua              # gated lanes + custom diagnostics
+tools/                  # generators, parsers and their pytest suite
+test.lua                # Manual test file (not automated tests)
 ```
 
 Each file in `library/` corresponds to a Mini World API module:
@@ -138,6 +142,48 @@ Then, manually:
 2. Check that autocompletion works for Mini World APIs
 3. Verify type errors appear for invalid API usage
 4. Use `test.lua` to validate type resolution works correctly
+
+## Built-in Components (library/components)
+
+Components are generated from the decompiled framework, not from the wiki: every
+`ComponentClass("Name")` declaration carries `displayName`, `_cmpTips`, `propertys`
+(script-visible attributes with `type`/`itemType`/`Get`/`Set`) and `openFnArgs`
+(script-callable functions with `tips`/`params`/`paramsTips`/`returnType`/`returnTips`).
+The wiki `cmpapis/*.html` pages are merged in where they document the same component.
+
+```bash
+python3 tools/gen_builtin_components.py            # regenerate library/components
+python3 tools/gen_builtin_components.py --check    # counts + drift, no writes
+python3 tools/gen_builtin_components.py --offline  # ignore the wiki cache
+python3 tools/gen_builtin_components.py --refresh-wiki   # re-download cmpapis pages
+```
+
+Layout mirrors the engine's own `framework/components/` tree, so a component's
+directory is its category:
+
+| directory | category | directory | category |
+|-----------|----------|-----------|----------|
+| `base/` | 基础组件 | `effect/` | 效果组件 |
+| `actor/` | 角色组件 | `grid/` | 网格组件 |
+| `block/` | 方块组件 | `motions/` | 运动组件 |
+| `world/` | 世界组件 | `projectiles/` | 投掷物组件 |
+| `ui/` | 界面组件 | `skill/` `pos/` `player/` `area/` | 对应分类 |
+| `core/` | 通用组件 | | |
+
+Rules that keep the generated files valid:
+
+- Every component is `---@class <Name>: Component`, so `self:GetComponent("<Name>")`
+  resolves through the `---@generic cmp: Component` / `` cmpid `cmp` `` trick.
+- Modifiable attributes are `---@field` lines on the class; engine descriptors are
+  mapped to script types (`Mini.Number` -> `number`, `Mini.Bool` -> `boolean`,
+  `Mini.Player` -> `integer`, `Mini.Item`/`Mini.Block`/... -> `number | string`,
+  `Mini.Array` + `itemType` -> `<item>[]`, vectors stay `Mini.Vec3`/`Mini.Scale`).
+- `openFnArgs` entries without metadata are emitted as `(...)` varargs so a call with
+  any arguments is never a false positive.
+- Component ids collide with three existing module classes (`Area`, `Block`, `Task`).
+  Keep the component id as the class name; it is what `GetComponent("<id>")` resolves.
+- The plugin gates the whole `library/components/` subtree by URI prefix, so nested
+  category directories need no extra configuration.
 
 ## Optional Lane Docs (official / trigger)
 

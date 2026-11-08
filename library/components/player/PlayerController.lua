@@ -1,0 +1,21 @@
+---@meta
+
+---PlayerController（内置组件 PlayerController · 玩家组件）<br>
+---为玩家添加控制能力，用于配置移动、操作和输入相关行为。
+---@class PlayerController: Component
+---@field defaultView number
+---@field customView Mini.GroupView 自定义界面
+---@field baseSet Mini.GroupView 基础设置
+---@field crosshair number
+---@field moveLimit number
+---@field viewMove number 界面移动
+---@field roteLimit number
+---@field cameraSet Mini.GroupView 相机设置
+---@field mode number 模式
+---@field relative Mini.GroupView 相对
+---@field relativePos Mini.Vec3 相对位置
+---@field relativeRote Mini.Vec3
+---@field zoomMode number
+---@field view number 界面
+---@field lockView boolean 锁定界面
+PlayerController = {}

@@ -1,0 +1,30 @@
+---@meta
+
+---物理（内置组件 Physics · 基础组件）<br>
+---为对象添加物理碰撞能力，可配置物理类型、碰撞体形状与尺寸、物理材质、质量、阻尼、重力及碰撞/触发事件。
+---@class Physics: Component
+---@field physicsType number
+---@field colliderShapeEnter Mini.GroupView
+---@field colliderShape number
+---@field boxSize Mini.Vec3 框尺寸
+---@field boxCenter Mini.Vec3 框中心
+---@field capsuleCenter Mini.Vec3
+---@field capsuleRadius number
+---@field height number 高度
+---@field sphereCenter Mini.Vec3
+---@field sphereRadius number
+---@field phyMaterialEnter Mini.GroupView
+---@field staticFriction number
+---@field dynamicFriction number
+---@field restitution number
+---@field mass number 质量
+---@field drag number
+---@field angularDrag number
+---@field isUseGravity boolean 判断是否使用重力
+---@field isKinematic boolean 运动学刚体
+---@field isConvex boolean
+---@field isOpenEvent boolean 判断是否打开事件
+---@field collideMsg Mini.CustomMsg 碰撞消息
+---@field enterMsg Mini.CustomMsg 进入消息
+---@field leaveMsg Mini.CustomMsg 离开消息
+Physics = {}
