@@ -265,3 +265,19 @@ function Item:GetObjData(playerid, instId, key) end
 ---@param itemid integer | string 道具类型ID
 ---@return string instId 道具实例ID
 function Item:CreateBindItemInBackpack(playerid, itemid) end
+
+---强化装备或枪械<br>**调用限制**: 仅白名单用户可用
+---@param playerid integer 玩家Uin
+---@param gridIndex integer 格子索引
+---@param data any 强化数据
+function Item:EmpowerEquipOrGunForPlayer(playerid, gridIndex, data) end
+
+---重置装备或枪械的强化数据<br>**调用限制**: 仅白名单用户可用
+---@param playerid integer 玩家Uin
+---@param gridIndex integer 格子索引
+function Item:FreshPowerEquipOrGunForPlayer(playerid, gridIndex) end
+
+---提升装备或枪械的强化等级<br>**调用限制**: 仅白名单用户可用
+---@param playerid integer 玩家Uin
+---@param gridIndex integer 格子索引
+function Item:LevelUpEquipOrGunForPlayer(playerid, gridIndex) end

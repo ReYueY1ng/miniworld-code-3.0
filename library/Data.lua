@@ -31,6 +31,7 @@ function Data:GetValue(varId, playerId) end
 function Data:IncreasesValue(varId, playerId, value) end
 
 ---打包蓝图数据
+---**调用限制**: 仅白名单用户可用
 ---@param varId string 变量ID
 ---@param playerId integer? 玩家ID（全局变量传nil）
 ---@param x number 起始X坐标

@@ -593,6 +593,7 @@ function World:IsChunkLoaded(x, z, worldId) end
 function World:SetSkyBoxAttrWithNoTime(itype, value, worldId) end
 
 ---增加游戏时间
+---**调用限制**: 仅白名单用户可用
 ---@param timeenum EventDate 时间枚举
 ---@param value integer 增加值
 ---@return boolean result
@@ -653,6 +654,7 @@ function World:StopParticleEffectOnPos(x, y, z, particleId, worldId) end
 function World:FindNearActorListByObjType(centerX, centerY, centerZ, radius, objType, worldId) end
 
 ---设置区域始终保持加载状态
+---**调用限制**: 仅白名单用户可用
 ---@param x1 number 区域起点x坐标
 ---@param z1 number 区域起点z坐标
 ---@param x2 number 区域终点x坐标

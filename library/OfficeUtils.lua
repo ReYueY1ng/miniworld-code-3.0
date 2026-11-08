@@ -25,6 +25,7 @@ function OfficeUtils:GetActivateReward(reportid, uin, taskid) end
 function OfficeUtils:GetShopItemInfo(itype, itemid) end
 
 ---上报激活数据
+---**调用限制**: 仅白名单用户可用
 ---@param uin integer 玩家Uin
 ---@param eventid any 事件ID
 ---@param ... any 参数
@@ -40,3 +41,9 @@ function OfficeUtils:ReportActivateDataForUin(uin, eventid, ...) end
 ---@param eventTb? table 事件数据（默认空表）
 ---@return boolean result
 function OfficeUtils:SendClientReportEvent(uin, sID, cID, oID, event, eventTb) end
+
+---上报官方活动数据<br>**调用限制**: 仅白名单用户可用
+---@param uin integer 玩家Uin
+---@param eventid any 事件ID
+---@param ... any 参数
+function OfficeUtils:ReportOfficeActivateData(uin, eventid, ...) end

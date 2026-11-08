@@ -36,21 +36,25 @@ function CloudSever:GetRoomID() end
 function CloudSever:SetDataListValue(libvarid, key, value) end
 
 ---传送到当前地图分类房间<br>**调用限制**: 全局 30 秒冷却
+---**调用限制**: 仅白名单用户可用
 ---@param playerids integer | integer[] 玩家Uin或Uin数组
 ---@param categorys string | string[] 分类或分类数组
 ---@return boolean result
 function CloudSever:TransmitToCurMapCategoryRoom(playerids, categorys) end
 
 ---获取房间分类
+---**调用限制**: 仅白名单用户可用
 ---@return string category 房间分类
 function CloudSever:GetRoomCategory() end
 
 ---设置房间分类<br>**调用限制**: 全局 5 秒冷却
+---**调用限制**: 仅白名单用户可用
 ---@param category string 房间分类
 ---@return boolean result
 function CloudSever:SetRoomCategory(category) end
 
 ---传送到分类房间<br>**调用限制**: 全局 30 秒冷却
+---**调用限制**: 仅白名单用户可用
 ---@param playerids integer | integer[] 玩家Uin或Uin数组
 ---@param mapid number 地图ID
 ---@param categorys string | string[] 分类或分类数组
