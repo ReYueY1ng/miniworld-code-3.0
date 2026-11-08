@@ -44,6 +44,7 @@ DECOMPILED_CACHE = TOOLS_DIR / "api-update" / "decompiled-types.json"
 sys.path.insert(0, str(TOOLS_DIR))
 import env_lib  # noqa: E402
 from decompiled_types import ALIASES as DECOMPILED_ALIASES  # noqa: E402
+from doc_text import param_desc, purpose, return_info  # noqa: E402
 
 
 def _load_parse_env():
@@ -213,17 +214,19 @@ def decompiled_inference(cache: dict, qualifier: str, method: str,
 
 
 def emit_function(lines: list[str], qualifier: str, method: str, entry: dict,
-                  docs: dict[tuple[str, str], dict], fallback: str,
+                  docs: dict[tuple[str, str], dict],
                   whitelist_names: set[str] | None = None,
                   decompiled: dict | None = None,
                   is_trigger: bool = False) -> None:
     params = param_names(entry)
     item = wiki_item(docs, qualifier, method)
     desc = clean_desc(item.get("description", "")) if item else ""
-    if desc:
-        lines.append(f"---{desc}")
-    else:
-        lines.append(f"---{fallback}")
+    if not desc:
+        desc = purpose(method)
+    parts = [p.strip() for p in re.split(r"<br\s*/?>", desc) if p.strip()]
+    for index, part in enumerate(parts):
+        suffix = "<br>" if index < len(parts) - 1 else ""
+        lines.append(f"---{part}{suffix}")
     if is_whitelisted(entry, whitelist_names):
         lines.append("---**调用限制**: 仅白名单用户可用")
     source_types, source_optional, source_return = decompiled_inference(
@@ -235,11 +238,14 @@ def emit_function(lines: list[str], qualifier: str, method: str, entry: dict,
         ptype, pdesc = param_type(item, name)
         if name in source_types:
             ptype = source_types[name]
+        if not pdesc:
+            pdesc = param_desc(name)
         marker = "?" if name in source_optional else ""
         suffix = f" {pdesc}" if pdesc else ""
         lines.append(f"---@param {name}{marker} {ptype}{suffix}")
     if source_return:
-        lines.append(f"---@return {source_return}")
+        result_name, result_desc = return_info(source_return, method, params)
+        lines.append(f"---@return {source_return} {result_name} {result_desc}")
     signature = ", ".join(params)
     call = f"function {qualifier}:{method}({signature}) end"
     if len(call) <= 120 or not params:
@@ -320,7 +326,6 @@ def generate_official(entries: list[dict], docs: dict[tuple[str, str], dict],
                 method_of(entry["name"]),
                 entry,
                 docs,
-                "官方环境独有接口（未收录于开发环境）",
                 whitelist_names,
                 decompiled,
                 False,
@@ -379,55 +384,67 @@ def generate_trigger(functions: list[dict], modules: list[dict], write: bool,
         if sub:
             by_sub[sub].append(entry)
 
-    lines = [
+    header = [
         "---@meta",
         "",
         "---触发器 API（Trigger 命名空间）<br>",
-        "---仅在触发器环境中可用，坐标参数使用 pos 向量；全局接口请使用 World / Actor 等模块。",
+        "---仅在触发器环境中可用，坐标参数使用 pos 向量；全局接口请使用 World / Actor 等模块。<br>",
         "---默认关闭：在 Lua.runtime.pluginArgs 中设置 \"triggerApi=enable\" 开启。<br>",
         "---[官方 Wiki](https://dev-wiki.mini1.cn/ugc-wiki/introduction/scriptinteraction.html)",
         "---@class Trigger",
     ]
     for sub in submodules:
         note = TRIGGER_MODULES.get(sub, "触发器模块")
-        lines.append(f"---@field {sub} Trigger.{sub} {note}")
-    lines.append("Trigger = {}")
-    lines.append("")
-
-    for sub in submodules:
-        lines.append(f"---@class Trigger.{sub}")
-        lines.append(f"Trigger.{sub} = {{}}")
-        lines.append("")
-        for entry in sorted(by_sub.get(sub, []), key=lambda e: trigger_parts(e["name"])[1]):
-            emit_function(
-                lines,
-                f"Trigger.{sub}",
-                trigger_parts(entry["name"])[1],
-                entry,
-                {},
-                "触发器接口（环境表导出）",
-                whitelist_names,
-                decompiled,
-                True,
-            )
+        header.append(f"---@field {sub} Trigger.{sub} {note}")
+    header.append("Trigger = {}")
+    header.append("")
 
     if top_level:
         for entry in sorted(top_level, key=lambda e: trigger_parts(e["name"])[1]):
             emit_function(
-                lines,
+                header,
                 "Trigger",
                 trigger_parts(entry["name"])[1],
                 entry,
                 {},
-                "触发器接口（环境表导出）",
                 whitelist_names,
                 decompiled,
                 True,
             )
 
+    sub_files: dict[str, list[str]] = {}
+    for sub in submodules:
+        file_lines = [
+            "---@meta",
+            "",
+            f"---触发器 {sub} 模块（Trigger.{sub}）<br>",
+            "---仅在触发器环境中可用，坐标参数使用 pos 向量。<br>",
+            "---默认关闭：在 Lua.runtime.pluginArgs 中设置 \"triggerApi=enable\" 开启。<br>",
+            "---[官方 Wiki](https://dev-wiki.mini1.cn/ugc-wiki/introduction/scriptinteraction.html)",
+            f"---@class Trigger.{sub}",
+            f"Trigger.{sub} = {{}}",
+            "",
+        ]
+        for entry in sorted(by_sub.get(sub, []), key=lambda e: trigger_parts(e["name"])[1]):
+            emit_function(
+                file_lines,
+                f"Trigger.{sub}",
+                trigger_parts(entry["name"])[1],
+                entry,
+                {},
+                whitelist_names,
+                decompiled,
+                True,
+            )
+        sub_files[sub] = file_lines
+
     if write:
         TRIGGER_DIR.mkdir(parents=True, exist_ok=True)
-        (TRIGGER_DIR / "Trigger.lua").write_text(render_file(lines), encoding="utf-8")
+        for stale in TRIGGER_DIR.glob("*.lua"):
+            stale.unlink()
+        (TRIGGER_DIR / "Trigger.lua").write_text(render_file(header), encoding="utf-8")
+        for sub, file_lines in sub_files.items():
+            (TRIGGER_DIR / f"{sub}.lua").write_text(render_file(file_lines), encoding="utf-8")
 
     return {
         "expected": len(functions),

@@ -1,6 +1,7 @@
 ---@meta
 
----移动组件接口（内置组件 Move）<br>[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/cmpapis/move.html)
+---移动组件接口（内置组件 Move）<br>
+---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/cmpapis/move.html)
 ---@class Move: Component
 Move = {}
 
@@ -38,7 +39,7 @@ function Move:SetFaceDir(vx, vy, vz) end
 
 ---获取对象朝向
 ---读取actor当前yaw和pitch对应的世界朝向向量，以X、Y、Z三个number返回；现有元数据只保留一个Mini.Number类型槽。
----@return Mini.Number 有actor时返回X、Y、Z三个方向分量；actor无移动组件时为0、0、0；没有actor时返回nil（无返回值）。元数据仅声明Mini.Number，完整三返回值见函数注释。
+---@return Mini.Number value 有actor时返回X、Y、Z三个方向分量；actor无移动组件时为0、0、0；没有actor时返回nil（无返回值）。元数据仅声明Mini.Number，完整三返回值见函数注释。
 function Move:GetFaceDir() end
 
 ---设置对象视角偏移角度
@@ -48,7 +49,7 @@ function Move:SetFaceYaw(yaw) end
 
 ---获取对象视角偏移角度
 ---读取actor移动组件保存的绝对水平朝向yaw，单位度；不进行角度归一化。
----@return Mini.Number 返回yaw角（度）；actor存在但没有移动组件时返回0；没有actor时返回nil。
+---@return Mini.Number value 返回yaw角（度）；actor存在但没有移动组件时返回0；没有actor时返回nil。
 function Move:GetFaceYaw() end
 
 ---转向目标位置

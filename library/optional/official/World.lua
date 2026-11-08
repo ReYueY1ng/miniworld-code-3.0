@@ -5,305 +5,305 @@
 ---在 Lua.runtime.pluginArgs 中设置 "officialApi=enable" 开启。<br>
 ---[官方 Wiki](https://dev-wiki.mini1.cn/ugc-wiki/)
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@param iconName any
----@param name any
----@param x any
----@param z any
----@param level any
----@param trace any
----@param des any
----@param desColor any
----@param iconMask any
----@param desc any
----@param type any
----@return boolean
+---添加自定义marker
+---@param uin any 玩家Uin
+---@param iconName any 图标名称
+---@param name any 名称
+---@param x any X坐标
+---@param z any Z坐标
+---@param level any 等级
+---@param trace any 参数 trace
+---@param des any 参数 des
+---@param desColor any 参数 desColor
+---@param iconMask any 参数 iconMask
+---@param desc any 描述
+---@param type any 类型
+---@return boolean result 是否成功
 function World:AddCustomMarker(uin, iconName, name, x, z, level, trace, des, desColor, iconMask, desc, type) end
 
----官方环境独有接口（未收录于开发环境）
----@param x any
----@param y any
----@param z any
----@param msgSubId any
----@param mapid any
----@param content any
+---broadcast模组方块数据ex
+---@param x any X坐标
+---@param y any Y坐标
+---@param z any Z坐标
+---@param msgSubId any msgsubID
+---@param mapid any 地图ID
+---@param content any 内容
 function World:BroadcastModBlockDataEx(x, y, z, msgSubId, mapid, content) end
 
----官方环境独有接口（未收录于开发环境）
----@param mapid any
----@param x any
----@param y any
----@param z any
----@return boolean
+---检查方块判断是否replaceable
+---@param mapid any 地图ID
+---@param x any X坐标
+---@param y any Y坐标
+---@param z any Z坐标
+---@return boolean result 检查结果
 function World:CheckBlockIsReplaceable(mapid, x, y, z) end
 
----官方环境独有接口（未收录于开发环境）
----@param callback any
----@param activatename any
----@return boolean
+---检查summer动作activate
+---@param callback any 回调函数
+---@param activatename any activate名称
+---@return boolean result 检查结果
 function World:CheckSummerActActivate(callback, activatename) end
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@param iconName any
----@return boolean
+---按res名称清空自定义marker
+---@param uin any 玩家Uin
+---@param iconName any 图标名称
+---@return boolean result 是否成功
 function World:ClearCustomMarkerByResName(uin, iconName) end
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@return boolean
+---关闭storageboxframe
+---@param uin any 玩家Uin
+---@return boolean result 是否成功
 function World:CloseStorageBoxFrame(uin) end
 
----官方环境独有接口（未收录于开发环境）
----@param objid any
----@param x number
----@param y number
----@param z number
----@param explosionRadius number
----@param flaming? boolean
----@param smoking? boolean
----@param dirmask? number
----@param damageType? number
----@return boolean
+---创建explosion
+---@param objid any 对象ID
+---@param x number X坐标
+---@param y number Y坐标
+---@param z number Z坐标
+---@param explosionRadius number 参数 explosionRadius
+---@param flaming? boolean 参数 flaming
+---@param smoking? boolean 参数 smoking
+---@param dirmask? number 参数 dirmask
+---@param damageType? number 参数 damageType
+---@return boolean result 是否成功
 function World:CreateExplosion(objid, x, y, z, explosionRadius, flaming, smoking, dirmask, damageType) end
 
----官方环境独有接口（未收录于开发环境）
----@param x any
----@param y any
----@param z any
----@param radius any
----@param upHalf any
----@param atkValue any
----@param isDestroyBlock any
----@return boolean
+---创建explosion新建
+---@param x any X坐标
+---@param y any Y坐标
+---@param z any Z坐标
+---@param radius any 半径
+---@param upHalf any 参数 upHalf
+---@param atkValue any 参数 atkValue
+---@param isDestroyBlock any 是否destroyblock
+---@return boolean result 是否成功
 function World:CreateExplosionNew(x, y, z, radius, upHalf, atkValue, isDestroyBlock) end
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@param iconName any
----@param name any
----@param x any
----@param z any
----@param level any
----@return boolean
+---del自定义marker
+---@param uin any 玩家Uin
+---@param iconName any 图标名称
+---@param name any 名称
+---@param x any X坐标
+---@param z any Z坐标
+---@param level any 等级
+---@return boolean result 是否成功
 function World:DelCustomMarker(uin, iconName, name, x, z, level) end
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@param iconName any
----@param name any
----@param x any
----@param z any
----@param level any
----@param trace any
----@param des any
----@param desColor any
----@param iconMask any
----@param desc any
----@param type any
----@return boolean
+---edit自定义marker
+---@param uin any 玩家Uin
+---@param iconName any 图标名称
+---@param name any 名称
+---@param x any X坐标
+---@param z any Z坐标
+---@param level any 等级
+---@param trace any 参数 trace
+---@param des any 参数 des
+---@param desColor any 参数 desColor
+---@param iconMask any 参数 iconMask
+---@param desc any 描述
+---@param type any 类型
+---@return boolean result 是否成功
 function World:EditCustomMarker(uin, iconName, name, x, z, level, trace, des, desColor, iconMask, desc, type) end
 
----官方环境独有接口（未收录于开发环境）
----@param centerX number
----@param centerY number
----@param centerZ number
----@param radius number
----@param defId? number | string
----@param worldId any
----@return boolean
+---按defID查找near角色列表
+---@param centerX number 中心X坐标
+---@param centerY number 中心Y坐标
+---@param centerZ number 中心Z坐标
+---@param radius number 半径
+---@param defId? number | string defID
+---@param worldId any 星球ID
+---@return boolean value 是否成功
 function World:FindNearActorListByDefId(centerX, centerY, centerZ, radius, defId, worldId) end
 
----官方环境独有接口（未收录于开发环境）
----@param centerX number
----@param centerY number
----@param centerZ number
----@param radius number
----@param team number
----@param worldId any
----@return boolean?
+---按队伍查找near角色列表
+---@param centerX number 中心X坐标
+---@param centerY number 中心Y坐标
+---@param centerZ number 中心Z坐标
+---@param radius number 半径
+---@param team number 队伍
+---@param worldId any 星球ID
+---@return boolean? value 结果，失败时为 nil
 function World:FindNearActorListByTeam(centerX, centerY, centerZ, radius, team, worldId) end
 
----官方环境独有接口（未收录于开发环境）
----@param centerX number
----@param centerY number
----@param centerZ number
----@param radius number
----@param includeCenterPos? boolean
----@param worldId any
----@return boolean
+---查找near判断能否生成生物位置列表
+---@param centerX number 中心X坐标
+---@param centerY number 中心Y坐标
+---@param centerZ number 中心Z坐标
+---@param radius number 半径
+---@param includeCenterPos? boolean 参数 includeCenterPos
+---@param worldId any 星球ID
+---@return boolean value 是否成功
 function World:FindNearCanSpawnMobPosList(centerX, centerY, centerZ, radius, includeCenterPos, worldId) end
 
----官方环境独有接口（未收录于开发环境）
----@param posX number
----@param posY number
----@param posZ number
----@param radius number
----@param defId? number | string
----@param worldId any
----@return boolean?
+---按defID查找最近角色
+---@param posX number 参数 posX
+---@param posY number 参数 posY
+---@param posZ number 参数 posZ
+---@param radius number 半径
+---@param defId? number | string defID
+---@param worldId any 星球ID
+---@return boolean? value 结果，失败时为 nil
 function World:FindNearestActorByDefId(posX, posY, posZ, radius, defId, worldId) end
 
----官方环境独有接口（未收录于开发环境）
----@param biomeId any
+---获取群系desc
+---@param biomeId any 群系ID
 function World:GetBiomeDesc(biomeId) end
 
----官方环境独有接口（未收录于开发环境）
----@return number
+---获取当前地图ID
+---@return number value 结果数值
 function World:GetCurrMapId() end
 
----官方环境独有接口（未收录于开发环境）
----@param iview any
----@return boolean
+---获取inner界面启用
+---@param iview any 参数 iview
+---@return boolean value 是否成功
 function World:GetInnerViewEnable(iview) end
 
----官方环境独有接口（未收录于开发环境）
+---获取loginsvr时间
 function World:GetLoginSvrTime() end
 
----官方环境独有接口（未收录于开发环境）
+---获取主玩家位置
 function World:GetMainPlayerPos() end
 
----官方环境独有接口（未收录于开发环境）
----@return boolean
+---获取mid加入
+---@return boolean value 是否成功
 function World:GetMidJoin() end
 
----官方环境独有接口（未收录于开发环境）
----@param key any
+---获取mini地图flag位置
+---@param key any 键名
 function World:GetMiniMapFlagPos(key) end
 
----官方环境独有接口（未收录于开发环境）
----@param worldId any
----@param cmpName string
+---获取planetcomponent
+---@param worldId any 星球ID
+---@param cmpName string 组件名称
 function World:GetPlanetComponent(worldId, cmpName) end
 
----官方环境独有接口（未收录于开发环境）
+---获取服务器时间ms
 function World:GetServerTimeMs() end
 
----官方环境独有接口（未收录于开发环境）
----@param time number
----@return number
+---获取skyboxtime
+---@param time number 时间（秒）
+---@return number value 结果数值
 function World:GetSkyBoxtime(time) end
 
----官方环境独有接口（未收录于开发环境）
----@param dt? any
+---获取snapshot
+---@param dt? any 参数 dt
 function World:GetSnapshot(dt) end
 
----官方环境独有接口（未收录于开发环境）
----@param stBlockPos? Mini.Vec3
----@param bCreateActorTree? boolean
+---获取tree模型
+---@param stBlockPos? Mini.Vec3 参数 stBlockPos
+---@param bCreateActorTree? boolean 参数 bCreateActorTree
 function World:GetTreeModel(stBlockPos, bCreateActorTree) end
 
----官方环境独有接口（未收录于开发环境）
----@param stBlockPosList any
----@param bCreateActorTree any
+---获取tree模型模组
+---@param stBlockPosList any 参数 stBlockPosList
+---@param bCreateActorTree any 参数 bCreateActorTree
 function World:GetTreeModelMod(stBlockPosList, bCreateActorTree) end
 
----官方环境独有接口（未收录于开发环境）
+---获取worldid
 function World:GetWorldid() end
 
----官方环境独有接口（未收录于开发环境）
----@param info string
----@param objids? table
----@return boolean
+---通知游戏info2全部
+---@param info string 信息
+---@param objids? table 参数 objids
+---@return boolean result 是否成功
 function World:NotifyGameInfo2All(info, objids) end
 
----官方环境独有接口（未收录于开发环境）
----@param content any
+---接收模组方块数据ex
+---@param content any 内容
 function World:ReceiveModBlockDataEx(content) end
 
----官方环境独有接口（未收录于开发环境）
----@param content? any
----@return boolean
+---注册match传送
+---@param content? any 内容
+---@return boolean result 是否成功
 function World:RegisterMatchTeleport(content) end
 
----官方环境独有接口（未收录于开发环境）
----@param playerid any
----@param mapid any
----@param srcGateId any
+---发送转换为客户端打开transferstation界面
+---@param playerid any 玩家ID
+---@param mapid any 地图ID
+---@param srcGateId any srcgateID
 function World:SendToClientOpenTransferStationUI(playerid, mapid, srcGateId) end
 
----官方环境独有接口（未收录于开发环境）
----@param value boolean
----@param worldId any
+---设置判断是否创建snow
+---@param value boolean 值
+---@param worldId any 星球ID
 function World:SetIsCreateSnow(value, worldId) end
 
----官方环境独有接口（未收录于开发环境）
----@param cfg table
----@return boolean
+---设置地图iconsetting配置
+---@param cfg table 配置
+---@return boolean result 是否成功
 function World:SetMapIconSettingCfg(cfg) end
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@param fileName any
----@param needShare any
+---设置picandshare
+---@param uin any 玩家Uin
+---@param fileName any 文件名
+---@param needShare any 参数 needShare
 function World:SetPicAndShare(uin, fileName, needShare) end
 
----官方环境独有接口（未收录于开发环境）
----@param playerid any
----@param itype? any
----@param value number | table
----@return boolean
+---为模组设置skyboxfilter
+---@param playerid any 玩家ID
+---@param itype? any 类型
+---@param value number | table 值
+---@return boolean result 是否成功
 function World:SetSkyBoxFilterForMod(playerid, itype, value) end
 
----官方环境独有接口（未收录于开发环境）
----@param playerid? any
----@param itype number
----@param value boolean
----@param worldId any
----@return boolean
+---设置skyboxfilter开关
+---@param playerid? any 玩家ID
+---@param itype number 类型
+---@param value boolean 值
+---@param worldId any 星球ID
+---@return boolean result 是否成功
 function World:SetSkyBoxFilterSwitch(playerid, itype, value, worldId) end
 
----官方环境独有接口（未收录于开发环境）
----@param wtype any
----@return boolean
+---设置weather类型
+---@param wtype any 参数 wtype
+---@return boolean result 是否成功
 function World:SetWeatherType(wtype) end
 
----官方环境独有接口（未收录于开发环境）
----@param playerid any
----@param mapid any
----@param srcGateId any
----@return boolean
+---显示transfer界面
+---@param playerid any 玩家ID
+---@param mapid any 地图ID
+---@param srcGateId any srcgateID
+---@return boolean result 是否成功
 function World:ShowTransferView(playerid, mapid, srcGateId) end
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@param needShare any
+---snapshortand打开shareframe
+---@param uin any 玩家Uin
+---@param needShare any 参数 needShare
 function World:SnapShortAndOpenShareFrame(uin, needShare) end
 
----官方环境独有接口（未收录于开发环境）
----@param w any
----@param h any
----@return boolean
+---snapshot
+---@param w any 参数 w
+---@param h any 高度
+---@return boolean result 是否成功
 function World:Snapshot(w, h) end
 
----官方环境独有接口（未收录于开发环境）
----@param x any
----@param y any
----@param z any
----@param itemid? string
----@param worldId any
----@return boolean
+---生成装备or枪械
+---@param x any X坐标
+---@param y any Y坐标
+---@param z any Z坐标
+---@param itemid? string 道具ID
+---@param worldId any 星球ID
+---@return boolean result 是否成功
 function World:SpawnEquipOrGun(x, y, z, itemid, worldId) end
 
----官方环境独有接口（未收录于开发环境）
----@param x number
----@param y number
----@param z number
----@param itemid number | string
----@param num number
----@param worldId any
----@return boolean
+---生成道具
+---@param x number X坐标
+---@param y number Y坐标
+---@param z number Z坐标
+---@param itemid number | string 道具ID
+---@param num number 数量
+---@param worldId any 星球ID
+---@return boolean result 是否成功
 function World:SpawnItem(x, y, z, itemid, num, worldId) end
 
----官方环境独有接口（未收录于开发环境）
----@param playerUin any
----@param toUin any
----@return number
+---使用transfer转换为
+---@param playerUin any 玩家Uin
+---@param toUin any 参数 toUin
+---@return number result 结果数值
 function World:UseTransferTo(playerUin, toUin) end
 
----官方环境独有接口（未收录于开发环境）
----@param x any
----@param y any
----@param z any
+---获取chunkrandom生成位置
+---@param x any X坐标
+---@param y any Y坐标
+---@param z any Z坐标
 function World:getChunkRandomSpawnPos(x, y, z) end

@@ -7,32 +7,32 @@
 ---@class GameEffect
 GameEffect = {}
 
----官方环境独有接口（未收录于开发环境）
----@param content? any
----@return boolean
+---applypsychedelicvision客户端
+---@param content? any 内容
+---@return boolean result 是否成功
 function GameEffect:ApplyPsychedelicVisionClient(content) end
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@param token any
----@return boolean
+---关闭psychedelicvision
+---@param uin any 玩家Uin
+---@param token any 参数 token
+---@return boolean result 是否成功
 function GameEffect:ClosePsychedelicVision(uin, token) end
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@return boolean
+---关闭screen特效
+---@param uin any 玩家Uin
+---@return boolean result 是否成功
 function GameEffect:CloseScreenEffect(uin) end
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@param content? table
----@return boolean
+---显示psychedelicvision
+---@param uin any 玩家Uin
+---@param content? table 内容
+---@return boolean result 是否成功
 function GameEffect:ShowPsychedelicVision(uin, content) end
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@param ctype any
----@param isloop any
----@param incspeed any
----@return boolean
+---显示screen特效
+---@param uin any 玩家Uin
+---@param ctype any 参数 ctype
+---@param isloop any 是否循环
+---@param incspeed any 参数 incspeed
+---@return boolean result 是否成功
 function GameEffect:ShowScreenEffect(uin, ctype, isloop, incspeed) end

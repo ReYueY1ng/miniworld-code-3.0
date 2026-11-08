@@ -5,85 +5,85 @@
 ---在 Lua.runtime.pluginArgs 中设置 "officialApi=enable" 开启。<br>
 ---[官方 Wiki](https://dev-wiki.mini1.cn/ugc-wiki/)
 
----官方环境独有接口（未收录于开发环境）
----@param blockid? string
----@param data any
----@param dir any
+---转换方块方向转换为数据
+---@param blockid? string 方块ID
+---@param data any 数据
+---@param dir any 方向
 function Block:ConvertBlockDirToData(blockid, data, dir) end
 
----官方环境独有接口（未收录于开发环境）
----@param pos Mini.Vec3
----@param dim Mini.Vec3
----@param name string
----@param worldId? any
----@return boolean
+---按名称创建normalblue打印
+---@param pos Mini.Vec3 位置
+---@param dim Mini.Vec3 维度
+---@param name string 名称
+---@param worldId? any 星球ID
+---@return boolean result 是否成功
 function Block:CreateNormalBluePrintByName(pos, dim, name, worldId) end
 
----官方环境独有接口（未收录于开发环境）
----@param x number
----@param y number
----@param z number
----@param worldId any
+---获取方块配置ID
+---@param x number X坐标
+---@param y number Y坐标
+---@param z number Z坐标
+---@param worldId any 星球ID
 function Block:GetBlockCfgID(x, y, z, worldId) end
 
----官方环境独有接口（未收录于开发环境）
----@param blockid? string
----@param dir any
+---按方向获取方块数据
+---@param blockid? string 方块ID
+---@param dir any 方向
 function Block:GetBlockDataByDir(blockid, dir) end
 
----官方环境独有接口（未收录于开发环境）
----@param blockid? string
+---获取方块def类型
+---@param blockid? string 方块ID
 function Block:GetBlockDefType(blockid) end
 
----官方环境独有接口（未收录于开发环境）
----@param blockid? string
+---获取方块tool类型
+---@param blockid? string 方块ID
 function Block:GetBlockToolType(blockid) end
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
+---获取blue打印manager
+---@param uin any 玩家Uin
 function Block:GetBluePrintManager(uin) end
 
----官方环境独有接口（未收录于开发环境）
----@param x any
----@param y any
----@param z any
----@param animid any
----@param playmode any
----@return boolean
+---播放动作
+---@param x any X坐标
+---@param y any Y坐标
+---@param z any Z坐标
+---@param animid any 动画ID
+---@param playmode any 播放模式
+---@return boolean result 是否成功
 function Block:PlayAct(x, y, z, animid, playmode) end
 
----官方环境独有接口（未收录于开发环境）
----@param x number
----@param y number
----@param z number
----@param particleId any
----@param scale? number
----@param ptime number
----@return boolean
+---播放粒子特效
+---@param x number X坐标
+---@param y number Y坐标
+---@param z number Z坐标
+---@param particleId any 粒子ID
+---@param scale? number 缩放
+---@param ptime number 粒子时长
+---@return boolean result 是否成功
 function Block:PlayParticleEffect(x, y, z, particleId, scale, ptime) end
 
----官方环境独有接口（未收录于开发环境）
----@param x any
----@param y any
----@param z any
----@param particleId any
----@param scale? number
----@param ptime? any
----@return boolean
+---播放粒子特效世界
+---@param x any X坐标
+---@param y any Y坐标
+---@param z any Z坐标
+---@param particleId any 粒子ID
+---@param scale? number 缩放
+---@param ptime? any 粒子时长
+---@return boolean result 是否成功
 function Block:PlayParticleEffectWorld(x, y, z, particleId, scale, ptime) end
 
----官方环境独有接口（未收录于开发环境）
----@param x number
----@param y number
----@param z number
----@param particleId any
----@return boolean
+---在位置上停止粒子特效
+---@param x number X坐标
+---@param y number Y坐标
+---@param z number Z坐标
+---@param particleId any 粒子ID
+---@return boolean result 是否成功
 function Block:StopParticleEffectOnPos(x, y, z, particleId) end
 
----官方环境独有接口（未收录于开发环境）
----@param x any
----@param y any
----@param z any
----@param particleId any
----@return boolean
+---停止粒子特效世界
+---@param x any X坐标
+---@param y any Y坐标
+---@param z any Z坐标
+---@param particleId any 粒子ID
+---@return boolean result 是否成功
 function Block:StopParticleEffectWorld(x, y, z, particleId) end

@@ -24,6 +24,8 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
+from doc_text import param_desc, purpose, return_info  # noqa: E402
+
 BASE_URL = "https://dev-wiki.mini1.cn/ugc-wiki/"
 PAGES = [
     ("Area", "cmpapis/area.html"),
@@ -253,17 +255,23 @@ def build_method(component, method_name, description, params, returns, note, kno
             marker = "?" if optional else ""
             desc = param["desc"] + type_note
             desc = desc.strip()
+            if not desc:
+                desc = param_desc(param["name"])
             lines.append(f"---@param {param['name']}{marker} {resolved}{(' ' + desc) if desc else ''}")
             signature_names.append(param["name"])
         signature = ", ".join(signature_names)
 
     if returns:
+        param_names = [param["name"] for param in params]
         for item in returns:
             resolved, type_note = resolve_type(item["type"], known)
             if type_note and type_note not in warnings:
                 warnings.append(type_note)
             desc = (item["desc"] + type_note).strip()
-            lines.append(f"---@return {resolved}{(' ' + desc) if desc else ''}")
+            if not desc:
+                _, desc = return_info(resolved, method_name, param_names)
+            result_name, _ = return_info(resolved, method_name, param_names)
+            lines.append(f"---@return {resolved} {result_name} {desc}")
     lines.append(f"function {component}:{method_name}({signature}) end")
     return lines, warnings
 
@@ -298,7 +306,7 @@ def build_component_file(component, page, page_html, known):
         description = descriptions.get(name, "")
         if not description or description == name:
             desc_source = note if note and not note.startswith("返回值类型未在 wiki 声明") else ""
-            description = first_clause(desc_source) or f"{name}（wiki 未提供函数描述）"
+            description = first_clause(desc_source) or purpose(name)
         lines, method_warnings = build_method(component, name, description, params, returns, note, known)
         warnings.extend(f"{component}:{name}: {w}" for w in method_warnings)
         methods.append(
@@ -312,7 +320,8 @@ def build_component_file(component, page, page_html, known):
     header = [
         "---@meta",
         "",
-        f"---{title}（内置组件 {component}）<br>[查看文档]({BASE_URL}{page})",
+        f"---{title}（内置组件 {component}）<br>",
+        f"---[查看文档]({BASE_URL}{page})",
         f"---@class {component}: Component",
         f"{component} = {{}}",
         "",

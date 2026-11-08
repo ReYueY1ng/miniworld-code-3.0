@@ -5,18 +5,18 @@
 ---在 Lua.runtime.pluginArgs 中设置 "officialApi=enable" 开启。<br>
 ---[官方 Wiki](https://dev-wiki.mini1.cn/ugc-wiki/)
 
----官方环境独有接口（未收录于开发环境）
----@param objId any
+---获取billboard
+---@param objId any 对象ID
 function DisplayBoard:GetBillboard(objId) end
 
----官方环境独有接口（未收录于开发环境）
----@param objId any
----@param property any
+---获取元件ID
+---@param objId any 对象ID
+---@param property any 属性
 function DisplayBoard:GetElementID(objId, property) end
 
----官方环境独有接口（未收录于开发环境）
----@param objId number
----@param snapshot table
----@param version any
----@return boolean
+---刷新component
+---@param objId number 对象ID
+---@param snapshot table 快照数据
+---@param version any 版本号
+---@return boolean result 是否成功
 function DisplayBoard:RefreshComponent(objId, snapshot, version) end

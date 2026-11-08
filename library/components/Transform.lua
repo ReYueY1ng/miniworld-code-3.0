@@ -1,6 +1,7 @@
 ---@meta
 
----变换组件接口（内置组件 Transform）<br>[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/cmpapis/transform.html)
+---变换组件接口（内置组件 Transform）<br>
+---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/cmpapis/transform.html)
 ---@class Transform: Component
 Transform = {}
 
@@ -13,12 +14,12 @@ function Transform:SetPosition(x, y, z) end
 
 ---获取局部坐标
 ---读取对象Actor相对父节点的局部坐标，将底层坐标除以100换算为格。
----@return Mini.Vec3 返回含x、y、z的Mini.Vec3，表示相对父节点的局部坐标，单位为格；gameObject或Actor不存在时返回nil。
+---@return Mini.Vec3 value 返回含x、y、z的Mini.Vec3，表示相对父节点的局部坐标，单位为格；gameObject或Actor不存在时返回nil。
 function Transform:GetPosition() end
 
 ---获取世界坐标
 ---读取对象Actor的世界坐标，将底层坐标除以100换算为格。
----@return Mini.Vec3 返回含x、y、z的Mini.Vec3，表示世界坐标，单位为格；gameObject或Actor不存在时返回nil。
+---@return Mini.Vec3 value 返回含x、y、z的Mini.Vec3，表示世界坐标，单位为格；gameObject或Actor不存在时返回nil。
 function Transform:GetWorldPosition() end
 
 ---设置世界坐标
@@ -30,7 +31,7 @@ function Transform:SetWorldPosition(x, y, z) end
 
 ---获取局部缩放
 ---读取对象Actor相对父节点的局部三轴缩放倍率。
----@return Mini.Scale 返回含x、y、z的Mini.Vec3，表示相对父节点的局部缩放，1为原尺寸、无单位；gameObject或Actor不存在时返回nil。
+---@return Mini.Scale value 返回含x、y、z的Mini.Vec3，表示相对父节点的局部缩放，1为原尺寸、无单位；gameObject或Actor不存在时返回nil。
 function Transform:GetScale() end
 
 ---设置局部缩放
@@ -42,7 +43,7 @@ function Transform:SetScale(x, y, z) end
 
 ---获取世界缩放
 ---读取对象Actor的世界三轴缩放倍率。
----@return Mini.Scale 返回含x、y、z的Mini.Vec3，表示世界缩放，1为原尺寸、无单位；gameObject或Actor不存在时返回nil。
+---@return Mini.Scale value 返回含x、y、z的Mini.Vec3，表示世界缩放，1为原尺寸、无单位；gameObject或Actor不存在时返回nil。
 function Transform:GetWorldScale() end
 
 ---设置世界缩放
@@ -54,7 +55,7 @@ function Transform:SetWorldScale(x, y, z) end
 
 ---获取局部旋转
 ---读取对象Actor相对父节点的局部旋转，并转换为欧拉角。
----@return Mini.Rotation 返回含x、y、z的Mini.Vec3，表示相对父节点的局部欧拉角，单位为度；gameObject或Actor不存在时返回nil。欧拉角由底层四元数转换，数值表达不保证与设置时相同。
+---@return Mini.Rotation value 返回含x、y、z的Mini.Vec3，表示相对父节点的局部欧拉角，单位为度；gameObject或Actor不存在时返回nil。欧拉角由底层四元数转换，数值表达不保证与设置时相同。
 function Transform:GetRotationEuler() end
 
 ---设置局部旋转
@@ -66,7 +67,7 @@ function Transform:SetRotationEuler(x, y, z) end
 
 ---获取世界旋转
 ---读取对象Actor的世界旋转，并转换为欧拉角。
----@return Mini.Rotation 返回含x、y、z的Mini.Vec3，表示世界欧拉角，单位为度；gameObject或Actor不存在时返回nil。欧拉角由底层四元数转换，数值表达不保证与设置时相同。
+---@return Mini.Rotation value 返回含x、y、z的Mini.Vec3，表示世界欧拉角，单位为度；gameObject或Actor不存在时返回nil。欧拉角由底层四元数转换，数值表达不保证与设置时相同。
 function Transform:GetWorldRotationEuler() end
 
 ---设置世界旋转
@@ -76,7 +77,7 @@ function Transform:GetWorldRotationEuler() end
 ---@param z? number 脚本按 x、y、z 三个数值传参时的 z 分量
 function Transform:SetWorldRotationEuler(x, y, z) end
 
----GetRotation（wiki 未提供函数描述）
+---获取旋转
 ---返回值类型未在 wiki 声明。
 function Transform:GetRotation() end
 
@@ -88,7 +89,7 @@ function Transform:GetRotation() end
 ---@param w? Mini.Number 四元数w分量；单userdata调用时省略，四数值调用时必须提供。
 function Transform:SetRotation(x, y, z, w) end
 
----GetWorldRotation（wiki 未提供函数描述）
+---获取世界旋转
 ---返回值类型未在 wiki 声明。
 function Transform:GetWorldRotation() end
 

@@ -5,22 +5,22 @@
 ---在 Lua.runtime.pluginArgs 中设置 "officialApi=enable" 开启。<br>
 ---[官方 Wiki](https://dev-wiki.mini1.cn/ugc-wiki/)
 
----官方环境独有接口（未收录于开发环境）
----@param x any
----@param y any
----@param z any
----@param playerid any
----@param itype any
----@return boolean
+---查找graphics
+---@param x any X坐标
+---@param y any Y坐标
+---@param z any Z坐标
+---@param playerid any 玩家ID
+---@param itype any 类型
+---@return boolean value 是否成功
 function Graphics:FindGraphics(x, y, z, playerid, itype) end
 
----官方环境独有接口（未收录于开发环境）
----@param reportid any
----@param objid any
----@param tuin any
----@param itype any
+---在客户端上获取innergraphics偏移
+---@param reportid any 同步报告ID
+---@param objid any 对象ID
+---@param tuin any 参数 tuin
+---@param itype any 类型
 function Graphics:GetInnerGraphicsOffset_OnClient(reportid, objid, tuin, itype) end
 
----官方环境独有接口（未收录于开发环境）
----@return boolean
+---snycgraphicsinfo2客户端
+---@return boolean result 是否成功
 function Graphics:SnycGraphicsInfo2Client() end

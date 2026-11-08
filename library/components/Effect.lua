@@ -1,6 +1,7 @@
 ---@meta
 
----特效组件接口（内置组件 Effect）<br>[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/cmpapis/effect.html)
+---特效组件接口（内置组件 Effect）<br>
+---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/cmpapis/effect.html)
 ---@class Effect: Component
 Effect = {}
 
@@ -22,26 +23,26 @@ function Effect:SetIsLoop(value) end
 ---@param value Mini.Effect 特效ID或名称。
 ---@param scale? Mini.Number 缩放倍率，默认1。
 ---@param ptime? Mini.Number 时长（秒），默认-1。
----@return Mini.Bool 找到特效名称且底层组件存在、已调用播放接口时为true；资源类型错误、数字ID无定义或组件缺失时为false。
+---@return Mini.Bool result 找到特效名称且底层组件存在、已调用播放接口时为true；资源类型错误、数字ID无定义或组件缺失时为false。
 function Effect:PlayBodyEffectById(value, scale, ptime) end
 
 ---停止身体特效
 ---请求停止对象身上的指定特效，并走底层追踪玩家广播路径；不确认原先存在该特效或已完成停止。
 ---@param value Mini.Effect 特效ID或名称。
----@return Mini.Bool 找到特效名称且底层组件存在、已调用停止接口时为true；资源类型错误、数字ID无定义或组件缺失时为false。
+---@return Mini.Bool result 找到特效名称且底层组件存在、已调用停止接口时为true；资源类型错误、数字ID无定义或组件缺失时为false。
 function Effect:StopBodyEffectById(value) end
 
 ---为指定玩家播放粒子特效
 ---请求为指定玩家播放此对象的粒子特效；本机目标直接设置，非本机目标仅主机且网络可用时发送定向消息。 返回true仅表示Lua已调用底层，不保证消息发送或资源显示。
 ---@param uin Mini.Player 目标玩家uin。
 ---@param particleId Mini.Effect 特效ID或路径；0或空串不处理。
----@return Mini.Bool 底层组件存在且particleId为number或string时为true；组件缺失或类型不符时为false。
+---@return Mini.Bool result 底层组件存在且particleId为number或string时为true；组件缺失或类型不符时为false。
 function Effect:PlayEffectParticleForUin(uin, particleId) end
 
 ---请求停止指定玩家粒子特效
 ---以空资源参数调用指定玩家粒子接口；当前底层SetParticleIdForUin会对数字0和空字符串直接返回，因此本调用不实际停止特效。 不能将返回true解释为已停止或消息已发送。
 ---@param uin Mini.Player 目标玩家uin。
----@return Mini.Bool 始终为true，包括底层组件缺失或底层忽略空资源请求的情况。
+---@return Mini.Bool result 始终为true，包括底层组件缺失或底层忽略空资源请求的情况。
 function Effect:StopEffectParticleForUin(uin) end
 
 ---设置粒子特效资源

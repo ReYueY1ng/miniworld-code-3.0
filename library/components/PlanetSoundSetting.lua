@@ -1,6 +1,7 @@
 ---@meta
 
----星球声音组件接口（内置组件 PlanetSoundSetting）<br>[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/cmpapis/planetsoundsetting.html)
+---星球声音组件接口（内置组件 PlanetSoundSetting）<br>
+---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/cmpapis/planetsoundsetting.html)
 ---@class PlanetSoundSetting: Component
 PlanetSoundSetting = {}
 
@@ -11,5 +12,5 @@ function PlanetSoundSetting:SetBackgroundMusic(value) end
 
 ---获取背景音乐
 ---返回组件保存的背景音乐标识，不查询当前主玩家实际正在播放的音乐。
----@return Mini.Sound 返回保存的music值，默认数值35443；无World的设置调用不会更新它，直接脚本写入其他类型也会原样返回。该值不能证明已成功播放。
+---@return Mini.Sound value 返回保存的music值，默认数值35443；无World的设置调用不会更新它，直接脚本写入其他类型也会原样返回。该值不能证明已成功播放。
 function PlanetSoundSetting:GetBackgroundMusic() end

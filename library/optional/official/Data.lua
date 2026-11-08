@@ -5,57 +5,57 @@
 ---在 Lua.runtime.pluginArgs 中设置 "officialApi=enable" 开启。<br>
 ---[官方 Wiki](https://dev-wiki.mini1.cn/ugc-wiki/)
 
----官方环境独有接口（未收录于开发环境）
----@param filename any
----@param col any
----@param value any
+---按col索引获取row
+---@param filename any 文件名
+---@param col any 列
+---@param value any 值
 function Data:GetRowByColIndex(filename, col, value) end
 
----官方环境独有接口（未收录于开发环境）
----@param filename any
----@param name any
----@param value any
+---按col名称获取row
+---@param filename any 文件名
+---@param name any 名称
+---@param value any 值
 function Data:GetRowByColName(filename, name, value) end
 
----官方环境独有接口（未收录于开发环境）
----@param filename any
----@param row any
+---按索引获取row
+---@param filename any 文件名
+---@param row any 参数 row
 function Data:GetRowByIndex(filename, row) end
 
----官方环境独有接口（未收录于开发环境）
----@param filename any
+---获取rows
+---@param filename any 文件名
 function Data:GetRows(filename) end
 
----官方环境独有接口（未收录于开发环境）
----@param varname any
+---获取varID
+---@param varname any var名称
 function Data:GetVarID(varname) end
 
----官方环境独有接口（未收录于开发环境）
----@param filename any
----@param colkey any
----@param istartrow any
----@param istartcol any
----@param ingnoremask any
+---加载csv2表
+---@param filename any 文件名
+---@param colkey any 参数 colkey
+---@param istartrow any 是否tartrow
+---@param istartcol any 是否tartcol
+---@param ingnoremask any 参数 ingnoremask
 function Data:LoadCsv2Table(filename, colkey, istartrow, istartcol, ingnoremask) end
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@param filename any
+---读取玩家数据
+---@param uin any 玩家Uin
+---@param filename any 文件名
 function Data:ReadPlayerData(uin, filename) end
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@param filename any
+---读取玩家数据转换为地图
+---@param uin any 玩家Uin
+---@param filename any 文件名
 function Data:ReadPlayerDataToMap(uin, filename) end
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@param filename any
----@param tabval any
+---保存玩家数据
+---@param uin any 玩家Uin
+---@param filename any 文件名
+---@param tabval any 表数据
 function Data:SavePlayerData(uin, filename, tabval) end
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@param filename any
----@param tabval any
+---保存玩家数据转换为地图
+---@param uin any 玩家Uin
+---@param filename any 文件名
+---@param tabval any 表数据
 function Data:SavePlayerDataToMap(uin, filename, tabval) end

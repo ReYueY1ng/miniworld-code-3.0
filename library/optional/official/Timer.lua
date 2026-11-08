@@ -5,12 +5,12 @@
 ---在 Lua.runtime.pluginArgs 中设置 "officialApi=enable" 开启。<br>
 ---[官方 Wiki](https://dev-wiki.mini1.cn/ugc-wiki/)
 
----官方环境独有接口（未收录于开发环境）
----@param id any
----@return boolean
+---判断是否暂停
+---@param id any ID
+---@return boolean result 是否满足条件
 function Timer:IsPause(id) end
 
----官方环境独有接口（未收录于开发环境）
----@param id any
----@return boolean
+---判断是否playing
+---@param id any ID
+---@return boolean result 是否满足条件
 function Timer:IsPlaying(id) end

@@ -7,103 +7,103 @@
 ---@class Status
 Status = {}
 
----官方环境独有接口（未收录于开发环境）
----@param objid any
----@param buffid? string
----@param bufflv? number
----@param customticks? number
----@return boolean
+---添加状态
+---@param objid any 对象ID
+---@param buffid? string 状态ID
+---@param bufflv? number 参数 bufflv
+---@param customticks? number 参数 customticks
+---@return boolean result 是否成功
 function Status:AddBuff(objid, buffid, bufflv, customticks) end
 
----官方环境独有接口（未收录于开发环境）
----@param objid any
----@return boolean
+---清空全部bad状态
+---@param objid any 对象ID
+---@return boolean result 是否成功
 function Status:ClearAllBadBuff(objid) end
 
----官方环境独有接口（未收录于开发环境）
----@param objid any
----@return boolean
+---清空全部状态
+---@param objid any 对象ID
+---@return boolean result 是否成功
 function Status:ClearAllBuff(objid) end
 
----官方环境独有接口（未收录于开发环境）
----@param buff any
+---获取状态配置
+---@param buff any 状态
 function Status:GetBuffCfg(buff) end
 
----官方环境独有接口（未收录于开发环境）
----@param buff? string
----@return boolean
+---获取状态数据
+---@param buff? string 状态
+---@return boolean value 是否成功
 function Status:GetBuffData(buff) end
 
----官方环境独有接口（未收录于开发环境）
----@param buffid? string
+---获取状态defdesc
+---@param buffid? string 状态ID
 function Status:GetBuffDefDesc(buffid) end
 
----官方环境独有接口（未收录于开发环境）
----@param buffid? string
+---获取状态def等级
+---@param buffid? string 状态ID
 function Status:GetBuffDefLevel(buffid) end
 
----官方环境独有接口（未收录于开发环境）
----@param buffid? string
+---获取状态def名称
+---@param buffid? string 状态ID
 function Status:GetBuffDefName(buffid) end
 
----官方环境独有接口（未收录于开发环境）
----@param buffid? string
+---获取状态defticks
+---@param buffid? string 状态ID
 function Status:GetBuffDefTicks(buffid) end
 
----官方环境独有接口（未收录于开发环境）
----@param objid any
----@param buffid? string
+---获取状态索引
+---@param objid any 对象ID
+---@param buffid? string 状态ID
 function Status:GetBuffIndex(objid, buffid) end
 
----官方环境独有接口（未收录于开发环境）
----@param objid any
----@param buffid? string
+---获取状态left时间
+---@param objid any 对象ID
+---@param buffid? string 状态ID
 function Status:GetBuffLeftTime(objid, buffid) end
 
----官方环境独有接口（未收录于开发环境）
----@param objid any
+---获取状态列表
+---@param objid any 对象ID
 function Status:GetBuffList(objid) end
 
----官方环境独有接口（未收录于开发环境）
----@param objid any
----@param buffid? string
+---获取状态名称
+---@param objid any 对象ID
+---@param buffid? string 状态ID
 function Status:GetBuffName(objid, buffid) end
 
----官方环境独有接口（未收录于开发环境）
----@param objid any
----@param buffid? string
+---按buffid获取状态数量
+---@param objid any 对象ID
+---@param buffid? string 状态ID
 function Status:GetBuffNumByBuffid(objid, buffid) end
 
----官方环境独有接口（未收录于开发环境）
----@param objid any
----@param buffid? string
----@param bufflv? number
----@return boolean
+---判断是否拥有状态
+---@param objid any 对象ID
+---@param buffid? string 状态ID
+---@param bufflv? number 参数 bufflv
+---@return boolean result 是否满足条件
 function Status:HasBuff(objid, buffid, bufflv) end
 
----官方环境独有接口（未收录于开发环境）
----@param objid any
----@return boolean
+---刷新全部状态tick
+---@param objid any 对象ID
+---@return boolean result 是否成功
 function Status:RefreshAllBuffTick(objid) end
 
----官方环境独有接口（未收录于开发环境）
----@param objid any
----@param buffid? string
----@return boolean
+---移除状态
+---@param objid any 对象ID
+---@param buffid? string 状态ID
+---@return boolean result 是否成功
 function Status:RemoveBuff(objid, buffid) end
 
----官方环境独有接口（未收录于开发环境）
----@param objid any
----@param buffsrc any
----@param buffsrclv any
----@param buffdst any
----@param buffdstlv any
----@param customticks any
----@return boolean
+---替换状态
+---@param objid any 对象ID
+---@param buffsrc any 参数 buffsrc
+---@param buffsrclv any 参数 buffsrclv
+---@param buffdst any 参数 buffdst
+---@param buffdstlv any 参数 buffdstlv
+---@param customticks any 参数 customticks
+---@return boolean result 是否成功
 function Status:ReplaceBuff(objid, buffsrc, buffsrclv, buffdst, buffdstlv, customticks) end
 
----官方环境独有接口（未收录于开发环境）
----@param objid any
----@param isForbid any
----@return boolean
+---设置forbid添加状态
+---@param objid any 对象ID
+---@param isForbid any 是否forbid
+---@return boolean result 是否成功
 function Status:SetForbidAddBuff(objid, isForbid) end

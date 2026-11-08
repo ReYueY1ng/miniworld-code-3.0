@@ -7,6 +7,6 @@
 ---@class Game
 Game = {}
 
----官方环境独有接口（未收录于开发环境）
----@param msg string
+---显示消息box
+---@param msg string 消息
 function Game:ShowMsgBox(msg) end

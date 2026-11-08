@@ -7,29 +7,29 @@
 ---@class Log
 Log = {}
 
----官方环境独有接口（未收录于开发环境）
+---获取全部消息
 ---@vararg any
 function Log:GetAllMessage(...) end
 
----官方环境独有接口（未收录于开发环境）
+---打印
 ---@vararg any
 function Log:Print(...) end
 
----官方环境独有接口（未收录于开发环境）
+---打印表
 ---@vararg any
 function Log:PrintTable(...) end
 
----官方环境独有接口（未收录于开发环境）
----@param isOpen any
+---刷新打开记录
+---@param isOpen any 是否打开
 function Log:RefreshOpenLog(isOpen) end
 
----官方环境独有接口（未收录于开发环境）
----@param modId any
----@param msg any
+---上报error
+---@param modId any 模组ID
+---@param msg any 消息
 function Log:ReportError(modId, msg) end
 
----官方环境独有接口（未收录于开发环境）
----@param value table
----@param maxItems? number
----@param indent? number
+---表转换为string
+---@param value table 值
+---@param maxItems? number 最大道具
+---@param indent? number 参数 indent
 function Log:TableToString(value, maxItems, indent) end

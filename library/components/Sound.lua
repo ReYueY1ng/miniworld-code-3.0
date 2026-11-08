@@ -1,6 +1,7 @@
 ---@meta
 
----音效组件接口（内置组件 Sound）<br>[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/cmpapis/sound.html)
+---音效组件接口（内置组件 Sound）<br>
+---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/cmpapis/sound.html)
 ---@class Sound: Component
 Sound = {}
 

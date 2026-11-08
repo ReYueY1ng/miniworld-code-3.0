@@ -1,12 +1,13 @@
 ---@meta
 
----氧气组件接口（内置组件 Oxygen）<br>[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/cmpapis/oxygen.html)
+---氧气组件接口（内置组件 Oxygen）<br>
+---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/cmpapis/oxygen.html)
 ---@class Oxygen: Component
 Oxygen = {}
 
 ---得到最大氧气值
 ---读取对象Actor氧气组件的最大氧气值；生物Actor首次访问时可能创建底层组件，普通Actor不支持时无法获取。
----@return Mini.Number 返回底层配置的最大氧气值；gameObject、Actor或氧气组件不存在时返回0。
+---@return Mini.Number value 返回底层配置的最大氧气值；gameObject、Actor或氧气组件不存在时返回0。
 function Oxygen:GetMax() end
 
 ---设置最大氧气值
@@ -16,7 +17,7 @@ function Oxygen:SetMax(value) end
 
 ---得到当前氧气值
 ---当前实现调用底层getValue后未返回该结果，最终始终返回0，不能据此读取实际剩余氧气。生物Actor访问时可能创建底层氧气组件。
----@return Mini.Number 正常执行时始终返回数字0，包括氧气组件存在且有剩余氧气的情况；当前Lua封装没有转发底层当前值。
+---@return Mini.Number value 正常执行时始终返回数字0，包括氧气组件存在且有剩余氧气的情况；当前Lua封装没有转发底层当前值。
 function Oxygen:GetValue() end
 
 ---设置当前氧气值
@@ -26,7 +27,7 @@ function Oxygen:SetValue(value) end
 
 ---得到氧气值每秒恢复值
 ---读取氧气组件的恢复量参数；底层在满足可恢复条件时按恢复周期使用，并非此函数计时恢复。生物Actor访问时可能创建底层氧气组件。
----@return Mini.Number 返回恢复量参数，单位为每个恢复周期的氧气值；生物更新按60 tick周期恢复，实际频率受运行环境影响。gameObject、Actor或氧气组件不存在时返回0。
+---@return Mini.Number value 返回恢复量参数，单位为每个恢复周期的氧气值；生物更新按60 tick周期恢复，实际频率受运行环境影响。gameObject、Actor或氧气组件不存在时返回0。
 function Oxygen:GetRecoveryRate() end
 
 ---设置氧气值每秒恢复值
@@ -36,7 +37,7 @@ function Oxygen:SetRecoveryRate(value) end
 
 ---得到氧气值每秒消耗值
 ---读取氧气组件的基础消耗量，未包含Buff、世界倍率和是否需要氧气等运行时修正。生物Actor访问时可能创建底层氧气组件。
----@return Mini.Number 返回基础消耗量参数，按底层消耗间隔使用，不保证为实际每秒扣除值；gameObject、Actor或氧气组件不存在时返回0。
+---@return Mini.Number value 返回基础消耗量参数，按底层消耗间隔使用，不保证为实际每秒扣除值；gameObject、Actor或氧气组件不存在时返回0。
 function Oxygen:GetUseRate() end
 
 ---设置氧气值每秒消耗值

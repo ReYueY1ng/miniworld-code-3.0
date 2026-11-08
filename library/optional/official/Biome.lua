@@ -7,20 +7,20 @@
 ---@class Biome
 Biome = {}
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@param range any
----@return boolean
+---查找nearcity
+---@param uin any 玩家Uin
+---@param range any 范围
+---@return boolean value 是否成功
 function Biome:FindNearCity(uin, range) end
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@return boolean
+---生成cityprecious
+---@param uin any 玩家Uin
+---@return boolean result 是否成功
 function Biome:GenCityPrecious(uin) end
 
----官方环境独有接口（未收录于开发环境）
----@param x any
----@param z any
----@param worldId any
----@return number
+---获取群系ID
+---@param x any X坐标
+---@param z any Z坐标
+---@param worldId any 星球ID
+---@return number value 结果数值
 function Biome:GetBiomeId(x, z, worldId) end

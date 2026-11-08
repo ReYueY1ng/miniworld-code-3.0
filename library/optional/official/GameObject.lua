@@ -5,16 +5,16 @@
 ---在 Lua.runtime.pluginArgs 中设置 "officialApi=enable" 开启。<br>
 ---[官方 Wiki](https://dev-wiki.mini1.cn/ugc-wiki/)
 
----官方环境独有接口（未收录于开发环境）
+---创建editempty角色
 function GameObject:CreateEditEmptyActor() end
 
----官方环境独有接口（未收录于开发环境）
----@param id number
+---为internal查找方块对象
+---@param id number ID
 function GameObject:FindBlockObjectForInternal(id) end
 
----官方环境独有接口（未收录于开发环境）
----@param objId any
+---获取对象类型
+---@param objId any 对象ID
 function GameObject:GetObjType(objId) end
 
----官方环境独有接口（未收录于开发环境）
+---获取世界对象
 function GameObject:GetWorld() end

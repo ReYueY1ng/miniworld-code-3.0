@@ -1,6 +1,7 @@
 ---@meta
 
----区域组件接口（内置组件 Area）<br>[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/cmpapis/area.html)
+---区域组件接口（内置组件 Area）<br>
+---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/cmpapis/area.html)
 ---@class Area: Component
 Area = {}
 

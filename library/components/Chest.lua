@@ -1,6 +1,7 @@
 ---@meta
 
----Chest组件接口（内置组件 Chest）<br>[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/cmpapis/chest.html)
+---Chest组件接口（内置组件 Chest）<br>
+---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/cmpapis/chest.html)
 ---@class Chest: Component
 Chest = {}
 
@@ -26,7 +27,7 @@ function Chest:ClearBox(pos) end
 ---@param pos any 方块坐标（触发器自动传入，脚本调用时需提供）。（wiki 未声明类型，此处用 any）
 ---@param itemType Mini.Item 道具配置ID或自定义资源AssetId。
 ---@param count Mini.Number 生成数量，大于0。
----@return Mini.Number 正常下游调用返回实际加入数量（可能为 0）；位置/数量检查失败或道具禁止脚本使用为 false；资源转换失败、世界/容器不存在或编辑模式等情况为 nil。
+---@return Mini.Number result 正常下游调用返回实际加入数量（可能为 0）；位置/数量检查失败或道具禁止脚本使用为 false；资源转换失败、世界/容器不存在或编辑模式等情况为 nil。
 function Chest:SpawnItem(pos, itemType, count) end
 
 ---移除物品
@@ -34,7 +35,7 @@ function Chest:SpawnItem(pos, itemType, count) end
 ---@param pos any 方块坐标（触发器自动传入，脚本调用时需提供）。（wiki 未声明类型，此处用 any）
 ---@param itemType Mini.Item 道具配置ID或自定义资源AssetId。
 ---@param count Mini.Number 移除数量，大于0。
----@return Mini.Number 实际 Lua 返回 boolean：找到容器并调用移除为 true，位置/数量/资源/世界/容器无效等为 false；编辑模式为 nil。原 Mini.Number 返回槽保留，true 不表示移除了请求数量。
+---@return Mini.Number result 实际 Lua 返回 boolean：找到容器并调用移除为 true，位置/数量/资源/世界/容器无效等为 false；编辑模式为 nil。原 Mini.Number 返回槽保留，true 不表示移除了请求数量。
 function Chest:RemoveItem(pos, itemType, count) end
 
 ---放入物品
@@ -43,7 +44,7 @@ function Chest:RemoveItem(pos, itemType, count) end
 ---@param playerId Mini.Player 玩家ID，可传数值字符串。
 ---@param itemType Mini.Item 道具配置ID或自定义资源AssetId。
 ---@param count Mini.Number 放入数量，大于0，受持有量和箱子容量限制。
----@return Mini.Number 返回实际入箱数量（正数）；位置/参数/资源检查失败、无持有量或未实际入箱时为 false；编辑模式为 nil。数量不代表玩家背包实际扣除已核验。
+---@return Mini.Number result 返回实际入箱数量（正数）；位置/参数/资源检查失败、无持有量或未实际入箱时为 false；编辑模式为 nil。数量不代表玩家背包实际扣除已核验。
 function Chest:PutItem(pos, playerId, itemType, count) end
 
 ---取出物品
@@ -52,23 +53,23 @@ function Chest:PutItem(pos, playerId, itemType, count) end
 ---@param playerId Mini.Player 玩家ID，可传数值字符串。
 ---@param itemType Mini.Item 道具配置ID或自定义资源AssetId。
 ---@param count Mini.Number 取出数量，大于0，受存量和背包空间限制。
----@return Mini.Number 返回实际加入玩家背包的数量（正数）；位置/参数/资源检查失败、无空间/存量或未实际加入时为 false；编辑模式为 nil。数量不代表箱内实际扣除已核验。
+---@return Mini.Number result 返回实际加入玩家背包的数量（正数）；位置/参数/资源检查失败、无空间/存量或未实际加入时为 false；编辑模式为 nil。数量不代表箱内实际扣除已核验。
 function Chest:TakeItem(pos, playerId, itemType, count) end
 
 ---获取格子数量
 ---读取类型级 maxgridcount 属性，不按 pos 查询实际容器；pos 是触发器注入占位且被忽略。
 ---@param pos any 方块坐标（触发器自动传入，脚本调用时需提供）。（wiki 未声明类型，此处用 any）
----@return Mini.Number 原样返回 maxgridcount；预设枚举为 5、10、30、60。没有额外的容器存在性检查。
+---@return Mini.Number value 原样返回 maxgridcount；预设枚举为 5、10、30、60。没有额外的容器存在性检查。
 function Chest:GetGridCount(pos) end
 
 ---已使用格子数量
 ---按目标位置查询被道具占用的格子数量；最多扫描索引 0～199，遇到首个无效格子或查询失败即停止。
 ---@param pos any 方块坐标（触发器自动传入，脚本调用时需提供）。（wiki 未声明类型，此处用 any）
----@return Mini.Number 返回扫描范围内道具 ID 非 0 且数量大于 0 的格子数；位置无效或首格查询失败为 0，不区分空箱与查询失败。
+---@return Mini.Number value 返回扫描范围内道具 ID 非 0 且数量大于 0 的格子数；位置无效或首格查询失败为 0，不区分空箱与查询失败。
 function Chest:GetUsedGridCount(pos) end
 
 ---剩余空格数量
 ---按扫描得到的总格数减去已占用格数计算空格，最小为 0；最多扫描索引 0～199，首个无效格子或查询失败时停止。
 ---@param pos any 方块坐标（触发器自动传入，脚本调用时需提供）。（wiki 未声明类型，此处用 any）
----@return Mini.Number 返回扫描范围内剩余空格数；位置无效或首格查询失败为 0，不区分满箱与查询失败。
+---@return Mini.Number value 返回扫描范围内剩余空格数；位置无效或首格查询失败为 0，不区分满箱与查询失败。
 function Chest:GetFreeGridCount(pos) end

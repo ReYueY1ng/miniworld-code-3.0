@@ -5,23 +5,23 @@
 ---在 Lua.runtime.pluginArgs 中设置 "officialApi=enable" 开启。<br>
 ---[官方 Wiki](https://dev-wiki.mini1.cn/ugc-wiki/)
 
----官方环境独有接口（未收录于开发环境）
----@param varId any
----@param playerId any
+---清空nil值
+---@param varId any 变量ID
+---@param playerId any 玩家ID
 function Data.Array:ClearNilValue(varId, playerId) end
 
----官方环境独有接口（未收录于开发环境）
----@param array any
+---转换nomal数组
+---@param array any 数组
 function Data.Array:ConvertNomalArray(array) end
 
----官方环境独有接口（未收录于开发环境）
----@param data any
----@param itemType any
+---deal数组数据
+---@param data any 数据
+---@param itemType any 道具类型
 function Data.Array:DealArrayData(data, itemType) end
 
----官方环境独有接口（未收录于开发环境）
----@param tags? number | string | table
----@param isToC any
----@param varType any
----@param outval any
+---deal标签转换为数组数据
+---@param tags? number | string | table 标签
+---@param isToC any 是否toc
+---@param varType any 参数 varType
+---@param outval any 参数 outval
 function Data.Array:DealTagToArrayData(tags, isToC, varType, outval) end

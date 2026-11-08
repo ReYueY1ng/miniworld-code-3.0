@@ -1,6 +1,7 @@
 ---@meta
 
----模型组件接口（内置组件 Model）<br>[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/cmpapis/model.html)
+---模型组件接口（内置组件 Model）<br>
+---[查看文档](https://dev-wiki.mini1.cn/ugc-wiki/cmpapis/model.html)
 ---@class Model: Component
 Model = {}
 
@@ -10,7 +11,7 @@ Model = {}
 ---@param idModel Mini.Number Avatar模型ID；非正值用于隐藏部件。
 function Model:AddAvatarPartModel(ePart, idModel) end
 
----AlterAvatarPartColor（wiki 未提供函数描述）
+---alteravatar部件颜色
 ---返回值类型未在 wiki 声明。
 ---@param idModel any （wiki 未声明类型，此处用 any）
 ---@param ePart any （wiki 未声明类型，此处用 any）
@@ -22,13 +23,13 @@ function Model:AlterAvatarPartColor(idModel, ePart, aMaskToColors) end
 ---@param modelStr Mini.Model 模型资源串，如UGCPackage_s_资源ID或mob_3101。
 ---@param anchorId Mini.Number 挂点编号，见GunAnchorType或AvatarAnchorType。
 ---@param partType Mini.Number 部件类型：0普通，1 Avatar。
----@return Mini.Number 返回新增部件从1开始的编号，亦为追加后的部件数量；缺少对象、组件或实体导致追加失败时返回0。
+---@return Mini.Number result 返回新增部件从1开始的编号，亦为追加后的部件数量；缺少对象、组件或实体导致追加失败时返回0。
 function Model:AddAnchorMeshItemWithParam(modelStr, anchorId, partType) end
 
 ---检查挂点子部件
 ---检查子部件记录中是否存在指定挂点，不证明当前可见或完成加载。
 ---@param anchorId Mini.Number 枪械或Avatar挂点编号。
----@return Mini.Bool 存在至少一个匹配项返回true；参数无效、未找到或缺少对象/组件返回false。
+---@return Mini.Bool result 存在至少一个匹配项返回true；参数无效、未找到或缺少对象/组件返回false。
 function Model:HasAnchorMesh(anchorId) end
 
 ---设置肤色子部件模型
@@ -39,10 +40,10 @@ function Model:SetSkinAnchorItemModel(modelStr) end
 ---获取挂点子部件索引
 ---读取首个匹配挂点的底层索引，从0开始；传给本组件大多数子部件修改接口前须加1。
 ---@param anchorId Mini.Number 枪械或Avatar挂点编号。
----@return Mini.Number 返回首个匹配项从0开始的索引；参数无效、未找到或缺少对象/组件时返回-1。
+---@return Mini.Number value 返回首个匹配项从0开始的索引；参数无效、未找到或缺少对象/组件时返回-1。
 function Model:GetAnchorMeshIdByType(anchorId) end
 
----GetAllAnchorMeshItem（wiki 未提供函数描述）
+---获取全部锚点mesh道具
 ---返回值类型未在 wiki 声明。
 function Model:GetAllAnchorMeshItem() end
 
@@ -70,20 +71,20 @@ function Model:SetVisibility(value, forceSet) end
 ---获取骨骼世界坐标
 ---查询主模型骨骼的原生世界坐标；需有主模型与蒙皮骨架。本函数不做除100换算，实际共返回成功标志及X/Y/Z三个数值，当前单返回槽仅声明首个标志。
 ---@param name Mini.String 主模型中的真实骨骼名称。
----@return Mini.Bool 首个返回值为是否找到骨骼；成功还返回原生世界坐标X/Y/Z，失败时为false,0,0,0。缺少对象、组件、绑定、主模型、骨架或骨骼均视为失败；后3个返回值未单独声明类型槽。
+---@return Mini.Bool value 首个返回值为是否找到骨骼；成功还返回原生世界坐标X/Y/Z，失败时为false,0,0,0。缺少对象、组件、绑定、主模型、骨架或骨骼均视为失败；后3个返回值未单独声明类型槽。
 function Model:GetBonePositionByName(name) end
 
 ---设置身体子网格可见性
 ---先检查角色身体是否存在该子网格，再请求设置其显示状态；不修改子部件组中的visibility。
 ---@param name Mini.String 角色身体的子网格名称。
 ---@param isshow? Mini.Bool true显示，false隐藏，默认false。
----@return Mini.Bool 存在目标网格时返回身体显示接口结果；名称类型错误、无对象或找不到网格时返回false。
+---@return Mini.Bool result 存在目标网格时返回身体显示接口结果；名称类型错误、无对象或找不到网格时返回false。
 function Model:SetSubMeshVisible(name, isshow) end
 
 ---设置自定义模型启用
 ---设置模型组件启用状态，不代表资源已经加载或模型当前可见。
 ---@param value Mini.Bool true启用自定义模型，false禁用。
----@return Mini.Bool 布尔参数且调用到模型组件时返回true；缺少对象或组件时返回false；参数类型错误时实际返回nil。
+---@return Mini.Bool result 布尔参数且调用到模型组件时返回true；缺少对象或组件时返回false；参数类型错误时实际返回nil。
 function Model:SetCustomModel(value) end
 
 ---设置子部件染色
@@ -105,17 +106,17 @@ function Model:SetAnchorMeshVisiblity(iMesh, visible) end
 
 ---获取完整模型数据
 ---读取包含运行期间已写入修改的模型组件JSON数据，不等待异步加载，也不证明客户端最终显示状态。
----@return Mini.String 返回紧凑JSON字符串；底层无组件数据时为空字符串，缺少对象或模型组件时返回nil。
+---@return Mini.String value 返回紧凑JSON字符串；底层无组件数据时为空字符串，缺少对象或模型组件时返回nil。
 function Model:GetModelData() end
 
----SetAnchorMeshGroup（wiki 未提供函数描述）
+---设置锚点mesh组
 ---返回值类型未在 wiki 声明。
 ---@param value any （wiki 未声明类型，此处用 any）
 function Model:SetAnchorMeshGroup(value) end
 
 ---获取模型
 ---读取当前模型组件记录的资源标识字符串，不等待模型加载完成。
----@return Mini.Model 返回模型资源串；未取得对象或模型组件时返回 nil。
+---@return Mini.Model value 返回模型资源串；未取得对象或模型组件时返回 nil。
 function Model:GetModel() end
 
 ---设置模型
@@ -126,7 +127,7 @@ function Model:SetModel(value) end
 ---获取颜色
 ---读取指定材质的 RGB 颜色并转换为十六进制字符串；实际返回字符串，沿用现有 Mini.Color 类型槽。
 ---@param index Mini.Number 材质序号，从1开始。
----@return Mini.Color 返回小写 0xrrggbb 字符串；索引越界时为 0xffffff，未取得对象或模型组件时为 nil。
+---@return Mini.Color value 返回小写 0xrrggbb 字符串；索引越界时为 0xffffff，未取得对象或模型组件时为 nil。
 function Model:GetColor(index) end
 
 ---设置颜色
@@ -138,7 +139,7 @@ function Model:SetColor(index, value) end
 ---获取材质透明度
 ---读取指定材质的不透明度，不等待模型加载；0 全透明，1 完全不透明。
 ---@param index Mini.Number 材质序号，从1开始。
----@return Mini.Number 返回 0～1 的材质不透明度；索引越界时底层返回 0，未取得对象或模型组件时返回 1.0。
+---@return Mini.Number value 返回 0～1 的材质不透明度；索引越界时底层返回 0，未取得对象或模型组件时返回 1.0。
 function Model:GetAlpha(index) end
 
 ---设置材质透明度
@@ -196,7 +197,7 @@ function Model:SetAnchorMeshItemAttribute(index, modelStr, boneName, pos, scale,
 ---@param visible Mini.Bool true显示、false隐藏；兼容字符串true/false。
 function Model:SetSubModelVisible(name, visible) end
 
----SetMatVector2f（wiki 未提供函数描述）
+---设置矩阵vector2f
 ---返回值类型未在 wiki 声明。
 ---@param index any （wiki 未声明类型，此处用 any）
 ---@param key any （wiki 未声明类型，此处用 any）
@@ -210,7 +211,7 @@ function Model:SetMatVector2f(index, key, valueTable) end
 ---@param valueTable Mini.Vec3 三维向量{x,y,z}，单位由着色器属性定义。
 function Model:SetMatVector3f(index, key, valueTable) end
 
----SetMatVector4f（wiki 未提供函数描述）
+---设置矩阵vector4f
 ---返回值类型未在 wiki 声明。
 ---@param index any （wiki 未声明类型，此处用 any）
 ---@param key any （wiki 未声明类型，此处用 any）
@@ -249,24 +250,24 @@ function Model:SetMatTexture(index, key, value) end
 ---先读组件记录的颜色属性，客户端可回退读取材质；实际返回普通Lua表{r,g,b,a}，使用Mini.Color描述同形颜色数据，不构造Mini.Color实例。
 ---@param index Mini.Number 材质序号，从1开始。
 ---@param key Mini.String 着色器颜色属性名。
----@return Mini.Color 返回含r/g/b/a的表，底层归一化通道各乘255，不取整；编号越界或未找到属性时四通道均为255。参数类型错误或缺少对象/组件时返回nil。
+---@return Mini.Color value 返回含r/g/b/a的表，底层归一化通道各乘255，不取整；编号越界或未找到属性时四通道均为255。参数类型错误或缺少对象/组件时返回nil。
 function Model:GetMatColor(index, key) end
 
 ---获取材质数值属性
 ---先读组件记录的数值属性，客户端可回退读取材质。
 ---@param index Mini.Number 材质序号，从1开始。
 ---@param key Mini.String 着色器数值属性名。
----@return Mini.Number 返回记录或材质中的数值；编号越界或未找到属性时为1.0，参数类型错误或缺少对象/组件时返回nil。
+---@return Mini.Number value 返回记录或材质中的数值；编号越界或未找到属性时为1.0，参数类型错误或缺少对象/组件时返回nil。
 function Model:GetMatFloat(index, key) end
 
 ---获取材质布尔属性
 ---先读组件记录的布尔关键字，客户端可回退读取材质。
 ---@param index Mini.Number 材质序号，从1开始。
 ---@param key Mini.String 着色器关键字名称。
----@return Mini.Bool 返回关键字状态；编号越界、关键字不存在或未启用时为false，参数类型错误或缺少对象/组件时为nil。
+---@return Mini.Bool value 返回关键字状态；编号越界、关键字不存在或未启用时为false，参数类型错误或缺少对象/组件时为nil。
 function Model:GetMatBool(index, key) end
 
----GetMatVector2f（wiki 未提供函数描述）
+---获取矩阵vector2f
 ---返回值类型未在 wiki 声明。
 ---@param index any （wiki 未声明类型，此处用 any）
 ---@param key any （wiki 未声明类型，此处用 any）
@@ -276,10 +277,10 @@ function Model:GetMatVector2f(index, key) end
 ---先读组件记录的三维向量，客户端可回退读取材质；实际返回普通Lua表{x,y,z}，Mini.Vec3只描述同形数据，不执行坐标换算。
 ---@param index Mini.Number 材质序号，从1开始。
 ---@param key Mini.String 着色器三维向量属性名。
----@return Mini.Vec3 返回含x/y/z的原始数值表；编号越界或未找到属性时各分量均为0，参数类型错误或缺少对象/组件时为nil。
+---@return Mini.Vec3 value 返回含x/y/z的原始数值表；编号越界或未找到属性时各分量均为0，参数类型错误或缺少对象/组件时为nil。
 function Model:GetMatVector3f(index, key) end
 
----GetMatVector4f（wiki 未提供函数描述）
+---获取矩阵vector4f
 ---返回值类型未在 wiki 声明。
 ---@param index any （wiki 未声明类型，此处用 any）
 ---@param key any （wiki 未声明类型，此处用 any）
@@ -287,5 +288,5 @@ function Model:GetMatVector4f(index, key) end
 
 ---查询材质初始化状态
 ---查询模型组件是否结束等待模型加载阶段，可作SetMat系列前置条件；不证明所有异步贴图或最终画面已完成。
----@return Mini.Bool 底层不再等待模型加载时返回true；仍在等待或缺少对象/组件时返回false。
+---@return Mini.Bool result 底层不再等待模型加载时返回true；仍在等待或缺少对象/组件时返回false。
 function Model:IsMatInited() end

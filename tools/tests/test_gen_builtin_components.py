@@ -74,7 +74,8 @@ def test_vector_triple_and_unknown_type():
     assert "---@param y? number" in content
     assert "---@param z? number" in content
     assert "function Demo:SetPos(x, y, z) end" in content
-    assert "---@return any 返回说明文字。（wiki 类型 Mini.Nope 不在类型库中，此处用 any）" in content
+    assert "---@return any result 返回说明文字。（wiki 类型 Mini.Nope 不在类型库中，此处用 any）" in content
+    assert "---演示组件接口（内置组件 Demo）<br>\n---[查看文档]" in content
 
 
 def test_undeclared_and_default_params():

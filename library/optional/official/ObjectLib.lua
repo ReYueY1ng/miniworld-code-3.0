@@ -7,18 +7,18 @@
 ---@class ObjectLib
 ObjectLib = {}
 
----官方环境独有接口（未收录于开发环境）
----@param libobjid any
+---获取区域数据
+---@param libobjid any 库对象ID
 function ObjectLib:GetAreaData(libobjid) end
 
----官方环境独有接口（未收录于开发环境）
----@param libobjid any
+---获取道具数据
+---@param libobjid any 库对象ID
 function ObjectLib:GetItemData(libobjid) end
 
----官方环境独有接口（未收录于开发环境）
----@param libobjid any
+---获取living数据
+---@param libobjid any 库对象ID
 function ObjectLib:GetLivingData(libobjid) end
 
----官方环境独有接口（未收录于开发环境）
----@param libobjid any
+---获取位置数据
+---@param libobjid any 库对象ID
 function ObjectLib:GetPositionData(libobjid) end

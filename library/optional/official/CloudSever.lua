@@ -5,154 +5,154 @@
 ---在 Lua.runtime.pluginArgs 中设置 "officialApi=enable" 开启。<br>
 ---[官方 Wiki](https://dev-wiki.mini1.cn/ugc-wiki/)
 
----官方环境独有接口（未收录于开发环境）
----@param libvarid any
----@param key any
----@param value any
----@return boolean
+---按键automatic
+---@param libvarid any 库变量ID
+---@param key any 键名
+---@param value any 值
+---@return boolean result 是否成功
 function CloudSever:AutomaticByKey(libvarid, key, value) end
 
----官方环境独有接口（未收录于开发环境）
----@param libvarid any
+---检查varable
+---@param libvarid any 库变量ID
 function CloudSever:CheckVarable(libvarid) end
 
----官方环境独有接口（未收录于开发环境）
----@param libvarid any
+---清空数据列表
+---@param libvarid any 库变量ID
 function CloudSever:ClearDataList(libvarid) end
 
----官方环境独有接口（未收录于开发环境）
----@param libvarid any
----@return boolean
+---清空列表
+---@param libvarid any 库变量ID
+---@return boolean result 是否成功
 function CloudSever:ClearList(libvarid) end
 
----官方环境独有接口（未收录于开发环境）
----@param libvarid any
+---清空order数据
+---@param libvarid any 库变量ID
 function CloudSever:ClearOrderData(libvarid) end
 
----官方环境独有接口（未收录于开发环境）
----@param countdown? number
----@param msg? string
----@return boolean
+---关闭cur房间
+---@param countdown? number 参数 countdown
+---@param msg? string 消息
+---@return boolean result 是否成功
 function CloudSever:CloseCurRoom(countdown, msg) end
 
----官方环境独有接口（未收录于开发环境）
----@param libvar any
----@param index any
----@param eventname any
----@param globaldata any
----@return boolean
+---按索引获取any值
+---@param libvar any 参数 libvar
+---@param index any 索引
+---@param eventname any 事件名称
+---@param globaldata any 参数 globaldata
+---@return boolean value 是否成功
 function CloudSever:GetAnyValueByIndex(libvar, index, eventname, globaldata) end
 
----官方环境独有接口（未收录于开发环境）
----@param libvarid any
----@param key any
----@param eventname any
----@param globaldata any
----@return boolean
+---按键获取any值
+---@param libvarid any 库变量ID
+---@param key any 键名
+---@param eventname any 事件名称
+---@param globaldata any 参数 globaldata
+---@return boolean value 是否成功
 function CloudSever:GetAnyValueByKey(libvarid, key, eventname, globaldata) end
 
----官方环境独有接口（未收录于开发环境）
----@param libvarid any
----@param key any
----@param callback any
----@return boolean
+---按键获取order数据
+---@param libvarid any 库变量ID
+---@param key any 键名
+---@param callback any 回调函数
+---@return boolean value 是否成功
 function CloudSever:GetOrderDataByKey(libvarid, key, callback) end
 
----官方环境独有接口（未收录于开发环境）
----@param libvarid? any
----@param icount number
----@param callback any
----@return boolean
+---获取order数据索引区域
+---@param libvarid? any 库变量ID
+---@param icount number 引用计数
+---@param callback any 回调函数
+---@return boolean value 是否成功
 function CloudSever:GetOrderDataIndexArea(libvarid, icount, callback) end
 
----官方环境独有接口（未收录于开发环境）
----@param libvarid? any
----@param index any
----@param callback any
----@return boolean
+---获取order数据索引值
+---@param libvarid? any 库变量ID
+---@param index any 索引
+---@param callback any 回调函数
+---@return boolean value 是否成功
 function CloudSever:GetOrderDataIndexValue(libvarid, index, callback) end
 
----官方环境独有接口（未收录于开发环境）
----@param libvarid? any
----@param icount number
----@param minvalue number
----@param maxvalue number
----@param callback any
----@return boolean
+---获取order数据值区域
+---@param libvarid? any 库变量ID
+---@param icount number 引用计数
+---@param minvalue number 参数 minvalue
+---@param maxvalue number 参数 maxvalue
+---@param callback any 回调函数
+---@return boolean value 是否成功
 function CloudSever:GetOrderDataValueArea(libvarid, icount, minvalue, maxvalue, callback) end
 
----官方环境独有接口（未收录于开发环境）
----@param players table
----@param msg any
----@return boolean
+---通知玩家transmit消息
+---@param players table 玩家
+---@param msg any 消息
+---@return boolean result 是否成功
 function CloudSever:NotifyPlayerTransmitMsg(players, msg) end
 
----官方环境独有接口（未收录于开发环境）
----@param libvarid any
----@param key any
+---按键移除数据列表
+---@param libvarid any 库变量ID
+---@param key any 键名
 function CloudSever:RemoveDataListByKey(libvarid, key) end
 
----官方环境独有接口（未收录于开发环境）
----@param libvarid any
----@param key any
----@return boolean
+---移除数据列表值
+---@param libvarid any 库变量ID
+---@param key any 键名
+---@return boolean result 是否成功
 function CloudSever:RemoveDataListValue(libvarid, key) end
 
----官方环境独有接口（未收录于开发环境）
----@param libvarid any
----@param key any
+---按键移除order数据
+---@param libvarid any 库变量ID
+---@param key any 键名
 function CloudSever:RemoveOrderDataByKey(libvarid, key) end
 
----官方环境独有接口（未收录于开发环境）
+---发送sever消息
 ---**调用限制**: 仅白名单用户可用
----@param msg string
----@param customdata? table
----@param roomids string | table
----@return boolean
+---@param msg string 消息
+---@param customdata? table 参数 customdata
+---@param roomids string | table 参数 roomids
+---@return boolean result 是否成功
 function CloudSever:SendSeverMsg(msg, customdata, roomids) end
 
----官方环境独有接口（未收录于开发环境）
----@param seconds? number
----@return boolean
+---设置forbid加入
+---@param seconds? number 参数 seconds
+---@return boolean result 是否成功
 function CloudSever:SetForbidJoin(seconds) end
 
----官方环境独有接口（未收录于开发环境）
----@param libvarid any
----@param Key any
----@param value any
+---设置order数据bykey
+---@param libvarid any 库变量ID
+---@param Key any 键名
+---@param value any 值
 function CloudSever:SetOrderDataBykey(libvarid, Key, value) end
 
----官方环境独有接口（未收录于开发环境）
----@param playerid any
----@param msg any
----@param notFollow any
+---transmitother房间
+---@param playerid any 玩家ID
+---@param msg any 消息
+---@param notFollow any 不跟随
 function CloudSever:TransmitOtherRoom(playerid, msg, notFollow) end
 
----官方环境独有接口（未收录于开发环境）
----@param playerid number | table
----@param mapid any
----@param msg any
----@param reportData any
----@param noConfirm any
----@param notFollow any
----@return boolean
+---transmit转换为地图
+---@param playerid number | table 玩家ID
+---@param mapid any 地图ID
+---@param msg any 消息
+---@param reportData any 参数 reportData
+---@param noConfirm any 参数 noConfirm
+---@param notFollow any 不跟随
+---@return boolean result 是否成功
 function CloudSever:TransmitToMap(playerid, mapid, msg, reportData, noConfirm, notFollow) end
 
----官方环境独有接口（未收录于开发环境）
----@param playerid number | table
----@param roomid string
----@param msg any
----@param notFollow any
----@return boolean
+---transmit转换为房间
+---@param playerid number | table 玩家ID
+---@param roomid string 房间ID
+---@param msg any 消息
+---@param notFollow any 不跟随
+---@return boolean result 是否成功
 function CloudSever:TransmitToRoom(playerid, roomid, msg, notFollow) end
 
----官方环境独有接口（未收录于开发环境）
----@param libvarid? any
----@param key any
----@param callback any
----@return boolean
+---按键更新数据列表
+---@param libvarid? any 库变量ID
+---@param key any 键名
+---@param callback any 回调函数
+---@return boolean result 是否成功
 function CloudSever:UpdateDataListByKey(libvarid, key, callback) end
 
----官方环境独有接口（未收录于开发环境）
----@param mapid any
+---获取地图信息
+---@param mapid any 地图ID
 function CloudSever:__GetMapInfo(mapid) end

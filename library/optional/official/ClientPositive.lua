@@ -7,32 +7,32 @@
 ---@class ClientPositive
 ClientPositive = {}
 
----官方环境独有接口（未收录于开发环境）
----@param reportid any
----@param uin any
----@param cmpName any
----@param fnName any
+---dealautotestcmd
+---@param reportid any 同步报告ID
+---@param uin any 玩家Uin
+---@param cmpName any 组件名称
+---@param fnName any 函数名称
 ---@vararg any
 function ClientPositive:DealAutoTestCmd(reportid, uin, cmpName, fnName, ...) end
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@param runResults any
----@param logs any
+---export上报v2
+---@param uin any 玩家Uin
+---@param runResults any 参数 runResults
+---@param logs any 参数 logs
 function ClientPositive:ExportReportV2(uin, runResults, logs) end
 
----官方环境独有接口（未收录于开发环境）
----@param content any
----@return boolean
+---ondispath触发nomal事件
+---@param content any 内容
+---@return boolean result 是否成功
 function ClientPositive:OnDispathTriggerNomalEvent(content) end
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@param unlockSpellList table
----@return boolean
+---on同步inscription表解锁spell列表
+---@param uin any 玩家Uin
+---@param unlockSpellList table 参数 unlockSpellList
+---@return boolean result 是否成功
 function ClientPositive:OnSyncInscriptionTableUnlockSpellList(uin, unlockSpellList) end
 
----官方环境独有接口（未收录于开发环境）
----@param uin any
----@param data any
+---on同步服务器时间
+---@param uin any 玩家Uin
+---@param data any 数据
 function ClientPositive:OnSyncServerTime(uin, data) end

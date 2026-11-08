@@ -5,72 +5,72 @@
 ---在 Lua.runtime.pluginArgs 中设置 "officialApi=enable" 开启。<br>
 ---[官方 Wiki](https://dev-wiki.mini1.cn/ugc-wiki/)
 
----官方环境独有接口（未收录于开发环境）
----@param name any
----@return boolean
+---添加玩家初始化taskchain
+---@param name any 名称
+---@return boolean result 是否成功
 function Task:AddPlayerInitTaskChain(name) end
 
----官方环境独有接口（未收录于开发环境）
----@return boolean
+---关闭native玩家guide
+---@return boolean result 是否成功
 function Task:CloseNativePlayerGuide() end
 
----官方环境独有接口（未收录于开发环境）
----@return boolean
+---获取判断是否判断是否拥有sing玩家guide
+---@return boolean value 是否成功
 function Task:GetIsHasSingPlayerGuide() end
 
----官方环境独有接口（未收录于开发环境）
----@return boolean
+---在sing玩家guide中获取判断是否
+---@return boolean value 是否成功
 function Task:GetIsInSingPlayerGuide() end
 
----官方环境独有接口（未收录于开发环境）
----@param playerId any
----@param name any
----@param isFinish any
+---nexttask
+---@param playerId any 玩家ID
+---@param name any 名称
+---@param isFinish any 是否finish
 function Task:NextTask(playerId, name, isFinish) end
 
----官方环境独有接口（未收录于开发环境）
----@param taskID any
+---为taskID打开主task
+---@param taskID any taskID
 function Task:OpenMainTaskForTaskID(taskID) end
 
----官方环境独有接口（未收录于开发环境）
----@return boolean
+---passsing玩家guide
+---@return boolean result 是否成功
 function Task:PassSingPlayerGuide() end
 
----官方环境独有接口（未收录于开发环境）
----@param playerId any
----@param name any
+---passtaskchain
+---@param playerId any 玩家ID
+---@param name any 名称
 function Task:PassTaskChain(playerId, name) end
 
----官方环境独有接口（未收录于开发环境）
----@param name any
----@param cfg any
----@return boolean
+---设置sing玩家guide
+---@param name any 名称
+---@param cfg any 配置
+---@return boolean result 是否成功
 function Task:SetSingPlayerGuide(name, cfg) end
 
----官方环境独有接口（未收录于开发环境）
----@param name any
----@param cfg any
----@return boolean
+---设置task配置
+---@param name any 名称
+---@param cfg any 配置
+---@return boolean result 是否成功
 function Task:SetTaskCfg(name, cfg) end
 
----官方环境独有接口（未收录于开发环境）
----@param name any
----@param cfg any
----@return boolean
+---设置taskchain配置
+---@param name any 名称
+---@param cfg any 配置
+---@return boolean result 是否成功
 function Task:SetTaskChainCfg(name, cfg) end
 
----官方环境独有接口（未收录于开发环境）
----@param tips any
----@param okFn any
----@param cancellFn any
+---显示passguide消息box
+---@param tips any 参数 tips
+---@param okFn any 参数 okFn
+---@param cancellFn any 是否cellfn
 function Task:ShowPassGuideMessageBox(tips, okFn, cancellFn) end
 
----官方环境独有接口（未收录于开发环境）
----@param playerId any
----@param name any
+---开始taskchain
+---@param playerId any 玩家ID
+---@param name any 名称
 function Task:StartTaskChain(playerId, name) end
 
----官方环境独有接口（未收录于开发环境）
----@param playerId any
----@param name any
+---停止taskchain
+---@param playerId any 玩家ID
+---@param name any 名称
 function Task:StopTaskChain(playerId, name) end
