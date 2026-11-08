@@ -10,6 +10,7 @@
 - [快速开始](#快速开始)
 - [配置](#配置)
 - [插件诊断](#插件诊断)
+- [可选 API 支持](#可选-api-支持)
 - [项目结构](#项目结构)
 - [组件编写示例](#组件编写示例)
 - [测试文件](#测试文件)
@@ -19,7 +20,7 @@
 
 | 组件 | 说明 |
 |------|------|
-| **类型定义** (`library/`) | 32 个 Lua 文件，覆盖 Mini World UGC 3.0 全部 API 的类型注解 |
+| **类型定义** (`library/`) | 基础 API 类型定义，另有 `optional/` 与 `components/` 可选车道 |
 | **LuaLS 插件** (`plugin.lua`) | 25+ 个自定义诊断，实时校验组件编写规范 |
 | **测试文件** (`test/diagnostics/`) | 15 个测试组件文件，覆盖每个诊断规则 |
 
@@ -139,11 +140,34 @@ git clone https://github.com/ReYueY1ng/miniworld-code-3.0.git
 |--------|--------|------|
 | `miniworld-disabled-stdlib` | Warning | 检测使用了被禁用的标准库（`io`, `debug`, `ffi`, `require` 等） |
 
+## 可选 API 支持
+
+部分接口不属于普通开发环境，或只在特定场合可用。类型库把它们拆成独立车道，通过 `Lua.runtime.pluginArgs` 开关控制：
+
+| 车道 | 目录 | 开关 | 默认 |
+|------|------|------|------|
+| 官方 API（`officialenv.lua` 独有接口） | `library/optional/official/` | `officialApi` | 关闭 |
+| 触发器 API（`Trigger` 命名空间） | `library/optional/trigger/` | `triggerApi` | 关闭 |
+| 游戏内置组件 API（`GetComponent("Transform")` 等） | `library/components/` | `builtinComponents` | 开启 |
+
+```json
+"Lua.runtime.pluginArgs": [
+  "officialApi=enable",
+  "triggerApi=disable",
+  "builtinComponents=enable"
+]
+```
+
+- 默认值：`officialApi=disable`、`triggerApi=disable`、`builtinComponents=enable`；省略 `pluginArgs` 时即为此默认。
+- 开关由 `plugin.lua` 在加载库文件时生效，修改后需重启语言服务器。
+- 关闭的车道会连同补全、类型检查一起隐藏；如果手动配置 `workspace.library` 而没有加载插件，则所有车道都会加载。
+- 环境表更新后重新生成：`python3 tools/gen_env_lanes.py`；白名单限制校验：`python3 tools/api-update/annotate_whitelist.py --check`。
+
 ## 项目结构
 
 ```
 miniworld-code-3.0/
-├── library/              # 类型定义文件（32 个 .lua 文件）
+├── library/              # 类型定义文件
 │   ├── Component.lua     # 组件体系（Component → WorldComponent → PlayerComponent 等）
 │   ├── Player.lua        # 玩家 API（~100 个方法）
 │   ├── World.lua         # 世界 API（~80 个方法）
@@ -154,6 +178,9 @@ miniworld-code-3.0/
 │   ├── GameObject.lua    # 对象创建/查找 API
 │   ├── GlobalFunc.lua    # 全局工具函数
 │   ├── BaseEnv.lua       # 基础环境扩展
+│   ├── optional/official/ # 官方环境独有接口（默认关闭）
+│   ├── optional/trigger/  # 触发器 Trigger API（默认关闭）
+│   ├── components/        # 游戏内置组件 API（默认开启）
 │   └── ...               # 其他模块
 ├── skills/               # AI 辅助开发 skill
 │   ├── miniworld-coding/          # 写游戏脚本
@@ -161,7 +188,8 @@ miniworld-code-3.0/
 ├── test/diagnostics/     # 诊断测试文件（15 个，每个诊断一个）
 ├── docs/
 │   └── example.lua       # 完整组件编写示例
-├── plugin.lua            # LuaLS 插件（25 个自定义诊断）
+├── plugin.lua            # LuaLS 插件（25 个自定义诊断 + 可选车道开关）
+├── tools/                # 环境表解析、车道生成、白名单校验脚本
 ├── config.json           # LLS-Addons 插件配置
 ├── .luarc.json           # LuaLS 推荐配置
 └── README.md
