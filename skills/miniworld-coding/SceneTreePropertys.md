@@ -1,6 +1,6 @@
 # scenetree 类型系统 — Scene Tree & Component Property Type System
 
-**文件数量:** ~80 | **技术栈:** Lua + FairyGUI
+**文件数量:** 41 个 `.lua` | **技术栈:** Lua + FairyGUI
 
 ## 概述
 
@@ -13,7 +13,11 @@
 ```
 scenetree/
 ├── common/
-│   └── scenetreedefine.lua      # 类型注册表 (SceneTreeDefine.DataType)
+│   ├── scenetreedefine.lua      # 类型注册表 (SceneTreeDefine.DataType)
+│   ├── scenetreeinterface.lua   # 编辑器交互入口 (选中节点、进入预览)
+│   ├── scenetreefilemgr.lua     # 场景/预制体文件读写
+│   ├── scenetreeuuidmgr.lua     # 节点与预制体 UUID 分配
+│   └── blockmaterialdefine.lua  # 方块 ID → 材质映射
 ├── datatype/
 │   ├── scenedatabase.lua        # 根基类 (仅类型标签)
 │   ├── scenedatatype.lua        # 中间基类 (InitData, MergeCfg, MergeValue)
@@ -34,7 +38,7 @@ scenetree/
 │   ├── scenedatapathpoint.lua   # 路径点
 │   ├── scenedatacustomdata.lua  # CustomData (类似结构体的嵌套属性)
 │   ├── scenedataarea.lua        # 区域选择器
-│   └── scenedatacommon.lua      # ~15 种资源类型的共享实现
+│   └── scenedatacommon.lua      # 21 种资源类型的共享实现
 ├── sceneeditor/                 # 场景编辑器集成
 ├── prefabeditor/                # 预制体编辑器
 └── view/                        # 场景树视图
@@ -47,18 +51,18 @@ scenetree/
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  ScriptParamType (paramstypedef.lua)                        │
-│  52 个枚举值 — 底层类型标识符                                  │
-│  使用方: UGC 框架、触发器系统、脚本 API                        │
+│  53 个键位 / 50 个不同值 — 底层类型标识符                   │
+│  使用方: UGC 框架、触发器系统、脚本 API                     │
 ├─────────────────────────────────────────────────────────────┤
 │  SceneTreeDefine.DataType (scenetreedefine.lua)             │
-│  35 种数据类型 + 9 种结构类型                                  │
-│  ScriptParamType 的子集，暴露给编辑器检查器                     │
-│  每个条目: { type, classname, sptype }                       │
+│  37 种带 sptype 的数据类型 + 9 种结构类型                   │
+│  ScriptParamType 的子集，暴露给编辑器检查器                 │
+│  每个条目: { type, classname, sptype }                      │
 ├─────────────────────────────────────────────────────────────┤
 │  MiniDef.* (paramstypedef.lua)                              │
-│  ~15 个运行时值构造器                                         │
-│  每个都有: Init, Serialize, UnSerialize, ToTable             │
-│  用途: 默认值、运行时实例化                                    │
+│  52 个运行时值构造器                                        │
+│  每个都有: Init, Serialize, UnSerialize, ToTable            │
+│  用途: 默认值、运行时实例化                                 │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -68,13 +72,13 @@ scenetree/
 
 ## 完整类型列表
 
-### ScriptParamType — 全部 52 个值
+### ScriptParamType — 53 个键位 / 50 个不同值
 
 | 值 | 名称 | 在 SceneTreeDefine 中? |
 |---|---|---|
 | 1 | Number | ✅ |
 | 3 | String | ✅ |
-| 4 | Bool | ✅ |
+| 4 | Bool | ✅ (Boolean) |
 | 5 | Vec2 | ✅ (Vector2) |
 | 6 | Vec3 | ✅ (Vector3) |
 | 7 | Color | ✅ |
@@ -93,15 +97,15 @@ scenetree/
 | 22 | Sound | ✅ |
 | 23 | Block | ✅ |
 | 24 | Item | ✅ |
-| 25 | CreatureType | ✅ |
-| 26 | Mob | ❌ |
+| 25 | MobType（别名 CreatureType） | ✅ (CreatureType) |
+| 26 | Mob（别名 Creature） | ❌ |
 | 27 | Player | ❌ |
 | 28 | CustomData | ✅ |
 | 29 | Buff | ✅ |
 | 30 | ComponentType | ✅ |
 | 31 | Picture | ✅ |
 | 32 | LineAnimation | ✅ |
-| 33 | EntityModel | ✅ |
+| 33 | EntityModel（别名 Entity） | ✅ |
 | 34 | Tag | ✅ |
 | 35 | SkyBox | ✅ |
 | 36 | SkyBoxFilter | ✅ |
@@ -121,8 +125,11 @@ scenetree/
 | 50 | UiState | ❌ |
 | 51 | ColorGradient | ❌ |
 | 52 | Emitter | ✅ |
+| 53 | UIProject | ✅ (CustomUI) |
 
 标记 ❌ 的类型用于 UGC 脚本参数系统（触发器、AI 黑板、脚本 API），但不暴露在场景编辑器检查器面板中。
+
+**关于数值空缺与别名:** `2`、`19`、`20` 未定义（旧版本遗留空位）。`Mob`/`Creature`（26）、`MobType`/`CreatureType`（25）、`EntityModel`/`Entity`（33）是同一数值的两个键名，别名在引擎内部使用，写属性时优先用前者。
 
 ### SceneTreeDefine.DataType — 结构类型（无 sptype）
 
@@ -137,6 +144,8 @@ scenetree/
 | PrefabRefer | ScenePrefabRefer | 预制体实例引用 |
 | UIProject | SceneUIProject | UI 项目引用 |
 | WorldObject | SceneWorldObject | 世界对象引用 |
+
+注册表总计 46 项 = 上表 9 种结构类型 + 37 种带 `sptype` 的数据类型。`CustomUI` 是其中最新的一项（`classname = "SceneDataCommon"`，`sptype = ScriptParamType.UIProject`），把自定义 UI 项目当成资源类型的属性使用。
 
 ---
 
@@ -262,7 +271,23 @@ SceneDataBase (scenedatabase.lua)
 
 **颜色常量:** `Mini.Color.WHITE`, `.BLACK`, `.RED`, `.GREEN`, `.BLUE`, `.YELLOW`, `.ORANGE`
 
-**十六进制输入:** 支持 `"FF0000"` 字符串格式初始化。
+**十六进制输入:** 支持 `"FF0000"` 字符串格式初始化（`InitData`/`SetValue` 都会按 16 进制解析到 r/g/b，alpha 保持 255）。
+
+**颜色渐变值:** `SceneDataColor` 除了纯色，也接受渐变表 — `ToSPType()` 先检查值里是否有 `colorKeys`/`alphaKeys`，或数组形式的渐变节点（节点带 `colorTime`/`alphaTime`/`t` 与 r/g/b/a），命中则原样返回深拷贝，不转成 `Mini.Color`。声明时类型仍是 `Mini.Color`，用 `style = ComponentUIStyle.ColorGradient` 切换编辑器 UI：
+
+```lua
+gradient = {
+    type = Mini.Color,
+    style = ComponentUIStyle.ColorGradient,
+    default = {
+        mode = 0,
+        colorKeys = { { colorTime = 0, r = 0.22, g = 0.8, b = 0.63, a = 1 } },
+        alphaKeys = { { alphaTime = 0, a = 1 } }
+    }
+}
+```
+
+引擎里没有独立的渐变数据结构 — `MiniDef` 中也没有对应的构造器，只是颜色值的一种表形式。
 
 ### Enum
 
@@ -312,8 +337,11 @@ Mini.Enum({
 **枚举方法:**
 - `Enum:IsValue(v)` — 检查 v 是否为有效枚举值
 - `Enum:GetDefault()` — 返回第一个值
+- `Enum:GetDef()` — 返回完整定义的深拷贝 (全部键的 sort/value/displayName)
 - `Enum:GetDes(key)` — 获取键的 displayName
 - `Enum:GetSort(key)` — 获取键的排序顺序
+
+**序列化差异:** 与 Number/Vector 不同，`SceneDataEnum` 会额外序列化 `showTitle` 和 `syncLayer2OnValueChanged`；后者为 true 时枚举值变化会同步到第 2 层（预制体实例层）。
 
 ### CheckList
 
@@ -450,16 +478,29 @@ self.myArray:HasValue(value)           -- 包含检查
 self.myArray:GetIndexByValue(value)    -- 查找索引
 self.myArray:GetCountByValue(value)    -- 计数出现次数
 self.myArray:RandomValue()             -- 随机元素
+self.myArray:GetMax()                  -- 最大值 (仅 Number 数组)
+self.myArray:GetMin()                  -- 最小值 (仅 Number 数组)
+self.myArray:GetAllValue()             -- 拷贝出普通 Lua 数组
+self.myArray:GetItemType()             -- 元素类型 (Mini.XXX)
+self.myArray:IsValid()                 -- itemType/data 是否完整
+self.myArray:IsInstance()              -- 是否为有效实例
 
--- 排序
-self.myArray:Sort(isUp)                -- 升序/降序排序
+-- 排序与移动
+self.myArray:Sort(isUp)                -- 升序/降序排序 (Color/Vec3/Bool 数组直接返回 false)
+self.myArray:MoveTo(oldIdx, newIdx)    -- 移动元素到新下标，返回 boolean
+
+-- 修改 (续)
+self.myArray:SetValue(value, index)    -- 显式下标写入 (Index 也可直接赋值)
+self.myArray:IncreasesValue(delta, i)  -- 仅 Number 数组, 按下标叠加
 
 -- 事件
 self.myArray:AddEvent(function(event, index, value)
     -- event: 1=添加, 2=删除, 3=编辑, 4=清空, 5=重置
-end)
-self.myArray:SetIsTriggerEvent(false)  -- 抑制事件
-self.myArray:ClearEvent()              -- 移除监听器
+end, isAll)                            -- isAll: 同时给每个 CustomData 元素挂同一监听
+
+-- 抑制事件 (isAll 时递归到元素)
+self.myArray:SetIsTriggerEvent(false, isAll)
+self.myArray:ClearEvent()              -- 移除监听器 (isAll 时连同元素监听一起清)
 
 -- 批量
 self.myArray:InsertValues({v1, v2, v3}, index)
@@ -708,7 +749,7 @@ propertys = {
 }
 ```
 
-**规范化规则** (`componentsmgr.lua:3729-3737`):
+**规范化规则** (`luascript/ugc/framework/mgr/componentsmgr.lua:3876-3884`，分发入口 `ChangeParamToDef` 在 3739):
 
 | 简写 | 自动推断类型 | 自动设置默认值 |
 |---|---|---|
@@ -734,15 +775,19 @@ propertys = {
 
 ---
 
-## ComponentUIStyle — 全部 82 种样式
+## ComponentUIStyle — 全部 84 种样式
 
-定义在 `luascript/ugc/framework/base/componentdef.lua`。每种样式映射到 `NodePool:BindParamType()` 中的特定 Param 子类。
+定义在 `luascript/ugc/framework/base/componentdef.lua`，共 84 项。分发方式分三类：
+
+- **66 种**在 `miniui/module/ugc/sidebar/componentlist/nodepool.lua` 的 `_paramsList` 里以 `ComponentUIStyle.XXX` 为键注册了 `ClassType`。
+- **11 种**不注册，由 Param 子类读 `config.style` 自行分支：Number 系（NumberButton / NumberSlider / NumberOnlyInput / NumberOnlyRandom）、Vector3Input、图片系（SinglePicture / SkyTexture / SunMoonTexture / GalaxyTexture）、Material 系（CustomMaterial / EffectMaterial）。
+- **7 种**不走 style：`Number`/`Tag`/`Switch` 的控件来自按 DataType 注册的 ParamValue / ParamTag / ParamSwitch（`style` 取这三个值不影响结果）；`Vector3Selector`、`OnlyCustomPicture`、`AIModelItem`、`AIModelArray` 全树无任何注册或 `config.style` 比较，是枚举保留项。
 
 ### Number 样式
 
 | 样式 | Param 类 | UI |
 |---|---|---|
-| `Number` | ParamValue | 默认数字输入 |
+| `Number` | ParamValue | 默认数字输入（实际由 DataType Number 注册） |
 | `NumberSlider` | ParamValue | 滑块 + 值显示 |
 | `NumberButton` | ParamValue | [−] [输入框] [+] 支持长按 |
 | `NumberOnlyInput` | ParamValue | 仅输入框 |
@@ -753,7 +798,7 @@ propertys = {
 | 样式 | Param 类 | UI |
 |---|---|---|
 | `Vector3Input` | ParamPosition | 3 字段 X/Y/Z 输入 |
-| `Vector3Selector` | ParamPosition | 3 字段 + 世界坐标选择器 |
+| `Vector3Selector` | — | 枚举保留项，无分发点 |
 | `Vector3AnchorPoint` | ParamAnchorPoint | 3 字段 + 锚点网格 |
 
 ### Enum 样式
@@ -837,18 +882,19 @@ propertys = {
 | `PreViewButton` | ParamActionButton | 预览动作按钮 |
 | `ActionButton` | ParamButton | 通用动作按钮 |
 | `Icon` | ParamIcon | 图标显示 |
-| `Tag` | ParamTag | 标签选择器 |
-| `Switch` | ParamSwitch | 布尔切换 |
+| `Tag` | ParamTag | 标签选择器（实际由 DataType Tag 注册） |
+| `Switch` | ParamSwitch | 布尔切换（实际由 DataType Boolean 注册） |
 | `Curve` | ParamCurve | 曲线编辑器 |
 | `ColorGradient` | ParamColorGradient | 颜色渐变编辑器 |
 | `SkyPicture` | ParamObjType | 天空图片选择器 |
 | `FilterPicture` | ParamObjType | 滤镜图片选择器 |
-| `SunMoonTexture` | — | 日月纹理选择器 |
-| `SkyTexture` | — | 天空纹理选择器 |
-| `SinglePicture` | — | 单张图片选择器 |
-| `OnlyCustomPicture` | — | 仅自定义图片 |
-| `CustomMaterial` | — | 自定义材质选择器 |
-| `EffectMaterial` | — | 特效材质选择器 |
+| `SunMoonTexture` | ParamObjType | 日月纹理选择器 |
+| `SkyTexture` | ParamObjType | 天空纹理选择器 |
+| `GalaxyTexture` | ParamObjType | 银河纹理选择器 |
+| `SinglePicture` | ParamObjType | 单张图片选择器 |
+| `OnlyCustomPicture` | — | 枚举保留项，无分发点 |
+| `CustomMaterial` | ParamMaterial | 自定义材质选择器 |
+| `EffectMaterial` | ParamMaterial | 特效材质选择器 |
 
 ### 专用样式
 
@@ -856,8 +902,10 @@ propertys = {
 |---|---|---|
 | `MaterialGroup` | ParamMaterialGroup | 材质组容器 |
 | `AnchorMeshGroup` | ParamAnchorMeshGroup | 锚点网格组容器 |
-| `AIModelItem` | — | AI 模型元素 |
-| `AIModelArray` | — | AI 模型数组 |
+| `BossGroupArray` | ParamBossGroupArray | Boss 组容器 |
+| `BossGroupArrayItem` | ParamBossGroupArrayItem | Boss 组元素 |
+| `AIModelItem` | — | 枚举保留项，无分发点 |
+| `AIModelArray` | — | 枚举保留项，无分发点 |
 
 ---
 
@@ -1015,7 +1063,7 @@ ForbidParamTypeInArray = {
 
 ## MiniDef.* — 运行时值类型
 
-`paramstypedef.lua` 中的每个类型通过 `ParamClass()` 或 `ParamUserDataClass()` 创建。类型分为几类:
+`paramstypedef.lua` 中的每个类型通过 `ParamClass()` 或 `ParamUserDataClass()` 创建，共注册 52 个 `MiniDef.*` 构造器。类型分为几类:
 
 ### 基本类型 (ParamClass，返回普通值)
 
@@ -1032,6 +1080,8 @@ ForbidParamTypeInArray = {
 |---|---|---|---|
 | Vec2 | `Mini.Vec2(x,y)` | x, y | 支持 +, -, == |
 | Vec3 | `Mini.Vec3(x,y,z)` | x, y, z | 支持 +, -, *, /, ==, Normalized(), Lenght() |
+| Scale | `Mini.Scale(x,y,z)` | x, y, z | `ParamClass("Scale", nil, nil, Vec3)`，与 Vec3 同实现 |
+| Rotation | `Mini.Rotation(x,y,z)` | x, y, z | `ParamClass("Rotation", nil, nil, Vec3)`，与 Vec3 同实现 |
 | Color | `Mini.Color(r,g,b,a)` | r, g, b, a (0-255) | 支持颜色常量 (Color.RED 等) |
 | Enum | `Mini.Enum({...})` | 动态键 | 见 Enum 部分 |
 | CheckList | `Mini.CheckList({...})` | 动态键 | 见 CheckList 部分 |
@@ -1046,6 +1096,7 @@ ForbidParamTypeInArray = {
 | Material | ObjString | `""` | 字符串检查 |
 | CustomMsg | ObjString | `""` | 字符串检查 |
 | Prefab | ObjString | `""` | 字符串检查 |
+| UIProject | ObjString | `""` | 字符串检查（自定义 UI 项目） |
 | ComponentType | ObjString | `""` | 字符串检查 |
 | ModelAction | ObjString | `""` | 字符串检查 |
 | PlayerType | ObjString | `""` | 字符串检查 |
@@ -1077,6 +1128,8 @@ ForbidParamTypeInArray = {
 | Player | ObjNum | `0` | 数字检查 |
 | EntityType | ObjString | `"newModel_11000000"` | 字符串检查 |
 
+**别名:** `MiniDef.CreatureType` 就是 `MiniDef.MobType`（默认 `3400`），`MiniDef.Creature` 就是 `MiniDef.Mob`（ObjNum），两者是同一个构造器对象，写代码时用前者即可。
+
 ### 复杂类型 (ParamUserDataClass，使用带私有数据的 userdata)
 
 | 类型 | 构造器 | 内部 | 说明 |
@@ -1088,48 +1141,6 @@ ForbidParamTypeInArray = {
 
 ---
 
-## 禁用类型
-
-### ForbidDevParamType — 在开发组件中禁用的类型
-
-这些类型不能在用户创建的（开发）组件中使用:
-
-```lua
-ForbidDevParamType = {
-    CheckList, Action, PathPoint, Scale, Rotation,
-    SkeletonPoint, Vec2, BiomeType, EntityType,
-    ThrowItem, DropItem, Object, Role,
-    UiElement, UiState, Entity, Mob, Player
-}
-```
-
-原因: 这些类型要么是内部引擎类型，已弃用，要么需要开发组件无法提供的特殊处理。
-
-### ForbidDevArrayParamType — 作为开发数组元素禁用的类型
-
-```lua
-ForbidDevArrayParamType = {
-    CustomMsg,  -- 广播消息不能是数组
-    Vec2,       -- 改用 Vec3
-    Vec3        -- 改用带 x/y/z 字段的 CustomData
-}
-```
-
-### ForbidParamTypeInArray — 不能作为数组元素的类型
-
-```lua
-ForbidParamTypeInArray = {
-    GroupView,  -- 仅 UI，无值
-    Enum,       -- 改用带值映射的 Number
-    Array,      -- 不支持嵌套数组
-    CheckList,  -- 改用带 Bool 字段的 CustomData
-    Rotation,   -- 内部变换类型
-    Scale       -- 内部变换类型
-}
-```
-
----
-
 ## 辅助函数 (ParamHelper)
 
 | 函数 | 用途 |
@@ -1138,12 +1149,18 @@ ForbidParamTypeInArray = {
 | `ParamEnumToType(enum)` | ScriptParamType 值 → Mini.XXX |
 | `ParamEnumToAIType(enum)` | ScriptParamType → AI 类型字符串 |
 | `GetValueType(value, isForbid)` | Lua 值 → ScriptParamType (如果 isForbid 则检查 ForbidDevParamType) |
-| `IsValueOfType(type, value, enumDef)` | 验证值匹配类型 |
-| `ParamTypeToBlockType(param, itemType)` | Mini.XXX → 可视化代码块信息 |
-| `BlockTypeToParamType(type, paramid)` | 可视化代码块 → Mini.XXX |
+| `IsValueOfType(valueType, value, enumDef)` | 验证值匹配类型 |
+| `ParamTypeToBlockType(param, itemType, isIgnoreArray)` | Mini.XXX → 可视化代码块信息 |
+| `ItemTypeToArrayBlockType(itemType)` | 数组元素类型 → 块信息 (`paramid`, `checktype`) |
 | `EditParamTypeToBlockType(enum)` | 属性类型 → 块类型 (处理数组) |
+| `BlockTypeToParamType(type, paramid, isStr)` | 可视化代码块 → Mini.XXX (可选返回 `"Mini.XXX"` 字符串) |
+| `BlockTypeToParamTypeStr(type, paramid)` | 同上，未命中返回 `"nil"` |
+| `BlockTypeEditParamType(type, paramid)` | 块类型 → 属性枚举 (数组返回 `ArrayInv + enum`) |
+| `CheckTypeToEnum(checktype)` | 检查类型 → 属性枚举 (数组自动加 `ArrayInv`) |
 | `GetAttributeType(checktype)` | 解包 ArrayScriptParamType (10001 → 1, true) |
 | `GetTypeStringByEnum(paramEnum)` | ScriptParamType → 本地化显示名称 |
+| `GetParamTypesSelectorData()` | 类型选择器数据 (AI 场景下只返回 `isAiNeed` 项) |
+| `GetVisualcodeParamTypesSelectorData()` | 类型选择器数据 (可视化代码用，返回全量) |
 | `IsCmpKeywords(str)` | 检查字符串是否为保留字 (gameObject, isEnable 等) |
 
 不能用作属性名的保留关键字:
